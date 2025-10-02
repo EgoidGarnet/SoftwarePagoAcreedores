@@ -30,6 +30,21 @@ namespace SoftPac.Business
             return facturas;
         }
 
+        public FacturasDTO ObtenerPorId(int facturaId)
+        {
+            return this.facturaDAO.ObtenerPorId(facturaId);
+        }
+
+        public int Insertar(FacturasDTO factura)
+        {
+            return this.facturaDAO.Insertar(factura);
+        }
+
+        public int Modificar(FacturasDTO factura)
+        {
+            return this.facturaDAO.Modificar(factura);
+        }
+
         public int Eliminar(FacturasDTO factura)
         {
             return this.facturaDAO.eliminarLogico(factura);

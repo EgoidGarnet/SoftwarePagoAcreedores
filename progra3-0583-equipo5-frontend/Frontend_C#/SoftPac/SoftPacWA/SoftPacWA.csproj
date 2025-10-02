@@ -103,6 +103,7 @@
     <Content Include="Content\Fonts\css\v5-font-face.min.css" />
     <Content Include="Content\Fonts\LICENSE.txt" />
     <Content Include="Facturas.aspx" />
+    <Content Include="NuevaFactura.aspx" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.esm.js" />
@@ -131,6 +132,13 @@
     </Compile>
     <Compile Include="Facturas.aspx.designer.cs">
       <DependentUpon>Facturas.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="NuevaFactura.aspx.cs">
+      <DependentUpon>NuevaFactura.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="NuevaFactura.aspx.designer.cs">
+      <DependentUpon>NuevaFactura.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SoftPac.Master.cs">
