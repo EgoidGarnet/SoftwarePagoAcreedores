@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{21AC55D8-2C89-4DDF-A78D-5AB8E8DBD380}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SoftPacPersistance</RootNamespace>
+    <AssemblyName>SoftPacPersistance</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DAOImpl\AcreedoresDAOImpl.cs" />
+    <Compile Include="DAOImpl\CuentasAcreedorDAOImpl.cs" />
+    <Compile Include="DAOImpl\CuentasPropiasDAOImpl.cs" />
+    <Compile Include="DAOImpl\Util\DAOImplBase.cs" />
+    <Compile Include="DAOImpl\DetallesFacturaDAOImpl.cs" />
+    <Compile Include="DAOImpl\DetallesPropuestaDAOImpl.cs" />
+    <Compile Include="DAOImpl\EntidadesBancariasDAOImpl.cs" />
+    <Compile Include="DAOImpl\FacturasDAOImpl.cs" />
+    <Compile Include="DAOImpl\MonedasDAOImpl.cs" />
+    <Compile Include="DAOImpl\PaisesDAOImpl.cs" />
+    <Compile Include="DAOImpl\PropuestasPagoDAOImpl.cs" />
+    <Compile Include="DAOImpl\TiposDeCambioDAOImpl.cs" />
+    <Compile Include="DAOImpl\UsuarioPaisAccesoDAOImpl.cs" />
+    <Compile Include="DAOImpl\UsuariosDAOImpl.cs" />
+    <Compile Include="DAOImpl\Util\Columna.cs" />
+    <Compile Include="DAOImpl\Util\TipoOperacionDML.cs" />
+    <Compile Include="DAO\AcreedoresDAO.cs" />
+    <Compile Include="DAO\CuentasAcreedorDAO.cs" />
+    <Compile Include="DAO\CuentasPropiasDAO.cs" />
+    <Compile Include="DAO\DetallesFacturaDAO.cs" />
+    <Compile Include="DAO\DetallesPropuestaDAO.cs" />
+    <Compile Include="DAO\EntidadesBancariasDAO.cs" />
+    <Compile Include="DAO\FacturasDAO.cs" />
+    <Compile Include="DAO\MonedasDAO.cs" />
+    <Compile Include="DAO\PaisesDAO.cs" />
+    <Compile Include="DAO\PropuestasPagoDAO.cs" />
+    <Compile Include="DAO\TiposDeCambioDAO.cs" />
+    <Compile Include="DAO\UsuarioPaisAccesoDAO.cs" />
+    <Compile Include="DAO\UsuariosDAO.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DBManager\SoftPacDBManager.csproj">
+      <Project>{e6ca8e2d-e19e-44e2-a834-eb902326fa39}</Project>
+      <Name>SoftPacDBManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SoftPacModel\SoftPacModel.csproj">
+      <Project>{2cc4df81-f586-47c9-9c50-3094ac10a731}</Project>
+      <Name>SoftPacModel</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
