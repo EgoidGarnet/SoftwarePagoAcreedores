@@ -10,3 +10,9 @@ C:\Users\USUARIO\Desktop\progra3-0583-equipo5-frontend\Frontend_C#\SoftPac\SoftP
 C:\Users\USUARIO\Desktop\progra3-0583-equipo5-frontend\Frontend_C#\SoftPac\SoftPacModel\obj\Debug\SoftPacModel.csproj.CoreCompileInputs.cache
 C:\Users\USUARIO\Desktop\progra3-0583-equipo5-frontend\Frontend_C#\SoftPac\SoftPacModel\obj\Debug\SoftPacModel.dll
 C:\Users\USUARIO\Desktop\progra3-0583-equipo5-frontend\Frontend_C#\SoftPac\SoftPacModel\obj\Debug\SoftPacModel.pdb
+C:\Users\USUARIO\Desktop\FrontEnd\progra3-0583-equipo5-frontend\Frontend_C#\SoftPac\SoftPacModel\bin\Debug\SoftPacModel.dll
+C:\Users\USUARIO\Desktop\FrontEnd\progra3-0583-equipo5-frontend\Frontend_C#\SoftPac\SoftPacModel\bin\Debug\SoftPacModel.pdb
+C:\Users\USUARIO\Desktop\FrontEnd\progra3-0583-equipo5-frontend\Frontend_C#\SoftPac\SoftPacModel\obj\Debug\SoftPacModel.csproj.AssemblyReference.cache
+C:\Users\USUARIO\Desktop\FrontEnd\progra3-0583-equipo5-frontend\Frontend_C#\SoftPac\SoftPacModel\obj\Debug\SoftPacModel.csproj.CoreCompileInputs.cache
+C:\Users\USUARIO\Desktop\FrontEnd\progra3-0583-equipo5-frontend\Frontend_C#\SoftPac\SoftPacModel\obj\Debug\SoftPacModel.dll
+C:\Users\USUARIO\Desktop\FrontEnd\progra3-0583-equipo5-frontend\Frontend_C#\SoftPac\SoftPacModel\obj\Debug\SoftPacModel.pdb

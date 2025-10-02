@@ -17,9 +17,9 @@ namespace SoftPac.Business
         {
             this.paisesDAO = new PaisesDAOImpl();
         }
-        public BindingList<PaisesDAO> ListarTodos()
+        public BindingList<PaisesDTO> ListarTodos()
         {
-            return (BindingList<PaisesDAO>)this.paisesDAO.ListarTodos();
+            return (BindingList<PaisesDTO>)this.paisesDAO.ListarTodos();
         }
     }
 }

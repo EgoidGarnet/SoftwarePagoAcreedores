@@ -16,5 +16,8 @@ namespace SoftPac.Persistance.DAO
         UsuariosDTO ObtenerPorId(int usuarioId);
         IList<UsuariosDTO> ListarTodos();
         UsuariosDTO ObtenerPorCorreo(String correo);
+
+        UsuariosDTO ObtenerPorNombreUsuario(string nombreUsuario); // <-- AÑADIR ESTA LÍNEA
+
     }
 }
