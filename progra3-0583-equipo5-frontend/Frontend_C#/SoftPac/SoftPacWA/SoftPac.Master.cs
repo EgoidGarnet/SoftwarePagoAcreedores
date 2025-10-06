@@ -39,8 +39,6 @@ namespace SoftPacWA
                 lblRol.Text = usuario.Superusuario ? "Superusuario" : "Usuario";
             }
         }
-
-        // Puedes añadir un evento para un botón de "Cerrar Sesión" aquí
         protected void lnkCerrarSesion_Click(object sender, EventArgs e)
         {
             Session.Abandon();

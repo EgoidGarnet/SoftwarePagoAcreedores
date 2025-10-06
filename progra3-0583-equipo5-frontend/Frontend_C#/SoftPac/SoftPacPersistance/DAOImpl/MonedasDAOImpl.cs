@@ -11,13 +11,12 @@ namespace SoftPac.Persistance.DAO
     public class MonedasDAOImpl : MonedasDAO
     {
         private BindingList<MonedasDTO> monedas = new BindingList<MonedasDTO>();
-
         public MonedasDAOImpl()
         {
             monedas.Add(new MonedasDTO
             {
                 MonedaId = 1,
-                Nombre = "Dólar",
+                Nombre = "Dólar Estadounidense",
                 CodigoIso = "USD",
                 Simbolo = "$"
             });
@@ -25,6 +24,20 @@ namespace SoftPac.Persistance.DAO
                 MonedaId = 2,
                 Nombre = "Peso Mexicano",
                 CodigoIso = "MXN",
+                Simbolo = "$"
+            });
+            monedas.Add(new MonedasDTO
+            {
+                MonedaId = 3,
+                Nombre = "Sol Peruano",
+                CodigoIso = "PEN",
+                Simbolo = "S/"
+            });
+            monedas.Add(new MonedasDTO
+            {
+                MonedaId = 4,
+                Nombre = "Peso Colombiano",
+                CodigoIso = "COP",
                 Simbolo = "$"
             });
         }
@@ -59,7 +72,7 @@ namespace SoftPac.Persistance.DAO
         }
         public IList<MonedasDTO> ListarTodos()
         {
-            return monedas.ToList();
+            return monedas;
         }
     }
 }

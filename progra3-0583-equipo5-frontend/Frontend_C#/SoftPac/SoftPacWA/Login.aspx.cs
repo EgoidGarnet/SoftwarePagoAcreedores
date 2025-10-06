@@ -59,7 +59,7 @@ namespace SoftPacWA
             {
                 // Manejo de cualquier otro error
                 MostrarError("Ocurrió un error inesperado. Por favor, intente más tarde.");
-                // Opcional: registrar el error 'ex' en un log.
+                
             }
         }
 

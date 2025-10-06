@@ -103,5 +103,8 @@ namespace SoftPac.Business
 
             return usuariosDAO.eliminarLogico(usuario);
         }
+
+
+
     }
 }

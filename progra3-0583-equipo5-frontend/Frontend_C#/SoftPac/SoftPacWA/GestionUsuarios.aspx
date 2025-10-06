@@ -1,8 +1,7 @@
 ﻿<%@ Page Title="Gestión de Usuarios" Language="C#" MasterPageFile="~/Admin.Master" AutoEventWireup="true" CodeBehind="GestionUsuarios.aspx.cs" Inherits="SoftPacWA.GestionUsuarios" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <style>
-        /* Paleta de colores corporativos */
         :root {
             --color-primary: #0B1F34; 
             --color-secondary: #60748A;
@@ -18,13 +17,11 @@
             color: var(--color-primary);
         }
 
-        /* Estilo de cabecera de sección */
         h1 {
             font-weight: 600;
             color: var(--color-primary);
         }
 
-        /* Tabla corporativa */
         .table thead {
             background-color: var(--color-primary);
             color: white;
@@ -40,7 +37,6 @@
             background-color: var(--color-light-1) !important;
         }
 
-        /* Botón principal consistente */
         .btn-primary {
             background-color: var(--color-primary);
             border-color: var(--color-primary);
@@ -51,15 +47,11 @@
             border-color: #092037;
         }
     </style>
-</asp:Content>
 
-<asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
-    <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
     <asp:UpdatePanel ID="upMain" runat="server">
         <ContentTemplate>
             <div id="divMensaje" runat="server" visible="false"></div>
 
-            <!-- Cabecera -->
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h1>Administración de Usuarios</h1>
                 <asp:LinkButton ID="btnAbrirModalNuevo" runat="server" CssClass="btn btn-primary" OnClick="btnAbrirModalNuevo_Click">
@@ -67,7 +59,6 @@
                 </asp:LinkButton>
             </div>
 
-            <!-- Tabla -->
             <div class="card shadow-sm">
                 <div class="card-body">
                     <asp:GridView ID="gvUsuarios" runat="server" AutoGenerateColumns="False"
@@ -106,7 +97,6 @@
         </ContentTemplate>
     </asp:UpdatePanel>
 
-    <!-- Modal para Nuevo/Editar Usuario -->
     <div class="modal fade" id="modalUsuario" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -155,14 +145,18 @@
                                 </div>
                                 <div class="col-md-4 mb-3">
                                     <div class="form-check form-switch mt-4">
-                                        <asp:CheckBox ID="chkActivo" runat="server" Text="Usuario Activo" CssClass="form-check-input" Checked="true" />
+                                        <input id="chkActivo" runat="server" type="checkbox" class="form-check-input" />
+                                        <label for="chkActivo" class="form-check-label">Usuario Activo</label>
                                     </div>
                                 </div>
+
                                 <div class="col-md-4 mb-3">
                                     <div class="form-check form-switch mt-4">
-                                        <asp:CheckBox ID="chkSuperusuario" runat="server" Text="Es Superusuario" CssClass="form-check-input" />
+                                        <input id="chkSuperusuario" runat="server" type="checkbox" class="form-check-input" />
+                                        <label for="chkSuperusuario" class="form-check-label">Es Superusuario</label>
                                     </div>
                                 </div>
+
                             </div>
                         </div>
                         <div class="modal-footer">

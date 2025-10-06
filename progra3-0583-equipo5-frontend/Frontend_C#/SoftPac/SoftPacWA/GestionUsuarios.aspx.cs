@@ -90,13 +90,13 @@ namespace SoftPacWA
             txtCorreo.Text = usuario.CorreoElectronico;
             txtCorreo.Enabled = false;
             chkSuperusuario.Checked = usuario.Superusuario;
-            chkSuperusuario.Enabled = false;
+            chkSuperusuario.Disabled = true;
 
             // Campos editables
             txtNombreUsuario.Text = usuario.NombreDeUsuario;
             txtNombreUsuario.Enabled = true;
             chkActivo.Checked = usuario.Activo;
-            chkActivo.Enabled = true;
+            chkActivo.Disabled = false;
 
             // Limpiar selección de países y marcar los que tiene acceso
             cblPaises.ClearSelection();
@@ -127,9 +127,9 @@ namespace SoftPacWA
             txtCorreo.Enabled = true;
             txtPasswordModal.Text = string.Empty;
             chkActivo.Checked = true;
-            chkActivo.Enabled = true;
+            chkActivo.Disabled = false;
             chkSuperusuario.Checked = false;
-            chkSuperusuario.Enabled = true;
+            chkSuperusuario.Disabled = false;
             cblPaises.ClearSelection();
         }
 
@@ -180,6 +180,9 @@ namespace SoftPacWA
                 {
                     MostrarMensaje("Usuario guardado correctamente.", "success");
                     CargarUsuarios();
+
+                    ScriptManager.RegisterStartupScript(this, GetType(), "CerrarModalScript",
+                        "$('#modalUsuario').modal('hide');", true);
                 }
                 else
                 {

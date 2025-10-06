@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using SoftPac.Business;
+using SoftPac.Model;
 
 namespace SoftPacWA
 {
@@ -12,10 +13,26 @@ namespace SoftPacWA
     {
         private FacturasBO facturasBO = new FacturasBO();
         private AcreedoresBO acreedoresBO = new AcreedoresBO();
-        private PaisesBO paisesBO = new PaisesBO();
+        private List<PaisesDTO> paisesUsuario;
+        
+        private List<FacturasDTO> ListaFacturas;
+
+        private UsuariosDTO UsuarioLogueado
+        {
+            get {
+                return (UsuariosDTO)Session["UsuarioLogueado"];
+            }
+        }
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (UsuarioLogueado == null) Response.Redirect("~/Login.aspx");
+            if ((string)Session["MensajeExito"] != null)
+            {
+                MostrarMensaje((string)Session["MensajeExito"], "success");
+                Session["MensajeExito"] = null; // Limpiar el mensaje después de mostrarlo
+            }
+            paisesUsuario = UsuarioLogueado.UsuarioPais.Where(up => up.Acceso == true).Select(up => up.Pais).ToList();
             if (!IsPostBack)
             {
                 CargarFiltros();
@@ -28,8 +45,7 @@ namespace SoftPacWA
             try
             {
                 // Cargar países
-                var paises = paisesBO.ListarTodos();
-                ddlFiltroPais.DataSource = paises;
+                ddlFiltroPais.DataSource = paisesUsuario;
                 ddlFiltroPais.DataTextField = "Nombre";
                 ddlFiltroPais.DataValueField = "PaisId";
                 ddlFiltroPais.DataBind();
@@ -53,41 +69,41 @@ namespace SoftPacWA
         {
             try
             {
-                var facturas = facturasBO.ListarTodos().ToList(); // convertir a lista para filtrar
-
+                ListaFacturas = facturasBO.ListarTodos().ToList();
+                ListaFacturas = ListaFacturas.Where(f => paisesUsuario.Select(pu => pu.PaisId).ToList().Contains(f.Acreedor?.Pais.PaisId)).ToList();
                 // Aplicar filtros
                 if (!string.IsNullOrEmpty(ddlFiltroPais.SelectedValue))
                 {
                     int paisId = int.Parse(ddlFiltroPais.SelectedValue);
-                    facturas = facturas.Where(f => f.Acreedor?.Pais?.PaisId == paisId).ToList();
+                    ListaFacturas = ListaFacturas.Where(f => f.Acreedor?.Pais?.PaisId == paisId).ToList();
                 }
 
                 if (!string.IsNullOrEmpty(ddlFiltroProveedor.SelectedValue))
                 {
                     int acreedorId = int.Parse(ddlFiltroProveedor.SelectedValue);
-                    facturas = facturas.Where(f => f.Acreedor?.AcreedorId == acreedorId).ToList();
+                    ListaFacturas = ListaFacturas.Where(f => f.Acreedor?.AcreedorId == acreedorId).ToList();
                 }
 
                 if (!string.IsNullOrEmpty(txtFechaDesde.Text))
                 {
                     DateTime fechaDesde = DateTime.Parse(txtFechaDesde.Text);
-                    facturas = facturas.Where(f => f.FechaLimitePago >= fechaDesde).ToList();
+                    ListaFacturas = ListaFacturas.Where(f => f.FechaLimitePago >= fechaDesde).ToList();
                 }
 
                 if (!string.IsNullOrEmpty(txtFechaHasta.Text))
                 {
                     DateTime fechaHasta = DateTime.Parse(txtFechaHasta.Text);
-                    facturas = facturas.Where(f => f.FechaLimitePago <= fechaHasta).ToList();
+                    ListaFacturas = ListaFacturas.Where(f => f.FechaLimitePago <= fechaHasta).ToList();
                 }
 
                 // Ordenar por fecha de emisión descendente
-                facturas = facturas.OrderByDescending(f => f.FechaEmision).ToList();
+                ListaFacturas = ListaFacturas.OrderByDescending(f => f.FechaEmision).ToList();
 
-                gvFacturas.DataSource = facturas;
+                gvFacturas.DataSource = ListaFacturas;
                 gvFacturas.DataBind();
 
                 // Actualizar contador de registros
-                lblRegistros.Text = $"Mostrando {facturas.Count} registro(s)";
+                lblRegistros.Text = $"Mostrando {ListaFacturas.Count} registro(s)";
             }
             catch (Exception ex)
             {
@@ -115,10 +131,32 @@ namespace SoftPacWA
             gvFacturas.PageIndex = e.NewPageIndex;
             CargarFacturas();
         }
+        protected void gvFacturas_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                FacturasDTO factura = (FacturasDTO)e.Row.DataItem;
 
+                LinkButton btnEditar = (LinkButton)e.Row.FindControl("btnEditar");
+                LinkButton btnEliminar = (LinkButton)e.Row.FindControl("btnEliminar");
+                if (btnEditar != null && factura.MontoRestante != factura.MontoTotal)
+                {
+                    btnEditar.Enabled = false;
+                    btnEditar.CssClass += " disabled";
+                    btnEditar.ToolTip = "No se puede editar una factura con pagos registrados.";
+                }
+                if (btnEliminar != null && factura.MontoRestante != factura.MontoTotal)
+                {
+                    btnEliminar.Enabled = false;
+                    btnEliminar.CssClass += " disabled";
+                    btnEliminar.ToolTip = "No se puede eliminar una factura con pagos registrados.";
+                }
+            }
+        }
         protected void btnNuevaFactura_Click(object sender, EventArgs e)
         {
-            Response.Redirect("NuevaFactura.aspx");
+            Session["FacturaId"] = null; // Asegurarse de limpiar cualquier ID previo]
+            Response.Redirect("GestionFactura.aspx?accion=insertar");
         }
 
         protected void btnAccion_Click(object sender, EventArgs e)
@@ -132,15 +170,17 @@ namespace SoftPacWA
                 switch (accion)
                 {
                     case "Ver":
-                        Response.Redirect($"DetalleFactura.aspx?id={facturaId}");
+                        Session["facturaId"] = facturaId;
+                        Response.Redirect($"GestionFactura.aspx?accion=verdetalle");
                         break;
                     case "Editar":
-                        Response.Redirect($"NuevaFactura.aspx?id={facturaId}");
+                        Session["facturaId"] = facturaId;
+                        Response.Redirect($"GestionFactura.aspx?accion=editar");
                         break;
                     case "Eliminar":
                         // Implementar lógica de eliminación
-                        var resultado = facturasBO.Eliminar(facturaId);
-                        if (resultado ==1)
+                        var resultado = facturasBO.Eliminar(facturaId,UsuarioLogueado);
+                        if (resultado == 1)
                         {
                             MostrarMensaje("Factura eliminada correctamente", "success");
                             CargarFacturas();
@@ -164,9 +204,9 @@ namespace SoftPacWA
             {
                 case "pendiente":
                     return "badge-pendiente";
-                case "pagado":
+                case "pagada":
                     return "badge-pagado";
-                case "vencido":
+                case "vencida":
                     return "badge-vencido";
                 default:
                     return "badge-pendiente";
@@ -175,10 +215,12 @@ namespace SoftPacWA
 
         private void MostrarMensaje(string mensaje, string tipo)
         {
+            // Escapar comillas simples y dobles para evitar errores de JS
+            string mensajeEscapado = mensaje.Replace("'", "\\'").Replace("\"", "\\\"");
             string script = $@"
                 $(document).ready(function() {{
                     var alertHtml = '<div class=""alert alert-{tipo} alert-dismissible fade show"" role=""alert"">' +
-                                    '{mensaje}' +
+                                    '{mensajeEscapado}' +
                                     '<button type=""button"" class=""btn-close"" data-bs-dismiss=""alert""></button>' +
                                     '</div>';
                     $('.content-area').prepend(alertHtml);

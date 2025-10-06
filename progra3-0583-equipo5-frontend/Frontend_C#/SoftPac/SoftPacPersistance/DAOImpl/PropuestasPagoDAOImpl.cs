@@ -10,27 +10,36 @@ namespace SoftPac.Persistance.DAO
 {
     public class PropuestasPagoDAOImpl : PropuestasPagoDAO
     {
-        private BindingList<PropuestasPagoDTO> propuestasPago = new BindingList<PropuestasPagoDTO>();
 
-        public PropuestasPagoDAOImpl()
+        private static BindingList<PropuestasPagoDTO> propuestasPago = new BindingList<PropuestasPagoDTO>();
+
+        static PropuestasPagoDAOImpl()
         {
-            propuestasPago.Add(new PropuestasPagoDTO {
+            // Obtener usuarios para simular la creación
+            var usuariosDAO = new UsuariosDAOImpl();
+            var usuario1 = usuariosDAO.ObtenerPorId(1);
+            var usuario2 = usuariosDAO.ObtenerPorId(2);
+
+            propuestasPago.Add(new PropuestasPagoDTO
+            {
                 PropuestaId = 1,
+                UsuarioCreacion = usuario2, // Creado por Ana Gomez
+                FechaHoraCreacion = DateTime.Now.AddDays(-2),
+                Estado = "P", // Pendiente
                 DetallesPropuesta = new BindingList<DetallesPropuestaDTO> {
-                    new DetallesPropuestaDTO(1,100.0m,'T',null,null,null,null),
-                    new DetallesPropuestaDTO(2,120.0m,'T',null,null,null,null),
-                },
-                UsuarioEliminacion = null,
-                FechaEliminacion = null
+                new DetallesPropuestaDTO(1,100.0m,'T',null,null,null,null),
+                new DetallesPropuestaDTO(2,120.0m,'T',null,null,null,null),
+            }
             });
-            propuestasPago.Add(new PropuestasPagoDTO {
+            propuestasPago.Add(new PropuestasPagoDTO
+            {
                 PropuestaId = 2,
+                UsuarioCreacion = usuario2, // Creado por Ana Gomez
+                FechaHoraCreacion = DateTime.Now.AddDays(-5),
+                Estado = "A", // Aprobado
                 DetallesPropuesta = new BindingList<DetallesPropuestaDTO> {
-                    new DetallesPropuestaDTO(1,100.0m,'T',null,null,null,null),
-                    new DetallesPropuestaDTO(2,120.0m,'T',null,null,null,null),
-                },
-                UsuarioEliminacion = null,
-                FechaEliminacion = null
+                new DetallesPropuestaDTO(3,250.0m,'T',null,null,null,null),
+            }
             });
         }
 
@@ -73,6 +82,13 @@ namespace SoftPac.Persistance.DAO
         }
         public IList<PropuestasPagoDTO> ListarTodos()
         {
+            return propuestasPago.ToList();
+        }
+
+        // --- MÉTODO NUEVO IMPLEMENTADO ---
+        public IList<PropuestasPagoDTO> ListarTodaActividad()
+        {
+            // Este método devuelve TODOS, incluyendo los eliminados
             return propuestasPago.ToList();
         }
     }

@@ -16,7 +16,7 @@ namespace SoftPac.Persistance.DAO
         {
             acreedores.Add(new AcreedoresDTO {
                 AcreedorId = 1,
-                RazonSocial = "Proveedor Uno",
+                RazonSocial = "Acreedor Uno",
                 Ruc = "123456789",
                 DireccionFiscal = "Calle 1",
                 Condicion = "Contado",
@@ -26,7 +26,7 @@ namespace SoftPac.Persistance.DAO
             });
             acreedores.Add(new AcreedoresDTO {
                 AcreedorId = 2,
-                RazonSocial = "Proveedor Uno",
+                RazonSocial = "Acreedor Dos",
                 Ruc = "123456789",
                 DireccionFiscal = "Calle 2",
                 Condicion = "Contado",

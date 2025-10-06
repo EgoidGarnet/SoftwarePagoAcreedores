@@ -62,10 +62,7 @@ namespace SoftPac.Business
 
         public AcreedoresDTO obtenerPorId(int acreedor_id)
         {
-            AcreedoresDTO acreedores = new AcreedoresDTO();
-            acreedores.AcreedorId=acreedor_id;
             return this.acreedorDAO.obtenerPorId(acreedor_id);
-
         }
 
         public BindingList<AcreedoresDTO> ListarTodos()

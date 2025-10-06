@@ -18,7 +18,8 @@ namespace SoftPac.Persistance.DAO
             usuarios.Add(new UsuariosDTO
             {
                 UsuarioId = 1,
-                Nombre = "Juan Perez",
+                Nombre = "Juan",
+                Apellidos = "Perez",
                 NombreDeUsuario = "jperez",
                 CorreoElectronico = "juan@email.com",
                 PasswordHash = "12345", // ¡NO HACER ESTO EN PRODUCCIÓN! Solo para prueba.
@@ -26,12 +27,13 @@ namespace SoftPac.Persistance.DAO
                 Superusuario = true,
                 UsuarioEliminacion = null,
                 FechaEliminacion = null,
-                UsuarioPais = new BindingList<UsuarioPaisAccesoDTO> { /* ... */ }
+                UsuarioPais = new BindingList<UsuarioPaisAccesoDTO> { }
             });
             usuarios.Add(new UsuariosDTO
             {
                 UsuarioId = 2,
-                Nombre = "Ana Gomez",
+                Nombre = "Ana",
+                Apellidos = "Gomez",
                 NombreDeUsuario = "agomez",
                 CorreoElectronico = "ana@email.com",
                 PasswordHash = "12345", // ¡NO HACER ESTO EN PRODUCCIÓN! Solo para prueba.
@@ -39,37 +41,33 @@ namespace SoftPac.Persistance.DAO
                 Superusuario = false,
                 UsuarioEliminacion = null,
                 FechaEliminacion = null,
-                UsuarioPais = new BindingList<UsuarioPaisAccesoDTO> { /* ... */ }
-            });
-            // (El contenido del constructor anterior va aquí)
-            usuarios.Add(new UsuariosDTO
-            {
-                UsuarioId = 1,
-                Nombre = "Juan Perez",
-                NombreDeUsuario = "jperez",
-                Apellidos = "García",
-                CorreoElectronico = "juan@email.com",
-                PasswordHash = "12345",
-                Activo = true,
-                Superusuario = true,
                 UsuarioPais = new BindingList<UsuarioPaisAccesoDTO> {
-                new UsuarioPaisAccesoDTO { Pais = new PaisesDTO { PaisId = 1 }, Acceso = true },
-                new UsuarioPaisAccesoDTO { Pais = new PaisesDTO { PaisId = 3 }, Acceso = true }
-            }
-            });
-            usuarios.Add(new UsuariosDTO
-            {
-                UsuarioId = 2,
-                Nombre = "Ana Gomez",
-                NombreDeUsuario = "agomez",
-                Apellidos = "Lopez",
-                CorreoElectronico = "ana@email.com",
-                PasswordHash = "12345",
-                Activo = true,
-                Superusuario = false,
-                UsuarioPais = new BindingList<UsuarioPaisAccesoDTO> {
-                new UsuarioPaisAccesoDTO { Pais = new PaisesDTO { PaisId = 2 }, Acceso = true }
-            }
+                new UsuarioPaisAccesoDTO { 
+                    Pais = new PaisesDTO { 
+                        PaisId = 1,
+                        Nombre = "Mexico",
+                        CodigoIso = "MX",
+                        CodigoTelefonico = "+56" 
+                    },
+                    Acceso = true },
+                new UsuarioPaisAccesoDTO {
+                    Pais = new PaisesDTO {
+                        PaisId = 2,
+                        Nombre = "Colombia",
+                        CodigoIso = "CO",
+                        CodigoTelefonico = "+50"
+                    },
+                    Acceso = true },
+                new UsuarioPaisAccesoDTO {
+                    Pais = new PaisesDTO {
+                        PaisId = 3,
+                        Nombre = "Perú",
+                        CodigoIso = "PE",
+                        CodigoTelefonico = "+51"
+                    },
+                    Acceso = true }
+                },
+
             });
         }
         public int Insertar(UsuariosDTO usuario)
@@ -129,8 +127,6 @@ namespace SoftPac.Persistance.DAO
             return 1;
         }
 
-
-        // --- MÉTODO NUEVO ---
         public UsuariosDTO ObtenerPorNombreUsuario(string nombreUsuario)
         {
             return usuarios.FirstOrDefault(u => u.NombreDeUsuario.Equals(nombreUsuario, StringComparison.OrdinalIgnoreCase) && u.Activo);

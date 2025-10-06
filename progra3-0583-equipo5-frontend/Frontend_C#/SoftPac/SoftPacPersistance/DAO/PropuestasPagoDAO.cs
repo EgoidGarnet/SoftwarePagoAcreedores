@@ -15,5 +15,7 @@ namespace SoftPac.Persistance.DAO
         int EliminarLogico(PropuestasPagoDTO propuestaPago);
         PropuestasPagoDTO ObtenerPorId(int propuestaPagoId);
         IList<PropuestasPagoDTO> ListarTodos();
+        IList<PropuestasPagoDTO> ListarTodaActividad(); // <-- AÑADIR ESTA LÍNEA
+
     }
 }

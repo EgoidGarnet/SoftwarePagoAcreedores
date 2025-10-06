@@ -11,61 +11,61 @@ namespace SoftPacWA
 {
 
 
-    public partial class Admin
+    public partial class Perfil
     {
 
         /// <summary>
-        /// Control head.
+        /// Control litNombreCompleto.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder head;
+        protected global::System.Web.UI.WebControls.Literal litNombreCompleto;
 
         /// <summary>
-        /// Control form1.
+        /// Control litCorreo.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlForm form1;
+        protected global::System.Web.UI.WebControls.Literal litCorreo;
 
         /// <summary>
-        /// Control lblUsuario.
+        /// Control rptPaisesAcceso.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblUsuario;
+        protected global::System.Web.UI.WebControls.Repeater rptPaisesAcceso;
 
         /// <summary>
-        /// Control lblRol.
+        /// Control litPropuestasMes.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblRol;
+        protected global::System.Web.UI.WebControls.Literal litPropuestasMes;
 
         /// <summary>
-        /// Control lnkCerrarSesion.
+        /// Control litUltimoPais.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton lnkCerrarSesion;
+        protected global::System.Web.UI.WebControls.Literal litUltimoPais;
 
         /// <summary>
-        /// Control ContentPlaceHolder1.
+        /// Control gvUltimasAcciones.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder ContentPlaceHolder1;
+        protected global::System.Web.UI.WebControls.GridView gvUltimasAcciones;
     }
 }

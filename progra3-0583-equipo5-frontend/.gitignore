@@ -1,6 +1,72 @@
-/Frontend_C#/SoftPac/packages
-/Frontend_C#/SoftPac/SoftPacBusiness/bin
-/Frontend_C#/SoftPac/SoftPacModel/bin
-/Frontend_C#/SoftPac/SoftPacPersistance/bin
-/Frontend_C#/SoftPac/SoftPacWA/bin
-/Frontend_C#/SoftPac/.vs
+## Visual Studio ##
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Archivos de compilación
+bin/
+obj/
+[Bb]uild/
+[Ll]og/
+[Dd]ebug*/
+[Rr]elease*/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+
+# Paquetes NuGet
+*.nupkg
+*.snupkg
+packages/
+*.nuget.props
+*.nuget.targets
+
+# Archivos intermedios
+*.dll
+*.exe
+*.pdb
+*.cache
+*.log
+*.diff
+*.patch
+
+# Configuración temporal de VS
+.vscode/
+*.code-workspace
+
+# Archivos de publicación / deployment
+publish/
+*.Publish.xml
+*.pubxml
+*.pubxml.user
+*.publishproj
+AppPackages/
+BundleArtifacts/
+Package.StoreAssociation.xml
+_AppMaph.log
+
+# Archivos de IIS / servidores locales
+.vspscc
+*.vspscc
+*.vssscc
+*.tmp
+*.temp
+*.svclog
+*.scc
+iisexpress/
+.aspnet/
+
+# Configuración de usuario
+*.dbmdl
+*.bak
+*.ldf
+*.mdf
+*.ndf
+
+# Otros
+[Tt]est[Rr]esult*/
+[Bb]enchmarkDotNet.Artifacts/
+*.TestResults.xml

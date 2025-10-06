@@ -14,9 +14,25 @@ namespace SoftPac.Persistance.DAO
 
         public PaisesDAOImpl()
         {
-            paises.Add(new PaisesDTO { PaisId = 1, Nombre = "Mexico", CodigoIso = "MX", CodigoTelefonico = "+52" });
-            paises.Add(new PaisesDTO { PaisId = 2, Nombre = "Colombia", CodigoIso = "CO", CodigoTelefonico = "+57" });
-            paises.Add(new PaisesDTO { PaisId = 3, Nombre = "Perú", CodigoIso = "PE", CodigoTelefonico = "+51" }); // <-- AÑADIDO
+            paises.Add(new PaisesDTO {
+                PaisId = 1,
+                Nombre = "Mexico",
+                CodigoIso = "MX",
+                CodigoTelefonico = "+56"
+            });
+            paises.Add(new PaisesDTO {
+                PaisId = 2,
+                Nombre = "Colombia",
+                CodigoIso = "CO",
+                CodigoTelefonico = "+50"
+            }); 
+            paises.Add(new PaisesDTO
+            {
+                PaisId = 3,
+                Nombre = "Perú",
+                CodigoIso = "PE",
+                CodigoTelefonico = "+51"
+            });
         }
 
         public int Insertar(PaisesDTO pais)

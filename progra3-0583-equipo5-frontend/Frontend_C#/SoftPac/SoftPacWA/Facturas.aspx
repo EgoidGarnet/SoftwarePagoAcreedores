@@ -9,7 +9,12 @@
             margin-bottom: 1.5rem;
             box-shadow: 0 2px 8px rgba(0,0,0,0.08);
         }
-
+        .filter-section .form-label {
+            height: 44px;
+            display: flex;
+            align-items: center;
+            margin-bottom: 0;
+        }
         .badge-estado {
             padding: 0.4rem 0.8rem;
             border-radius: 4px;
@@ -58,33 +63,35 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="page-title">
-        <i class="fas fa-file-invoice"></i> Facturas
+        <h3 class="pb-1">
+            <i class="fas fa-file-invoice"></i> Facturas
+        </h3>
     </div>
 
     <!-- Filtros -->
     <div class="filter-section">
-        <div class="row g-3">
-            <div class="col-md-3">
+        <div class="row gx-3 gy-4">
+            <div class="col-12 col-md-3">
                 <label class="form-label">País</label>
                 <asp:DropDownList ID="ddlFiltroPais" runat="server" CssClass="form-select" AutoPostBack="true" OnSelectedIndexChanged="AplicarFiltros">
                     <asp:ListItem Value="">Todos los países</asp:ListItem>
                 </asp:DropDownList>
             </div>
-            <div class="col-md-3">
+            <div class="col-12 col-md-3">
                 <label class="form-label">Proveedor</label>
                 <asp:DropDownList ID="ddlFiltroProveedor" runat="server" CssClass="form-select" AutoPostBack="true" OnSelectedIndexChanged="AplicarFiltros">
                     <asp:ListItem Value="">Todos los proveedores</asp:ListItem>
                 </asp:DropDownList>
             </div>
-            <div class="col-md-2">
-                <label class="form-label">Fecha Vencimiento Desde</label>
+            <div class="col-6 col-md-2">
+                <label class="form-label">Vencimiento Desde</label>
                 <asp:TextBox ID="txtFechaDesde" runat="server" CssClass="form-control" TextMode="Date"></asp:TextBox>
             </div>
-            <div class="col-md-2">
-                <label class="form-label">Fecha Vencimiento Hasta</label>
+            <div class="col-6 col-md-2">
+                <label class="form-label">Vencimiento Hasta</label>
                 <asp:TextBox ID="txtFechaHasta" runat="server" CssClass="form-control" TextMode="Date"></asp:TextBox>
             </div>
-            <div class="col-md-2 d-flex align-items-end gap-2">
+            <div class="col-md-2 d-flex align-items-end gap-2 flex-wrap">
                 <asp:Button ID="btnFiltrar" runat="server" Text="Filtrar" CssClass="btn btn-primary" OnClick="AplicarFiltros" />
                 <asp:Button ID="btnLimpiar" runat="server" Text="Limpiar" CssClass="btn btn-secondary" OnClick="LimpiarFiltros" />
             </div>
@@ -102,14 +109,15 @@
         <div class="card-body">
             <asp:UpdatePanel ID="upFacturas" runat="server" UpdateMode="Conditional">
                 <ContentTemplate>
-                    <div class="table-responsive">
+                    <div class="table-responsive" style="overflow-x: auto; white-space: nowrap;">
                         <asp:GridView ID="gvFacturas" runat="server" CssClass="table table-hover" 
                             AutoGenerateColumns="False" AllowPaging="True" PageSize="20"
                             OnPageIndexChanging="gvFacturas_PageIndexChanging"
                             EmptyDataText="No se encontraron facturas"
-                            GridLines="None">
+                            GridLines="None"
+                            OnRowDataBound="gvFacturas_RowDataBound">
                             <Columns>
-                                <asp:BoundField DataField="Numero_factura" HeaderText="Número de factura" />
+                                <asp:BoundField DataField="NumeroFactura" HeaderText="Número de factura" />
                                 <asp:TemplateField HeaderText="Proveedor">
                                     <ItemTemplate>
                                         <%# Eval("Acreedor.RazonSocial") %>
@@ -122,7 +130,7 @@
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="Fecha de emisión">
                                     <ItemTemplate>
-                                        <%# Eval("Fecha_emision") != null ? Convert.ToDateTime(Eval("FechaEmision")).ToString("dd/MM/yyyy") : "" %>
+                                        <%# Eval("FechaEmision") != null ? Convert.ToDateTime(Eval("FechaEmision")).ToString("dd/MM/yyyy") : "" %>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="Fecha límite de pago">
@@ -132,7 +140,7 @@
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="Monto total">
                                     <ItemTemplate>
-                                        <%# string.Format("{0} {1:N2}", Eval("Moneda.CodigoIso"), Eval("Monto_total")) %>
+                                        <%# string.Format("{0} {1:N2}", Eval("Moneda.CodigoIso"), Eval("MontoTotal")) %>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="Estado">
