@@ -65,12 +65,12 @@
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Acciones">
                                 <ItemTemplate>
-                                    <asp:LinkButton ID="btnModificar" runat="server" CssClass="btn btn-sm btn-outline-primary me-2"
+                                    <asp:LinkButton ID="btnModificar" runat="server" CssClass="btn btn-sm btn-warning btn-icon"
                                         CommandName="Modificar" CommandArgument='<%# Eval("CuentaBancariaId") %>' ToolTip="Modificar">
             <i class="fas fa-edit"></i>
                                     </asp:LinkButton>
 
-                                    <asp:LinkButton ID="btnEliminar" runat="server" CssClass="btn btn-sm btn-outline-danger"
+                                    <asp:LinkButton ID="btnEliminar" runat="server" CssClass="btn btn-sm btn-danger btn-icon"
                                         CommandName="Eliminar" CommandArgument='<%# Eval("CuentaBancariaId") %>'
                                         ToolTip="Eliminar" OnClientClick="return confirm('¿Está seguro de eliminar esta cuenta?');">
             <i class="fas fa-trash"></i>
