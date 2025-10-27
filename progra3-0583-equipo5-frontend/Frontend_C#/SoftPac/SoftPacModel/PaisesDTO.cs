@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace SoftPac.Model
 {
+    [Serializable]
     public class PaisesDTO
     {
         private int? paisId;

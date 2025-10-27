@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace SoftPac.Model
 {
+    [Serializable]
     public class MonedasDTO
     {
         private int? monedaId;

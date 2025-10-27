@@ -19,34 +19,185 @@ namespace SoftPac.Persistance.DAO
             var usuariosDAO = new UsuariosDAOImpl();
             var usuario1 = usuariosDAO.ObtenerPorId(1);
             var usuario2 = usuariosDAO.ObtenerPorId(2);
-
+            // ========================
+            // Propuesta 1 – BCP (Pendiente)
+            // ========================
             propuestasPago.Add(new PropuestasPagoDTO
             {
                 PropuestaId = 1,
                 UsuarioCreacion = usuario2, // Creado por Ana Gomez
                 FechaHoraCreacion = DateTime.Now.AddDays(-2),
-                Estado = "P", // Pendiente
+                Estado = "Pendiente",
+                EntidadBancaria = new EntidadesBancariasDTO
+                {
+                    EntidadBancariaId = 1,
+                    Nombre = "Banco de Crédito del Perú",
+                    CodigoSwift = "BCPLPEPL",
+                    Pais = new PaisesDTO
+                    {
+                        PaisId = 3,
+                        Nombre = "Perú",
+                        CodigoIso = "PE",
+                        CodigoTelefonico = "+51"
+                    }
+                },
                 DetallesPropuesta = new BindingList<DetallesPropuestaDTO> {
-                new DetallesPropuestaDTO(1,100.0m,'T',null,null,null,null),
-                new DetallesPropuestaDTO(2,120.0m,'T',null,null,null,null),
+                new DetallesPropuestaDTO
+                {
+                    DetallePropuestaId = 1,
+                    MontoPago = 100.00m,
+                    FormaPago = 'T',
+                    Factura = new FacturasDTO
+                    {
+                        FacturaId = 101,
+                        NumeroFactura = "F001-000101",
+                        Moneda = new MonedasDTO(3, "Sol Peruano", "PEN", "S/.")
+                    },
+                    CuentaAcreedor = new CuentasAcreedorDTO
+                    {
+                        CuentaBancariaId = 1,
+                        NumeroCuenta = "192-100001-01",
+                        EntidadBancaria = new EntidadesBancariasDTO
+                        {
+                            EntidadBancariaId = 4,
+                            Nombre = "Scotiabank Perú",
+                            CodigoSwift = "BSUDPEPL",
+                            Pais = new PaisesDTO { PaisId = 3, Nombre = "Perú", CodigoIso = "PE", CodigoTelefonico = "+51" }
+                        }
+                    },
+                    CuentaPropia = new CuentasPropiasDTO
+                    {
+                        CuentaBancariaId = 1,
+                        TipoCuenta = "Ahorros Soles",
+                        NumeroCuenta = "002193000000000001",
+                        Cci = "193-12345678-1-01",
+                        Activa = true,
+                        SaldoDisponible = 50000.75m,
+                        Moneda = new MonedasDTO(3, "Sol Peruano", "PEN", "S/."),
+                        EntidadBancaria = new EntidadesBancariasDTO
+                        {
+                            EntidadBancariaId = 1,
+                            Nombre = "Banco de Crédito del Perú",
+                            CodigoSwift = "BCPLPEPL"
+                        }
+                    }
+                },
+                new DetallesPropuestaDTO
+                {
+                    DetallePropuestaId = 2,
+                    MontoPago = 120.00m,
+                    FormaPago = 'T',
+                    Factura = new FacturasDTO
+                    {
+                        FacturaId = 102,
+                        NumeroFactura = "F001-000102",
+                        Moneda = new MonedasDTO(2, "Dólar Americano", "USD","$")
+                    },
+                    CuentaAcreedor = new CuentasAcreedorDTO
+                    {
+                        CuentaBancariaId = 2,
+                        NumeroCuenta = "194-100002-01",
+                        EntidadBancaria = new EntidadesBancariasDTO
+                        {
+                            EntidadBancariaId = 5,
+                            Nombre = "BBVA Perú",
+                            CodigoSwift = "BBVAPERL",
+                            Pais = new PaisesDTO { PaisId = 3, Nombre = "Perú", CodigoIso = "PE", CodigoTelefonico = "+51" }
+                        }
+                    },
+                    CuentaPropia = new CuentasPropiasDTO
+                    {
+                        CuentaBancariaId = 2,
+                        TipoCuenta = "Corriente Dólares",
+                        NumeroCuenta = "003194000000000002",
+                        Cci = "194-87654321-1-02",
+                        Activa = true,
+                        SaldoDisponible = 12500.00m,
+                        Moneda = new MonedasDTO(2, "Dólar Americano", "USD","$"),
+                        EntidadBancaria = new EntidadesBancariasDTO
+                        {
+                            EntidadBancariaId = 1,
+                            Nombre = "Banco de Crédito del Perú",
+                            CodigoSwift = "BCPLPEPL"
+                        }
+                    }
+                }
             }
             });
+            // ========================
+            // Propuesta 2 – Interbank (Enviada)
+            // ========================
             propuestasPago.Add(new PropuestasPagoDTO
             {
                 PropuestaId = 2,
-                UsuarioCreacion = usuario2, // Creado por Ana Gomez
+                UsuarioCreacion = usuario2,
                 FechaHoraCreacion = DateTime.Now.AddDays(-5),
-                Estado = "A", // Aprobado
-                DetallesPropuesta = new BindingList<DetallesPropuestaDTO> {
-                new DetallesPropuestaDTO(3,250.0m,'T',null,null,null,null),
-            }
+                Estado = "Enviada",
+                EntidadBancaria = new EntidadesBancariasDTO
+                {
+                    EntidadBancariaId = 2,
+                    Nombre = "Interbank",
+                    CodigoSwift = "BINPPEPL",
+                    Pais = new PaisesDTO
+                    {
+                        PaisId = 3,
+                        Nombre = "Perú",
+                        CodigoIso = "PE",
+                        CodigoTelefonico = "+51"
+                    }
+                },
+                DetallesPropuesta = new BindingList<DetallesPropuestaDTO>
+                {
+                    new DetallesPropuestaDTO
+                    {
+                        DetallePropuestaId = 3,
+                        MontoPago = 250.00m,
+                        FormaPago = 'T',
+                        Factura = new FacturasDTO
+                        {
+                            FacturaId = 103,
+                            NumeroFactura = "F001-000103",
+                            Moneda = new MonedasDTO(3, "Sol Peruano", "PEN", "S/.")
+                        },
+                        CuentaAcreedor = new CuentasAcreedorDTO
+                        {
+                            CuentaBancariaId = 3,
+                            NumeroCuenta = "191-300003-01",
+                            EntidadBancaria = new EntidadesBancariasDTO
+                            {
+                                EntidadBancariaId = 2,
+                                Nombre = "Interbank",
+                                CodigoSwift = "BINPPEPL",
+                                Pais = new PaisesDTO { PaisId = 3, Nombre = "Perú", CodigoIso = "PE", CodigoTelefonico = "+51" }
+                            }
+                        },
+                        CuentaPropia = new CuentasPropiasDTO
+                        {
+                            CuentaBancariaId = 3,
+                            TipoCuenta = "Corriente Soles",
+                            NumeroCuenta = "004191000000000003",
+                            Cci = "191-11223344-1-03",
+                            Activa = true,
+                            SaldoDisponible = 120300.00m,
+                            Moneda = new MonedasDTO(3, "Sol Peruano", "PEN", "S/."),
+                            EntidadBancaria = new EntidadesBancariasDTO
+                            {
+                                EntidadBancariaId = 2,
+                                Nombre = "Interbank",
+                                CodigoSwift = "BINPPEPL"
+                            }
+                        }
+                    }
+                }
             });
+
         }
 
         public int Insertar(PropuestasPagoDTO propuestaPago)
         {
-            if (propuestaPago.PropuestaId == null || propuestasPago.Any(p => p.PropuestaId == propuestaPago.PropuestaId))
+            if (propuestaPago.PropuestaId != null && propuestasPago.Any(p => p.PropuestaId == propuestaPago.PropuestaId))
                 return 0;
+            propuestaPago.PropuestaId = propuestasPago.Count > 0 ? propuestasPago.Max(p => p.PropuestaId) + 1 : 1;
             propuestasPago.Add(propuestaPago);
             return 1;
         }

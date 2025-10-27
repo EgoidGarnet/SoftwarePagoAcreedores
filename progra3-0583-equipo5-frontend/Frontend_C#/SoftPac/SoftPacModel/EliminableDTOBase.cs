@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace SoftPac.Model
 {
+    [Serializable]
     public abstract class EliminableDTOBase
     {
         private UsuariosDTO usuarioEliminacion;

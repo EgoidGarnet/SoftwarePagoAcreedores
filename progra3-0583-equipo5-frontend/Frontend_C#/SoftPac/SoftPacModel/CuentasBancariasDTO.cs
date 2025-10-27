@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace SoftPac.Model
 {
+    [Serializable]
     public class CuentasBancariasDTO : EliminableDTOBase
     {
         private int? cuentaBancariaId;
@@ -29,27 +30,33 @@ namespace SoftPac.Model
         }
 
         public CuentasBancariasDTO(int cuentaBancariaId, string tipoCuenta, string cci, bool activa,
-                                   string numeroCuenta, MonedasDTO moneda, EntidadesBancariasDTO entidadBancaria): base()
+                                   string numeroCuenta, MonedasDTO moneda, EntidadesBancariasDTO entidadBancaria) : base()
         {
             CuentaBancariaId = cuentaBancariaId;
             TipoCuenta = tipoCuenta;
             Cci = cci;
             Activa = activa;
             NumeroCuenta = numeroCuenta;
-            Moneda = new MonedasDTO(moneda);
-            EntidadBancaria = new EntidadesBancariasDTO(entidadBancaria);
+            // CORRECCIÓN: Se añade validación de null
+            Moneda = moneda != null ? new MonedasDTO(moneda) : null;
+            EntidadBancaria = entidadBancaria != null ? new EntidadesBancariasDTO(entidadBancaria) : null;
         }
 
         public CuentasBancariasDTO(CuentasBancariasDTO other) : base(other)
         {
+            // CORRECCIÓN: Se añade validación de null
+            if (other == null) return;
+
             this.CuentaBancariaId = other.CuentaBancariaId;
             this.TipoCuenta = other.TipoCuenta;
             this.NumeroCuenta = other.NumeroCuenta;
             this.Cci = other.Cci;
             this.Activa = other.Activa;
-            this.EntidadBancaria = new EntidadesBancariasDTO(other.EntidadBancaria);
-            this.Moneda = new MonedasDTO(other.Moneda);
+            // CORRECCIÓN: Se añade validación de null para propiedades anidadas
+            this.EntidadBancaria = other.EntidadBancaria != null ? new EntidadesBancariasDTO(other.EntidadBancaria) : null;
+            this.Moneda = other.Moneda != null ? new MonedasDTO(other.Moneda) : null;
         }
+        
 
         public int? CuentaBancariaId { get => cuentaBancariaId; set => cuentaBancariaId = value; }
         public string TipoCuenta { get => tipoCuenta; set => tipoCuenta = value; }

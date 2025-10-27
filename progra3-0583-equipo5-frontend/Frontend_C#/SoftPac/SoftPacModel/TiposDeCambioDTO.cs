@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace SoftPac.Model
 {
+    [Serializable]
     public class TiposDeCambioDTO
     {
         private int? tipoCambioId;

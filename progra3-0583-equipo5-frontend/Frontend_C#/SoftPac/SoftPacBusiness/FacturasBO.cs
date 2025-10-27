@@ -19,12 +19,7 @@ namespace SoftPac.Business
         }
         public BindingList<FacturasDTO> ListarTodos()
         {
-            BindingList<FacturasDTO> facturas = (BindingList<FacturasDTO>)this.facturaDAO.ListarTodos();
-
-            foreach (var factura in facturas)
-            {
-                System.Diagnostics.Debug.WriteLine("Factura encontrada: " + factura.NumeroFactura);
-            }
+            BindingList<FacturasDTO> facturas = (BindingList<FacturasDTO>) this.facturaDAO.ListarTodos();
 
             return facturas;
         }
@@ -75,5 +70,17 @@ namespace SoftPac.Business
             return facturaDAO.Insertar(factura);
         }
 
+        public BindingList<FacturasDTO> ListarPendientes()
+        {
+            BindingList<FacturasDTO> facturas = (BindingList<FacturasDTO>)this.facturaDAO.ListarTodos();
+            return new BindingList<FacturasDTO>(facturas.Where(f => f.Estado == "Pendiente").ToList());
+        }
+
+        public IList<FacturasDTO> ListarPendientesPorCriterios(int paisId, DateTime fechaLimite)
+        {
+            return facturaDAO.ListarTodos().Where(f => f.Estado == "Pendiente" &&
+                                                     f.Acreedor.Pais.PaisId == paisId &&
+                                                     f.FechaLimitePago <= fechaLimite).ToList();
+        }
     }
 }

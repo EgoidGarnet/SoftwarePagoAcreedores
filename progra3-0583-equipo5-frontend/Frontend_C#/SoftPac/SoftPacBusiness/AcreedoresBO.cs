@@ -1,11 +1,7 @@
-﻿using SoftPac.Persistance.DAO;
+﻿// SoftPac.Business.AcreedoresBO.cs
 using SoftPac.Persistance.DAOImpl;
 using SoftPac.Model;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.ComponentModel;
 
 namespace SoftPac.Business
@@ -19,46 +15,55 @@ namespace SoftPac.Business
             this.acreedorDAO = new AcreedoresDAOImpl();
         }
 
-        public int insertar(String razon_social, String ruc, String direccion_fiscal,
-                 String condicion, int plazo_de_pago, String activo, int id_pais)
+        public int insertar(string razon_social, string ruc, string direccion_fiscal,
+                            string condicion, int plazo_de_pago, string activo, int id_pais)
         {
-            AcreedoresDTO acreedoresDTO = new AcreedoresDTO();
-            acreedoresDTO.RazonSocial=razon_social;
-            acreedoresDTO.Ruc=ruc;
-            acreedoresDTO.PlazoDePago=plazo_de_pago;
-            acreedoresDTO.Condicion=condicion;
-            acreedoresDTO.DireccionFiscal=direccion_fiscal;
-            acreedoresDTO.Activo=activo.Equals("S") ? true : false;
-            PaisesDTO pais = new PaisesDTO();
-            pais.PaisId=id_pais;
-            acreedoresDTO.Pais=pais;
-
-            return this.acreedorDAO.insertar(acreedoresDTO);
-        }
-
-        public int modificar(int id_acreedor, String razon_social, String ruc,
-                String direccion_fiscal, String condicion, int plazo_de_pago, String activo,
-                int id_pais)
-        {
-            AcreedoresDTO acreedoresDTO = new AcreedoresDTO();
-            acreedoresDTO.AcreedorId=id_acreedor;
-            acreedoresDTO.RazonSocial=razon_social;
-            acreedoresDTO.Ruc=ruc;
-            acreedoresDTO.DireccionFiscal=direccion_fiscal;
-            acreedoresDTO.Condicion=condicion;
-            acreedoresDTO.PlazoDePago=plazo_de_pago;
-            acreedoresDTO.Activo = activo.Equals("S") ? true : false;
-            acreedoresDTO.PlazoDePago=plazo_de_pago;
+            AcreedoresDTO dto = new AcreedoresDTO();
+            dto.RazonSocial = razon_social;
+            dto.Ruc = ruc;
+            dto.DireccionFiscal = direccion_fiscal;
+            dto.Condicion = condicion;
+            dto.PlazoDePago = plazo_de_pago;
+            dto.Activo = activo == "S";
             PaisesDTO pais = new PaisesDTO();
             pais.PaisId = id_pais;
-            acreedoresDTO.Pais=pais;
-            return this.acreedorDAO.modificar(acreedoresDTO);
+            dto.Pais = pais;
+
+            return this.acreedorDAO.insertar(dto);
         }
 
-        public int eliminarLogico(){
-            return 0;
+        public int modificar(int id_acreedor, string razon_social, string ruc,
+                             string direccion_fiscal, string condicion, int plazo_de_pago, string activo,
+                             int id_pais)
+        {
+            AcreedoresDTO dto = new AcreedoresDTO();
+            dto.AcreedorId = id_acreedor;
+            dto.RazonSocial = razon_social;
+            dto.Ruc = ruc;
+            dto.DireccionFiscal = direccion_fiscal;
+            dto.Condicion = condicion;
+            dto.PlazoDePago = plazo_de_pago;
+            dto.Activo = activo == "S";
+            PaisesDTO pais = new PaisesDTO();
+            pais.PaisId = id_pais;
+            dto.Pais = pais;
+
+            return this.acreedorDAO.modificar(dto);
         }
 
+        public int Eliminar(int acreedorId, UsuariosDTO usuario)
+        {
+            AcreedoresDTO dto = new AcreedoresDTO();
+            dto.AcreedorId = acreedorId;
+            dto.UsuarioEliminacion = usuario;
+            dto.FechaEliminacion = DateTime.Now;
+            return this.acreedorDAO.eliminarLogico(dto);
+        }
+
+        public int Eliminar(AcreedoresDTO acreedor)
+        {
+            return this.acreedorDAO.eliminarLogico(acreedor);
+        }
 
         public AcreedoresDTO obtenerPorId(int acreedor_id)
         {
@@ -69,6 +74,5 @@ namespace SoftPac.Business
         {
             return (BindingList<AcreedoresDTO>)this.acreedorDAO.ListarTodos();
         }
-
     }
 }

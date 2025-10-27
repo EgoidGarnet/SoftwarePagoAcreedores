@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace SoftPac.Model
 {
+    [Serializable]
     public class PropuestasPagoDTO : EliminableDTOBase
     {
         private int? propuestaId;

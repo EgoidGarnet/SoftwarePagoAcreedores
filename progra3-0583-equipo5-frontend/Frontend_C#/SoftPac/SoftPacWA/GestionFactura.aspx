@@ -58,11 +58,13 @@
                             <asp:Label ID="lblTitulo" runat="server" Text="Gestión de Factura"></asp:Label>
                         </h2>
                         <div class="d-flex justify-content-end gap-2">
+                            <asp:Button ID="btnEditar" runat="server" Text="Editar" CssClass="btn btn-primary" Visible="false" OnClick="btnEditar_Click" />
+                            <asp:Button ID="btnGuardar" runat="server" Text="Guardar Cambios" CssClass="btn btn-primary" OnClick="btnGuardar_Click" />
+                            <asp:Button ID="btnCancelar" runat="server" Text="Cancelar" CssClass="btn btn-secondary" Visible="false" OnClick="btnCancelar_Click" />
                             <asp:Button ID="btnEliminarFactura" runat="server" Text="Eliminar" 
                             CssClass="btn btn-danger" OnClick="btnEliminarFactura_Click" 
                             Visible="false" ToolTip="Eliminar esta factura permanentemente"
                             OnClientClick="return confirm('¿Está completamente seguro de que desea eliminar esta factura? Esta acción no se puede deshacer.');" />
-                            <asp:Button ID="btnEditar" runat="server" Text="Editar" CssClass="btn btn-primary" Visible="false" OnClick="btnEditar_Click" />
                         </div>
                     </div>
 
@@ -193,8 +195,6 @@
                 
                 <div class="footer-buttons">
                     <asp:Button ID="btnRegresar" runat="server" Text="Regresar" CssClass="btn btn-secondary" OnClick="btnRegresar_Click" />
-                    <asp:Button ID="btnGuardar" runat="server" Text="Guardar Cambios" CssClass="btn btn-primary" OnClick="btnGuardar_Click" />
-                    <asp:Button ID="btnCancelar" runat="server" Text="Cancelar" CssClass="btn btn-secondary" Visible="false" OnClick="btnCancelar_Click" />
                 </div>
             </ContentTemplate>
         </asp:UpdatePanel>

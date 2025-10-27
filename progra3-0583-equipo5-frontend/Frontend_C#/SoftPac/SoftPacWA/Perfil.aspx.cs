@@ -60,9 +60,9 @@ namespace SoftPacWA
             litPropuestasMes.Text = propuestasEsteMes.ToString();
 
             var ultimaPropuesta = propuestasDelUsuario.OrderByDescending(p => p.FechaHoraCreacion).FirstOrDefault();
-            if (ultimaPropuesta != null && ultimaPropuesta.DetallesPropuesta.Any() && ultimaPropuesta.DetallesPropuesta.First().Factura?.Acreedor?.Pais != null)
+            if (ultimaPropuesta != null && ultimaPropuesta.EntidadBancaria!=null && ultimaPropuesta.EntidadBancaria.Pais!=null)
             {
-                litUltimoPais.Text = ultimaPropuesta.DetallesPropuesta.First().Factura.Acreedor.Pais.Nombre;
+                litUltimoPais.Text = ultimaPropuesta.EntidadBancaria.Pais.Nombre;
             }
             else
             {
@@ -81,7 +81,7 @@ namespace SoftPacWA
                     {
                         PropuestaId = propuesta.PropuestaId.Value,
                         FechaAccion = propuesta.FechaHoraCreacion.Value,
-                        TipoAccion = "CREACIÓN",
+                        TipoAccion = "Creación",
                         Estado = propuesta.Estado,
                         NumFacturas = propuesta.DetallesPropuesta.Count
                     });
@@ -93,7 +93,7 @@ namespace SoftPacWA
                     {
                         PropuestaId = propuesta.PropuestaId.Value,
                         FechaAccion = propuesta.FechaHoraModificacion.Value,
-                        TipoAccion = "MODIFICACIÓN",
+                        TipoAccion = "Modificación",
                         Estado = propuesta.Estado,
                         NumFacturas = propuesta.DetallesPropuesta.Count
                     });
@@ -105,7 +105,7 @@ namespace SoftPacWA
                     {
                         PropuestaId = propuesta.PropuestaId.Value,
                         FechaAccion = propuesta.FechaEliminacion.Value,
-                        TipoAccion = "ELIMINACIÓN",
+                        TipoAccion = "Eliminación",
                         Estado = "Eliminada",
                         NumFacturas = propuesta.DetallesPropuesta.Count
                     });
@@ -133,9 +133,8 @@ namespace SoftPacWA
         {
             switch (estado?.ToUpper())
             {
-                case "I": return "bg-secondary";
-                case "P": return "bg-warning text-dark";
-                case "A": return "bg-success";
+                case "PENDIENTE": return "bg-warning text-dark";
+                case "ENVIADA": return "bg-success";
                 case "ELIMINADA": return "bg-danger";
                 default: return "bg-light text-dark";
             }

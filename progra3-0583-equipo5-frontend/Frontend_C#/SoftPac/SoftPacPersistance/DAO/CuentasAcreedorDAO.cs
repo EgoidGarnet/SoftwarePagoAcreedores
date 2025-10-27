@@ -14,6 +14,7 @@ namespace SoftPac.Persistance.DAO
         int eliminar(CuentasAcreedorDTO cuentaAcreedor);
         int eliminarLogico(CuentasAcreedorDTO cuentaAcreedor);
         CuentasAcreedorDTO ObtenerPorId(int cuentaAcreedorId);
+        IList<CuentasAcreedorDTO> ObtenerPorAcreedor(int acreedorId);
         IList<CuentasAcreedorDTO> ListarTodos();
     }
 }

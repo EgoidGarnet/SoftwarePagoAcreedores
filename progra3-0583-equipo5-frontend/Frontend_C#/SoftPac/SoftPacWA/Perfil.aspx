@@ -103,19 +103,19 @@
                         <asp:GridView ID="gvUltimasAcciones" runat="server" AutoGenerateColumns="False" 
                             CssClass="table table-hover" GridLines="None">
                             <Columns>
-                                <asp:BoundField DataField="PropuestaId" HeaderText="🆔 ID Propuesta" />
-                                <asp:BoundField DataField="FechaAccion" HeaderText="📅 Fecha" DataFormatString="{0:dd/MM/yyyy HH:mm}" />
-                                <asp:TemplateField HeaderText="⚙️ Tipo de Acción">
+                                <asp:BoundField DataField="PropuestaId" HeaderText="ID Propuesta" />
+                                <asp:BoundField DataField="FechaAccion" HeaderText="Fecha" DataFormatString="{0:dd/MM/yyyy HH:mm}" />
+                                <asp:TemplateField HeaderText="Tipo de Acción">
                                     <ItemTemplate>
                                         <span class='badge <%# GetActionClass(Eval("TipoAccion").ToString()) %>'><%# Eval("TipoAccion") %></span>
                                     </ItemTemplate>
                                 </asp:TemplateField>
-                                <asp:TemplateField HeaderText="📂 Estado Actual">
+                                <asp:TemplateField HeaderText="Estado Actual">
                                     <ItemTemplate>
                                         <span class='badge <%# GetEstadoClass(Eval("Estado").ToString()) %>'><%# Eval("Estado") %></span>
                                     </ItemTemplate>
                                 </asp:TemplateField>
-                                <asp:BoundField DataField="NumFacturas" HeaderText="🧾 # Facturas" />
+                                <asp:BoundField DataField="NumFacturas" HeaderText="N° de Facturas" />
                             </Columns>
                             <EmptyDataTemplate>
                                 <div class="text-center p-3 text-muted">No se han registrado acciones recientes en el sistema.</div>

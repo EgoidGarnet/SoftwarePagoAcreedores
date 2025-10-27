@@ -21,5 +21,9 @@ namespace SoftPac.Business
         {
             return (BindingList<PaisesDTO>)this.paisesDAO.ListarTodos();
         }
+        public PaisesDTO ObtenerPorId(int paisId)
+        {
+            return this.paisesDAO.ObtenerPorId(paisId);
+        }
     }
 }
