@@ -13,13 +13,15 @@ namespace SoftPacWA
     {
         private FacturasBO facturasBO = new FacturasBO();
         private AcreedoresBO acreedoresBO = new AcreedoresBO();
+        private MonedasBO monedasBO = new MonedasBO();
         private List<PaisesDTO> paisesUsuario;
-        
+
         private List<FacturasDTO> ListaFacturas;
 
         private UsuariosDTO UsuarioLogueado
         {
-            get {
+            get
+            {
                 return (UsuariosDTO)Session["UsuarioLogueado"];
             }
         }
@@ -30,7 +32,7 @@ namespace SoftPacWA
             if ((string)Session["MensajeExito"] != null)
             {
                 MostrarMensaje((string)Session["MensajeExito"], "success");
-                Session["MensajeExito"] = null; // Limpiar el mensaje después de mostrarlo
+                Session["MensajeExito"] = null;
             }
             paisesUsuario = UsuarioLogueado.UsuarioPais.Where(up => up.Acceso == true).Select(up => up.Pais).ToList();
             if (!IsPostBack)
@@ -58,6 +60,14 @@ namespace SoftPacWA
                 ddlFiltroProveedor.DataValueField = "AcreedorId";
                 ddlFiltroProveedor.DataBind();
                 ddlFiltroProveedor.Items.Insert(0, new ListItem("Todos los proveedores", ""));
+
+                // Cargar monedas
+                var monedas = monedasBO.ListarTodos();
+                ddlFiltroMoneda.DataSource = monedas;
+                ddlFiltroMoneda.DataTextField = "CodigoIso";
+                ddlFiltroMoneda.DataValueField = "MonedaId";
+                ddlFiltroMoneda.DataBind();
+                ddlFiltroMoneda.Items.Insert(0, new ListItem("Todas", ""));
             }
             catch (Exception ex)
             {
@@ -71,6 +81,7 @@ namespace SoftPacWA
             {
                 ListaFacturas = facturasBO.ListarTodos().ToList();
                 ListaFacturas = ListaFacturas.Where(f => paisesUsuario.Select(pu => pu.PaisId).ToList().Contains(f.Acreedor?.Pais.PaisId)).ToList();
+
                 // Aplicar filtros
                 if (!string.IsNullOrEmpty(ddlFiltroPais.SelectedValue))
                 {
@@ -84,16 +95,10 @@ namespace SoftPacWA
                     ListaFacturas = ListaFacturas.Where(f => f.Acreedor?.AcreedorId == acreedorId).ToList();
                 }
 
-                if (!string.IsNullOrEmpty(txtFechaDesde.Text))
+                if (!string.IsNullOrEmpty(ddlFiltroMoneda.SelectedValue))
                 {
-                    DateTime fechaDesde = DateTime.Parse(txtFechaDesde.Text);
-                    ListaFacturas = ListaFacturas.Where(f => f.FechaLimitePago >= fechaDesde).ToList();
-                }
-
-                if (!string.IsNullOrEmpty(txtFechaHasta.Text))
-                {
-                    DateTime fechaHasta = DateTime.Parse(txtFechaHasta.Text);
-                    ListaFacturas = ListaFacturas.Where(f => f.FechaLimitePago <= fechaHasta).ToList();
+                    int monedaId = int.Parse(ddlFiltroMoneda.SelectedValue);
+                    ListaFacturas = ListaFacturas.Where(f => f.Moneda?.MonedaId == monedaId).ToList();
                 }
 
                 // Ordenar por fecha de emisión descendente
@@ -111,6 +116,24 @@ namespace SoftPacWA
             }
         }
 
+        protected void btnGenerarReporte_Click(object sender, EventArgs e)
+        {
+            string url = "ReporteFacturas.aspx?";
+
+            if (!string.IsNullOrEmpty(ddlFiltroProveedor.SelectedValue))
+                url += $"acreedor={ddlFiltroProveedor.SelectedValue}&";
+
+            if (!string.IsNullOrEmpty(ddlFiltroPais.SelectedValue))
+                url += $"pais={ddlFiltroPais.SelectedValue}&";
+
+            if (!string.IsNullOrEmpty(ddlFiltroMoneda.SelectedValue))
+                url += $"moneda={ddlFiltroMoneda.SelectedValue}&";
+
+            if (!string.IsNullOrEmpty(ddlRangoVencimiento.SelectedValue))
+                url += $"rango={ddlRangoVencimiento.SelectedValue}&";
+
+            Response.Redirect(url.TrimEnd('&'));
+        }
 
         protected void AplicarFiltros(object sender, EventArgs e)
         {
@@ -121,8 +144,8 @@ namespace SoftPacWA
         {
             ddlFiltroPais.SelectedIndex = 0;
             ddlFiltroProveedor.SelectedIndex = 0;
-            txtFechaDesde.Text = string.Empty;
-            txtFechaHasta.Text = string.Empty;
+            ddlFiltroMoneda.SelectedIndex = 0;
+            ddlRangoVencimiento.SelectedIndex = 0;
             CargarFacturas();
         }
 
@@ -131,6 +154,7 @@ namespace SoftPacWA
             gvFacturas.PageIndex = e.NewPageIndex;
             CargarFacturas();
         }
+
         protected void gvFacturas_RowDataBound(object sender, GridViewRowEventArgs e)
         {
             if (e.Row.RowType == DataControlRowType.DataRow)
@@ -153,9 +177,10 @@ namespace SoftPacWA
                 }
             }
         }
+
         protected void btnNuevaFactura_Click(object sender, EventArgs e)
         {
-            Session["FacturaId"] = null; // Asegurarse de limpiar cualquier ID previo]
+            Session["FacturaId"] = null;
             Response.Redirect("GestionFactura.aspx?accion=insertar");
         }
 
@@ -178,8 +203,7 @@ namespace SoftPacWA
                         Response.Redirect($"GestionFactura.aspx?accion=editar");
                         break;
                     case "Eliminar":
-                        // Implementar lógica de eliminación
-                        var resultado = facturasBO.Eliminar(facturaId,UsuarioLogueado);
+                        var resultado = facturasBO.Eliminar(facturaId, UsuarioLogueado);
                         if (resultado == 1)
                         {
                             MostrarMensaje("Factura eliminada correctamente", "success");
@@ -215,7 +239,6 @@ namespace SoftPacWA
 
         private void MostrarMensaje(string mensaje, string tipo)
         {
-            // Escapar comillas simples y dobles para evitar errores de JS
             string mensajeEscapado = mensaje.Replace("'", "\\'").Replace("\"", "\\\"");
             string script = $@"
                 $(document).ready(function() {{

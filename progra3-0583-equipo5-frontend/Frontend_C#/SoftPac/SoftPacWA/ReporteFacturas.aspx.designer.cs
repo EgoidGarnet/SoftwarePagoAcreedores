@@ -11,71 +11,53 @@ namespace SoftPacWA
 {
 
 
-    public partial class PropuestasPago
+    public partial class ReporteFacturas
     {
 
         /// <summary>
-        /// Control pnlMensaje.
+        /// Control ddlAcreedor.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel pnlMensaje;
+        protected global::System.Web.UI.WebControls.DropDownList ddlAcreedor;
 
         /// <summary>
-        /// Control lblMensaje.
+        /// Control ddlPais.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblMensaje;
+        protected global::System.Web.UI.WebControls.DropDownList ddlPais;
 
         /// <summary>
-        /// Control btnCrearPropuesta.
+        /// Control ddlMoneda.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnCrearPropuesta;
+        protected global::System.Web.UI.WebControls.DropDownList ddlMoneda;
 
         /// <summary>
-        /// Control ddlFiltroPais.
+        /// Control ddlRango.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlFiltroPais;
+        protected global::System.Web.UI.WebControls.DropDownList ddlRango;
 
         /// <summary>
-        /// Control ddlFiltroBanco.
+        /// Control btnAplicarFiltros.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlFiltroBanco;
-
-        /// <summary>
-        /// Control ddlFiltroEstado.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlFiltroEstado;
-
-        /// <summary>
-        /// Control btnFiltrar.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnFiltrar;
+        protected global::System.Web.UI.WebControls.Button btnAplicarFiltros;
 
         /// <summary>
         /// Control btnLimpiarFiltros.
@@ -87,57 +69,102 @@ namespace SoftPacWA
         protected global::System.Web.UI.WebControls.Button btnLimpiarFiltros;
 
         /// <summary>
-        /// Control btnGenerarReporte.
+        /// Control lblFechaGeneracion.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton btnGenerarReporte;
+        protected global::System.Web.UI.WebControls.Label lblFechaGeneracion;
 
         /// <summary>
-        /// Control upPropuestas.
+        /// Control lblHoraGeneracion.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.UpdatePanel upPropuestas;
+        protected global::System.Web.UI.WebControls.Label lblHoraGeneracion;
 
         /// <summary>
-        /// Control gvPropuestas.
+        /// Control lblUsuario.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gvPropuestas;
+        protected global::System.Web.UI.WebControls.Label lblUsuario;
 
         /// <summary>
-        /// Control pnlEmptyState.
+        /// Control pnlFiltrosAplicados.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel pnlEmptyState;
+        protected global::System.Web.UI.WebControls.Panel pnlFiltrosAplicados;
 
         /// <summary>
-        /// Control btnCrearPrimera.
+        /// Control lblFiltrosAplicados.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnCrearPrimera;
+        protected global::System.Web.UI.WebControls.Label lblFiltrosAplicados;
 
         /// <summary>
-        /// Control lblTotalRegistros.
+        /// Control upReporte.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblTotalRegistros;
+        protected global::System.Web.UI.UpdatePanel upReporte;
+
+        /// <summary>
+        /// Control rptRangos.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater rptRangos;
+
+        /// <summary>
+        /// Control lblTotalGeneral.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblTotalGeneral;
+
+        /// <summary>
+        /// Control pnlSinDatos.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlSinDatos;
+
+        /// <summary>
+        /// Control btnExportarPDF.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton btnExportarPDF;
+
+        /// <summary>
+        /// Control btnVolver.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton btnVolver;
     }
 }

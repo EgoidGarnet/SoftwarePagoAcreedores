@@ -72,16 +72,17 @@
             background: white;
             border-radius: 12px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-            padding: 1.5rem;
+            padding: 0;
+            overflow: hidden;
         }
 
         .lista-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 1.5rem;
-            padding-bottom: 1rem;
+            padding: 1.5rem;
             border-bottom: 2px solid var(--color-light-1);
+            background-color: #f8f9fa;
         }
 
         .lista-title {
@@ -91,9 +92,23 @@
             margin: 0;
         }
 
+        .lista-body {
+            padding: 1.5rem;
+        }
+
+        .lista-footer {
+            padding: 1rem 1.5rem;
+            border-top: 1px solid var(--color-light-1);
+            background-color: #f8f9fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
         .total-registros {
             color: var(--color-secondary);
             font-size: 0.9rem;
+            margin: 0;
         }
 
         .acciones-buttons {
@@ -119,6 +134,12 @@
             margin-bottom: 0.5rem;
         }
 
+        .btn-reporte {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
         @media (max-width: 768px) {
             .page-header {
                 flex-direction: column;
@@ -128,6 +149,16 @@
 
             .filters-row {
                 grid-template-columns: 1fr;
+            }
+
+            .btn-reporte .btn-text {
+                display: none;
+            }
+            
+            .lista-header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
             }
         }
     </style>
@@ -204,106 +235,116 @@
         <div class="lista-card">
             <div class="lista-header">
                 <h3 class="lista-title">Lista de Propuestas</h3>
-                <span class="total-registros">
-                    <asp:Label ID="lblTotalRegistros" runat="server" Text="0 propuestas"></asp:Label>
-                </span>
+                <asp:LinkButton ID="btnGenerarReporte" runat="server" 
+                    CssClass="btn btn-primary btn-reporte" 
+                    OnClick="btnGenerarReporte_Click"
+                    ToolTip="Generar reporte">
+                    <i class="fas fa-file-pdf"></i>
+                    <span class="btn-text">Generar reporte</span>
+                </asp:LinkButton>
             </div>
 
-            <asp:UpdatePanel ID="upPropuestas" runat="server" UpdateMode="Conditional">
-                <ContentTemplate>
-                    <!-- GridView -->
-                    <div class="table-responsive">
-                        <asp:GridView ID="gvPropuestas" runat="server" 
-                            AutoGenerateColumns="false"
-                            CssClass="table table-hover align-middle"
-                            AllowPaging="true"
-                            PageSize="20"
-                            OnPageIndexChanging="gvPropuestas_PageIndexChanging"
-                            GridLines="None"
-                            EmptyDataText="No se encontraron propuestas de pago.">
-                            
-                            <HeaderStyle CssClass="table-light" />
-                            
-                            <Columns>
-                                <asp:BoundField DataField="PropuestaId" HeaderText="ID" />
+            <div class="lista-body">
+                <asp:UpdatePanel ID="upPropuestas" runat="server" UpdateMode="Conditional">
+                    <ContentTemplate>
+                        <!-- GridView -->
+                        <div class="table-responsive">
+                            <asp:GridView ID="gvPropuestas" runat="server" 
+                                AutoGenerateColumns="false"
+                                CssClass="table table-hover align-middle"
+                                AllowPaging="true"
+                                PageSize="20"
+                                OnPageIndexChanging="gvPropuestas_PageIndexChanging"
+                                GridLines="None"
+                                EmptyDataText="No se encontraron propuestas de pago.">
                                 
-                                <asp:TemplateField HeaderText="Fecha Creación">
-                                    <ItemTemplate>
-                                        <%# Eval("FechaHoraCreacion") != null ? Convert.ToDateTime(Eval("FechaHoraCreacion")).ToString("dd/MM/yyyy HH:mm") : "-" %>
-                                    </ItemTemplate>
-                                </asp:TemplateField>
+                                <HeaderStyle CssClass="table-light" />
                                 
-                                <asp:TemplateField HeaderText="Usuario">
-                                    <ItemTemplate>
-                                        <%# Eval("UsuarioCreacion.Nombre") + " " + Eval("UsuarioCreacion.Apellidos") %>
-                                    </ItemTemplate>
-                                </asp:TemplateField>
-                                
-                                <asp:TemplateField HeaderText="País">
-                                    <ItemTemplate>
-                                        <%# Eval("EntidadBancaria.Pais.Nombre") %>
-                                    </ItemTemplate>
-                                </asp:TemplateField>
-                                
-                                <asp:TemplateField HeaderText="Banco">
-                                    <ItemTemplate>
-                                        <%# Eval("EntidadBancaria.Nombre") %>
-                                    </ItemTemplate>
-                                </asp:TemplateField>
-                                
-                                <asp:TemplateField HeaderText="Nº Pagos">
-                                    <ItemTemplate>
-                                        <%# Eval("DetallesPropuesta.Count") %>
-                                    </ItemTemplate>
-                                </asp:TemplateField>
-                                
-                                <asp:TemplateField HeaderText="Estado">
-                                    <ItemTemplate>
-                                        <span class='badge <%# GetEstadoClass(Eval("Estado").ToString()) %>'>
-                                            <%# Eval("Estado") %>
-                                        </span>
-                                    </ItemTemplate>
-                                </asp:TemplateField>
-                                
-                                <asp:TemplateField HeaderText="Acciones">
-                                    <ItemTemplate>
-                                        <div class="acciones-buttons">
-                                            <asp:HyperLink ID="lnkVer" runat="server"
-                                                NavigateUrl='<%# "~/DetallePropuesta.aspx?id=" + Eval("PropuestaId") %>'
-                                                CssClass="btn btn-sm btn-info btn-icon"
-                                                ToolTip="Ver detalle">
-                                                <i class="fas fa-eye"></i>
-                                            </asp:HyperLink>
+                                <Columns>
+                                    <asp:BoundField DataField="PropuestaId" HeaderText="ID" />
+                                    
+                                    <asp:TemplateField HeaderText="Fecha Creación">
+                                        <ItemTemplate>
+                                            <%# Eval("FechaHoraCreacion") != null ? Convert.ToDateTime(Eval("FechaHoraCreacion")).ToString("dd/MM/yyyy HH:mm") : "-" %>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                    
+                                    <asp:TemplateField HeaderText="Usuario">
+                                        <ItemTemplate>
+                                            <%# Eval("UsuarioCreacion.Nombre") + " " + Eval("UsuarioCreacion.Apellidos") %>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                    
+                                    <asp:TemplateField HeaderText="País">
+                                        <ItemTemplate>
+                                            <%# Eval("EntidadBancaria.Pais.Nombre") %>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                    
+                                    <asp:TemplateField HeaderText="Banco">
+                                        <ItemTemplate>
+                                            <%# Eval("EntidadBancaria.Nombre") %>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                    
+                                    <asp:TemplateField HeaderText="Nº Pagos">
+                                        <ItemTemplate>
+                                            <%# Eval("DetallesPropuesta.Count") %>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                    
+                                    <asp:TemplateField HeaderText="Estado">
+                                        <ItemTemplate>
+                                            <span class='badge <%# GetEstadoClass(Eval("Estado").ToString()) %>'>
+                                                <%# Eval("Estado") %>
+                                            </span>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                    
+                                    <asp:TemplateField HeaderText="Acciones">
+                                        <ItemTemplate>
+                                            <div class="acciones-buttons">
+                                                <asp:HyperLink ID="lnkVer" runat="server"
+                                                    NavigateUrl='<%# "~/DetallePropuesta.aspx?id=" + Eval("PropuestaId") %>'
+                                                    CssClass="btn btn-sm btn-info btn-icon"
+                                                    ToolTip="Ver detalle">
+                                                    <i class="fas fa-eye"></i>
+                                                </asp:HyperLink>
 
-                                            <asp:HyperLink ID="lnkEditar" runat="server"
-                                                NavigateUrl='<%# "~/EditarPropuesta.aspx?id=" + Eval("PropuestaId") %>'
-                                                CssClass="btn btn-sm btn-warning btn-icon"
-                                                ToolTip="Editar"
-                                                Visible='<%# Eval("Estado").ToString() == "Pendiente" %>'>
-                                                <i class="fas fa-edit"></i>
-                                            </asp:HyperLink>
-                                        </div>
-                                    </ItemTemplate>
-                                </asp:TemplateField>
-                            </Columns>
-                            
-                            <PagerStyle CssClass="pagination justify-content-center mt-3" />
-                            <PagerSettings Mode="NumericFirstLast" FirstPageText="Primera" LastPageText="Última" PageButtonCount="10" />
-                        </asp:GridView>
-                    </div>
+                                                <asp:HyperLink ID="lnkEditar" runat="server"
+                                                    NavigateUrl='<%# "~/EditarPropuesta.aspx?id=" + Eval("PropuestaId") %>'
+                                                    CssClass="btn btn-sm btn-warning btn-icon"
+                                                    ToolTip="Editar"
+                                                    Visible='<%# Eval("Estado").ToString() == "Pendiente" %>'>
+                                                    <i class="fas fa-edit"></i>
+                                                </asp:HyperLink>
+                                            </div>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                </Columns>
+                                
+                                <PagerStyle CssClass="pagination justify-content-center mt-3" />
+                                <PagerSettings Mode="NumericFirstLast" FirstPageText="Primera" LastPageText="Última" PageButtonCount="10" />
+                            </asp:GridView>
+                        </div>
 
-                    <!-- Estado vacío -->
-                    <asp:Panel ID="pnlEmptyState" runat="server" Visible="false" CssClass="empty-state">
-                        <i class="fas fa-inbox"></i>
-                        <h3>No hay propuestas de pago</h3>
-                        <p class="text-muted">Comienza creando tu primera propuesta de pago.</p>
-                        <asp:Button ID="btnCrearPrimera" runat="server" 
-                            Text="Crear primera propuesta" 
-                            CssClass="btn btn-primary"
-                            OnClick="btnCrearPropuesta_Click" />
-                    </asp:Panel>
-                </ContentTemplate>
-            </asp:UpdatePanel>
+                        <!-- Estado vacío -->
+                        <asp:Panel ID="pnlEmptyState" runat="server" Visible="false" CssClass="empty-state">
+                            <i class="fas fa-inbox"></i>
+                            <h3>No hay propuestas de pago</h3>
+                            <p class="text-muted">Comienza creando tu primera propuesta de pago.</p>
+                            <asp:Button ID="btnCrearPrimera" runat="server" 
+                                Text="Crear primera propuesta" 
+                                CssClass="btn btn-primary"
+                                OnClick="btnCrearPropuesta_Click" />
+                        </asp:Panel>
+                    </ContentTemplate>
+                </asp:UpdatePanel>
+            </div>
+            
+            <div class="lista-footer">
+                <asp:Label ID="lblTotalRegistros" runat="server" CssClass="total-registros" Text="0 propuestas"></asp:Label>
+            </div>
         </div>
     </div>
 </asp:Content>

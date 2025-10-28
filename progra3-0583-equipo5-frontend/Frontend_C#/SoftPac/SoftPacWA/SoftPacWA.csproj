@@ -120,6 +120,8 @@
     <Content Include="Login.aspx" />
     <Content Include="Perfil.aspx" />
     <Content Include="PropuestasPago.aspx" />
+    <Content Include="ReporteFacturas.aspx" />
+    <Content Include="ReportePropuestas.aspx" />
     <Content Include="ResumenPropuesta.aspx" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
@@ -273,6 +275,20 @@
     </Compile>
     <Compile Include="PropuestasPago.aspx.designer.cs">
       <DependentUpon>PropuestasPago.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ReporteFacturas.aspx.cs">
+      <DependentUpon>ReporteFacturas.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ReporteFacturas.aspx.designer.cs">
+      <DependentUpon>ReporteFacturas.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ReportePropuestas.aspx.cs">
+      <DependentUpon>ReportePropuestas.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ReportePropuestas.aspx.designer.cs">
+      <DependentUpon>ReportePropuestas.aspx</DependentUpon>
     </Compile>
     <Compile Include="ResumenPropuesta.aspx.cs">
       <DependentUpon>ResumenPropuesta.aspx</DependentUpon>

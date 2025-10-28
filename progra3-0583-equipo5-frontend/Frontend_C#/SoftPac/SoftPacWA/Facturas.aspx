@@ -47,16 +47,65 @@
             font-size: 0.9rem;
         }
 
-        .pagination-container {
+        .lista-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .lista-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-top: 1rem;
+            padding: 1.5rem;
+            border-bottom: 2px solid var(--color-light-1);
+            background-color: #f8f9fa;
         }
 
-        .table-responsive {
-            border-radius: 8px;
-            overflow: hidden;
+        .lista-title {
+            color: var(--color-primary);
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .lista-body {
+            padding: 1.5rem;
+        }
+
+        .lista-footer {
+            padding: 1rem 1.5rem;
+            border-top: 1px solid var(--color-light-1);
+            background-color: #f8f9fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .total-registros {
+            color: var(--color-secondary);
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        .btn-reporte {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .btn-reporte .btn-text {
+                display: none;
+            }
+            
+            .lista-header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
         }
     </style>
 </asp:Content>
@@ -83,13 +132,21 @@
                     <asp:ListItem Value="">Todos los proveedores</asp:ListItem>
                 </asp:DropDownList>
             </div>
-            <div class="col-6 col-md-2">
-                <label class="form-label">Vencimiento Desde</label>
-                <asp:TextBox ID="txtFechaDesde" runat="server" CssClass="form-control" TextMode="Date"></asp:TextBox>
+            <div class="col-12 col-md-2">
+                <label class="form-label">Moneda</label>
+                <asp:DropDownList ID="ddlFiltroMoneda" runat="server" CssClass="form-select">
+                    <asp:ListItem Value="">Todas</asp:ListItem>
+                </asp:DropDownList>
             </div>
-            <div class="col-6 col-md-2">
-                <label class="form-label">Vencimiento Hasta</label>
-                <asp:TextBox ID="txtFechaHasta" runat="server" CssClass="form-control" TextMode="Date"></asp:TextBox>
+            <div class="col-12 col-md-2">
+                <label class="form-label">Rango Vencimiento</label>
+                <asp:DropDownList ID="ddlRangoVencimiento" runat="server" CssClass="form-select">
+                    <asp:ListItem Value="">Todos</asp:ListItem>
+                    <asp:ListItem Value="0-30">0-30 días</asp:ListItem>
+                    <asp:ListItem Value="31-60">31-60 días</asp:ListItem>
+                    <asp:ListItem Value="61-90">61-90 días</asp:ListItem>
+                    <asp:ListItem Value="90+">+90 días</asp:ListItem>
+                </asp:DropDownList>
             </div>
             <div class="col-md-2 d-flex align-items-end gap-2 flex-wrap">
                 <asp:Button ID="btnFiltrar" runat="server" Text="Filtrar" CssClass="btn btn-primary" OnClick="AplicarFiltros" />
@@ -105,8 +162,19 @@
     </div>
 
     <!-- Tabla de Facturas -->
-    <div class="card">
-        <div class="card-body">
+    <div class="lista-card">
+        <div class="lista-header">
+            <h3 class="lista-title">Lista de Facturas</h3>
+            <asp:LinkButton ID="btnGenerarReporte" runat="server" 
+                CssClass="btn btn-primary btn-reporte" 
+                OnClick="btnGenerarReporte_Click"
+                ToolTip="Generar reporte">
+                <i class="fas fa-file-pdf"></i>
+                <span class="btn-text">Generar reporte</span>
+            </asp:LinkButton>
+        </div>
+        
+        <div class="lista-body">
             <asp:UpdatePanel ID="upFacturas" runat="server" UpdateMode="Conditional">
                 <ContentTemplate>
                     <div class="table-responsive" style="overflow-x: auto; white-space: nowrap;">
@@ -178,14 +246,12 @@
                                 PageButtonCount="10" />
                         </asp:GridView>
                     </div>
-
-                    <div class="pagination-container">
-                        <div>
-                            <asp:Label ID="lblRegistros" runat="server" CssClass="text-muted"></asp:Label>
-                        </div>
-                    </div>
                 </ContentTemplate>
             </asp:UpdatePanel>
+        </div>
+        
+        <div class="lista-footer">
+            <asp:Label ID="lblRegistros" runat="server" CssClass="total-registros"></asp:Label>
         </div>
     </div>
 </asp:Content>

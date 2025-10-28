@@ -49,7 +49,7 @@ namespace SoftPac.Persistance.DAO
             cuentasPropias.Add(new CuentasPropiasDTO(10, "Maestra COP", "011313000000000010", false, "313-99990000-1-10", pesosColombianos, davivienda, 6850000.00M));
             cuentasPropias.Add(new CuentasPropiasDTO(11, "Corporativa USD", "012314000000000011", true, "314-44448888-1-11", dolares, bbvaColombia, 22500000.00M));
             
-            cuentasPropias.Add(new CuentasPropiasDTO(12, "Ahorros MXN", "013410000000000012", true, "410-12345678-1-12", pesosMexicanos, bbvaMexico, 1500000.00M));
+            cuentasPropias.Add(new CuentasPropiasDTO(12, "Ahorros MXN", "013410000000000012", true, "410-12345678-1-12", dolares, bbvaMexico, 1500000.00M));
             cuentasPropias.Add(new CuentasPropiasDTO(13, "Corriente MXN", "014411000000000013", true, "411-87654321-1-13", pesosMexicanos, santanderMexico, 875000.25M));
             cuentasPropias.Add(new CuentasPropiasDTO(14, "Empresarial MXN", "015412000000000014", true, "412-55554444-1-14", pesosMexicanos, banorte, 1275000.00M));
             cuentasPropias.Add(new CuentasPropiasDTO(15, "Dólares USA", "016413000000000015", true, "413-22221111-1-15", dolares, banorte, 52000.00M));

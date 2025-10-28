@@ -54,12 +54,12 @@
                             <asp:BoundField DataField="TipoCuenta" HeaderText="Tipo de Cuenta" />
                             <asp:BoundField DataField="NumeroCuenta" HeaderText="Número de Cuenta" />
                             <asp:BoundField DataField="Cci" HeaderText="CCI" />
-                            <asp:BoundField DataField="Moneda.Simbolo" HeaderText="Moneda" />
+                            <asp:BoundField DataField="Moneda.CodigoIso" HeaderText="Moneda" />
                             <asp:BoundField DataField="SaldoDisponible" HeaderText="Saldo Disponible" DataFormatString="{0:N2}" />
-                            <asp:TemplateField HeaderText="Activa">
+                            <asp:TemplateField HeaderText="Estado">
                                 <ItemTemplate>
                                     <span class='badge <%# (bool)Eval("Activa") ? "bg-success" : "bg-danger" %>'>
-                                        <%# (bool)Eval("Activa") ? "Sí" : "No" %>
+                                        <%# (bool)Eval("Activa") ? "Activo" : "Inactivo" %>
                                     </span>
                                 </ItemTemplate>
                             </asp:TemplateField>

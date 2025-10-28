@@ -33,22 +33,22 @@ namespace SoftPacWA
         protected global::System.Web.UI.WebControls.DropDownList ddlFiltroProveedor;
 
         /// <summary>
-        /// Control txtFechaDesde.
+        /// Control ddlFiltroMoneda.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtFechaDesde;
+        protected global::System.Web.UI.WebControls.DropDownList ddlFiltroMoneda;
 
         /// <summary>
-        /// Control txtFechaHasta.
+        /// Control ddlRangoVencimiento.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtFechaHasta;
+        protected global::System.Web.UI.WebControls.DropDownList ddlRangoVencimiento;
 
         /// <summary>
         /// Control btnFiltrar.
@@ -76,6 +76,15 @@ namespace SoftPacWA
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnNuevaFactura;
+
+        /// <summary>
+        /// Control btnGenerarReporte.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton btnGenerarReporte;
 
         /// <summary>
         /// Control upFacturas.

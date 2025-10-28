@@ -13,6 +13,7 @@ namespace SoftPacWA
         private PaisesBO paisesBO = new PaisesBO();
         private EntidadesBancariasBO bancosBO = new EntidadesBancariasBO();
         private UsuariosBO usuariosBO = new UsuariosBO();
+
         private UsuariosDTO UsuarioLogueado
         {
             get
@@ -20,6 +21,7 @@ namespace SoftPacWA
                 return (UsuariosDTO)Session["UsuarioLogueado"];
             }
         }
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -55,7 +57,7 @@ namespace SoftPacWA
         {
             try
             {
-                ddlFiltroPais.DataSource = UsuarioLogueado.UsuarioPais.Where(up => up.Acceso==true).Select(up=>up.Pais);
+                ddlFiltroPais.DataSource = UsuarioLogueado.UsuarioPais.Where(up => up.Acceso == true).Select(up => up.Pais);
                 ddlFiltroPais.DataTextField = "Nombre";
                 ddlFiltroPais.DataValueField = "PaisId";
                 ddlFiltroPais.DataBind();
@@ -107,9 +109,24 @@ namespace SoftPacWA
             }
         }
 
+        protected void btnGenerarReporte_Click(object sender, EventArgs e)
+        {
+            string url = "ReportePropuestas.aspx?";
+
+            if (!string.IsNullOrEmpty(ddlFiltroPais.SelectedValue))
+                url += $"pais={ddlFiltroPais.SelectedValue}&";
+
+            if (!string.IsNullOrEmpty(ddlFiltroBanco.SelectedValue))
+                url += $"banco={ddlFiltroBanco.SelectedValue}&";
+
+            if (!string.IsNullOrEmpty(ddlFiltroEstado.SelectedValue))
+                url += $"estado={ddlFiltroEstado.SelectedValue}&";
+
+            Response.Redirect(url.TrimEnd('&'));
+        }
+
         protected void btnCrearPropuesta_Click(object sender, EventArgs e)
         {
-            // Limpiar cualquier dato previo del flujo de creación
             LimpiarDatosCreacion();
             Response.Redirect("~/CrearPropuestaPaso1.aspx");
         }
@@ -134,6 +151,7 @@ namespace SoftPacWA
             gvPropuestas.PageIndex = e.NewPageIndex;
             CargarPropuestas();
         }
+
         protected void ddlFiltroPais_SelectedIndexChanged(object sender, EventArgs e)
         {
             try
@@ -148,7 +166,6 @@ namespace SoftPacWA
 
                 int paisId = int.Parse(ddlFiltroPais.SelectedValue);
 
-                // Filtrar los bancos por el país seleccionado
                 var bancos = bancosBO.ListarTodos()
                     .Where(b => b.Pais.PaisId == paisId)
                     .OrderBy(b => b.Nombre)
