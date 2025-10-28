@@ -156,7 +156,8 @@
                     <li><a href="~/Facturas.aspx" runat="server" id="lnkFacturas"><i class="fas fa-file-invoice"></i><span>Facturas</span></a></li>
                     <li><a href="~/PropuestasPago.aspx" runat="server"><i class="fas fa-money-check-alt"></i><span>Propuestas de Pago</span></a></li>
                     <li><a href="~/Acreedores.aspx" runat="server"><i class="fas fa-users"></i><span>Acreedores</span></a></li>
-                    <li><a id="lnkCuentasPropias" href="CuentasPropias.aspx" runat="server"><i class="fas fa-university"></i> Cuentas Propias</a></li>
+                    <li><a id="lnkCuentasPropias" href="~/CuentasPropias.aspx" runat="server"><i class="fas fa-wallet"></i><span>Cuentas Propias</span></a></li>
+                    <li><a id="lnkEntidadesBancarias" href="~/EntidadesBancarias.aspx" runat="server"><i class="fas fa-university"></i><span>Entidades Bancarias</span></a></li>
                 </ul>
             </div>
         </aside>

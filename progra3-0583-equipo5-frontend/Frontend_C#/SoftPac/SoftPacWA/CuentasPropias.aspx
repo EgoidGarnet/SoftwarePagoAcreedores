@@ -27,15 +27,19 @@
             <!-- Sección de Filtros -->
             <div class="filter-section">
                 <div class="row g-3 align-items-end">
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <label class="form-label">Entidad Bancaria</label>
                         <asp:DropDownList ID="ddlFiltroEntidad" runat="server" CssClass="form-select"></asp:DropDownList>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
+                        <label class="form-label">Moneda</label>
+                        <asp:DropDownList ID="ddlFiltroMoneda" runat="server" CssClass="form-select"></asp:DropDownList>
+                    </div>
+                    <div class="col-md-3">
                         <label class="form-label">Saldo Disponible (mayor o igual que)</label>
                         <asp:TextBox ID="txtFiltroSaldo" runat="server" CssClass="form-control" TextMode="Number" step="0.01"></asp:TextBox>
                     </div>
-                    <div class="col-md-4 d-flex">
+                    <div class="col-md-3 d-flex">
                         <asp:Button ID="btnFiltrar" runat="server" Text="Filtrar" CssClass="btn btn-secondary me-2" OnClick="btnFiltrar_Click" />
                         <asp:Button ID="btnLimpiar" runat="server" Text="Limpiar" CssClass="btn btn-outline-secondary" OnClick="btnLimpiar_Click" />
                     </div>

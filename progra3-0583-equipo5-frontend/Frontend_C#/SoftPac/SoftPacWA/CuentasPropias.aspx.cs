@@ -48,11 +48,19 @@ namespace SoftPacWA
 
         private void CargarFiltros()
         {
+            // Cargar entidades bancarias
             ddlFiltroEntidad.DataSource = entidadesBO.ListarTodos();
             ddlFiltroEntidad.DataTextField = "Nombre";
             ddlFiltroEntidad.DataValueField = "EntidadBancariaId";
             ddlFiltroEntidad.DataBind();
             ddlFiltroEntidad.Items.Insert(0, new ListItem("Todas", ""));
+
+            // Cargar monedas
+            ddlFiltroMoneda.DataSource = monedasBO.ListarTodos();
+            ddlFiltroMoneda.DataTextField = "Nombre";
+            ddlFiltroMoneda.DataValueField = "MonedaId";
+            ddlFiltroMoneda.DataBind();
+            ddlFiltroMoneda.Items.Insert(0, new ListItem("Todas", ""));
         }
 
         private void CargarCatalogosModal()
@@ -76,12 +84,21 @@ namespace SoftPacWA
         {
             IEnumerable<CuentasPropiasDTO> filtrados = ListaCompletaCuentas;
 
+            // Filtro por entidad bancaria
             if (!string.IsNullOrEmpty(ddlFiltroEntidad.SelectedValue))
             {
                 int entidadId = Convert.ToInt32(ddlFiltroEntidad.SelectedValue);
                 filtrados = filtrados.Where(c => c.EntidadBancaria.EntidadBancariaId == entidadId);
             }
 
+            // Filtro por moneda
+            if (!string.IsNullOrEmpty(ddlFiltroMoneda.SelectedValue))
+            {
+                int monedaId = Convert.ToInt32(ddlFiltroMoneda.SelectedValue);
+                filtrados = filtrados.Where(c => c.Moneda.MonedaId == monedaId);
+            }
+
+            // Filtro por saldo
             if (!string.IsNullOrWhiteSpace(txtFiltroSaldo.Text))
             {
                 decimal saldo = Convert.ToDecimal(txtFiltroSaldo.Text);
@@ -96,6 +113,7 @@ namespace SoftPacWA
         protected void btnLimpiar_Click(object sender, EventArgs e)
         {
             ddlFiltroEntidad.SelectedIndex = 0;
+            ddlFiltroMoneda.SelectedIndex = 0;
             txtFiltroSaldo.Text = string.Empty;
             ListaFiltradaCuentas = ListaCompletaCuentas;
             gvCuentasPropias.PageIndex = 0;

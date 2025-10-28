@@ -39,16 +39,6 @@
             margin-bottom: 2rem;
         }
 
-        .filters-title {
-            color: var(--color-primary);
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
         .filters-row {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -179,20 +169,10 @@
                 <i class="fas fa-money-check-alt" style="font-size: 2rem; color: var(--color-secondary);"></i>
                 <h2>Propuestas de Pago</h2>
             </div>
-            <div>
-                <asp:Button ID="btnCrearPropuesta" runat="server" 
-                    Text="Nueva Propuesta" 
-                    CssClass="btn btn-primary"
-                    OnClick="btnCrearPropuesta_Click" />
-            </div>
         </div>
 
         <!-- Filtros -->
         <div class="filters-card">
-            <div class="filters-title">
-                <i class="fas fa-filter"></i>
-                Filtros de Búsqueda
-            </div>
             <div class="filters-row">
                 <div class="filter-group">
                     <label class="filter-label">País</label>
@@ -229,6 +209,14 @@
                         OnClick="btnLimpiarFiltros_Click" />
                 </div>
             </div>
+        </div>
+
+        <!-- Botón Nueva Propuesta -->
+        <div class="mb-3">
+            <asp:Button ID="btnCrearPropuesta" runat="server" 
+                Text="Nueva Propuesta" 
+                CssClass="btn btn-primary"
+                OnClick="btnCrearPropuesta_Click" />
         </div>
 
         <!-- Lista de Propuestas -->

@@ -13,7 +13,6 @@ namespace SoftPacWA
     {
         private FacturasBO facturasBO = new FacturasBO();
         private AcreedoresBO acreedoresBO = new AcreedoresBO();
-        private MonedasBO monedasBO = new MonedasBO();
         private List<PaisesDTO> paisesUsuario;
 
         private List<FacturasDTO> ListaFacturas;
@@ -60,14 +59,6 @@ namespace SoftPacWA
                 ddlFiltroProveedor.DataValueField = "AcreedorId";
                 ddlFiltroProveedor.DataBind();
                 ddlFiltroProveedor.Items.Insert(0, new ListItem("Todos los proveedores", ""));
-
-                // Cargar monedas
-                var monedas = monedasBO.ListarTodos();
-                ddlFiltroMoneda.DataSource = monedas;
-                ddlFiltroMoneda.DataTextField = "CodigoIso";
-                ddlFiltroMoneda.DataValueField = "MonedaId";
-                ddlFiltroMoneda.DataBind();
-                ddlFiltroMoneda.Items.Insert(0, new ListItem("Todas", ""));
             }
             catch (Exception ex)
             {
@@ -95,10 +86,16 @@ namespace SoftPacWA
                     ListaFacturas = ListaFacturas.Where(f => f.Acreedor?.AcreedorId == acreedorId).ToList();
                 }
 
-                if (!string.IsNullOrEmpty(ddlFiltroMoneda.SelectedValue))
+                if (!string.IsNullOrEmpty(txtFechaDesde.Text))
                 {
-                    int monedaId = int.Parse(ddlFiltroMoneda.SelectedValue);
-                    ListaFacturas = ListaFacturas.Where(f => f.Moneda?.MonedaId == monedaId).ToList();
+                    DateTime fechaDesde = DateTime.Parse(txtFechaDesde.Text);
+                    ListaFacturas = ListaFacturas.Where(f => f.FechaLimitePago >= fechaDesde).ToList();
+                }
+
+                if (!string.IsNullOrEmpty(txtFechaHasta.Text))
+                {
+                    DateTime fechaHasta = DateTime.Parse(txtFechaHasta.Text);
+                    ListaFacturas = ListaFacturas.Where(f => f.FechaLimitePago <= fechaHasta).ToList();
                 }
 
                 // Ordenar por fecha de emisión descendente
@@ -108,7 +105,7 @@ namespace SoftPacWA
                 gvFacturas.DataBind();
 
                 // Actualizar contador de registros
-                lblRegistros.Text = $"Mostrando {ListaFacturas.Count} registro(s)";
+                lblRegistros.Text = $"Mostrando {ListaFacturas.Count} factura(s)";
             }
             catch (Exception ex)
             {
@@ -126,12 +123,6 @@ namespace SoftPacWA
             if (!string.IsNullOrEmpty(ddlFiltroPais.SelectedValue))
                 url += $"pais={ddlFiltroPais.SelectedValue}&";
 
-            if (!string.IsNullOrEmpty(ddlFiltroMoneda.SelectedValue))
-                url += $"moneda={ddlFiltroMoneda.SelectedValue}&";
-
-            if (!string.IsNullOrEmpty(ddlRangoVencimiento.SelectedValue))
-                url += $"rango={ddlRangoVencimiento.SelectedValue}&";
-
             Response.Redirect(url.TrimEnd('&'));
         }
 
@@ -144,8 +135,8 @@ namespace SoftPacWA
         {
             ddlFiltroPais.SelectedIndex = 0;
             ddlFiltroProveedor.SelectedIndex = 0;
-            ddlFiltroMoneda.SelectedIndex = 0;
-            ddlRangoVencimiento.SelectedIndex = 0;
+            txtFechaDesde.Text = string.Empty;
+            txtFechaHasta.Text = string.Empty;
             CargarFacturas();
         }
 

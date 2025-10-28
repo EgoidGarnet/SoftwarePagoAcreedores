@@ -132,21 +132,13 @@
                     <asp:ListItem Value="">Todos los proveedores</asp:ListItem>
                 </asp:DropDownList>
             </div>
-            <div class="col-12 col-md-2">
-                <label class="form-label">Moneda</label>
-                <asp:DropDownList ID="ddlFiltroMoneda" runat="server" CssClass="form-select">
-                    <asp:ListItem Value="">Todas</asp:ListItem>
-                </asp:DropDownList>
+            <div class="col-6 col-md-2">
+                <label class="form-label">Vencimiento Desde</label>
+                <asp:TextBox ID="txtFechaDesde" runat="server" CssClass="form-control" TextMode="Date"></asp:TextBox>
             </div>
-            <div class="col-12 col-md-2">
-                <label class="form-label">Rango Vencimiento</label>
-                <asp:DropDownList ID="ddlRangoVencimiento" runat="server" CssClass="form-select">
-                    <asp:ListItem Value="">Todos</asp:ListItem>
-                    <asp:ListItem Value="0-30">0-30 días</asp:ListItem>
-                    <asp:ListItem Value="31-60">31-60 días</asp:ListItem>
-                    <asp:ListItem Value="61-90">61-90 días</asp:ListItem>
-                    <asp:ListItem Value="90+">+90 días</asp:ListItem>
-                </asp:DropDownList>
+            <div class="col-6 col-md-2">
+                <label class="form-label">Vencimiento Hasta</label>
+                <asp:TextBox ID="txtFechaHasta" runat="server" CssClass="form-control" TextMode="Date"></asp:TextBox>
             </div>
             <div class="col-md-2 d-flex align-items-end gap-2 flex-wrap">
                 <asp:Button ID="btnFiltrar" runat="server" Text="Filtrar" CssClass="btn btn-primary" OnClick="AplicarFiltros" />

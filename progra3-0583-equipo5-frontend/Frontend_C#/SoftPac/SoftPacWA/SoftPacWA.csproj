@@ -111,6 +111,7 @@
     <Content Include="DetalleAcreedor.aspx" />
     <Content Include="DetallePropuesta.aspx" />
     <Content Include="EditarPropuesta.aspx" />
+    <Content Include="EntidadesBancarias.aspx" />
     <Content Include="Facturas.aspx" />
     <Content Include="GestionAcreedor.aspx" />
     <Content Include="GestionDetalleAcreedor.aspx" />
@@ -216,6 +217,13 @@
     </Compile>
     <Compile Include="EditarPropuesta.aspx.designer.cs">
       <DependentUpon>EditarPropuesta.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="EntidadesBancarias.aspx.cs">
+      <DependentUpon>EntidadesBancarias.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="EntidadesBancarias.aspx.designer.cs">
+      <DependentUpon>EntidadesBancarias.aspx</DependentUpon>
     </Compile>
     <Compile Include="Facturas.aspx.cs">
       <DependentUpon>Facturas.aspx</DependentUpon>

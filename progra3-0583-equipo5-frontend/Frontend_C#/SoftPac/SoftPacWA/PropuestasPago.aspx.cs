@@ -90,7 +90,7 @@ namespace SoftPacWA
                     gvPropuestas.DataBind();
                     gvPropuestas.Visible = true;
                     pnlEmptyState.Visible = false;
-                    lblTotalRegistros.Text = $"{propuestas.Count} propuesta(s)";
+                    lblTotalRegistros.Text = $"Mostrando {propuestas.Count} propuesta(s)";
                 }
                 else
                 {
