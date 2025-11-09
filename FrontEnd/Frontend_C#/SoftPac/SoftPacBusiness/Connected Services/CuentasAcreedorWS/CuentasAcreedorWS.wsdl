@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsp="http://www.w3.org/ns/ws-policy" xmlns:wsp1_2="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://softpacws.pucp.edu.pe/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" name="CuentasAcreedorWS" targetNamespace="http://softpacws.pucp.edu.pe/" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <xsd:schema>
+      <xsd:import schemaLocation="http://localhost:8080/SoftPacWS/CuentasAcreedorWS?xsd=1" namespace="http://softpacws.pucp.edu.pe/" />
+    </xsd:schema>
+  </types>
+  <message name="obtenerCuentasPorAcreedor_v2">
+    <part name="parameters" element="tns:obtenerCuentasPorAcreedor_v2" />
+  </message>
+  <message name="obtenerCuentasPorAcreedor_v2Response">
+    <part name="parameters" element="tns:obtenerCuentasPorAcreedor_v2Response" />
+  </message>
+  <message name="eliminarCuentaAcreedorParametros">
+    <part name="parameters" element="tns:eliminarCuentaAcreedorParametros" />
+  </message>
+  <message name="eliminarCuentaAcreedorParametrosResponse">
+    <part name="parameters" element="tns:eliminarCuentaAcreedorParametrosResponse" />
+  </message>
+  <message name="listarCuentasAcreedor">
+    <part name="parameters" element="tns:listarCuentasAcreedor" />
+  </message>
+  <message name="listarCuentasAcreedorResponse">
+    <part name="parameters" element="tns:listarCuentasAcreedorResponse" />
+  </message>
+  <message name="obtenerCuentasPorAcreedor">
+    <part name="parameters" element="tns:obtenerCuentasPorAcreedor" />
+  </message>
+  <message name="obtenerCuentasPorAcreedorResponse">
+    <part name="parameters" element="tns:obtenerCuentasPorAcreedorResponse" />
+  </message>
+  <message name="obtenerCuentaAcreedor">
+    <part name="parameters" element="tns:obtenerCuentaAcreedor" />
+  </message>
+  <message name="obtenerCuentaAcreedorResponse">
+    <part name="parameters" element="tns:obtenerCuentaAcreedorResponse" />
+  </message>
+  <message name="modificarCuentasAcreedor">
+    <part name="parameters" element="tns:modificarCuentasAcreedor" />
+  </message>
+  <message name="modificarCuentasAcreedorResponse">
+    <part name="parameters" element="tns:modificarCuentasAcreedorResponse" />
+  </message>
+  <message name="insertarCuentasAcreedor">
+    <part name="parameters" element="tns:insertarCuentasAcreedor" />
+  </message>
+  <message name="insertarCuentasAcreedorResponse">
+    <part name="parameters" element="tns:insertarCuentasAcreedorResponse" />
+  </message>
+  <message name="eliminarCuentaAcreedor">
+    <part name="parameters" element="tns:eliminarCuentaAcreedor" />
+  </message>
+  <message name="eliminarCuentaAcreedorResponse">
+    <part name="parameters" element="tns:eliminarCuentaAcreedorResponse" />
+  </message>
+  <portType name="CuentasAcreedorWS">
+    <operation name="obtenerCuentasPorAcreedor_v2">
+      <input wsam:Action="http://softpacws.pucp.edu.pe/CuentasAcreedorWS/obtenerCuentasPorAcreedor_v2Request" message="tns:obtenerCuentasPorAcreedor_v2" />
+      <output wsam:Action="http://softpacws.pucp.edu.pe/CuentasAcreedorWS/obtenerCuentasPorAcreedor_v2Response" message="tns:obtenerCuentasPorAcreedor_v2Response" />
+    </operation>
+    <operation name="eliminarCuentaAcreedorParametros">
+      <input wsam:Action="http://softpacws.pucp.edu.pe/CuentasAcreedorWS/eliminarCuentaAcreedorParametrosRequest" message="tns:eliminarCuentaAcreedorParametros" />
+      <output wsam:Action="http://softpacws.pucp.edu.pe/CuentasAcreedorWS/eliminarCuentaAcreedorParametrosResponse" message="tns:eliminarCuentaAcreedorParametrosResponse" />
+    </operation>
+    <operation name="listarCuentasAcreedor">
+      <input wsam:Action="http://softpacws.pucp.edu.pe/CuentasAcreedorWS/listarCuentasAcreedorRequest" message="tns:listarCuentasAcreedor" />
+      <output wsam:Action="http://softpacws.pucp.edu.pe/CuentasAcreedorWS/listarCuentasAcreedorResponse" message="tns:listarCuentasAcreedorResponse" />
+    </operation>
+    <operation name="obtenerCuentasPorAcreedor">
+      <input wsam:Action="http://softpacws.pucp.edu.pe/CuentasAcreedorWS/obtenerCuentasPorAcreedorRequest" message="tns:obtenerCuentasPorAcreedor" />
+      <output wsam:Action="http://softpacws.pucp.edu.pe/CuentasAcreedorWS/obtenerCuentasPorAcreedorResponse" message="tns:obtenerCuentasPorAcreedorResponse" />
+    </operation>
+    <operation name="obtenerCuentaAcreedor">
+      <input wsam:Action="http://softpacws.pucp.edu.pe/CuentasAcreedorWS/obtenerCuentaAcreedorRequest" message="tns:obtenerCuentaAcreedor" />
+      <output wsam:Action="http://softpacws.pucp.edu.pe/CuentasAcreedorWS/obtenerCuentaAcreedorResponse" message="tns:obtenerCuentaAcreedorResponse" />
+    </operation>
+    <operation name="modificarCuentasAcreedor">
+      <input wsam:Action="http://softpacws.pucp.edu.pe/CuentasAcreedorWS/modificarCuentasAcreedorRequest" message="tns:modificarCuentasAcreedor" />
+      <output wsam:Action="http://softpacws.pucp.edu.pe/CuentasAcreedorWS/modificarCuentasAcreedorResponse" message="tns:modificarCuentasAcreedorResponse" />
+    </operation>
+    <operation name="insertarCuentasAcreedor">
+      <input wsam:Action="http://softpacws.pucp.edu.pe/CuentasAcreedorWS/insertarCuentasAcreedorRequest" message="tns:insertarCuentasAcreedor" />
+      <output wsam:Action="http://softpacws.pucp.edu.pe/CuentasAcreedorWS/insertarCuentasAcreedorResponse" message="tns:insertarCuentasAcreedorResponse" />
+    </operation>
+    <operation name="eliminarCuentaAcreedor">
+      <input wsam:Action="http://softpacws.pucp.edu.pe/CuentasAcreedorWS/eliminarCuentaAcreedorRequest" message="tns:eliminarCuentaAcreedor" />
+      <output wsam:Action="http://softpacws.pucp.edu.pe/CuentasAcreedorWS/eliminarCuentaAcreedorResponse" message="tns:eliminarCuentaAcreedorResponse" />
+    </operation>
+  </portType>
+  <binding name="CuentasAcreedorWSPortBinding" type="tns:CuentasAcreedorWS">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <operation name="obtenerCuentasPorAcreedor_v2">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="eliminarCuentaAcreedorParametros">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="listarCuentasAcreedor">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="obtenerCuentasPorAcreedor">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="obtenerCuentaAcreedor">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="modificarCuentasAcreedor">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="insertarCuentasAcreedor">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="eliminarCuentaAcreedor">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+  </binding>
+  <service name="CuentasAcreedorWS">
+    <port name="CuentasAcreedorWSPort" binding="tns:CuentasAcreedorWSPortBinding">
+      <soap:address location="http://localhost:8080/SoftPacWS/CuentasAcreedorWS" />
+    </port>
+  </service>
+</definitions>

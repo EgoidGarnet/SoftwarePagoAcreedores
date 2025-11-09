@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://softpacws.pucp.edu.pe/" targetNamespace="http://softpacws.pucp.edu.pe/" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="eliminarCuentaPropia" type="tns:eliminarCuentaPropia" />
+  <xs:element name="eliminarCuentaPropiaParametros" type="tns:eliminarCuentaPropiaParametros" />
+  <xs:element name="eliminarCuentaPropiaParametrosResponse" type="tns:eliminarCuentaPropiaParametrosResponse" />
+  <xs:element name="eliminarCuentaPropiaResponse" type="tns:eliminarCuentaPropiaResponse" />
+  <xs:element name="insertarCuentaPropia" type="tns:insertarCuentaPropia" />
+  <xs:element name="insertarCuentaPropiaParametros" type="tns:insertarCuentaPropiaParametros" />
+  <xs:element name="insertarCuentaPropiaParametrosResponse" type="tns:insertarCuentaPropiaParametrosResponse" />
+  <xs:element name="insertarCuentaPropiaResponse" type="tns:insertarCuentaPropiaResponse" />
+  <xs:element name="listarCuentasActivas" type="tns:listarCuentasActivas" />
+  <xs:element name="listarCuentasActivasResponse" type="tns:listarCuentasActivasResponse" />
+  <xs:element name="listarCuentasPropias" type="tns:listarCuentasPropias" />
+  <xs:element name="listarCuentasPropiasResponse" type="tns:listarCuentasPropiasResponse" />
+  <xs:element name="listarPorEntidadBancaria" type="tns:listarPorEntidadBancaria" />
+  <xs:element name="listarPorEntidadBancariaResponse" type="tns:listarPorEntidadBancariaResponse" />
+  <xs:element name="modificarCuentaPropia" type="tns:modificarCuentaPropia" />
+  <xs:element name="modificarCuentaPropiaParametros" type="tns:modificarCuentaPropiaParametros" />
+  <xs:element name="modificarCuentaPropiaParametrosResponse" type="tns:modificarCuentaPropiaParametrosResponse" />
+  <xs:element name="modificarCuentaPropiaResponse" type="tns:modificarCuentaPropiaResponse" />
+  <xs:element name="obtenerCuentaPropiaPorId" type="tns:obtenerCuentaPropiaPorId" />
+  <xs:element name="obtenerCuentaPropiaPorIdResponse" type="tns:obtenerCuentaPropiaPorIdResponse" />
+  <xs:element name="tieneSaldoSuficiente" type="tns:tieneSaldoSuficiente" />
+  <xs:element name="tieneSaldoSuficienteResponse" type="tns:tieneSaldoSuficienteResponse" />
+  <xs:complexType name="obtenerCuentaPropiaPorId">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="cuentas_propias_id" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="obtenerCuentaPropiaPorIdResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:cuentasPropiasDTO" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="cuentasPropiasDTO">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:cuentasBancariasDTO">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="saldo_disponible" type="xs:decimal" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="cuentasBancariasDTO" abstract="true">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:eliminableDTOBase">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="activa" type="xs:boolean" />
+          <xs:element minOccurs="0" name="cci" type="xs:string" />
+          <xs:element minOccurs="0" name="cuenta_bancaria_id" type="xs:int" />
+          <xs:element minOccurs="0" name="entidad_bancaria" type="tns:entidadesBancariasDTO" />
+          <xs:element minOccurs="0" name="moneda" type="tns:monedasDTO" />
+          <xs:element minOccurs="0" name="numero_cuenta" type="xs:string" />
+          <xs:element minOccurs="0" name="tipo_cuenta" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="eliminableDTOBase" abstract="true">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="fecha_eliminacion" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="usuario_eliminacion" type="tns:usuariosDTO" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="entidadesBancariasDTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codigo_swift" type="xs:string" />
+      <xs:element minOccurs="0" name="entidad_bancaria_id" type="xs:int" />
+      <xs:element minOccurs="0" name="formato_aceptado" type="xs:string" />
+      <xs:element minOccurs="0" name="nombre" type="xs:string" />
+      <xs:element minOccurs="0" name="pais" type="tns:paisesDTO" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="paisesDTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codigo_iso" type="xs:string" />
+      <xs:element minOccurs="0" name="codigo_telefonico" type="xs:string" />
+      <xs:element minOccurs="0" name="nombre" type="xs:string" />
+      <xs:element minOccurs="0" name="pais_id" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="monedasDTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codigo_iso" type="xs:string" />
+      <xs:element minOccurs="0" name="moneda_id" type="xs:int" />
+      <xs:element minOccurs="0" name="nombre" type="xs:string" />
+      <xs:element minOccurs="0" name="simbolo" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="tipos_cambio" nillable="true" type="tns:tiposDeCambioDTO" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="tiposDeCambioDTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="fecha" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="moneda_destino" type="tns:monedasDTO" />
+      <xs:element minOccurs="0" name="moneda_origen" type="tns:monedasDTO" />
+      <xs:element minOccurs="0" name="tasa_de_cambio" type="xs:decimal" />
+      <xs:element minOccurs="0" name="tipo_cambio_id" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="usuariosDTO">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:eliminableDTOBase">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="activo" type="xs:boolean" />
+          <xs:element minOccurs="0" name="apellidos" type="xs:string" />
+          <xs:element minOccurs="0" name="correo_electronico" type="xs:string" />
+          <xs:element minOccurs="0" name="nombre" type="xs:string" />
+          <xs:element minOccurs="0" name="nombre_de_usuario" type="xs:string" />
+          <xs:element minOccurs="0" name="password_hash" type="xs:string" />
+          <xs:element minOccurs="0" name="superusuario" type="xs:boolean" />
+          <xs:element minOccurs="0" name="usuario_id" type="xs:int" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="usuario_pais" nillable="true" type="tns:usuarioPaisAccesoDTO" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="usuarioPaisAccesoDTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="acceso" type="xs:boolean" />
+      <xs:element minOccurs="0" name="pais" type="tns:paisesDTO" />
+      <xs:element minOccurs="0" name="usuario" type="tns:usuariosDTO" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="eliminarCuentaPropia">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="cuenta" type="tns:cuentasPropiasDTO" />
+      <xs:element minOccurs="0" name="usuarioActual" type="tns:usuariosDTO" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="eliminarCuentaPropiaResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="listarCuentasPropias">
+    <xs:sequence />
+  </xs:complexType>
+  <xs:complexType name="listarCuentasPropiasResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="return" type="tns:cuentasPropiasDTO" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="modificarCuentaPropiaParametros">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="cuentas_propias_id" type="xs:int" />
+      <xs:element minOccurs="0" name="saldo_disponible" type="xs:decimal" />
+      <xs:element minOccurs="0" name="tipo_de_cuenta" type="xs:string" />
+      <xs:element minOccurs="0" name="numero_cuenta" type="xs:string" />
+      <xs:element minOccurs="0" name="cci" type="xs:string" />
+      <xs:element minOccurs="0" name="activa" type="xs:string" />
+      <xs:element minOccurs="0" name="entidad_bancaria_id" type="xs:int" />
+      <xs:element minOccurs="0" name="moneda_id" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="modificarCuentaPropiaParametrosResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="modificarCuentaPropia">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="cuenta_propia" type="tns:cuentasPropiasDTO" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="modificarCuentaPropiaResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="eliminarCuentaPropiaParametros">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="cuenta_bancaria_id" type="xs:int" />
+      <xs:element minOccurs="0" name="usuarioActual" type="tns:usuariosDTO" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="eliminarCuentaPropiaParametrosResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="listarPorEntidadBancaria">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="listarPorEntidadBancariaResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="return" type="tns:cuentasPropiasDTO" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="listarCuentasActivas">
+    <xs:sequence />
+  </xs:complexType>
+  <xs:complexType name="listarCuentasActivasResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="return" type="tns:cuentasPropiasDTO" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="tieneSaldoSuficiente">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="cuentas_propias_id" type="xs:int" />
+      <xs:element minOccurs="0" name="montoRequerido" type="xs:decimal" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="tieneSaldoSuficienteResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="insertarCuentaPropiaParametros">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="saldo_disponible" type="xs:decimal" />
+      <xs:element minOccurs="0" name="tipo_de_cuenta" type="xs:string" />
+      <xs:element minOccurs="0" name="numero_cuenta" type="xs:string" />
+      <xs:element minOccurs="0" name="cci" type="xs:string" />
+      <xs:element minOccurs="0" name="activa" type="xs:string" />
+      <xs:element minOccurs="0" name="entidad_bancaria_id" type="xs:int" />
+      <xs:element minOccurs="0" name="moneda_id" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="insertarCuentaPropiaParametrosResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="insertarCuentaPropia">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="cuenta_propia" type="tns:cuentasPropiasDTO" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="insertarCuentaPropiaResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

@@ -1,0 +1,37 @@
+-------------------------------------------------------------------------------
+Test set: pe.edu.pucp.softpac.dao.UsuariosDAOTest
+-------------------------------------------------------------------------------
+Tests run: 11, Failures: 2, Errors: 1, Skipped: 0, Time elapsed: 75.81 s <<< FAILURE! -- in pe.edu.pucp.softpac.dao.UsuariosDAOTest
+pe.edu.pucp.softpac.dao.UsuariosDAOTest.testObtenerPorId -- Time elapsed: 4.105 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: not <null>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:152)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertNotNull.failNull(AssertNotNull.java:49)
+	at org.junit.jupiter.api.AssertNotNull.assertNotNull(AssertNotNull.java:35)
+	at org.junit.jupiter.api.AssertNotNull.assertNotNull(AssertNotNull.java:30)
+	at org.junit.jupiter.api.Assertions.assertNotNull(Assertions.java:304)
+	at pe.edu.pucp.softpac.dao.UsuariosDAOTest.testObtenerPorId(UsuariosDAOTest.java:106)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+
+pe.edu.pucp.softpac.dao.UsuariosDAOTest.testModificar -- Time elapsed: 5.272 s <<< ERROR!
+java.lang.NullPointerException: Cannot invoke "pe.edu.pucp.softpac.model.UsuariosDTO.getCorreo_electronico()" because "usuarioModificado" is null
+	at pe.edu.pucp.softpac.dao.UsuariosDAOTest.testModificar(UsuariosDAOTest.java:123)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+
+pe.edu.pucp.softpac.dao.UsuariosDAOTest.testListarTodos -- Time elapsed: 5.160 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <true> but was: <false>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertTrue.failNotTrue(AssertTrue.java:63)
+	at org.junit.jupiter.api.AssertTrue.assertTrue(AssertTrue.java:36)
+	at org.junit.jupiter.api.AssertTrue.assertTrue(AssertTrue.java:31)
+	at org.junit.jupiter.api.Assertions.assertTrue(Assertions.java:183)
+	at pe.edu.pucp.softpac.dao.UsuariosDAOTest.testListarTodos(UsuariosDAOTest.java:134)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+

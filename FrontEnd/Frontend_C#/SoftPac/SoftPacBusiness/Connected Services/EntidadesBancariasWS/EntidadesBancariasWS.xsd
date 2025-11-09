@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://softpacws.pucp.edu.pe/" targetNamespace="http://softpacws.pucp.edu.pe/" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="listarEntidadesBancarias" type="tns:listarEntidadesBancarias" />
+  <xs:element name="listarEntidadesBancariasResponse" type="tns:listarEntidadesBancariasResponse" />
+  <xs:element name="obtenerEntidadBancariaPorId" type="tns:obtenerEntidadBancariaPorId" />
+  <xs:element name="obtenerEntidadBancariaPorIdResponse" type="tns:obtenerEntidadBancariaPorIdResponse" />
+  <xs:complexType name="obtenerEntidadBancariaPorId">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="entidades_bancarias_id" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="obtenerEntidadBancariaPorIdResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:entidadesBancariasDTO" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="entidadesBancariasDTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codigo_swift" type="xs:string" />
+      <xs:element minOccurs="0" name="entidad_bancaria_id" type="xs:int" />
+      <xs:element minOccurs="0" name="formato_aceptado" type="xs:string" />
+      <xs:element minOccurs="0" name="nombre" type="xs:string" />
+      <xs:element minOccurs="0" name="pais" type="tns:paisesDTO" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="paisesDTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codigo_iso" type="xs:string" />
+      <xs:element minOccurs="0" name="codigo_telefonico" type="xs:string" />
+      <xs:element minOccurs="0" name="nombre" type="xs:string" />
+      <xs:element minOccurs="0" name="pais_id" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="listarEntidadesBancarias">
+    <xs:sequence />
+  </xs:complexType>
+  <xs:complexType name="listarEntidadesBancariasResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="return" type="tns:entidadesBancariasDTO" />
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

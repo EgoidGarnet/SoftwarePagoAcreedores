@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://softpacws.pucp.edu.pe/" targetNamespace="http://softpacws.pucp.edu.pe/" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="eliminarAcreedor" type="tns:eliminarAcreedor" />
+  <xs:element name="eliminarAcreedorResponse" type="tns:eliminarAcreedorResponse" />
+  <xs:element name="insertarAcreedores" type="tns:insertarAcreedores" />
+  <xs:element name="insertarAcreedoresResponse" type="tns:insertarAcreedoresResponse" />
+  <xs:element name="listarAcreedores" type="tns:listarAcreedores" />
+  <xs:element name="listarAcreedoresResponse" type="tns:listarAcreedoresResponse" />
+  <xs:element name="modificarAcreedores" type="tns:modificarAcreedores" />
+  <xs:element name="modificarAcreedoresResponse" type="tns:modificarAcreedoresResponse" />
+  <xs:element name="obtenerAcreedor" type="tns:obtenerAcreedor" />
+  <xs:element name="obtenerAcreedorResponse" type="tns:obtenerAcreedorResponse" />
+  <xs:complexType name="obtenerAcreedor">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="id_acreedor" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="obtenerAcreedorResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:acreedoresDTO" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="acreedoresDTO">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:eliminableDTOBase">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="acreedor_id" type="xs:int" />
+          <xs:element minOccurs="0" name="activo" type="xs:boolean" />
+          <xs:element minOccurs="0" name="condicion" type="xs:string" />
+          <xs:element minOccurs="0" name="direccion_fiscal" type="xs:string" />
+          <xs:element minOccurs="0" name="pais" type="tns:paisesDTO" />
+          <xs:element minOccurs="0" name="plazo_de_pago" type="xs:int" />
+          <xs:element minOccurs="0" name="razon_social" type="xs:string" />
+          <xs:element minOccurs="0" name="ruc" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="eliminableDTOBase" abstract="true">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="fecha_eliminacion" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="usuario_eliminacion" type="tns:usuariosDTO" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="paisesDTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codigo_iso" type="xs:string" />
+      <xs:element minOccurs="0" name="codigo_telefonico" type="xs:string" />
+      <xs:element minOccurs="0" name="nombre" type="xs:string" />
+      <xs:element minOccurs="0" name="pais_id" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="usuariosDTO">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:eliminableDTOBase">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="activo" type="xs:boolean" />
+          <xs:element minOccurs="0" name="apellidos" type="xs:string" />
+          <xs:element minOccurs="0" name="correo_electronico" type="xs:string" />
+          <xs:element minOccurs="0" name="nombre" type="xs:string" />
+          <xs:element minOccurs="0" name="nombre_de_usuario" type="xs:string" />
+          <xs:element minOccurs="0" name="password_hash" type="xs:string" />
+          <xs:element minOccurs="0" name="superusuario" type="xs:boolean" />
+          <xs:element minOccurs="0" name="usuario_id" type="xs:int" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="usuario_pais" nillable="true" type="tns:usuarioPaisAccesoDTO" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="usuarioPaisAccesoDTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="acceso" type="xs:boolean" />
+      <xs:element minOccurs="0" name="pais" type="tns:paisesDTO" />
+      <xs:element minOccurs="0" name="usuario" type="tns:usuariosDTO" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="insertarAcreedores">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="razon_social" type="xs:string" />
+      <xs:element minOccurs="0" name="ruc" type="xs:string" />
+      <xs:element minOccurs="0" name="direccion_fiscal" type="xs:string" />
+      <xs:element minOccurs="0" name="condicion" type="xs:string" />
+      <xs:element minOccurs="0" name="plazo_de_pago" type="xs:int" />
+      <xs:element minOccurs="0" name="activo" type="xs:string" />
+      <xs:element minOccurs="0" name="id_pais" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="insertarAcreedoresResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="modificarAcreedores">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="id_acreedor" type="xs:int" />
+      <xs:element minOccurs="0" name="razon_social" type="xs:string" />
+      <xs:element minOccurs="0" name="ruc" type="xs:string" />
+      <xs:element minOccurs="0" name="direccion_fiscal" type="xs:string" />
+      <xs:element minOccurs="0" name="condicion" type="xs:string" />
+      <xs:element minOccurs="0" name="plazo_de_pago" type="xs:int" />
+      <xs:element minOccurs="0" name="activo" type="xs:string" />
+      <xs:element minOccurs="0" name="id_pais" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="modificarAcreedoresResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="listarAcreedores">
+    <xs:sequence />
+  </xs:complexType>
+  <xs:complexType name="listarAcreedoresResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="return" type="tns:acreedoresDTO" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="eliminarAcreedor">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="acreedor" type="tns:acreedoresDTO" />
+      <xs:element minOccurs="0" name="usuario" type="tns:usuariosDTO" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="eliminarAcreedorResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

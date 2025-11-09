@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsp="http://www.w3.org/ns/ws-policy" xmlns:wsp1_2="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://softpacws.pucp.edu.pe/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" name="AcreedoresWS" targetNamespace="http://softpacws.pucp.edu.pe/" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <xsd:schema>
+      <xsd:import schemaLocation="http://localhost:8080/SoftPacWS/AcreedoresWS?xsd=1" namespace="http://softpacws.pucp.edu.pe/" />
+    </xsd:schema>
+  </types>
+  <message name="listarAcreedores">
+    <part name="parameters" element="tns:listarAcreedores" />
+  </message>
+  <message name="listarAcreedoresResponse">
+    <part name="parameters" element="tns:listarAcreedoresResponse" />
+  </message>
+  <message name="insertarAcreedores">
+    <part name="parameters" element="tns:insertarAcreedores" />
+  </message>
+  <message name="insertarAcreedoresResponse">
+    <part name="parameters" element="tns:insertarAcreedoresResponse" />
+  </message>
+  <message name="modificarAcreedores">
+    <part name="parameters" element="tns:modificarAcreedores" />
+  </message>
+  <message name="modificarAcreedoresResponse">
+    <part name="parameters" element="tns:modificarAcreedoresResponse" />
+  </message>
+  <message name="eliminarAcreedor">
+    <part name="parameters" element="tns:eliminarAcreedor" />
+  </message>
+  <message name="eliminarAcreedorResponse">
+    <part name="parameters" element="tns:eliminarAcreedorResponse" />
+  </message>
+  <message name="obtenerAcreedor">
+    <part name="parameters" element="tns:obtenerAcreedor" />
+  </message>
+  <message name="obtenerAcreedorResponse">
+    <part name="parameters" element="tns:obtenerAcreedorResponse" />
+  </message>
+  <portType name="AcreedoresWS">
+    <operation name="listarAcreedores">
+      <input wsam:Action="http://softpacws.pucp.edu.pe/AcreedoresWS/listarAcreedoresRequest" message="tns:listarAcreedores" />
+      <output wsam:Action="http://softpacws.pucp.edu.pe/AcreedoresWS/listarAcreedoresResponse" message="tns:listarAcreedoresResponse" />
+    </operation>
+    <operation name="insertarAcreedores">
+      <input wsam:Action="http://softpacws.pucp.edu.pe/AcreedoresWS/insertarAcreedoresRequest" message="tns:insertarAcreedores" />
+      <output wsam:Action="http://softpacws.pucp.edu.pe/AcreedoresWS/insertarAcreedoresResponse" message="tns:insertarAcreedoresResponse" />
+    </operation>
+    <operation name="modificarAcreedores">
+      <input wsam:Action="http://softpacws.pucp.edu.pe/AcreedoresWS/modificarAcreedoresRequest" message="tns:modificarAcreedores" />
+      <output wsam:Action="http://softpacws.pucp.edu.pe/AcreedoresWS/modificarAcreedoresResponse" message="tns:modificarAcreedoresResponse" />
+    </operation>
+    <operation name="eliminarAcreedor">
+      <input wsam:Action="http://softpacws.pucp.edu.pe/AcreedoresWS/eliminarAcreedorRequest" message="tns:eliminarAcreedor" />
+      <output wsam:Action="http://softpacws.pucp.edu.pe/AcreedoresWS/eliminarAcreedorResponse" message="tns:eliminarAcreedorResponse" />
+    </operation>
+    <operation name="obtenerAcreedor">
+      <input wsam:Action="http://softpacws.pucp.edu.pe/AcreedoresWS/obtenerAcreedorRequest" message="tns:obtenerAcreedor" />
+      <output wsam:Action="http://softpacws.pucp.edu.pe/AcreedoresWS/obtenerAcreedorResponse" message="tns:obtenerAcreedorResponse" />
+    </operation>
+  </portType>
+  <binding name="AcreedoresWSPortBinding" type="tns:AcreedoresWS">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <operation name="listarAcreedores">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="insertarAcreedores">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="modificarAcreedores">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="eliminarAcreedor">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="obtenerAcreedor">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+  </binding>
+  <service name="AcreedoresWS">
+    <port name="AcreedoresWSPort" binding="tns:AcreedoresWSPortBinding">
+      <soap:address location="http://localhost:8080/SoftPacWS/AcreedoresWS" />
+    </port>
+  </service>
+</definitions>

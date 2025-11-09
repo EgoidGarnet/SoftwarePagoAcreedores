@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://softpacws.pucp.edu.pe/" targetNamespace="http://softpacws.pucp.edu.pe/" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="listarMonedas" type="tns:listarMonedas" />
+  <xs:element name="listarMonedasResponse" type="tns:listarMonedasResponse" />
+  <xs:element name="obtenerMonedaPorID" type="tns:obtenerMonedaPorID" />
+  <xs:element name="obtenerMonedaPorIDResponse" type="tns:obtenerMonedaPorIDResponse" />
+  <xs:complexType name="obtenerMonedaPorID">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="moneda_id" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="obtenerMonedaPorIDResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:monedasDTO" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="monedasDTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codigo_iso" type="xs:string" />
+      <xs:element minOccurs="0" name="moneda_id" type="xs:int" />
+      <xs:element minOccurs="0" name="nombre" type="xs:string" />
+      <xs:element minOccurs="0" name="simbolo" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="tipos_cambio" nillable="true" type="tns:tiposDeCambioDTO" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="tiposDeCambioDTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="fecha" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="moneda_destino" type="tns:monedasDTO" />
+      <xs:element minOccurs="0" name="moneda_origen" type="tns:monedasDTO" />
+      <xs:element minOccurs="0" name="tasa_de_cambio" type="xs:decimal" />
+      <xs:element minOccurs="0" name="tipo_cambio_id" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="listarMonedas">
+    <xs:sequence />
+  </xs:complexType>
+  <xs:complexType name="listarMonedasResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="return" type="tns:monedasDTO" />
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
