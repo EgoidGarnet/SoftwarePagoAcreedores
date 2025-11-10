@@ -23,6 +23,24 @@ namespace SoftPacWA
             }
         }
 
+        public static bool IsAlphanumeric(string text)
+        {
+            if (string.IsNullOrEmpty(text))
+            {
+                return false;
+            }
+
+            foreach (char c in text)
+            {
+                if (!Char.IsLetterOrDigit(c))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+
         #region Carga de Datos
         private void CargarUsuarios()
         {
