@@ -106,17 +106,16 @@ namespace SoftPacWA
             var pagosVM = propuesta.detalles_propuesta
                 .Select(d => new PagoViewModel
                 {
-                    DetalleId = d.detalle_propuesta_idSpecified? d.detalle_propuesta_id : 0,
+                    DetalleId = d.detalle_propuesta_idSpecified ? d.detalle_propuesta_id : 0,
                     NumeroFactura = d.factura?.numero_factura ?? "-",
                     RazonSocialAcreedor = d.factura?.acreedor?.razon_social ?? "-",
                     CodigoMoneda = d.factura?.moneda?.codigo_iso ?? "-",
                     Monto = d.monto_pago,
                     CuentaOrigen = d.cuenta_propia?.numero_cuenta ?? "-",
                     CuentaDestino = d.cuenta_acreedor?.numero_cuenta ?? "-",
-                    FormaPago = d.forma_pago.ToString() ?? "T"
+                    FormaPago = d.forma_pago == 0 ? "T" : ((char)d.forma_pago).ToString()
                 })
                 .ToList();
-
             gvPagos.DataSource = pagosVM;
             gvPagos.DataBind();
 
@@ -171,13 +170,15 @@ namespace SoftPacWA
                
 
                 propuestaCompleta.usuario_creacion = user;
+                propuestaCompleta.usuario_modificacion = user;
                 propuestaCompleta.fecha_hora_creacion = DateTime.Now;
+                propuestaCompleta.fecha_hora_modificacion = propuestaCompleta.fecha_hora_creacion;
                 propuestaCompleta.estado = "Pendiente";
 
                 // Guardar en base de datos
-                bool resultado = propuestasBO.Insertar(propuestaCompleta)==1;
-
-                if (resultado && propuestaCompleta.propuesta_idSpecified)
+                int resultado = propuestasBO.Insertar(propuestaCompleta);
+                propuestaCompleta.propuesta_id = resultado;
+                if (resultado>0)
                 {
                     // Guardar el ID para mostrarlo en el modal
                     lblPropuestaId.Text = propuestaCompleta.propuesta_id.ToString();

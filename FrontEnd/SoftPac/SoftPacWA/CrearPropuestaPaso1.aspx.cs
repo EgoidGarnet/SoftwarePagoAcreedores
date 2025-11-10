@@ -59,8 +59,8 @@ namespace SoftPacWA
                 }
 
                 ddlPais.DataSource = paisesAcceso;
-                ddlPais.DataTextField = "Nombre";
-                ddlPais.DataValueField = "PaisId";
+                ddlPais.DataTextField = "nombre";
+                ddlPais.DataValueField = "pais_id";
                 ddlPais.DataBind();
                 ddlPais.Items.Insert(0, new ListItem("-- Seleccione un país --", ""));
             }
@@ -116,8 +116,8 @@ namespace SoftPacWA
                     .ToList();
 
                 ddlEntidadBancaria.DataSource = bancos;
-                ddlEntidadBancaria.DataTextField = "Nombre";
-                ddlEntidadBancaria.DataValueField = "EntidadBancariaId";
+                ddlEntidadBancaria.DataTextField = "nombre";
+                ddlEntidadBancaria.DataValueField = "entidad_bancaria_id";
                 ddlEntidadBancaria.DataBind();
                 ddlEntidadBancaria.Items.Insert(0, new ListItem("-- Seleccione un banco --", ""));
 

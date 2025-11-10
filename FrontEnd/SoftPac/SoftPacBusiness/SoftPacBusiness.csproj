@@ -247,9 +247,6 @@
     <None Include="Connected Services\CuentasAcreedorWS\SoftPacBusiness.CuentasAcreedorWS.obtenerCuentasPorAcreedorResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Connected Services\CuentasAcreedorWS\SoftPacBusiness.CuentasAcreedorWS.obtenerCuentasPorAcreedor_v2Response.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
     <None Include="Connected Services\CuentasPropiasWS\CuentasPropiasWS.wsdl" />
     <None Include="Connected Services\CuentasPropiasWS\CuentasPropiasWS.xsd">
       <SubType>Designer</SubType>
@@ -523,18 +520,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Connected Services\CuentasAcreedorWS\configuration91.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Connected Services\CuentasAcreedorWS\configuration.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Connected Services\CuentasAcreedorWS\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Connected Services\FacturasWS\configuration91.svcinfo" />
   </ItemGroup>
   <ItemGroup>
@@ -554,6 +539,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Connected Services\PropuestaPagoWS\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\CuentasAcreedorWS\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\CuentasAcreedorWS\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\CuentasAcreedorWS\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>

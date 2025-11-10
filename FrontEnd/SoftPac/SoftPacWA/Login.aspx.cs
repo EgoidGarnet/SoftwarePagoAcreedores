@@ -36,7 +36,7 @@ namespace SoftPacWA
             {
                 usuariosDTO usuario = usuariosBO.AutenticarUsuario(nombreUsuario, password);
 
-                if (usuario != null)
+                if (usuario != null && usuario.usuario_id!=0)
                 {
                     Session["UsuarioLogueado"] = usuario;
 

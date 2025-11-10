@@ -357,7 +357,7 @@
                 <ItemTemplate>
                     <div class="moneda-requirement">
                         <div class="moneda-name">
-                            <%# Eval("Moneda.Nombre") %> (<%# Eval("Moneda.CodigoIso") %>)
+                            <%# Eval("moneda.nombre") %> (<%# Eval("moneda.codigo_iso") %>)
                         </div>
                         <div class="moneda-details">
                             <div class="detail-item">
@@ -368,13 +368,13 @@
                             </div>
                             <div class="detail-item">
                                 <span class="detail-label">Seleccionado</span>
-                                <span class="detail-value danger" id='status_<%# Eval("Moneda.CodigoIso") %>'>
-                                    <span id='lblSaldo_<%# Eval("Moneda.CodigoIso") %>'>0.00</span>
+                                <span class="detail-value danger" id='status_<%# Eval("moneda.codigo_iso") %>'>
+                                    <span id='lblSaldo_<%# Eval("moneda.codigo_iso") %>'>0.00</span>
                                 </span>
                             </div>
                         </div>
                     </div>
-                    <input type="hidden" id='hdnRequerido_<%# Eval("Moneda.CodigoIso") %>' value='<%# Eval("MontoRequerido") %>' />
+                    <input type="hidden" id='hdnRequerido_<%# Eval("moneda.codigo_iso") %>' value='<%# Eval("MontoRequerido") %>' />
                 </ItemTemplate>
             </asp:Repeater>
         </div>
@@ -386,7 +386,7 @@
                     <div class="moneda-header">
                         <div class="moneda-header-title">
                             <i class="fas fa-coins"></i>
-                            <span>Cuentas en <%# Eval("Moneda.Nombre") %> (<%# Eval("Moneda.CodigoIso") %>)</span>
+                            <span>Cuentas en <%# Eval("moneda.nombre") %> (<%# Eval("moneda.codigo_iso") %>)</span>
                         </div>
                         <div class="moneda-header-info">
                             <%# Eval("CantidadCuentas") %> cuenta(s) disponible(s)
@@ -395,30 +395,30 @@
 
                     <asp:Repeater ID="rptCuentas" runat="server">
                         <ItemTemplate>
-                            <div class="cuenta-card" onclick="toggleCuenta(event, 'chk_<%# Eval("CuentaBancariaId") %>')">
+                            <div class="cuenta-card" onclick="toggleCuenta(event, 'chk_<%# Eval("cuenta_bancaria_id") %>')">
                                 <div class="cuenta-header">
                                     <div class="cuenta-checkbox">
                                         <input type="checkbox" 
-                                            id='chk_<%# Eval("CuentaBancariaId") %>'
+                                            id='chk_<%# Eval("cuenta_bancaria_id") %>'
                                             name="cuentaSeleccionada"
-                                            value='<%# Eval("CuentaBancariaId") %>'
-                                            data-moneda='<%# Eval("Moneda.CodigoIso") %>'
-                                            data-saldo='<%# Eval("SaldoDisponible") %>'
-                                            onchange="actualizarSaldoSeleccionado('<%# Eval("Moneda.CodigoIso") %>'); event.stopPropagation();" />
+                                            value='<%# Eval("cuenta_bancaria_id") %>'
+                                            data-moneda='<%# Eval("moneda.codigo_iso") %>'
+                                            data-saldo='<%# Eval("saldo_disponible") %>'
+                                            onchange="actualizarSaldoSeleccionado('<%# Eval("moneda.codigo_iso") %>'); event.stopPropagation();" />
                                     </div>
                                     <div class="cuenta-info">
                                         <div class="cuenta-numero">
                                             <i class="fas fa-credit-card me-2"></i>
-                                            <%# Eval("NumeroCuenta") %>
+                                            <%# Eval("numero_cuenta") %>
                                         </div>
                                         <div class="cuenta-tipo">
-                                            <%# Eval("TipoCuenta") %> - <%# Eval("EntidadBancaria.Nombre") %>
+                                            <%# Eval("tipo_cuenta") %> - <%# Eval("entidad_bancaria.nombre") %>
                                         </div>
                                     </div>
                                     <div class="cuenta-saldo">
                                         <div class="saldo-label">Saldo Disponible</div>
                                         <div class="saldo-amount">
-                                            <%# string.Format("{0} {1:N2}", Eval("Moneda.CodigoIso"), Eval("SaldoDisponible")) %>
+                                            <%# string.Format("{0} {1:N2}", Eval("moneda.codigo_iso"), Eval("saldo_disponible")) %>
                                         </div>
                                     </div>
                                 </div>

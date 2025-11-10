@@ -272,35 +272,35 @@
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 
-                                <asp:BoundField DataField="NumeroFactura" HeaderText="N° Factura" />
+                                <asp:BoundField DataField="numero_factura" HeaderText="N° Factura" />
                                 
-                                <asp:TemplateField HeaderText="Proveedor">
+                                <asp:TemplateField HeaderText="Acreedor">
                                     <ItemTemplate>
-                                        <%# Eval("Acreedor.RazonSocial") %>
+                                        <%# Eval("acreedor.razon_social") %>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 
                                 <asp:TemplateField HeaderText="Fecha Emisión">
                                     <ItemTemplate>
-                                        <%# Eval("FechaEmision") != null ? Convert.ToDateTime(Eval("FechaEmision")).ToString("dd/MM/yyyy") : "-" %>
+                                        <%# Eval("fecha_emision") != null ? Convert.ToDateTime(Eval("fecha_emision")).ToString("dd/MM/yyyy") : "-" %>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 
                                 <asp:TemplateField HeaderText="Fecha Vencimiento">
                                     <ItemTemplate>
-                                        <%# Eval("FechaLimitePago") != null ? Convert.ToDateTime(Eval("FechaLimitePago")).ToString("dd/MM/yyyy") : "-" %>
+                                        <%# Eval("fecha_limite_pago") != null ? Convert.ToDateTime(Eval("fecha_limite_pago")).ToString("dd/MM/yyyy") : "-" %>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 
                                 <asp:TemplateField HeaderText="Moneda">
                                     <ItemTemplate>
-                                        <%# Eval("Moneda.CodigoIso") %>
+                                        <%# Eval("moneda.codigo_iso") %>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 
                                 <asp:TemplateField HeaderText="Monto Total">
                                     <ItemTemplate>
-                                        <%# String.Format("{0:N2}", Eval("MontoTotal")) %>
+                                        <%# String.Format("{0:N2}", Eval("monto_total")) %>
                                     </ItemTemplate>
                                     <ItemStyle HorizontalAlign="Right" />
                                 </asp:TemplateField>
