@@ -43,14 +43,14 @@ public class UsuariosBOTest {
     /**
      * Test of insertarUsuario method, of class UsuariosBO.
      */
-    @Test
-    public void testInsertarUsuario() {
+//    @Test
+//    public void testInsertarUsuario() {
 //        System.out.println("insertarUsuario");
-//        UsuariosDTO nuevoUsuario = new UsuariosDTO(1,"franco@hotmail.com",
-//        "FrancoG", "Franco", "Gallardo Zárate",true,"FrancoG",true);
+//        UsuariosDTO nuevoUsuario = new UsuariosDTO(3,"diego@hotmail.com",
+//        "DiegoA", "Diego", "Ayala de la Cruz",true,"DiegoA",true);
 //        UsuariosBO instance = new UsuariosBO();
 //        instance.insertarUsuario(nuevoUsuario);
-    }
+//    }
 
     
     

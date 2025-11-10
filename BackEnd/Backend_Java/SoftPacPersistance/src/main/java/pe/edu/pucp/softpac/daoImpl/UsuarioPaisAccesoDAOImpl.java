@@ -9,20 +9,22 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 public class UsuarioPaisAccesoDAOImpl extends DAOImplBase implements UsuarioPaisAccesoDAO {
+
     private UsuarioPaisAccesoDTO usuarioPaisAcceso;
 
     public UsuarioPaisAccesoDAOImpl() {
         super("PA_USUARIO_PAIS_ACCESO");
-        this.usuarioPaisAcceso=null;
-        this.retornarLlavePrimaria=true;
+        this.usuarioPaisAcceso = null;
+        this.retornarLlavePrimaria = true;
         this.esDetalle = true;
     }
+
     public UsuarioPaisAccesoDAOImpl(Connection conexion) {
         super("PA_USUARIO_PAIS_ACCESO");
-        this.usuarioPaisAcceso=null;
-        this.retornarLlavePrimaria=true;
+        this.usuarioPaisAcceso = null;
+        this.retornarLlavePrimaria = true;
         this.esDetalle = true;
-        this.conexion=conexion;
+        this.conexion = conexion;
     }
 
     @Override
@@ -34,26 +36,27 @@ public class UsuarioPaisAccesoDAOImpl extends DAOImplBase implements UsuarioPais
 
     @Override
     protected void incluirValorDeParametrosParaInsercion() throws SQLException {
-        this.statement.setInt(1,this.usuarioPaisAcceso.getUsuario().getUsuario_id());
-        this.statement.setString(2,this.usuarioPaisAcceso.getAcceso()?"S":"N");
-        this.statement.setInt(3,this.usuarioPaisAcceso.getPais().getPais_id());
+        this.statement.setInt(1, this.usuarioPaisAcceso.getUsuario().getUsuario_id());
+        this.statement.setString(2, this.usuarioPaisAcceso.getAcceso() ? "S" : "N");
+        this.statement.setInt(3, this.usuarioPaisAcceso.getPais().getPais_id());
     }
 
     @Override
     protected void incluirValorDeParametrosParaModificacion() throws SQLException {
-        this.statement.setString(1,this.usuarioPaisAcceso.getAcceso()?"S":"N");
-        this.statement.setInt(2,this.usuarioPaisAcceso.getUsuario().getUsuario_id());
-        this.statement.setInt(3,this.usuarioPaisAcceso.getPais().getPais_id());
+        this.statement.setString(1, this.usuarioPaisAcceso.getAcceso() ? "S" : "N"); // ✅ Actualizar ACCESO
+        this.statement.setInt(2, this.usuarioPaisAcceso.getUsuario().getUsuario_id());
+        this.statement.setInt(3, this.usuarioPaisAcceso.getPais().getPais_id());
     }
 
     @Override
     protected void incluirValorDeParametrosParaObtenerPorId() throws SQLException {
-        this.statement.setInt(1,this.usuarioPaisAcceso.getUsuario().getUsuario_id());
-        this.statement.setInt(2,this.usuarioPaisAcceso.getPais().getPais_id());
+        this.statement.setInt(1, this.usuarioPaisAcceso.getUsuario().getUsuario_id());
+        this.statement.setInt(2, this.usuarioPaisAcceso.getPais().getPais_id());
     }
 
     @Override
     protected String generarSQLParaModificacion() {
+        // ✅ SQL correcto para actualizar solo la columna ACCESO
         return "UPDATE PA_USUARIO_PAIS_ACCESO SET ACCESO=? WHERE USUARIO_ID=? AND PAIS_ID=?";
     }
 
@@ -62,17 +65,16 @@ public class UsuarioPaisAccesoDAOImpl extends DAOImplBase implements UsuarioPais
         return "SELECT USUARIO_ID, ACCESO, PAIS_ID FROM PA_USUARIO_PAIS_ACCESO WHERE USUARIO_ID=? AND PAIS_ID=?";
     }
 
-
     @Override
     protected void incluirValorDeParametrosParaEliminacion() throws SQLException {
-        this.statement.setInt(1,this.usuarioPaisAcceso.getUsuario().getUsuario_id());
-        this.statement.setInt(2,this.usuarioPaisAcceso.getPais().getPais_id());
+        this.statement.setInt(1, this.usuarioPaisAcceso.getUsuario().getUsuario_id());
+        this.statement.setInt(2, this.usuarioPaisAcceso.getPais().getPais_id());
     }
 
     @Override
     protected void extraerResultSetParaObtenerPorId() throws SQLException {
-        this.usuarioPaisAcceso=null;
-        if(this.resultSet.next()){
+        this.usuarioPaisAcceso = null;
+        if (this.resultSet.next()) {
             this.usuarioPaisAcceso = new UsuarioPaisAccesoDTO();
             UsuariosDTO usuario = new UsuariosDTO();
             usuario.setUsuario_id(this.resultSet.getInt("USUARIO_ID"));
@@ -86,13 +88,13 @@ public class UsuarioPaisAccesoDAOImpl extends DAOImplBase implements UsuarioPais
 
     @Override
     public Integer insertar(UsuarioPaisAccesoDTO usuarioPaisAcceso) {
-        this.usuarioPaisAcceso=usuarioPaisAcceso;
+        this.usuarioPaisAcceso = usuarioPaisAcceso;
         return super.insertar();
     }
 
     @Override
     public UsuarioPaisAccesoDTO obtenerPorUsuarioYPais(Integer usuarioId, Integer paisId) {
-        this.usuarioPaisAcceso=new UsuarioPaisAccesoDTO();
+        this.usuarioPaisAcceso = new UsuarioPaisAccesoDTO();
         UsuariosDTO usuario = new UsuariosDTO();
         usuario.setUsuario_id(usuarioId);
         this.usuarioPaisAcceso.setUsuario(usuario);
@@ -105,13 +107,13 @@ public class UsuarioPaisAccesoDAOImpl extends DAOImplBase implements UsuarioPais
 
     @Override
     public Integer modificar(UsuarioPaisAccesoDTO usuarioPaisAcceso) {
-        this.usuarioPaisAcceso=usuarioPaisAcceso;
+        this.usuarioPaisAcceso = usuarioPaisAcceso;
         return super.modificar();
     }
 
     @Override
     public Integer eliminar(UsuarioPaisAccesoDTO usuarioPaisAcceso) {
-        this.usuarioPaisAcceso=usuarioPaisAcceso;
+        this.usuarioPaisAcceso = usuarioPaisAcceso;
         return super.eliminar();
     }
 }

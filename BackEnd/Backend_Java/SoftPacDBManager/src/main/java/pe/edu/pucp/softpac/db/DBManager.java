@@ -11,7 +11,7 @@ import pe.edu.pucp.softpac.db.util.MotorDeBaseDeDatos;
 
 public abstract class DBManager {
 
-    protected static final String ARCHIVO_CONFIGURACION = "jdbc.properties";   //CAMBIO
+    protected static final String ARCHIVO_CONFIGURACION = "jdbc2.properties";   //CAMBIO
 
     private Connection conexion;
     protected String driver;
