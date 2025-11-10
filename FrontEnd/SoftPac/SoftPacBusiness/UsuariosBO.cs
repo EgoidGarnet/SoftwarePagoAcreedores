@@ -43,11 +43,10 @@ namespace SoftPac.Business
             return usuariosBO.insertarUsuario(nuevoUsuario);
         }
 
-        public int ModificarAccesoUsuario(int usuarioId, string nuevoNombreUsuario, bool activo,
-                                   usuarioPaisAccesoDTO[] paisesAccesos, string nuevaPassword)
+        public int ModificarAccesoUsuario(int usuarioId, string nuevoNombreUsuario, bool activo, List<int> paisesIds)
         {
-            return usuariosBO.modificarAccesoUsuario(usuarioId, nuevoNombreUsuario, activo,
-                                                     paisesAccesos, nuevaPassword);
+
+            return usuariosBO.modificarAccesoUsuario(usuarioId, nuevoNombreUsuario, activo, paisesIds.ToArray());
         }
 
         public int EliminarUsuario(int usuarioId, int usuarioEliminacionId)

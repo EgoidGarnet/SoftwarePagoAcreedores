@@ -5,17 +5,23 @@
       <xsd:import schemaLocation="http://localhost:8080/SoftPacWS/UsuariosWS?xsd=1" namespace="http://softpacws.pucp.edu.pe/" />
     </xsd:schema>
   </types>
-  <message name="obtenerUsuario">
-    <part name="parameters" element="tns:obtenerUsuario" />
+  <message name="autenticarUsuarioPorNombreUsuario">
+    <part name="parameters" element="tns:autenticarUsuarioPorNombreUsuario" />
   </message>
-  <message name="obtenerUsuarioResponse">
-    <part name="parameters" element="tns:obtenerUsuarioResponse" />
+  <message name="autenticarUsuarioPorNombreUsuarioResponse">
+    <part name="parameters" element="tns:autenticarUsuarioPorNombreUsuarioResponse" />
   </message>
   <message name="insertarUsuario">
     <part name="parameters" element="tns:insertarUsuario" />
   </message>
   <message name="insertarUsuarioResponse">
     <part name="parameters" element="tns:insertarUsuarioResponse" />
+  </message>
+  <message name="obtenerUsuario">
+    <part name="parameters" element="tns:obtenerUsuario" />
+  </message>
+  <message name="obtenerUsuarioResponse">
+    <part name="parameters" element="tns:obtenerUsuarioResponse" />
   </message>
   <message name="modificarAccesoUsuario">
     <part name="parameters" element="tns:modificarAccesoUsuario" />
@@ -41,20 +47,18 @@
   <message name="eliminarUsuarioResponse">
     <part name="parameters" element="tns:eliminarUsuarioResponse" />
   </message>
-  <message name="autenticarUsuarioPorNombreUsuario">
-    <part name="parameters" element="tns:autenticarUsuarioPorNombreUsuario" />
-  </message>
-  <message name="autenticarUsuarioPorNombreUsuarioResponse">
-    <part name="parameters" element="tns:autenticarUsuarioPorNombreUsuarioResponse" />
-  </message>
   <portType name="UsuariosWS">
-    <operation name="obtenerUsuario">
-      <input wsam:Action="http://softpacws.pucp.edu.pe/UsuariosWS/obtenerUsuarioRequest" message="tns:obtenerUsuario" />
-      <output wsam:Action="http://softpacws.pucp.edu.pe/UsuariosWS/obtenerUsuarioResponse" message="tns:obtenerUsuarioResponse" />
+    <operation name="autenticarUsuarioPorNombreUsuario">
+      <input wsam:Action="http://softpacws.pucp.edu.pe/UsuariosWS/autenticarUsuarioPorNombreUsuarioRequest" message="tns:autenticarUsuarioPorNombreUsuario" />
+      <output wsam:Action="http://softpacws.pucp.edu.pe/UsuariosWS/autenticarUsuarioPorNombreUsuarioResponse" message="tns:autenticarUsuarioPorNombreUsuarioResponse" />
     </operation>
     <operation name="insertarUsuario">
       <input wsam:Action="http://softpacws.pucp.edu.pe/UsuariosWS/insertarUsuarioRequest" message="tns:insertarUsuario" />
       <output wsam:Action="http://softpacws.pucp.edu.pe/UsuariosWS/insertarUsuarioResponse" message="tns:insertarUsuarioResponse" />
+    </operation>
+    <operation name="obtenerUsuario">
+      <input wsam:Action="http://softpacws.pucp.edu.pe/UsuariosWS/obtenerUsuarioRequest" message="tns:obtenerUsuario" />
+      <output wsam:Action="http://softpacws.pucp.edu.pe/UsuariosWS/obtenerUsuarioResponse" message="tns:obtenerUsuarioResponse" />
     </operation>
     <operation name="modificarAccesoUsuario">
       <input wsam:Action="http://softpacws.pucp.edu.pe/UsuariosWS/modificarAccesoUsuarioRequest" message="tns:modificarAccesoUsuario" />
@@ -72,14 +76,10 @@
       <input wsam:Action="http://softpacws.pucp.edu.pe/UsuariosWS/eliminarUsuarioRequest" message="tns:eliminarUsuario" />
       <output wsam:Action="http://softpacws.pucp.edu.pe/UsuariosWS/eliminarUsuarioResponse" message="tns:eliminarUsuarioResponse" />
     </operation>
-    <operation name="autenticarUsuarioPorNombreUsuario">
-      <input wsam:Action="http://softpacws.pucp.edu.pe/UsuariosWS/autenticarUsuarioPorNombreUsuarioRequest" message="tns:autenticarUsuarioPorNombreUsuario" />
-      <output wsam:Action="http://softpacws.pucp.edu.pe/UsuariosWS/autenticarUsuarioPorNombreUsuarioResponse" message="tns:autenticarUsuarioPorNombreUsuarioResponse" />
-    </operation>
   </portType>
   <binding name="UsuariosWSPortBinding" type="tns:UsuariosWS">
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
-    <operation name="obtenerUsuario">
+    <operation name="autenticarUsuarioPorNombreUsuario">
       <soap:operation soapAction="" />
       <input>
         <soap:body use="literal" />
@@ -89,6 +89,15 @@
       </output>
     </operation>
     <operation name="insertarUsuario">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="obtenerUsuario">
       <soap:operation soapAction="" />
       <input>
         <soap:body use="literal" />
@@ -125,15 +134,6 @@
       </output>
     </operation>
     <operation name="eliminarUsuario">
-      <soap:operation soapAction="" />
-      <input>
-        <soap:body use="literal" />
-      </input>
-      <output>
-        <soap:body use="literal" />
-      </output>
-    </operation>
-    <operation name="autenticarUsuarioPorNombreUsuario">
       <soap:operation soapAction="" />
       <input>
         <soap:body use="literal" />

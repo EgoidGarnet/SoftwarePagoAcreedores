@@ -141,10 +141,8 @@ namespace SoftPacWA
             {
                 int usuarioId = Convert.ToInt32(hfUsuarioId.Value);
 
-                // ✅ Obtener TODOS los países con su estado de acceso
+                // Obtener países seleccionados
                 var paisesSeleccionados = new BindingList<usuarioPaisAccesoDTO>();
-                bool tieneAlMenosUnPais = false;
-
                 foreach (ListItem item in cblPaises.Items)
                 {
                     if (item.Selected)
@@ -154,24 +152,15 @@ namespace SoftPacWA
                             pais = new paisesDTO { pais_id = Convert.ToInt32(item.Value) },
                             acceso = true
                         });
-                        tieneAlMenosUnPais = true;
                     }
                     else
                     {
-                        // ✅ AHORA SÍ agregamos los países NO seleccionados con acceso = false
                         paisesSeleccionados.Add(new usuarioPaisAccesoDTO
                         {
                             pais = new paisesDTO { pais_id = Convert.ToInt32(item.Value) },
                             acceso = false
                         });
                     }
-                }
-
-                // ✅ VALIDACIÓN: Debe tener al menos un país seleccionado
-                if (!tieneAlMenosUnPais)
-                {
-                    MostrarMensaje("Debe seleccionar al menos un país permitido.", "warning");
-                    return;
                 }
 
                 int resultado;
@@ -184,27 +173,17 @@ namespace SoftPacWA
                         apellidos = txtApellidos.Text,
                         nombre_de_usuario = txtNombreUsuario.Text,
                         correo_electronico = txtCorreo.Text,
-                        password_hash = txtPasswordModal.Text,
+                        password_hash = txtPasswordModal.Text, // El BO se encargará de "hashear"
                         activo = chkActivo.Checked,
                         superusuario = chkSuperusuario.Checked,
-                        usuario_pais = paisesSeleccionados.ToArray() // ✅ Ahora incluye TODOS los países
+                        usuario_pais = paisesSeleccionados.ToArray()
                     };
                     resultado = usuariosBO.InsertarUsuario(nuevoUsuario);
                 }
                 else // Es una modificación
                 {
-                    string nuevaPassword = string.IsNullOrWhiteSpace(txtPasswordModal.Text)
-                                          ? null
-                                          : txtPasswordModal.Text;
-
-                    // ✅ Enviar TODOS los países (no solo los seleccionados)
-                    resultado = usuariosBO.ModificarAccesoUsuario(
-                        usuarioId,
-                        txtNombreUsuario.Text,
-                        chkActivo.Checked,
-                        paisesSeleccionados.ToArray(), // ✅ Cambiado: ahora es el array completo
-                        nuevaPassword
-                    );
+                    resultado = usuariosBO.ModificarAccesoUsuario(usuarioId, txtNombreUsuario.Text, chkActivo.Checked,
+                                                                 paisesSeleccionados.Select(p => p.pais.pais_id).ToList());
                 }
 
                 if (resultado > 0)

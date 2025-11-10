@@ -36,16 +36,11 @@ namespace SoftPacWA
             {
                 usuariosDTO usuario = usuariosBO.AutenticarUsuario(nombreUsuario, password);
 
-                if (usuario != null && usuario.usuario_idSpecified && usuario.usuario_id == -1)
-                {
-                    MostrarError("Tu cuenta ha sido eliminada.");
-                    return;
-                }
-
-                if (usuario != null && usuario.usuario_idSpecified && usuario.usuario_id > 0)
+                if (usuario != null)
                 {
                     Session["UsuarioLogueado"] = usuario;
 
+                    // --- LÓGICA DE REDIRECCIÓN MODIFICADA ---
                     if (usuario.superusuario)
                     {
                         Response.Redirect("~/GestionUsuarios.aspx");
@@ -62,7 +57,9 @@ namespace SoftPacWA
             }
             catch (Exception ex)
             {
+                // Manejo de cualquier otro error
                 MostrarError("Ocurrió un error inesperado. Por favor, intente más tarde.");
+                
             }
         }
 

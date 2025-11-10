@@ -7,6 +7,22 @@
     <packaging>jar</packaging>
     <dependencies>
         <dependency>
+            <groupId>pe.edu.pucp.softpac</groupId>
+            <artifactId>SoftPacModel</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>pe.edu.pucp.softpac</groupId>
+            <artifactId>SoftPacPersistance</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>pe.edu.pucp.softpac</groupId>
+                    <artifactId>SoftPacDBManager</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
             <version>5.10.3</version>
@@ -36,17 +52,7 @@
         </dependency>
         <dependency>
             <groupId>pe.edu.pucp.softpac</groupId>
-            <artifactId>SoftPacModel</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>pe.edu.pucp.softpac</groupId>
             <artifactId>SoftPacDBManager</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>pe.edu.pucp.softpac</groupId>
-            <artifactId>SoftPacPersistance</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
