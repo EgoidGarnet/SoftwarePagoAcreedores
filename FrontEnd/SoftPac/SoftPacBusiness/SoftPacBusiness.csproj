@@ -421,6 +421,9 @@
     <None Include="Connected Services\UsuariosWS\SoftPacBusiness.UsuariosWS.modificarAccesoUsuarioResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
+    <None Include="Connected Services\UsuariosWS\SoftPacBusiness.UsuariosWS.modificarUsuarioResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
     <None Include="Connected Services\UsuariosWS\SoftPacBusiness.UsuariosWS.obtenerUsuarioResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>

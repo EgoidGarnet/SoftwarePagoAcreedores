@@ -12,6 +12,8 @@
   <xs:element name="listarUsuariosResponse" type="tns:listarUsuariosResponse" />
   <xs:element name="modificarAccesoUsuario" type="tns:modificarAccesoUsuario" />
   <xs:element name="modificarAccesoUsuarioResponse" type="tns:modificarAccesoUsuarioResponse" />
+  <xs:element name="modificarUsuario" type="tns:modificarUsuario" />
+  <xs:element name="modificarUsuarioResponse" type="tns:modificarUsuarioResponse" />
   <xs:element name="obtenerUsuario" type="tns:obtenerUsuario" />
   <xs:element name="obtenerUsuarioResponse" type="tns:obtenerUsuarioResponse" />
   <xs:complexType name="autenticarUsuarioPorCorreo">
@@ -124,6 +126,16 @@
   <xs:complexType name="obtenerUsuarioResponse">
     <xs:sequence>
       <xs:element minOccurs="0" name="return" type="tns:usuariosDTO" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="modificarUsuario">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="usuario" type="tns:usuariosDTO" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="modificarUsuarioResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:int" />
     </xs:sequence>
   </xs:complexType>
 </xs:schema>
