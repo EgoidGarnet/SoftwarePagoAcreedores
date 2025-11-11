@@ -224,8 +224,7 @@
             gap: 1rem;
             justify-content: center;
             margin-top: 2rem;
-            padding-top: 2rem;
-            border-top: 2px solid var(--color-light-1);
+            margin-bottom: 2rem;
         }
 
         .filter-section {
@@ -298,19 +297,17 @@
     <div class="filter-section">
         <h5 class="mb-3"><i class="fas fa-filter me-2"></i>Filtros del Reporte</h5>
         <div class="row g-3">
-            <div class="col-md-4">
-                <label class="form-label">País</label>
+            <div class="col-md-3">
+                <label class="form-label">País <span class="text-danger">*</span></label>
                 <asp:DropDownList ID="ddlPais" runat="server" CssClass="form-select" AutoPostBack="true" OnSelectedIndexChanged="ddlPais_SelectedIndexChanged">
-                    <asp:ListItem Value="">Todos</asp:ListItem>
                 </asp:DropDownList>
             </div>
-            <div class="col-md-4">
-                <label class="form-label">Banco</label>
+            <div class="col-md-3">
+                <label class="form-label">Banco <span class="text-danger">*</span></label>
                 <asp:DropDownList ID="ddlBanco" runat="server" CssClass="form-select">
-                    <asp:ListItem Value="">Todos</asp:ListItem>
                 </asp:DropDownList>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <label class="form-label">Estado</label>
                 <asp:DropDownList ID="ddlEstado" runat="server" CssClass="form-select">
                     <asp:ListItem Value="">Todos</asp:ListItem>
@@ -319,15 +316,48 @@
                     <asp:ListItem Value="Anulada">Anulada</asp:ListItem>
                 </asp:DropDownList>
             </div>
+            <div class="col-md-3">
+                <label class="form-label">Días desde hoy</label>
+                <asp:TextBox ID="txtDiasDesde" runat="server" CssClass="form-control" 
+                    placeholder="Por defecto: 90 días" TextMode="Number" min="1"></asp:TextBox>
+                <small class="text-muted">Si está vacío, se usan 90 días</small>
+            </div>
         </div>
         <div class="row mt-3">
             <div class="col-12">
+                <small class="text-muted d-block mb-2">
+                    <span class="text-danger">*</span> Debe seleccionar al menos País o Banco
+                </small>
                 <asp:Button ID="btnAplicarFiltros" runat="server" Text="Aplicar Filtros / Vista Previa"
                     CssClass="btn btn-primary me-2" OnClick="btnAplicarFiltros_Click" />
                 <asp:Button ID="btnLimpiarFiltros" runat="server" Text="Limpiar Filtros"
                     CssClass="btn btn-secondary" OnClick="btnLimpiarFiltros_Click" />
             </div>
         </div>
+    </div>
+
+    <!-- Alerta de Validación -->
+    <asp:Panel ID="pnlAlertaValidacion" runat="server" Visible="false" CssClass="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="fas fa-exclamation-triangle me-2"></i>
+        <asp:Label ID="lblMensajeValidacion" runat="server"></asp:Label>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </asp:Panel>
+    
+    <!-- Botones de Acción -->
+    <div class="botones-accion">
+        <asp:LinkButton ID="btnExportarPDF" runat="server"
+            CssClass="btn btn-danger btn-lg"
+            OnClick="btnExportarPDF_Click"
+            ToolTip="Exportar a PDF">
+    <i class="fas fa-file-pdf me-2"></i> Exportar a PDF
+        </asp:LinkButton>
+
+        <asp:LinkButton ID="btnVolver" runat="server"
+            CssClass="btn btn-secondary btn-lg"
+            OnClick="btnVolver_Click"
+            ToolTip="Volver a Propuestas">
+    <i class="fas fa-arrow-left me-2"></i> Volver
+        </asp:LinkButton>
     </div>
 
     <!-- Reporte -->
@@ -472,26 +502,10 @@
 
                 <asp:Panel ID="pnlSinDatos" runat="server" Visible="false" CssClass="text-center py-5">
                     <i class="fas fa-inbox fa-4x text-muted mb-3"></i>
-                    <h4 class="text-muted">No hay propuestas que cumplan con los criterios seleccionados</h4>
+                    <h4 class="text-muted">Seleccione filtros y haga clic en "Aplicar Filtros" para generar el reporte</h4>
+                    <p class="text-muted">Debe seleccionar al menos un País o un Banco</p>
                 </asp:Panel>
             </ContentTemplate>
         </asp:UpdatePanel>
-
-        <!-- Botones de Acción -->
-        <div class="botones-accion">
-            <asp:LinkButton ID="btnExportarPDF" runat="server"
-                CssClass="btn btn-danger btn-lg"
-                OnClick="btnExportarPDF_Click"
-                ToolTip="Exportar a PDF">
-        <i class="fas fa-file-pdf me-2"></i> Exportar a PDF
-            </asp:LinkButton>
-
-            <asp:LinkButton ID="btnVolver" runat="server"
-                CssClass="btn btn-secondary btn-lg"
-                OnClick="btnVolver_Click"
-                ToolTip="Volver a Propuestas">
-        <i class="fas fa-arrow-left me-2"></i> Volver
-            </asp:LinkButton>
-        </div>
     </div>
 </asp:Content>

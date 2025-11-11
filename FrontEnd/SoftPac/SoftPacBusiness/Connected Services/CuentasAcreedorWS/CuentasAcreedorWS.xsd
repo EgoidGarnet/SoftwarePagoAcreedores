@@ -14,8 +14,6 @@
   <xs:element name="obtenerCuentaAcreedorResponse" type="tns:obtenerCuentaAcreedorResponse" />
   <xs:element name="obtenerCuentasPorAcreedor" type="tns:obtenerCuentasPorAcreedor" />
   <xs:element name="obtenerCuentasPorAcreedorResponse" type="tns:obtenerCuentasPorAcreedorResponse" />
-  <xs:element name="obtenerCuentasPorAcreedor_v2" type="tns:obtenerCuentasPorAcreedor_v2" />
-  <xs:element name="obtenerCuentasPorAcreedor_v2Response" type="tns:obtenerCuentasPorAcreedor_v2Response" />
   <xs:complexType name="eliminarCuentaAcreedor">
     <xs:sequence>
       <xs:element minOccurs="0" name="cuenta_acreedor" type="tns:cuentasAcreedorDTO" />
@@ -159,17 +157,6 @@
       <xs:element minOccurs="0" name="return" type="xs:int" />
     </xs:sequence>
   </xs:complexType>
-  <xs:complexType name="eliminarCuentaAcreedorParametros">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="cuenta" type="tns:cuentasAcreedorDTO" />
-      <xs:element minOccurs="0" name="usuarioActual" type="tns:usuariosDTO" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="eliminarCuentaAcreedorParametrosResponse">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="return" type="xs:int" />
-    </xs:sequence>
-  </xs:complexType>
   <xs:complexType name="modificarCuentasAcreedor">
     <xs:sequence>
       <xs:element minOccurs="0" name="cuenta" type="tns:cuentasAcreedorDTO" />
@@ -180,14 +167,15 @@
       <xs:element minOccurs="0" name="return" type="xs:int" />
     </xs:sequence>
   </xs:complexType>
-  <xs:complexType name="obtenerCuentasPorAcreedor_v2">
+  <xs:complexType name="eliminarCuentaAcreedorParametros">
     <xs:sequence>
-      <xs:element minOccurs="0" name="acreedor_id" type="xs:int" />
+      <xs:element minOccurs="0" name="cuenta" type="tns:cuentasAcreedorDTO" />
+      <xs:element minOccurs="0" name="usuarioActual" type="tns:usuariosDTO" />
     </xs:sequence>
   </xs:complexType>
-  <xs:complexType name="obtenerCuentasPorAcreedor_v2Response">
+  <xs:complexType name="eliminarCuentaAcreedorParametrosResponse">
     <xs:sequence>
-      <xs:element minOccurs="0" maxOccurs="unbounded" name="return" type="tns:cuentasAcreedorDTO" />
+      <xs:element minOccurs="0" name="return" type="xs:int" />
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="obtenerCuentaAcreedor">

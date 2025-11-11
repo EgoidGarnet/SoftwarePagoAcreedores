@@ -51,29 +51,29 @@
                             OnRowDataBound="gvAcreedores_RowDataBound"
                             EmptyDataText="No se encontraron acreedores" GridLines="None">
                             <Columns>
-                                <asp:BoundField DataField="RazonSocial" HeaderText="Razón social" />
+                                <asp:BoundField DataField="razon_social" HeaderText="Razón social" />
                                 <asp:TemplateField HeaderText="País">
                                     <ItemTemplate><%# Eval("PaisNombre") %></ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="Estado">
                                     <ItemTemplate>
                                         <span class='badge-estado <%# GetEstadoClass(Eval("Estado")) %>'><%# Eval("Estado") %></span>
-                                        <asp:HiddenField ID="hfId" runat="server" Value='<%# Eval("AcreedorId") %>' />
+                                        <asp:HiddenField ID="hfId" runat="server" Value='<%# Eval("acreedor_id") %>' />
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="Acciones">
                                     <ItemTemplate>
                                         <div class="action-buttons">
                                             <asp:LinkButton ID="btnVer" runat="server" CssClass="btn btn-sm btn-info btn-icon"
-                                                CommandName="Ver" CommandArgument='<%# Eval("AcreedorId") %>' OnClick="btnAccion_Click" ToolTip="Ver">
+                                                CommandName="Ver" CommandArgument='<%# Eval("acreedor_id") %>' OnClick="btnAccion_Click" ToolTip="Ver">
                                                 <i class="fas fa-eye"></i>
                                             </asp:LinkButton>
                                             <asp:LinkButton ID="btnEditar" runat="server" CssClass="btn btn-sm btn-warning btn-icon"
-                                                CommandName="Editar" CommandArgument='<%# Eval("AcreedorId") %>' OnClick="btnAccion_Click" ToolTip="Editar">
+                                                CommandName="Editar" CommandArgument='<%# Eval("acreedor_id") %>' OnClick="btnAccion_Click" ToolTip="Editar">
                                                 <i class="fas fa-edit"></i>
                                             </asp:LinkButton>
                                             <asp:LinkButton ID="btnToggle" runat="server" CssClass="btn btn-sm btn-danger btn-icon"
-                                                CommandName="Eliminar" CommandArgument='<%# Eval("AcreedorId") %>' OnClick="btnAccion_Click" ToolTip="Inactivar/Activar">
+                                                CommandName="Eliminar" CommandArgument='<%# Eval("acreedor_id") %>' OnClick="btnAccion_Click" ToolTip="Inactivar/Activar">
                                                 <i class="fas fa-trash"></i>
                                             </asp:LinkButton>
                                         </div>

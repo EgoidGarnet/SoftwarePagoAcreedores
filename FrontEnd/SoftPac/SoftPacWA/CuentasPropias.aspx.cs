@@ -145,10 +145,10 @@ namespace SoftPacWA
             }
             else if (e.CommandName == "Eliminar")
             {
-                var usuario = (SoftPacBusiness.CuentasPropiasWS.usuariosDTO)Session["UsuarioLogueado"];
+                var usuario = (SoftPacBusiness.UsuariosWS.usuariosDTO)Session ["UsuarioLogueado"];
                 cuentasPropiasDTO cuentaEliminada = new cuentasPropiasDTO();
                 cuentaEliminada.cuenta_bancaria_id = cuentaId;
-                int resultado = cuentasBO.Eliminar(cuentaEliminada, usuario);
+                int resultado = cuentasBO.Eliminar(cuentaEliminada, DTOConverter.Convertir<SoftPacBusiness.UsuariosWS.usuariosDTO, SoftPacBusiness.CuentasPropiasWS.usuariosDTO>(usuario));
 
                 if (resultado > 0)
                 {
@@ -183,6 +183,7 @@ namespace SoftPacWA
             txtCci.Text = cuenta.cci;
             txtSaldoDisponible.Text = cuenta.saldo_disponible.ToString("F2");
             chkActiva.Checked = cuenta.activa;
+            txtNumeroCuenta.ReadOnly = true;
         }
 
         private void LimpiarModal()
@@ -196,6 +197,7 @@ namespace SoftPacWA
             txtCci.Text = string.Empty;
             txtSaldoDisponible.Text = string.Empty;
             chkActiva.Checked = true;
+            txtNumeroCuenta.ReadOnly = false;
         }
 
         protected void btnGuardar_Click(object sender, EventArgs e)
@@ -205,17 +207,14 @@ namespace SoftPacWA
                 cuentasPropiasDTO cuenta = new cuentasPropiasDTO
                 {
                     cuenta_bancaria_id = Convert.ToInt32(hfCuentaId.Value),
-                    entidad_bancaria = new SoftPacBusiness.CuentasPropiasWS.entidadesBancariasDTO { entidad_bancaria_id = Convert.ToInt32(ddlEntidadBancaria.SelectedValue), entidad_bancaria_idSpecified = true },
-                    moneda = new monedasDTO { moneda_id = Convert.ToInt32(ddlMoneda.SelectedValue), moneda_idSpecified = true },
+                    entidad_bancaria = new SoftPacBusiness.CuentasPropiasWS.entidadesBancariasDTO { entidad_bancaria_id = Convert.ToInt32(ddlEntidadBancaria.SelectedValue)},
+                    moneda = new monedasDTO { moneda_id = Convert.ToInt32(ddlMoneda.SelectedValue)},
                     tipo_cuenta = txtTipoCuenta.Text,
                     numero_cuenta = txtNumeroCuenta.Text,
                     cci = txtCci.Text,
                     saldo_disponible = Convert.ToDecimal(txtSaldoDisponible.Text),
                     activa = chkActiva.Checked,
-                    cuenta_bancaria_idSpecified = true,
                     
-                    activaSpecified = true,
-                    saldo_disponibleSpecified = true
                 };
 
                 int resultado;
@@ -225,6 +224,7 @@ namespace SoftPacWA
                 }
                 else
                 {
+                    
                     resultado = cuentasBO.Modificar(cuenta);
                 }
 

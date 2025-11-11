@@ -26,5 +26,10 @@ namespace SoftPac.Business
             return entidadesClienteSOAP.obtenerEntidadBancariaPorId(bancoId);
         }
 
+        public entidadesBancariasDTO ObtenerPorNombre(string nombre)
+        {
+            return entidadesClienteSOAP.obtenerEntidadBancariaPorNombre(nombre);
+        }
+
     }
 }

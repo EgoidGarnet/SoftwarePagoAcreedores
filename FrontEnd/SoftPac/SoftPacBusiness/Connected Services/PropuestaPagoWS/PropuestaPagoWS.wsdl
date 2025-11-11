@@ -5,11 +5,11 @@
       <xsd:import schemaLocation="http://localhost:8080/SoftPacWS/PropuestaPagoWS?xsd=1" namespace="http://softpacws.pucp.edu.pe/" />
     </xsd:schema>
   </types>
-  <message name="listarUltimasPropuestasPorUsuario">
-    <part name="parameters" element="tns:listarUltimasPropuestasPorUsuario" />
+  <message name="confirmarEnvioPropuesta">
+    <part name="parameters" element="tns:confirmarEnvioPropuesta" />
   </message>
-  <message name="listarUltimasPropuestasPorUsuarioResponse">
-    <part name="parameters" element="tns:listarUltimasPropuestasPorUsuarioResponse" />
+  <message name="confirmarEnvioPropuestaResponse">
+    <part name="parameters" element="tns:confirmarEnvioPropuestaResponse" />
   </message>
   <message name="listarActividadPorUsuario">
     <part name="parameters" element="tns:listarActividadPorUsuario" />
@@ -17,11 +17,11 @@
   <message name="listarActividadPorUsuarioResponse">
     <part name="parameters" element="tns:listarActividadPorUsuarioResponse" />
   </message>
-  <message name="generarDetallesPropuesta">
-    <part name="parameters" element="tns:generarDetallesPropuesta" />
+  <message name="obtenerPropuesta">
+    <part name="parameters" element="tns:obtenerPropuesta" />
   </message>
-  <message name="generarDetallesPropuestaResponse">
-    <part name="parameters" element="tns:generarDetallesPropuestaResponse" />
+  <message name="obtenerPropuestaResponse">
+    <part name="parameters" element="tns:obtenerPropuestaResponse" />
   </message>
   <message name="insertarPropuesta">
     <part name="parameters" element="tns:insertarPropuesta" />
@@ -29,23 +29,11 @@
   <message name="insertarPropuestaResponse">
     <part name="parameters" element="tns:insertarPropuestaResponse" />
   </message>
-  <message name="modificarPropuesta">
-    <part name="parameters" element="tns:modificarPropuesta" />
-  </message>
-  <message name="modificarPropuestaResponse">
-    <part name="parameters" element="tns:modificarPropuestaResponse" />
-  </message>
   <message name="generarDetallesParciales">
     <part name="parameters" element="tns:generarDetallesParciales" />
   </message>
   <message name="generarDetallesParcialesResponse">
     <part name="parameters" element="tns:generarDetallesParcialesResponse" />
-  </message>
-  <message name="insertarDetallePropuesta">
-    <part name="parameters" element="tns:insertarDetallePropuesta" />
-  </message>
-  <message name="insertarDetallePropuestaResponse">
-    <part name="parameters" element="tns:insertarDetallePropuestaResponse" />
   </message>
   <message name="modificarDetallePropuesta">
     <part name="parameters" element="tns:modificarDetallePropuesta" />
@@ -53,17 +41,29 @@
   <message name="modificarDetallePropuestaResponse">
     <part name="parameters" element="tns:modificarDetallePropuestaResponse" />
   </message>
+  <message name="insertarDetallePropuesta">
+    <part name="parameters" element="tns:insertarDetallePropuesta" />
+  </message>
+  <message name="insertarDetallePropuestaResponse">
+    <part name="parameters" element="tns:insertarDetallePropuestaResponse" />
+  </message>
   <message name="listarConFiltros">
     <part name="parameters" element="tns:listarConFiltros" />
   </message>
   <message name="listarConFiltrosResponse">
     <part name="parameters" element="tns:listarConFiltrosResponse" />
   </message>
-  <message name="obtenerPropuesta">
-    <part name="parameters" element="tns:obtenerPropuesta" />
+  <message name="generarDetallesPropuesta">
+    <part name="parameters" element="tns:generarDetallesPropuesta" />
   </message>
-  <message name="obtenerPropuestaResponse">
-    <part name="parameters" element="tns:obtenerPropuestaResponse" />
+  <message name="generarDetallesPropuestaResponse">
+    <part name="parameters" element="tns:generarDetallesPropuestaResponse" />
+  </message>
+  <message name="modificarPropuesta">
+    <part name="parameters" element="tns:modificarPropuesta" />
+  </message>
+  <message name="modificarPropuestaResponse">
+    <part name="parameters" element="tns:modificarPropuestaResponse" />
   </message>
   <message name="listarPropuestasPorUsuario">
     <part name="parameters" element="tns:listarPropuestasPorUsuario" />
@@ -71,55 +71,65 @@
   <message name="listarPropuestasPorUsuarioResponse">
     <part name="parameters" element="tns:listarPropuestasPorUsuarioResponse" />
   </message>
+  <message name="listarUltimasPropuestasPorUsuario">
+    <part name="parameters" element="tns:listarUltimasPropuestasPorUsuario" />
+  </message>
+  <message name="listarUltimasPropuestasPorUsuarioResponse">
+    <part name="parameters" element="tns:listarUltimasPropuestasPorUsuarioResponse" />
+  </message>
   <portType name="PropuestaPagoWS">
-    <operation name="listarUltimasPropuestasPorUsuario">
-      <input wsam:Action="http://softpacws.pucp.edu.pe/PropuestaPagoWS/listarUltimasPropuestasPorUsuarioRequest" message="tns:listarUltimasPropuestasPorUsuario" />
-      <output wsam:Action="http://softpacws.pucp.edu.pe/PropuestaPagoWS/listarUltimasPropuestasPorUsuarioResponse" message="tns:listarUltimasPropuestasPorUsuarioResponse" />
+    <operation name="confirmarEnvioPropuesta">
+      <input wsam:Action="http://softpacws.pucp.edu.pe/PropuestaPagoWS/confirmarEnvioPropuestaRequest" message="tns:confirmarEnvioPropuesta" />
+      <output wsam:Action="http://softpacws.pucp.edu.pe/PropuestaPagoWS/confirmarEnvioPropuestaResponse" message="tns:confirmarEnvioPropuestaResponse" />
     </operation>
     <operation name="listarActividadPorUsuario">
       <input wsam:Action="http://softpacws.pucp.edu.pe/PropuestaPagoWS/listarActividadPorUsuarioRequest" message="tns:listarActividadPorUsuario" />
       <output wsam:Action="http://softpacws.pucp.edu.pe/PropuestaPagoWS/listarActividadPorUsuarioResponse" message="tns:listarActividadPorUsuarioResponse" />
     </operation>
-    <operation name="generarDetallesPropuesta">
-      <input wsam:Action="http://softpacws.pucp.edu.pe/PropuestaPagoWS/generarDetallesPropuestaRequest" message="tns:generarDetallesPropuesta" />
-      <output wsam:Action="http://softpacws.pucp.edu.pe/PropuestaPagoWS/generarDetallesPropuestaResponse" message="tns:generarDetallesPropuestaResponse" />
+    <operation name="obtenerPropuesta">
+      <input wsam:Action="http://softpacws.pucp.edu.pe/PropuestaPagoWS/obtenerPropuestaRequest" message="tns:obtenerPropuesta" />
+      <output wsam:Action="http://softpacws.pucp.edu.pe/PropuestaPagoWS/obtenerPropuestaResponse" message="tns:obtenerPropuestaResponse" />
     </operation>
     <operation name="insertarPropuesta">
       <input wsam:Action="http://softpacws.pucp.edu.pe/PropuestaPagoWS/insertarPropuestaRequest" message="tns:insertarPropuesta" />
       <output wsam:Action="http://softpacws.pucp.edu.pe/PropuestaPagoWS/insertarPropuestaResponse" message="tns:insertarPropuestaResponse" />
     </operation>
-    <operation name="modificarPropuesta">
-      <input wsam:Action="http://softpacws.pucp.edu.pe/PropuestaPagoWS/modificarPropuestaRequest" message="tns:modificarPropuesta" />
-      <output wsam:Action="http://softpacws.pucp.edu.pe/PropuestaPagoWS/modificarPropuestaResponse" message="tns:modificarPropuestaResponse" />
-    </operation>
     <operation name="generarDetallesParciales">
       <input wsam:Action="http://softpacws.pucp.edu.pe/PropuestaPagoWS/generarDetallesParcialesRequest" message="tns:generarDetallesParciales" />
       <output wsam:Action="http://softpacws.pucp.edu.pe/PropuestaPagoWS/generarDetallesParcialesResponse" message="tns:generarDetallesParcialesResponse" />
-    </operation>
-    <operation name="insertarDetallePropuesta">
-      <input wsam:Action="http://softpacws.pucp.edu.pe/PropuestaPagoWS/insertarDetallePropuestaRequest" message="tns:insertarDetallePropuesta" />
-      <output wsam:Action="http://softpacws.pucp.edu.pe/PropuestaPagoWS/insertarDetallePropuestaResponse" message="tns:insertarDetallePropuestaResponse" />
     </operation>
     <operation name="modificarDetallePropuesta">
       <input wsam:Action="http://softpacws.pucp.edu.pe/PropuestaPagoWS/modificarDetallePropuestaRequest" message="tns:modificarDetallePropuesta" />
       <output wsam:Action="http://softpacws.pucp.edu.pe/PropuestaPagoWS/modificarDetallePropuestaResponse" message="tns:modificarDetallePropuestaResponse" />
     </operation>
+    <operation name="insertarDetallePropuesta">
+      <input wsam:Action="http://softpacws.pucp.edu.pe/PropuestaPagoWS/insertarDetallePropuestaRequest" message="tns:insertarDetallePropuesta" />
+      <output wsam:Action="http://softpacws.pucp.edu.pe/PropuestaPagoWS/insertarDetallePropuestaResponse" message="tns:insertarDetallePropuestaResponse" />
+    </operation>
     <operation name="listarConFiltros">
       <input wsam:Action="http://softpacws.pucp.edu.pe/PropuestaPagoWS/listarConFiltrosRequest" message="tns:listarConFiltros" />
       <output wsam:Action="http://softpacws.pucp.edu.pe/PropuestaPagoWS/listarConFiltrosResponse" message="tns:listarConFiltrosResponse" />
     </operation>
-    <operation name="obtenerPropuesta">
-      <input wsam:Action="http://softpacws.pucp.edu.pe/PropuestaPagoWS/obtenerPropuestaRequest" message="tns:obtenerPropuesta" />
-      <output wsam:Action="http://softpacws.pucp.edu.pe/PropuestaPagoWS/obtenerPropuestaResponse" message="tns:obtenerPropuestaResponse" />
+    <operation name="generarDetallesPropuesta">
+      <input wsam:Action="http://softpacws.pucp.edu.pe/PropuestaPagoWS/generarDetallesPropuestaRequest" message="tns:generarDetallesPropuesta" />
+      <output wsam:Action="http://softpacws.pucp.edu.pe/PropuestaPagoWS/generarDetallesPropuestaResponse" message="tns:generarDetallesPropuestaResponse" />
+    </operation>
+    <operation name="modificarPropuesta">
+      <input wsam:Action="http://softpacws.pucp.edu.pe/PropuestaPagoWS/modificarPropuestaRequest" message="tns:modificarPropuesta" />
+      <output wsam:Action="http://softpacws.pucp.edu.pe/PropuestaPagoWS/modificarPropuestaResponse" message="tns:modificarPropuestaResponse" />
     </operation>
     <operation name="listarPropuestasPorUsuario">
       <input wsam:Action="http://softpacws.pucp.edu.pe/PropuestaPagoWS/listarPropuestasPorUsuarioRequest" message="tns:listarPropuestasPorUsuario" />
       <output wsam:Action="http://softpacws.pucp.edu.pe/PropuestaPagoWS/listarPropuestasPorUsuarioResponse" message="tns:listarPropuestasPorUsuarioResponse" />
     </operation>
+    <operation name="listarUltimasPropuestasPorUsuario">
+      <input wsam:Action="http://softpacws.pucp.edu.pe/PropuestaPagoWS/listarUltimasPropuestasPorUsuarioRequest" message="tns:listarUltimasPropuestasPorUsuario" />
+      <output wsam:Action="http://softpacws.pucp.edu.pe/PropuestaPagoWS/listarUltimasPropuestasPorUsuarioResponse" message="tns:listarUltimasPropuestasPorUsuarioResponse" />
+    </operation>
   </portType>
   <binding name="PropuestaPagoWSPortBinding" type="tns:PropuestaPagoWS">
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
-    <operation name="listarUltimasPropuestasPorUsuario">
+    <operation name="confirmarEnvioPropuesta">
       <soap:operation soapAction="" />
       <input>
         <soap:body use="literal" />
@@ -137,7 +147,7 @@
         <soap:body use="literal" />
       </output>
     </operation>
-    <operation name="generarDetallesPropuesta">
+    <operation name="obtenerPropuesta">
       <soap:operation soapAction="" />
       <input>
         <soap:body use="literal" />
@@ -155,25 +165,7 @@
         <soap:body use="literal" />
       </output>
     </operation>
-    <operation name="modificarPropuesta">
-      <soap:operation soapAction="" />
-      <input>
-        <soap:body use="literal" />
-      </input>
-      <output>
-        <soap:body use="literal" />
-      </output>
-    </operation>
     <operation name="generarDetallesParciales">
-      <soap:operation soapAction="" />
-      <input>
-        <soap:body use="literal" />
-      </input>
-      <output>
-        <soap:body use="literal" />
-      </output>
-    </operation>
-    <operation name="insertarDetallePropuesta">
       <soap:operation soapAction="" />
       <input>
         <soap:body use="literal" />
@@ -191,6 +183,15 @@
         <soap:body use="literal" />
       </output>
     </operation>
+    <operation name="insertarDetallePropuesta">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
     <operation name="listarConFiltros">
       <soap:operation soapAction="" />
       <input>
@@ -200,7 +201,16 @@
         <soap:body use="literal" />
       </output>
     </operation>
-    <operation name="obtenerPropuesta">
+    <operation name="generarDetallesPropuesta">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="modificarPropuesta">
       <soap:operation soapAction="" />
       <input>
         <soap:body use="literal" />
@@ -210,6 +220,15 @@
       </output>
     </operation>
     <operation name="listarPropuestasPorUsuario">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="listarUltimasPropuestasPorUsuario">
       <soap:operation soapAction="" />
       <input>
         <soap:body use="literal" />

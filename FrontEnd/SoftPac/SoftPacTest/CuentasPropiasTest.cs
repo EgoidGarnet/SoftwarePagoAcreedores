@@ -54,5 +54,24 @@ namespace SoftPacTest
 
         }
 
+        [TestMethod]
+        public void eliminarCuentaTest()
+        {
+            cuentasPropiasDTO c = new cuentasPropiasDTO();
+            c.cuenta_bancaria_id = 18;
+            //c.cuenta_bancaria_idSpecified = true;
+
+            usuariosDTO usuarios = new usuariosDTO();
+            usuarios.usuario_id = 1;
+            //usuarios.usuario_idSpecified = true;
+
+            int resultado = cuentasPropiasBO.Eliminar(c,usuarios);
+
+            if (resultado != 0)
+                Console.WriteLine(resultado);
+
+
+        }
+
     }
 }

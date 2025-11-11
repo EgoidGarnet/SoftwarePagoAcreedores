@@ -16,26 +16,6 @@ namespace SoftPacBusiness.FacturasWS {
     public interface FacturasWS {
         
         // CODEGEN: El parámetro 'return' requiere información adicional de esquema que no se puede capturar con el modo de parámetros. El atributo específico es 'System.Xml.Serialization.XmlElementAttribute'.
-        [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/FacturasWS/listarPendientesPorCriteriosRequest", ReplyAction="http://softpacws.pucp.edu.pe/FacturasWS/listarPendientesPorCriteriosResponse")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(eliminableDTOBase))]
-        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
-        SoftPacBusiness.FacturasWS.listarPendientesPorCriteriosResponse listarPendientesPorCriterios(SoftPacBusiness.FacturasWS.listarPendientesPorCriteriosRequest request);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/FacturasWS/listarPendientesPorCriteriosRequest", ReplyAction="http://softpacws.pucp.edu.pe/FacturasWS/listarPendientesPorCriteriosResponse")]
-        System.Threading.Tasks.Task<SoftPacBusiness.FacturasWS.listarPendientesPorCriteriosResponse> listarPendientesPorCriteriosAsync(SoftPacBusiness.FacturasWS.listarPendientesPorCriteriosRequest request);
-        
-        // CODEGEN: El parámetro 'return' requiere información adicional de esquema que no se puede capturar con el modo de parámetros. El atributo específico es 'System.Xml.Serialization.XmlElementAttribute'.
-        [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/FacturasWS/listarFacturasRequest", ReplyAction="http://softpacws.pucp.edu.pe/FacturasWS/listarFacturasResponse")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(eliminableDTOBase))]
-        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
-        SoftPacBusiness.FacturasWS.listarFacturasResponse listarFacturas(SoftPacBusiness.FacturasWS.listarFacturasRequest request);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/FacturasWS/listarFacturasRequest", ReplyAction="http://softpacws.pucp.edu.pe/FacturasWS/listarFacturasResponse")]
-        System.Threading.Tasks.Task<SoftPacBusiness.FacturasWS.listarFacturasResponse> listarFacturasAsync(SoftPacBusiness.FacturasWS.listarFacturasRequest request);
-        
-        // CODEGEN: El parámetro 'return' requiere información adicional de esquema que no se puede capturar con el modo de parámetros. El atributo específico es 'System.Xml.Serialization.XmlElementAttribute'.
         [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/FacturasWS/modificarFacturaRequest", ReplyAction="http://softpacws.pucp.edu.pe/FacturasWS/modificarFacturaResponse")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(eliminableDTOBase))]
@@ -54,6 +34,16 @@ namespace SoftPacBusiness.FacturasWS {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/FacturasWS/listarPendientesRequest", ReplyAction="http://softpacws.pucp.edu.pe/FacturasWS/listarPendientesResponse")]
         System.Threading.Tasks.Task<SoftPacBusiness.FacturasWS.listarPendientesResponse> listarPendientesAsync(SoftPacBusiness.FacturasWS.listarPendientesRequest request);
+        
+        // CODEGEN: El parámetro 'return' requiere información adicional de esquema que no se puede capturar con el modo de parámetros. El atributo específico es 'System.Xml.Serialization.XmlElementAttribute'.
+        [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/FacturasWS/listarFacturasRequest", ReplyAction="http://softpacws.pucp.edu.pe/FacturasWS/listarFacturasResponse")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(eliminableDTOBase))]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        SoftPacBusiness.FacturasWS.listarFacturasResponse listarFacturas(SoftPacBusiness.FacturasWS.listarFacturasRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/FacturasWS/listarFacturasRequest", ReplyAction="http://softpacws.pucp.edu.pe/FacturasWS/listarFacturasResponse")]
+        System.Threading.Tasks.Task<SoftPacBusiness.FacturasWS.listarFacturasResponse> listarFacturasAsync(SoftPacBusiness.FacturasWS.listarFacturasRequest request);
         
         // CODEGEN: El parámetro 'return' requiere información adicional de esquema que no se puede capturar con el modo de parámetros. El atributo específico es 'System.Xml.Serialization.XmlElementAttribute'.
         [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/FacturasWS/obtenerFacturaRequest", ReplyAction="http://softpacws.pucp.edu.pe/FacturasWS/obtenerFacturaResponse")]
@@ -76,14 +66,14 @@ namespace SoftPacBusiness.FacturasWS {
         System.Threading.Tasks.Task<SoftPacBusiness.FacturasWS.insertarFacturaResponse> insertarFacturaAsync(SoftPacBusiness.FacturasWS.insertarFacturaRequest request);
         
         // CODEGEN: El parámetro 'return' requiere información adicional de esquema que no se puede capturar con el modo de parámetros. El atributo específico es 'System.Xml.Serialization.XmlElementAttribute'.
-        [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/FacturasWS/eliminarFacturaRequest", ReplyAction="http://softpacws.pucp.edu.pe/FacturasWS/eliminarFacturaResponse")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/FacturasWS/eliminarDetalleFacturaRequest", ReplyAction="http://softpacws.pucp.edu.pe/FacturasWS/eliminarDetalleFacturaResponse")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(eliminableDTOBase))]
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
-        SoftPacBusiness.FacturasWS.eliminarFacturaResponse eliminarFactura(SoftPacBusiness.FacturasWS.eliminarFacturaRequest request);
+        SoftPacBusiness.FacturasWS.eliminarDetalleFacturaResponse eliminarDetalleFactura(SoftPacBusiness.FacturasWS.eliminarDetalleFacturaRequest request);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/FacturasWS/eliminarFacturaRequest", ReplyAction="http://softpacws.pucp.edu.pe/FacturasWS/eliminarFacturaResponse")]
-        System.Threading.Tasks.Task<SoftPacBusiness.FacturasWS.eliminarFacturaResponse> eliminarFacturaAsync(SoftPacBusiness.FacturasWS.eliminarFacturaRequest request);
+        [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/FacturasWS/eliminarDetalleFacturaRequest", ReplyAction="http://softpacws.pucp.edu.pe/FacturasWS/eliminarDetalleFacturaResponse")]
+        System.Threading.Tasks.Task<SoftPacBusiness.FacturasWS.eliminarDetalleFacturaResponse> eliminarDetalleFacturaAsync(SoftPacBusiness.FacturasWS.eliminarDetalleFacturaRequest request);
         
         // CODEGEN: El parámetro 'return' requiere información adicional de esquema que no se puede capturar con el modo de parámetros. El atributo específico es 'System.Xml.Serialization.XmlElementAttribute'.
         [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/FacturasWS/insertarDetalleFacturaRequest", ReplyAction="http://softpacws.pucp.edu.pe/FacturasWS/insertarDetalleFacturaResponse")]
@@ -106,14 +96,24 @@ namespace SoftPacBusiness.FacturasWS {
         System.Threading.Tasks.Task<SoftPacBusiness.FacturasWS.modificarDetalleFacturaResponse> modificarDetalleFacturaAsync(SoftPacBusiness.FacturasWS.modificarDetalleFacturaRequest request);
         
         // CODEGEN: El parámetro 'return' requiere información adicional de esquema que no se puede capturar con el modo de parámetros. El atributo específico es 'System.Xml.Serialization.XmlElementAttribute'.
-        [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/FacturasWS/eliminarDetalleFacturaRequest", ReplyAction="http://softpacws.pucp.edu.pe/FacturasWS/eliminarDetalleFacturaResponse")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/FacturasWS/eliminarFacturaRequest", ReplyAction="http://softpacws.pucp.edu.pe/FacturasWS/eliminarFacturaResponse")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(eliminableDTOBase))]
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
-        SoftPacBusiness.FacturasWS.eliminarDetalleFacturaResponse eliminarDetalleFactura(SoftPacBusiness.FacturasWS.eliminarDetalleFacturaRequest request);
+        SoftPacBusiness.FacturasWS.eliminarFacturaResponse eliminarFactura(SoftPacBusiness.FacturasWS.eliminarFacturaRequest request);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/FacturasWS/eliminarDetalleFacturaRequest", ReplyAction="http://softpacws.pucp.edu.pe/FacturasWS/eliminarDetalleFacturaResponse")]
-        System.Threading.Tasks.Task<SoftPacBusiness.FacturasWS.eliminarDetalleFacturaResponse> eliminarDetalleFacturaAsync(SoftPacBusiness.FacturasWS.eliminarDetalleFacturaRequest request);
+        [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/FacturasWS/eliminarFacturaRequest", ReplyAction="http://softpacws.pucp.edu.pe/FacturasWS/eliminarFacturaResponse")]
+        System.Threading.Tasks.Task<SoftPacBusiness.FacturasWS.eliminarFacturaResponse> eliminarFacturaAsync(SoftPacBusiness.FacturasWS.eliminarFacturaRequest request);
+        
+        // CODEGEN: El parámetro 'return' requiere información adicional de esquema que no se puede capturar con el modo de parámetros. El atributo específico es 'System.Xml.Serialization.XmlElementAttribute'.
+        [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/FacturasWS/listarPendientesPorCriteriosRequest", ReplyAction="http://softpacws.pucp.edu.pe/FacturasWS/listarPendientesPorCriteriosResponse")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(eliminableDTOBase))]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        SoftPacBusiness.FacturasWS.listarPendientesPorCriteriosResponse listarPendientesPorCriterios(SoftPacBusiness.FacturasWS.listarPendientesPorCriteriosRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/FacturasWS/listarPendientesPorCriteriosRequest", ReplyAction="http://softpacws.pucp.edu.pe/FacturasWS/listarPendientesPorCriteriosResponse")]
+        System.Threading.Tasks.Task<SoftPacBusiness.FacturasWS.listarPendientesPorCriteriosResponse> listarPendientesPorCriteriosAsync(SoftPacBusiness.FacturasWS.listarPendientesPorCriteriosRequest request);
     }
     
     /// <remarks/>
@@ -1355,75 +1355,6 @@ namespace SoftPacBusiness.FacturasWS {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="listarPendientesPorCriterios", WrapperNamespace="http://softpacws.pucp.edu.pe/", IsWrapped=true)]
-    public partial class listarPendientesPorCriteriosRequest {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://softpacws.pucp.edu.pe/", Order=0)]
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public int pais_id;
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://softpacws.pucp.edu.pe/", Order=1)]
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public System.DateTime fechaLimite;
-        
-        public listarPendientesPorCriteriosRequest() {
-        }
-        
-        public listarPendientesPorCriteriosRequest(int pais_id, System.DateTime fechaLimite) {
-            this.pais_id = pais_id;
-            this.fechaLimite = fechaLimite;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="listarPendientesPorCriteriosResponse", WrapperNamespace="http://softpacws.pucp.edu.pe/", IsWrapped=true)]
-    public partial class listarPendientesPorCriteriosResponse {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://softpacws.pucp.edu.pe/", Order=0)]
-        [System.Xml.Serialization.XmlElementAttribute("return", Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public SoftPacBusiness.FacturasWS.facturasDTO[] @return;
-        
-        public listarPendientesPorCriteriosResponse() {
-        }
-        
-        public listarPendientesPorCriteriosResponse(SoftPacBusiness.FacturasWS.facturasDTO[] @return) {
-            this.@return = @return;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="listarFacturas", WrapperNamespace="http://softpacws.pucp.edu.pe/", IsWrapped=true)]
-    public partial class listarFacturasRequest {
-        
-        public listarFacturasRequest() {
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="listarFacturasResponse", WrapperNamespace="http://softpacws.pucp.edu.pe/", IsWrapped=true)]
-    public partial class listarFacturasResponse {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://softpacws.pucp.edu.pe/", Order=0)]
-        [System.Xml.Serialization.XmlElementAttribute("return", Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public SoftPacBusiness.FacturasWS.facturasDTO[] @return;
-        
-        public listarFacturasResponse() {
-        }
-        
-        public listarFacturasResponse(SoftPacBusiness.FacturasWS.facturasDTO[] @return) {
-            this.@return = @return;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
     [System.ServiceModel.MessageContractAttribute(WrapperName="modificarFactura", WrapperNamespace="http://softpacws.pucp.edu.pe/", IsWrapped=true)]
     public partial class modificarFacturaRequest {
         
@@ -1481,6 +1412,34 @@ namespace SoftPacBusiness.FacturasWS {
         }
         
         public listarPendientesResponse(SoftPacBusiness.FacturasWS.facturasDTO[] @return) {
+            this.@return = @return;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="listarFacturas", WrapperNamespace="http://softpacws.pucp.edu.pe/", IsWrapped=true)]
+    public partial class listarFacturasRequest {
+        
+        public listarFacturasRequest() {
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="listarFacturasResponse", WrapperNamespace="http://softpacws.pucp.edu.pe/", IsWrapped=true)]
+    public partial class listarFacturasResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://softpacws.pucp.edu.pe/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute("return", Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public SoftPacBusiness.FacturasWS.facturasDTO[] @return;
+        
+        public listarFacturasResponse() {
+        }
+        
+        public listarFacturasResponse(SoftPacBusiness.FacturasWS.facturasDTO[] @return) {
             this.@return = @return;
         }
     }
@@ -1560,22 +1519,22 @@ namespace SoftPacBusiness.FacturasWS {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="eliminarFactura", WrapperNamespace="http://softpacws.pucp.edu.pe/", IsWrapped=true)]
-    public partial class eliminarFacturaRequest {
+    [System.ServiceModel.MessageContractAttribute(WrapperName="eliminarDetalleFactura", WrapperNamespace="http://softpacws.pucp.edu.pe/", IsWrapped=true)]
+    public partial class eliminarDetalleFacturaRequest {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://softpacws.pucp.edu.pe/", Order=0)]
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public SoftPacBusiness.FacturasWS.facturasDTO factura;
+        public SoftPacBusiness.FacturasWS.detallesFacturaDTO detalle;
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://softpacws.pucp.edu.pe/", Order=1)]
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public SoftPacBusiness.FacturasWS.usuariosDTO usuarioActual;
         
-        public eliminarFacturaRequest() {
+        public eliminarDetalleFacturaRequest() {
         }
         
-        public eliminarFacturaRequest(SoftPacBusiness.FacturasWS.facturasDTO factura, SoftPacBusiness.FacturasWS.usuariosDTO usuarioActual) {
-            this.factura = factura;
+        public eliminarDetalleFacturaRequest(SoftPacBusiness.FacturasWS.detallesFacturaDTO detalle, SoftPacBusiness.FacturasWS.usuariosDTO usuarioActual) {
+            this.detalle = detalle;
             this.usuarioActual = usuarioActual;
         }
     }
@@ -1583,17 +1542,17 @@ namespace SoftPacBusiness.FacturasWS {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="eliminarFacturaResponse", WrapperNamespace="http://softpacws.pucp.edu.pe/", IsWrapped=true)]
-    public partial class eliminarFacturaResponse {
+    [System.ServiceModel.MessageContractAttribute(WrapperName="eliminarDetalleFacturaResponse", WrapperNamespace="http://softpacws.pucp.edu.pe/", IsWrapped=true)]
+    public partial class eliminarDetalleFacturaResponse {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://softpacws.pucp.edu.pe/", Order=0)]
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public int @return;
         
-        public eliminarFacturaResponse() {
+        public eliminarDetalleFacturaResponse() {
         }
         
-        public eliminarFacturaResponse(int @return) {
+        public eliminarDetalleFacturaResponse(int @return) {
             this.@return = @return;
         }
     }
@@ -1673,22 +1632,22 @@ namespace SoftPacBusiness.FacturasWS {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="eliminarDetalleFactura", WrapperNamespace="http://softpacws.pucp.edu.pe/", IsWrapped=true)]
-    public partial class eliminarDetalleFacturaRequest {
+    [System.ServiceModel.MessageContractAttribute(WrapperName="eliminarFactura", WrapperNamespace="http://softpacws.pucp.edu.pe/", IsWrapped=true)]
+    public partial class eliminarFacturaRequest {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://softpacws.pucp.edu.pe/", Order=0)]
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public SoftPacBusiness.FacturasWS.detallesFacturaDTO detalle;
+        public SoftPacBusiness.FacturasWS.facturasDTO factura;
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://softpacws.pucp.edu.pe/", Order=1)]
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public SoftPacBusiness.FacturasWS.usuariosDTO usuarioActual;
         
-        public eliminarDetalleFacturaRequest() {
+        public eliminarFacturaRequest() {
         }
         
-        public eliminarDetalleFacturaRequest(SoftPacBusiness.FacturasWS.detallesFacturaDTO detalle, SoftPacBusiness.FacturasWS.usuariosDTO usuarioActual) {
-            this.detalle = detalle;
+        public eliminarFacturaRequest(SoftPacBusiness.FacturasWS.facturasDTO factura, SoftPacBusiness.FacturasWS.usuariosDTO usuarioActual) {
+            this.factura = factura;
             this.usuarioActual = usuarioActual;
         }
     }
@@ -1696,17 +1655,58 @@ namespace SoftPacBusiness.FacturasWS {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="eliminarDetalleFacturaResponse", WrapperNamespace="http://softpacws.pucp.edu.pe/", IsWrapped=true)]
-    public partial class eliminarDetalleFacturaResponse {
+    [System.ServiceModel.MessageContractAttribute(WrapperName="eliminarFacturaResponse", WrapperNamespace="http://softpacws.pucp.edu.pe/", IsWrapped=true)]
+    public partial class eliminarFacturaResponse {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://softpacws.pucp.edu.pe/", Order=0)]
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public int @return;
         
-        public eliminarDetalleFacturaResponse() {
+        public eliminarFacturaResponse() {
         }
         
-        public eliminarDetalleFacturaResponse(int @return) {
+        public eliminarFacturaResponse(int @return) {
+            this.@return = @return;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="listarPendientesPorCriterios", WrapperNamespace="http://softpacws.pucp.edu.pe/", IsWrapped=true)]
+    public partial class listarPendientesPorCriteriosRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://softpacws.pucp.edu.pe/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public int pais_id;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://softpacws.pucp.edu.pe/", Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public System.DateTime fechaLimite;
+        
+        public listarPendientesPorCriteriosRequest() {
+        }
+        
+        public listarPendientesPorCriteriosRequest(int pais_id, System.DateTime fechaLimite) {
+            this.pais_id = pais_id;
+            this.fechaLimite = fechaLimite;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="listarPendientesPorCriteriosResponse", WrapperNamespace="http://softpacws.pucp.edu.pe/", IsWrapped=true)]
+    public partial class listarPendientesPorCriteriosResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://softpacws.pucp.edu.pe/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute("return", Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public SoftPacBusiness.FacturasWS.facturasDTO[] @return;
+        
+        public listarPendientesPorCriteriosResponse() {
+        }
+        
+        public listarPendientesPorCriteriosResponse(SoftPacBusiness.FacturasWS.facturasDTO[] @return) {
             this.@return = @return;
         }
     }
@@ -1736,52 +1736,6 @@ namespace SoftPacBusiness.FacturasWS {
         
         public FacturasWSClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
                 base(binding, remoteAddress) {
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        SoftPacBusiness.FacturasWS.listarPendientesPorCriteriosResponse SoftPacBusiness.FacturasWS.FacturasWS.listarPendientesPorCriterios(SoftPacBusiness.FacturasWS.listarPendientesPorCriteriosRequest request) {
-            return base.Channel.listarPendientesPorCriterios(request);
-        }
-        
-        public SoftPacBusiness.FacturasWS.facturasDTO[] listarPendientesPorCriterios(int pais_id, System.DateTime fechaLimite) {
-            SoftPacBusiness.FacturasWS.listarPendientesPorCriteriosRequest inValue = new SoftPacBusiness.FacturasWS.listarPendientesPorCriteriosRequest();
-            inValue.pais_id = pais_id;
-            inValue.fechaLimite = fechaLimite;
-            SoftPacBusiness.FacturasWS.listarPendientesPorCriteriosResponse retVal = ((SoftPacBusiness.FacturasWS.FacturasWS)(this)).listarPendientesPorCriterios(inValue);
-            return retVal.@return;
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<SoftPacBusiness.FacturasWS.listarPendientesPorCriteriosResponse> SoftPacBusiness.FacturasWS.FacturasWS.listarPendientesPorCriteriosAsync(SoftPacBusiness.FacturasWS.listarPendientesPorCriteriosRequest request) {
-            return base.Channel.listarPendientesPorCriteriosAsync(request);
-        }
-        
-        public System.Threading.Tasks.Task<SoftPacBusiness.FacturasWS.listarPendientesPorCriteriosResponse> listarPendientesPorCriteriosAsync(int pais_id, System.DateTime fechaLimite) {
-            SoftPacBusiness.FacturasWS.listarPendientesPorCriteriosRequest inValue = new SoftPacBusiness.FacturasWS.listarPendientesPorCriteriosRequest();
-            inValue.pais_id = pais_id;
-            inValue.fechaLimite = fechaLimite;
-            return ((SoftPacBusiness.FacturasWS.FacturasWS)(this)).listarPendientesPorCriteriosAsync(inValue);
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        SoftPacBusiness.FacturasWS.listarFacturasResponse SoftPacBusiness.FacturasWS.FacturasWS.listarFacturas(SoftPacBusiness.FacturasWS.listarFacturasRequest request) {
-            return base.Channel.listarFacturas(request);
-        }
-        
-        public SoftPacBusiness.FacturasWS.facturasDTO[] listarFacturas() {
-            SoftPacBusiness.FacturasWS.listarFacturasRequest inValue = new SoftPacBusiness.FacturasWS.listarFacturasRequest();
-            SoftPacBusiness.FacturasWS.listarFacturasResponse retVal = ((SoftPacBusiness.FacturasWS.FacturasWS)(this)).listarFacturas(inValue);
-            return retVal.@return;
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<SoftPacBusiness.FacturasWS.listarFacturasResponse> SoftPacBusiness.FacturasWS.FacturasWS.listarFacturasAsync(SoftPacBusiness.FacturasWS.listarFacturasRequest request) {
-            return base.Channel.listarFacturasAsync(request);
-        }
-        
-        public System.Threading.Tasks.Task<SoftPacBusiness.FacturasWS.listarFacturasResponse> listarFacturasAsync() {
-            SoftPacBusiness.FacturasWS.listarFacturasRequest inValue = new SoftPacBusiness.FacturasWS.listarFacturasRequest();
-            return ((SoftPacBusiness.FacturasWS.FacturasWS)(this)).listarFacturasAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -1826,6 +1780,27 @@ namespace SoftPacBusiness.FacturasWS {
         public System.Threading.Tasks.Task<SoftPacBusiness.FacturasWS.listarPendientesResponse> listarPendientesAsync() {
             SoftPacBusiness.FacturasWS.listarPendientesRequest inValue = new SoftPacBusiness.FacturasWS.listarPendientesRequest();
             return ((SoftPacBusiness.FacturasWS.FacturasWS)(this)).listarPendientesAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        SoftPacBusiness.FacturasWS.listarFacturasResponse SoftPacBusiness.FacturasWS.FacturasWS.listarFacturas(SoftPacBusiness.FacturasWS.listarFacturasRequest request) {
+            return base.Channel.listarFacturas(request);
+        }
+        
+        public SoftPacBusiness.FacturasWS.facturasDTO[] listarFacturas() {
+            SoftPacBusiness.FacturasWS.listarFacturasRequest inValue = new SoftPacBusiness.FacturasWS.listarFacturasRequest();
+            SoftPacBusiness.FacturasWS.listarFacturasResponse retVal = ((SoftPacBusiness.FacturasWS.FacturasWS)(this)).listarFacturas(inValue);
+            return retVal.@return;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<SoftPacBusiness.FacturasWS.listarFacturasResponse> SoftPacBusiness.FacturasWS.FacturasWS.listarFacturasAsync(SoftPacBusiness.FacturasWS.listarFacturasRequest request) {
+            return base.Channel.listarFacturasAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<SoftPacBusiness.FacturasWS.listarFacturasResponse> listarFacturasAsync() {
+            SoftPacBusiness.FacturasWS.listarFacturasRequest inValue = new SoftPacBusiness.FacturasWS.listarFacturasRequest();
+            return ((SoftPacBusiness.FacturasWS.FacturasWS)(this)).listarFacturasAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -1875,28 +1850,28 @@ namespace SoftPacBusiness.FacturasWS {
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        SoftPacBusiness.FacturasWS.eliminarFacturaResponse SoftPacBusiness.FacturasWS.FacturasWS.eliminarFactura(SoftPacBusiness.FacturasWS.eliminarFacturaRequest request) {
-            return base.Channel.eliminarFactura(request);
+        SoftPacBusiness.FacturasWS.eliminarDetalleFacturaResponse SoftPacBusiness.FacturasWS.FacturasWS.eliminarDetalleFactura(SoftPacBusiness.FacturasWS.eliminarDetalleFacturaRequest request) {
+            return base.Channel.eliminarDetalleFactura(request);
         }
         
-        public int eliminarFactura(SoftPacBusiness.FacturasWS.facturasDTO factura, SoftPacBusiness.FacturasWS.usuariosDTO usuarioActual) {
-            SoftPacBusiness.FacturasWS.eliminarFacturaRequest inValue = new SoftPacBusiness.FacturasWS.eliminarFacturaRequest();
-            inValue.factura = factura;
+        public int eliminarDetalleFactura(SoftPacBusiness.FacturasWS.detallesFacturaDTO detalle, SoftPacBusiness.FacturasWS.usuariosDTO usuarioActual) {
+            SoftPacBusiness.FacturasWS.eliminarDetalleFacturaRequest inValue = new SoftPacBusiness.FacturasWS.eliminarDetalleFacturaRequest();
+            inValue.detalle = detalle;
             inValue.usuarioActual = usuarioActual;
-            SoftPacBusiness.FacturasWS.eliminarFacturaResponse retVal = ((SoftPacBusiness.FacturasWS.FacturasWS)(this)).eliminarFactura(inValue);
+            SoftPacBusiness.FacturasWS.eliminarDetalleFacturaResponse retVal = ((SoftPacBusiness.FacturasWS.FacturasWS)(this)).eliminarDetalleFactura(inValue);
             return retVal.@return;
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<SoftPacBusiness.FacturasWS.eliminarFacturaResponse> SoftPacBusiness.FacturasWS.FacturasWS.eliminarFacturaAsync(SoftPacBusiness.FacturasWS.eliminarFacturaRequest request) {
-            return base.Channel.eliminarFacturaAsync(request);
+        System.Threading.Tasks.Task<SoftPacBusiness.FacturasWS.eliminarDetalleFacturaResponse> SoftPacBusiness.FacturasWS.FacturasWS.eliminarDetalleFacturaAsync(SoftPacBusiness.FacturasWS.eliminarDetalleFacturaRequest request) {
+            return base.Channel.eliminarDetalleFacturaAsync(request);
         }
         
-        public System.Threading.Tasks.Task<SoftPacBusiness.FacturasWS.eliminarFacturaResponse> eliminarFacturaAsync(SoftPacBusiness.FacturasWS.facturasDTO factura, SoftPacBusiness.FacturasWS.usuariosDTO usuarioActual) {
-            SoftPacBusiness.FacturasWS.eliminarFacturaRequest inValue = new SoftPacBusiness.FacturasWS.eliminarFacturaRequest();
-            inValue.factura = factura;
+        public System.Threading.Tasks.Task<SoftPacBusiness.FacturasWS.eliminarDetalleFacturaResponse> eliminarDetalleFacturaAsync(SoftPacBusiness.FacturasWS.detallesFacturaDTO detalle, SoftPacBusiness.FacturasWS.usuariosDTO usuarioActual) {
+            SoftPacBusiness.FacturasWS.eliminarDetalleFacturaRequest inValue = new SoftPacBusiness.FacturasWS.eliminarDetalleFacturaRequest();
+            inValue.detalle = detalle;
             inValue.usuarioActual = usuarioActual;
-            return ((SoftPacBusiness.FacturasWS.FacturasWS)(this)).eliminarFacturaAsync(inValue);
+            return ((SoftPacBusiness.FacturasWS.FacturasWS)(this)).eliminarDetalleFacturaAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -1946,28 +1921,53 @@ namespace SoftPacBusiness.FacturasWS {
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        SoftPacBusiness.FacturasWS.eliminarDetalleFacturaResponse SoftPacBusiness.FacturasWS.FacturasWS.eliminarDetalleFactura(SoftPacBusiness.FacturasWS.eliminarDetalleFacturaRequest request) {
-            return base.Channel.eliminarDetalleFactura(request);
+        SoftPacBusiness.FacturasWS.eliminarFacturaResponse SoftPacBusiness.FacturasWS.FacturasWS.eliminarFactura(SoftPacBusiness.FacturasWS.eliminarFacturaRequest request) {
+            return base.Channel.eliminarFactura(request);
         }
         
-        public int eliminarDetalleFactura(SoftPacBusiness.FacturasWS.detallesFacturaDTO detalle, SoftPacBusiness.FacturasWS.usuariosDTO usuarioActual) {
-            SoftPacBusiness.FacturasWS.eliminarDetalleFacturaRequest inValue = new SoftPacBusiness.FacturasWS.eliminarDetalleFacturaRequest();
-            inValue.detalle = detalle;
+        public int eliminarFactura(SoftPacBusiness.FacturasWS.facturasDTO factura, SoftPacBusiness.FacturasWS.usuariosDTO usuarioActual) {
+            SoftPacBusiness.FacturasWS.eliminarFacturaRequest inValue = new SoftPacBusiness.FacturasWS.eliminarFacturaRequest();
+            inValue.factura = factura;
             inValue.usuarioActual = usuarioActual;
-            SoftPacBusiness.FacturasWS.eliminarDetalleFacturaResponse retVal = ((SoftPacBusiness.FacturasWS.FacturasWS)(this)).eliminarDetalleFactura(inValue);
+            SoftPacBusiness.FacturasWS.eliminarFacturaResponse retVal = ((SoftPacBusiness.FacturasWS.FacturasWS)(this)).eliminarFactura(inValue);
             return retVal.@return;
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<SoftPacBusiness.FacturasWS.eliminarDetalleFacturaResponse> SoftPacBusiness.FacturasWS.FacturasWS.eliminarDetalleFacturaAsync(SoftPacBusiness.FacturasWS.eliminarDetalleFacturaRequest request) {
-            return base.Channel.eliminarDetalleFacturaAsync(request);
+        System.Threading.Tasks.Task<SoftPacBusiness.FacturasWS.eliminarFacturaResponse> SoftPacBusiness.FacturasWS.FacturasWS.eliminarFacturaAsync(SoftPacBusiness.FacturasWS.eliminarFacturaRequest request) {
+            return base.Channel.eliminarFacturaAsync(request);
         }
         
-        public System.Threading.Tasks.Task<SoftPacBusiness.FacturasWS.eliminarDetalleFacturaResponse> eliminarDetalleFacturaAsync(SoftPacBusiness.FacturasWS.detallesFacturaDTO detalle, SoftPacBusiness.FacturasWS.usuariosDTO usuarioActual) {
-            SoftPacBusiness.FacturasWS.eliminarDetalleFacturaRequest inValue = new SoftPacBusiness.FacturasWS.eliminarDetalleFacturaRequest();
-            inValue.detalle = detalle;
+        public System.Threading.Tasks.Task<SoftPacBusiness.FacturasWS.eliminarFacturaResponse> eliminarFacturaAsync(SoftPacBusiness.FacturasWS.facturasDTO factura, SoftPacBusiness.FacturasWS.usuariosDTO usuarioActual) {
+            SoftPacBusiness.FacturasWS.eliminarFacturaRequest inValue = new SoftPacBusiness.FacturasWS.eliminarFacturaRequest();
+            inValue.factura = factura;
             inValue.usuarioActual = usuarioActual;
-            return ((SoftPacBusiness.FacturasWS.FacturasWS)(this)).eliminarDetalleFacturaAsync(inValue);
+            return ((SoftPacBusiness.FacturasWS.FacturasWS)(this)).eliminarFacturaAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        SoftPacBusiness.FacturasWS.listarPendientesPorCriteriosResponse SoftPacBusiness.FacturasWS.FacturasWS.listarPendientesPorCriterios(SoftPacBusiness.FacturasWS.listarPendientesPorCriteriosRequest request) {
+            return base.Channel.listarPendientesPorCriterios(request);
+        }
+        
+        public SoftPacBusiness.FacturasWS.facturasDTO[] listarPendientesPorCriterios(int pais_id, System.DateTime fechaLimite) {
+            SoftPacBusiness.FacturasWS.listarPendientesPorCriteriosRequest inValue = new SoftPacBusiness.FacturasWS.listarPendientesPorCriteriosRequest();
+            inValue.pais_id = pais_id;
+            inValue.fechaLimite = fechaLimite;
+            SoftPacBusiness.FacturasWS.listarPendientesPorCriteriosResponse retVal = ((SoftPacBusiness.FacturasWS.FacturasWS)(this)).listarPendientesPorCriterios(inValue);
+            return retVal.@return;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<SoftPacBusiness.FacturasWS.listarPendientesPorCriteriosResponse> SoftPacBusiness.FacturasWS.FacturasWS.listarPendientesPorCriteriosAsync(SoftPacBusiness.FacturasWS.listarPendientesPorCriteriosRequest request) {
+            return base.Channel.listarPendientesPorCriteriosAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<SoftPacBusiness.FacturasWS.listarPendientesPorCriteriosResponse> listarPendientesPorCriteriosAsync(int pais_id, System.DateTime fechaLimite) {
+            SoftPacBusiness.FacturasWS.listarPendientesPorCriteriosRequest inValue = new SoftPacBusiness.FacturasWS.listarPendientesPorCriteriosRequest();
+            inValue.pais_id = pais_id;
+            inValue.fechaLimite = fechaLimite;
+            return ((SoftPacBusiness.FacturasWS.FacturasWS)(this)).listarPendientesPorCriteriosAsync(inValue);
         }
     }
 }

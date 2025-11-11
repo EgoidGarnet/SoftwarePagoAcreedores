@@ -17,7 +17,7 @@ namespace SoftPac.Business
 
         // ================= MÉTODOS =================
 
-        public IList<cuentasAcreedorDTO> obtenerPorAcreedor(int acreedor_id)
+        public IList<cuentasAcreedorDTO> ObtenerPorAcreedor(int acreedor_id)
         {
             try
             {
@@ -29,21 +29,6 @@ namespace SoftPac.Business
             catch (Exception ex)
             {
                 throw new ApplicationException("Error al obtener cuentas por acreedor.", ex);
-            }
-        }
-
-        public IList<cuentasAcreedorDTO> ObtenerPorAcreedor(int acreedor_id)
-        {
-            try
-            {
-                var cuentas = this.cuentasAcreedorClienteSOAP.obtenerCuentasPorAcreedor_v2(acreedor_id);
-                if (cuentas == null)
-                    cuentas = Array.Empty<cuentasAcreedorDTO>();
-                return cuentas.ToList();
-            }
-            catch (Exception ex)
-            {
-                throw new ApplicationException("Error al obtener cuentas por acreedor (v2).", ex);
             }
         }
 
@@ -105,6 +90,8 @@ namespace SoftPac.Business
                 // Creamos un DTO mínimo con los datos necesarios
                 var cuenta = new cuentasAcreedorDTO();
                 cuenta.cuenta_bancaria_id = cuenta_bancaria_id;
+                cuenta.cuenta_bancaria_idSpecified = true;
+                usuario.usuario_idSpecified = true;
                 return this.cuentasAcreedorClienteSOAP.eliminarCuentaAcreedorParametros(cuenta, usuario);
             }
             catch (Exception ex)

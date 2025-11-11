@@ -16,18 +16,14 @@ namespace SoftPacBusiness.PropuestaPagoWS {
     public interface PropuestaPagoWS {
         
         // CODEGEN: El parámetro 'return' requiere información adicional de esquema que no se puede capturar con el modo de parámetros. El atributo específico es 'System.Xml.Serialization.XmlElementAttribute'.
-        [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/PropuestaPagoWS/listarUltimasPropuestasPorUsuarioReq" +
-            "uest", ReplyAction="http://softpacws.pucp.edu.pe/PropuestaPagoWS/listarUltimasPropuestasPorUsuarioRes" +
-            "ponse")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/PropuestaPagoWS/confirmarEnvioPropuestaRequest", ReplyAction="http://softpacws.pucp.edu.pe/PropuestaPagoWS/confirmarEnvioPropuestaResponse")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(eliminableDTOBase))]
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
-        SoftPacBusiness.PropuestaPagoWS.listarUltimasPropuestasPorUsuarioResponse listarUltimasPropuestasPorUsuario(SoftPacBusiness.PropuestaPagoWS.listarUltimasPropuestasPorUsuarioRequest request);
+        SoftPacBusiness.PropuestaPagoWS.confirmarEnvioPropuestaResponse confirmarEnvioPropuesta(SoftPacBusiness.PropuestaPagoWS.confirmarEnvioPropuestaRequest request);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/PropuestaPagoWS/listarUltimasPropuestasPorUsuarioReq" +
-            "uest", ReplyAction="http://softpacws.pucp.edu.pe/PropuestaPagoWS/listarUltimasPropuestasPorUsuarioRes" +
-            "ponse")]
-        System.Threading.Tasks.Task<SoftPacBusiness.PropuestaPagoWS.listarUltimasPropuestasPorUsuarioResponse> listarUltimasPropuestasPorUsuarioAsync(SoftPacBusiness.PropuestaPagoWS.listarUltimasPropuestasPorUsuarioRequest request);
+        [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/PropuestaPagoWS/confirmarEnvioPropuestaRequest", ReplyAction="http://softpacws.pucp.edu.pe/PropuestaPagoWS/confirmarEnvioPropuestaResponse")]
+        System.Threading.Tasks.Task<SoftPacBusiness.PropuestaPagoWS.confirmarEnvioPropuestaResponse> confirmarEnvioPropuestaAsync(SoftPacBusiness.PropuestaPagoWS.confirmarEnvioPropuestaRequest request);
         
         // CODEGEN: El parámetro 'return' requiere información adicional de esquema que no se puede capturar con el modo de parámetros. El atributo específico es 'System.Xml.Serialization.XmlElementAttribute'.
         [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/PropuestaPagoWS/listarActividadPorUsuarioRequest", ReplyAction="http://softpacws.pucp.edu.pe/PropuestaPagoWS/listarActividadPorUsuarioResponse")]
@@ -40,14 +36,14 @@ namespace SoftPacBusiness.PropuestaPagoWS {
         System.Threading.Tasks.Task<SoftPacBusiness.PropuestaPagoWS.listarActividadPorUsuarioResponse> listarActividadPorUsuarioAsync(SoftPacBusiness.PropuestaPagoWS.listarActividadPorUsuarioRequest request);
         
         // CODEGEN: El parámetro 'return' requiere información adicional de esquema que no se puede capturar con el modo de parámetros. El atributo específico es 'System.Xml.Serialization.XmlElementAttribute'.
-        [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/PropuestaPagoWS/generarDetallesPropuestaRequest", ReplyAction="http://softpacws.pucp.edu.pe/PropuestaPagoWS/generarDetallesPropuestaResponse")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/PropuestaPagoWS/obtenerPropuestaRequest", ReplyAction="http://softpacws.pucp.edu.pe/PropuestaPagoWS/obtenerPropuestaResponse")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(eliminableDTOBase))]
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
-        SoftPacBusiness.PropuestaPagoWS.generarDetallesPropuestaResponse generarDetallesPropuesta(SoftPacBusiness.PropuestaPagoWS.generarDetallesPropuestaRequest request);
+        SoftPacBusiness.PropuestaPagoWS.obtenerPropuestaResponse obtenerPropuesta(SoftPacBusiness.PropuestaPagoWS.obtenerPropuestaRequest request);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/PropuestaPagoWS/generarDetallesPropuestaRequest", ReplyAction="http://softpacws.pucp.edu.pe/PropuestaPagoWS/generarDetallesPropuestaResponse")]
-        System.Threading.Tasks.Task<SoftPacBusiness.PropuestaPagoWS.generarDetallesPropuestaResponse> generarDetallesPropuestaAsync(SoftPacBusiness.PropuestaPagoWS.generarDetallesPropuestaRequest request);
+        [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/PropuestaPagoWS/obtenerPropuestaRequest", ReplyAction="http://softpacws.pucp.edu.pe/PropuestaPagoWS/obtenerPropuestaResponse")]
+        System.Threading.Tasks.Task<SoftPacBusiness.PropuestaPagoWS.obtenerPropuestaResponse> obtenerPropuestaAsync(SoftPacBusiness.PropuestaPagoWS.obtenerPropuestaRequest request);
         
         // CODEGEN: El parámetro 'return' requiere información adicional de esquema que no se puede capturar con el modo de parámetros. El atributo específico es 'System.Xml.Serialization.XmlElementAttribute'.
         [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/PropuestaPagoWS/insertarPropuestaRequest", ReplyAction="http://softpacws.pucp.edu.pe/PropuestaPagoWS/insertarPropuestaResponse")]
@@ -60,16 +56,6 @@ namespace SoftPacBusiness.PropuestaPagoWS {
         System.Threading.Tasks.Task<SoftPacBusiness.PropuestaPagoWS.insertarPropuestaResponse> insertarPropuestaAsync(SoftPacBusiness.PropuestaPagoWS.insertarPropuestaRequest request);
         
         // CODEGEN: El parámetro 'return' requiere información adicional de esquema que no se puede capturar con el modo de parámetros. El atributo específico es 'System.Xml.Serialization.XmlElementAttribute'.
-        [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/PropuestaPagoWS/modificarPropuestaRequest", ReplyAction="http://softpacws.pucp.edu.pe/PropuestaPagoWS/modificarPropuestaResponse")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(eliminableDTOBase))]
-        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
-        SoftPacBusiness.PropuestaPagoWS.modificarPropuestaResponse modificarPropuesta(SoftPacBusiness.PropuestaPagoWS.modificarPropuestaRequest request);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/PropuestaPagoWS/modificarPropuestaRequest", ReplyAction="http://softpacws.pucp.edu.pe/PropuestaPagoWS/modificarPropuestaResponse")]
-        System.Threading.Tasks.Task<SoftPacBusiness.PropuestaPagoWS.modificarPropuestaResponse> modificarPropuestaAsync(SoftPacBusiness.PropuestaPagoWS.modificarPropuestaRequest request);
-        
-        // CODEGEN: El parámetro 'return' requiere información adicional de esquema que no se puede capturar con el modo de parámetros. El atributo específico es 'System.Xml.Serialization.XmlElementAttribute'.
         [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/PropuestaPagoWS/generarDetallesParcialesRequest", ReplyAction="http://softpacws.pucp.edu.pe/PropuestaPagoWS/generarDetallesParcialesResponse")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(eliminableDTOBase))]
@@ -78,16 +64,6 @@ namespace SoftPacBusiness.PropuestaPagoWS {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/PropuestaPagoWS/generarDetallesParcialesRequest", ReplyAction="http://softpacws.pucp.edu.pe/PropuestaPagoWS/generarDetallesParcialesResponse")]
         System.Threading.Tasks.Task<SoftPacBusiness.PropuestaPagoWS.generarDetallesParcialesResponse> generarDetallesParcialesAsync(SoftPacBusiness.PropuestaPagoWS.generarDetallesParcialesRequest request);
-        
-        // CODEGEN: El parámetro 'return' requiere información adicional de esquema que no se puede capturar con el modo de parámetros. El atributo específico es 'System.Xml.Serialization.XmlElementAttribute'.
-        [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/PropuestaPagoWS/insertarDetallePropuestaRequest", ReplyAction="http://softpacws.pucp.edu.pe/PropuestaPagoWS/insertarDetallePropuestaResponse")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(eliminableDTOBase))]
-        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
-        SoftPacBusiness.PropuestaPagoWS.insertarDetallePropuestaResponse insertarDetallePropuesta(SoftPacBusiness.PropuestaPagoWS.insertarDetallePropuestaRequest request);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/PropuestaPagoWS/insertarDetallePropuestaRequest", ReplyAction="http://softpacws.pucp.edu.pe/PropuestaPagoWS/insertarDetallePropuestaResponse")]
-        System.Threading.Tasks.Task<SoftPacBusiness.PropuestaPagoWS.insertarDetallePropuestaResponse> insertarDetallePropuestaAsync(SoftPacBusiness.PropuestaPagoWS.insertarDetallePropuestaRequest request);
         
         // CODEGEN: El parámetro 'return' requiere información adicional de esquema que no se puede capturar con el modo de parámetros. El atributo específico es 'System.Xml.Serialization.XmlElementAttribute'.
         [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/PropuestaPagoWS/modificarDetallePropuestaRequest", ReplyAction="http://softpacws.pucp.edu.pe/PropuestaPagoWS/modificarDetallePropuestaResponse")]
@@ -100,6 +76,16 @@ namespace SoftPacBusiness.PropuestaPagoWS {
         System.Threading.Tasks.Task<SoftPacBusiness.PropuestaPagoWS.modificarDetallePropuestaResponse> modificarDetallePropuestaAsync(SoftPacBusiness.PropuestaPagoWS.modificarDetallePropuestaRequest request);
         
         // CODEGEN: El parámetro 'return' requiere información adicional de esquema que no se puede capturar con el modo de parámetros. El atributo específico es 'System.Xml.Serialization.XmlElementAttribute'.
+        [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/PropuestaPagoWS/insertarDetallePropuestaRequest", ReplyAction="http://softpacws.pucp.edu.pe/PropuestaPagoWS/insertarDetallePropuestaResponse")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(eliminableDTOBase))]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        SoftPacBusiness.PropuestaPagoWS.insertarDetallePropuestaResponse insertarDetallePropuesta(SoftPacBusiness.PropuestaPagoWS.insertarDetallePropuestaRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/PropuestaPagoWS/insertarDetallePropuestaRequest", ReplyAction="http://softpacws.pucp.edu.pe/PropuestaPagoWS/insertarDetallePropuestaResponse")]
+        System.Threading.Tasks.Task<SoftPacBusiness.PropuestaPagoWS.insertarDetallePropuestaResponse> insertarDetallePropuestaAsync(SoftPacBusiness.PropuestaPagoWS.insertarDetallePropuestaRequest request);
+        
+        // CODEGEN: El parámetro 'return' requiere información adicional de esquema que no se puede capturar con el modo de parámetros. El atributo específico es 'System.Xml.Serialization.XmlElementAttribute'.
         [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/PropuestaPagoWS/listarConFiltrosRequest", ReplyAction="http://softpacws.pucp.edu.pe/PropuestaPagoWS/listarConFiltrosResponse")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(eliminableDTOBase))]
@@ -110,14 +96,24 @@ namespace SoftPacBusiness.PropuestaPagoWS {
         System.Threading.Tasks.Task<SoftPacBusiness.PropuestaPagoWS.listarConFiltrosResponse> listarConFiltrosAsync(SoftPacBusiness.PropuestaPagoWS.listarConFiltrosRequest request);
         
         // CODEGEN: El parámetro 'return' requiere información adicional de esquema que no se puede capturar con el modo de parámetros. El atributo específico es 'System.Xml.Serialization.XmlElementAttribute'.
-        [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/PropuestaPagoWS/obtenerPropuestaRequest", ReplyAction="http://softpacws.pucp.edu.pe/PropuestaPagoWS/obtenerPropuestaResponse")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/PropuestaPagoWS/generarDetallesPropuestaRequest", ReplyAction="http://softpacws.pucp.edu.pe/PropuestaPagoWS/generarDetallesPropuestaResponse")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(eliminableDTOBase))]
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
-        SoftPacBusiness.PropuestaPagoWS.obtenerPropuestaResponse obtenerPropuesta(SoftPacBusiness.PropuestaPagoWS.obtenerPropuestaRequest request);
+        SoftPacBusiness.PropuestaPagoWS.generarDetallesPropuestaResponse generarDetallesPropuesta(SoftPacBusiness.PropuestaPagoWS.generarDetallesPropuestaRequest request);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/PropuestaPagoWS/obtenerPropuestaRequest", ReplyAction="http://softpacws.pucp.edu.pe/PropuestaPagoWS/obtenerPropuestaResponse")]
-        System.Threading.Tasks.Task<SoftPacBusiness.PropuestaPagoWS.obtenerPropuestaResponse> obtenerPropuestaAsync(SoftPacBusiness.PropuestaPagoWS.obtenerPropuestaRequest request);
+        [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/PropuestaPagoWS/generarDetallesPropuestaRequest", ReplyAction="http://softpacws.pucp.edu.pe/PropuestaPagoWS/generarDetallesPropuestaResponse")]
+        System.Threading.Tasks.Task<SoftPacBusiness.PropuestaPagoWS.generarDetallesPropuestaResponse> generarDetallesPropuestaAsync(SoftPacBusiness.PropuestaPagoWS.generarDetallesPropuestaRequest request);
+        
+        // CODEGEN: El parámetro 'return' requiere información adicional de esquema que no se puede capturar con el modo de parámetros. El atributo específico es 'System.Xml.Serialization.XmlElementAttribute'.
+        [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/PropuestaPagoWS/modificarPropuestaRequest", ReplyAction="http://softpacws.pucp.edu.pe/PropuestaPagoWS/modificarPropuestaResponse")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(eliminableDTOBase))]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        SoftPacBusiness.PropuestaPagoWS.modificarPropuestaResponse modificarPropuesta(SoftPacBusiness.PropuestaPagoWS.modificarPropuestaRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/PropuestaPagoWS/modificarPropuestaRequest", ReplyAction="http://softpacws.pucp.edu.pe/PropuestaPagoWS/modificarPropuestaResponse")]
+        System.Threading.Tasks.Task<SoftPacBusiness.PropuestaPagoWS.modificarPropuestaResponse> modificarPropuestaAsync(SoftPacBusiness.PropuestaPagoWS.modificarPropuestaRequest request);
         
         // CODEGEN: El parámetro 'return' requiere información adicional de esquema que no se puede capturar con el modo de parámetros. El atributo específico es 'System.Xml.Serialization.XmlElementAttribute'.
         [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/PropuestaPagoWS/listarPropuestasPorUsuarioRequest", ReplyAction="http://softpacws.pucp.edu.pe/PropuestaPagoWS/listarPropuestasPorUsuarioResponse")]
@@ -128,6 +124,20 @@ namespace SoftPacBusiness.PropuestaPagoWS {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/PropuestaPagoWS/listarPropuestasPorUsuarioRequest", ReplyAction="http://softpacws.pucp.edu.pe/PropuestaPagoWS/listarPropuestasPorUsuarioResponse")]
         System.Threading.Tasks.Task<SoftPacBusiness.PropuestaPagoWS.listarPropuestasPorUsuarioResponse> listarPropuestasPorUsuarioAsync(SoftPacBusiness.PropuestaPagoWS.listarPropuestasPorUsuarioRequest request);
+        
+        // CODEGEN: El parámetro 'return' requiere información adicional de esquema que no se puede capturar con el modo de parámetros. El atributo específico es 'System.Xml.Serialization.XmlElementAttribute'.
+        [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/PropuestaPagoWS/listarUltimasPropuestasPorUsuarioReq" +
+            "uest", ReplyAction="http://softpacws.pucp.edu.pe/PropuestaPagoWS/listarUltimasPropuestasPorUsuarioRes" +
+            "ponse")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(eliminableDTOBase))]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        SoftPacBusiness.PropuestaPagoWS.listarUltimasPropuestasPorUsuarioResponse listarUltimasPropuestasPorUsuario(SoftPacBusiness.PropuestaPagoWS.listarUltimasPropuestasPorUsuarioRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/PropuestaPagoWS/listarUltimasPropuestasPorUsuarioReq" +
+            "uest", ReplyAction="http://softpacws.pucp.edu.pe/PropuestaPagoWS/listarUltimasPropuestasPorUsuarioRes" +
+            "ponse")]
+        System.Threading.Tasks.Task<SoftPacBusiness.PropuestaPagoWS.listarUltimasPropuestasPorUsuarioResponse> listarUltimasPropuestasPorUsuarioAsync(SoftPacBusiness.PropuestaPagoWS.listarUltimasPropuestasPorUsuarioRequest request);
     }
     
     /// <remarks/>
@@ -136,377 +146,34 @@ namespace SoftPacBusiness.PropuestaPagoWS {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://softpacws.pucp.edu.pe/")]
-    public partial class propuestasPagoDTO : eliminableDTOBase {
-        
-        private detallesPropuestaDTO[] detalles_propuestaField;
-        
-        private entidadesBancariasDTO entidad_bancariaField;
-        
-        private string estadoField;
-        
-        private System.DateTime fecha_hora_creacionField;
-        
-        private bool fecha_hora_creacionFieldSpecified;
-        
-        private System.DateTime fecha_hora_modificacionField;
-        
-        private bool fecha_hora_modificacionFieldSpecified;
-        
-        private int propuesta_idField;
-        
-        private bool propuesta_idFieldSpecified;
-        
-        private usuariosDTO usuario_creacionField;
-        
-        private usuariosDTO usuario_modificacionField;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("detalles_propuesta", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable=true, Order=0)]
-        public detallesPropuestaDTO[] detalles_propuesta {
-            get {
-                return this.detalles_propuestaField;
-            }
-            set {
-                this.detalles_propuestaField = value;
-                this.RaisePropertyChanged("detalles_propuesta");
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
-        public entidadesBancariasDTO entidad_bancaria {
-            get {
-                return this.entidad_bancariaField;
-            }
-            set {
-                this.entidad_bancariaField = value;
-                this.RaisePropertyChanged("entidad_bancaria");
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=2)]
-        public string estado {
-            get {
-                return this.estadoField;
-            }
-            set {
-                this.estadoField = value;
-                this.RaisePropertyChanged("estado");
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=3)]
-        public System.DateTime fecha_hora_creacion {
-            get {
-                return this.fecha_hora_creacionField;
-            }
-            set {
-                this.fecha_hora_creacionField = value;
-                this.RaisePropertyChanged("fecha_hora_creacion");
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool fecha_hora_creacionSpecified {
-            get {
-                return this.fecha_hora_creacionFieldSpecified;
-            }
-            set {
-                this.fecha_hora_creacionFieldSpecified = value;
-                this.RaisePropertyChanged("fecha_hora_creacionSpecified");
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=4)]
-        public System.DateTime fecha_hora_modificacion {
-            get {
-                return this.fecha_hora_modificacionField;
-            }
-            set {
-                this.fecha_hora_modificacionField = value;
-                this.RaisePropertyChanged("fecha_hora_modificacion");
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool fecha_hora_modificacionSpecified {
-            get {
-                return this.fecha_hora_modificacionFieldSpecified;
-            }
-            set {
-                this.fecha_hora_modificacionFieldSpecified = value;
-                this.RaisePropertyChanged("fecha_hora_modificacionSpecified");
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=5)]
-        public int propuesta_id {
-            get {
-                return this.propuesta_idField;
-            }
-            set {
-                this.propuesta_idField = value;
-                this.RaisePropertyChanged("propuesta_id");
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool propuesta_idSpecified {
-            get {
-                return this.propuesta_idFieldSpecified;
-            }
-            set {
-                this.propuesta_idFieldSpecified = value;
-                this.RaisePropertyChanged("propuesta_idSpecified");
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=6)]
-        public usuariosDTO usuario_creacion {
-            get {
-                return this.usuario_creacionField;
-            }
-            set {
-                this.usuario_creacionField = value;
-                this.RaisePropertyChanged("usuario_creacion");
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=7)]
-        public usuariosDTO usuario_modificacion {
-            get {
-                return this.usuario_modificacionField;
-            }
-            set {
-                this.usuario_modificacionField = value;
-                this.RaisePropertyChanged("usuario_modificacion");
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://softpacws.pucp.edu.pe/")]
-    public partial class detallesPropuestaDTO : eliminableDTOBase {
-        
-        private cuentasAcreedorDTO cuenta_acreedorField;
-        
-        private cuentasPropiasDTO cuenta_propiaField;
-        
-        private int detalle_propuesta_idField;
-        
-        private bool detalle_propuesta_idFieldSpecified;
-        
-        private facturasDTO facturaField;
-        
-        private ushort forma_pagoField;
-        
-        private decimal monto_pagoField;
-        
-        private bool monto_pagoFieldSpecified;
-        
-        private propuestasPagoDTO propuesta_pagoField;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
-        public cuentasAcreedorDTO cuenta_acreedor {
-            get {
-                return this.cuenta_acreedorField;
-            }
-            set {
-                this.cuenta_acreedorField = value;
-                this.RaisePropertyChanged("cuenta_acreedor");
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
-        public cuentasPropiasDTO cuenta_propia {
-            get {
-                return this.cuenta_propiaField;
-            }
-            set {
-                this.cuenta_propiaField = value;
-                this.RaisePropertyChanged("cuenta_propia");
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=2)]
-        public int detalle_propuesta_id {
-            get {
-                return this.detalle_propuesta_idField;
-            }
-            set {
-                this.detalle_propuesta_idField = value;
-                this.RaisePropertyChanged("detalle_propuesta_id");
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool detalle_propuesta_idSpecified {
-            get {
-                return this.detalle_propuesta_idFieldSpecified;
-            }
-            set {
-                this.detalle_propuesta_idFieldSpecified = value;
-                this.RaisePropertyChanged("detalle_propuesta_idSpecified");
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=3)]
-        public facturasDTO factura {
-            get {
-                return this.facturaField;
-            }
-            set {
-                this.facturaField = value;
-                this.RaisePropertyChanged("factura");
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=4)]
-        public ushort forma_pago {
-            get {
-                return this.forma_pagoField;
-            }
-            set {
-                this.forma_pagoField = value;
-                this.RaisePropertyChanged("forma_pago");
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=5)]
-        public decimal monto_pago {
-            get {
-                return this.monto_pagoField;
-            }
-            set {
-                this.monto_pagoField = value;
-                this.RaisePropertyChanged("monto_pago");
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool monto_pagoSpecified {
-            get {
-                return this.monto_pagoFieldSpecified;
-            }
-            set {
-                this.monto_pagoFieldSpecified = value;
-                this.RaisePropertyChanged("monto_pagoSpecified");
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=6)]
-        public propuestasPagoDTO propuesta_pago {
-            get {
-                return this.propuesta_pagoField;
-            }
-            set {
-                this.propuesta_pagoField = value;
-                this.RaisePropertyChanged("propuesta_pago");
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://softpacws.pucp.edu.pe/")]
-    public partial class cuentasAcreedorDTO : cuentasBancariasDTO {
-        
-        private acreedoresDTO acreedorField;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
-        public acreedoresDTO acreedor {
-            get {
-                return this.acreedorField;
-            }
-            set {
-                this.acreedorField = value;
-                this.RaisePropertyChanged("acreedor");
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://softpacws.pucp.edu.pe/")]
-    public partial class acreedoresDTO : eliminableDTOBase {
-        
-        private int acreedor_idField;
-        
-        private bool acreedor_idFieldSpecified;
+    public partial class usuariosDTO : eliminableDTOBase {
         
         private bool activoField;
         
         private bool activoFieldSpecified;
         
-        private string condicionField;
+        private string apellidosField;
         
-        private string direccion_fiscalField;
+        private string correo_electronicoField;
         
-        private paisesDTO paisField;
+        private string nombreField;
         
-        private int plazo_de_pagoField;
+        private string nombre_de_usuarioField;
         
-        private bool plazo_de_pagoFieldSpecified;
+        private string password_hashField;
         
-        private string razon_socialField;
+        private bool superusuarioField;
         
-        private string rucField;
+        private bool superusuarioFieldSpecified;
+        
+        private int usuario_idField;
+        
+        private bool usuario_idFieldSpecified;
+        
+        private usuarioPaisAccesoDTO[] usuario_paisField;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
-        public int acreedor_id {
-            get {
-                return this.acreedor_idField;
-            }
-            set {
-                this.acreedor_idField = value;
-                this.RaisePropertyChanged("acreedor_id");
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool acreedor_idSpecified {
-            get {
-                return this.acreedor_idFieldSpecified;
-            }
-            set {
-                this.acreedor_idFieldSpecified = value;
-                this.RaisePropertyChanged("acreedor_idSpecified");
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
         public bool activo {
             get {
                 return this.activoField;
@@ -530,31 +197,168 @@ namespace SoftPacBusiness.PropuestaPagoWS {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=2)]
-        public string condicion {
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
+        public string apellidos {
             get {
-                return this.condicionField;
+                return this.apellidosField;
             }
             set {
-                this.condicionField = value;
-                this.RaisePropertyChanged("condicion");
+                this.apellidosField = value;
+                this.RaisePropertyChanged("apellidos");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=2)]
+        public string correo_electronico {
+            get {
+                return this.correo_electronicoField;
+            }
+            set {
+                this.correo_electronicoField = value;
+                this.RaisePropertyChanged("correo_electronico");
             }
         }
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=3)]
-        public string direccion_fiscal {
+        public string nombre {
             get {
-                return this.direccion_fiscalField;
+                return this.nombreField;
             }
             set {
-                this.direccion_fiscalField = value;
-                this.RaisePropertyChanged("direccion_fiscal");
+                this.nombreField = value;
+                this.RaisePropertyChanged("nombre");
             }
         }
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=4)]
+        public string nombre_de_usuario {
+            get {
+                return this.nombre_de_usuarioField;
+            }
+            set {
+                this.nombre_de_usuarioField = value;
+                this.RaisePropertyChanged("nombre_de_usuario");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=5)]
+        public string password_hash {
+            get {
+                return this.password_hashField;
+            }
+            set {
+                this.password_hashField = value;
+                this.RaisePropertyChanged("password_hash");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=6)]
+        public bool superusuario {
+            get {
+                return this.superusuarioField;
+            }
+            set {
+                this.superusuarioField = value;
+                this.RaisePropertyChanged("superusuario");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool superusuarioSpecified {
+            get {
+                return this.superusuarioFieldSpecified;
+            }
+            set {
+                this.superusuarioFieldSpecified = value;
+                this.RaisePropertyChanged("superusuarioSpecified");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=7)]
+        public int usuario_id {
+            get {
+                return this.usuario_idField;
+            }
+            set {
+                this.usuario_idField = value;
+                this.RaisePropertyChanged("usuario_id");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool usuario_idSpecified {
+            get {
+                return this.usuario_idFieldSpecified;
+            }
+            set {
+                this.usuario_idFieldSpecified = value;
+                this.RaisePropertyChanged("usuario_idSpecified");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("usuario_pais", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable=true, Order=8)]
+        public usuarioPaisAccesoDTO[] usuario_pais {
+            get {
+                return this.usuario_paisField;
+            }
+            set {
+                this.usuario_paisField = value;
+                this.RaisePropertyChanged("usuario_pais");
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://softpacws.pucp.edu.pe/")]
+    public partial class usuarioPaisAccesoDTO : object, System.ComponentModel.INotifyPropertyChanged {
+        
+        private bool accesoField;
+        
+        private bool accesoFieldSpecified;
+        
+        private paisesDTO paisField;
+        
+        private usuariosDTO usuarioField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
+        public bool acceso {
+            get {
+                return this.accesoField;
+            }
+            set {
+                this.accesoField = value;
+                this.RaisePropertyChanged("acceso");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool accesoSpecified {
+            get {
+                return this.accesoFieldSpecified;
+            }
+            set {
+                this.accesoFieldSpecified = value;
+                this.RaisePropertyChanged("accesoSpecified");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
         public paisesDTO pais {
             get {
                 return this.paisField;
@@ -566,50 +370,23 @@ namespace SoftPacBusiness.PropuestaPagoWS {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=5)]
-        public int plazo_de_pago {
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=2)]
+        public usuariosDTO usuario {
             get {
-                return this.plazo_de_pagoField;
+                return this.usuarioField;
             }
             set {
-                this.plazo_de_pagoField = value;
-                this.RaisePropertyChanged("plazo_de_pago");
+                this.usuarioField = value;
+                this.RaisePropertyChanged("usuario");
             }
         }
         
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool plazo_de_pagoSpecified {
-            get {
-                return this.plazo_de_pagoFieldSpecified;
-            }
-            set {
-                this.plazo_de_pagoFieldSpecified = value;
-                this.RaisePropertyChanged("plazo_de_pagoSpecified");
-            }
-        }
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
         
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=6)]
-        public string razon_social {
-            get {
-                return this.razon_socialField;
-            }
-            set {
-                this.razon_socialField = value;
-                this.RaisePropertyChanged("razon_social");
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=7)]
-        public string ruc {
-            get {
-                return this.rucField;
-            }
-            set {
-                this.rucField = value;
-                this.RaisePropertyChanged("ruc");
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
             }
         }
     }
@@ -1032,257 +809,6 @@ namespace SoftPacBusiness.PropuestaPagoWS {
             System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
             if ((propertyChanged != null)) {
                 propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://softpacws.pucp.edu.pe/")]
-    public partial class usuarioPaisAccesoDTO : object, System.ComponentModel.INotifyPropertyChanged {
-        
-        private bool accesoField;
-        
-        private bool accesoFieldSpecified;
-        
-        private paisesDTO paisField;
-        
-        private usuariosDTO usuarioField;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
-        public bool acceso {
-            get {
-                return this.accesoField;
-            }
-            set {
-                this.accesoField = value;
-                this.RaisePropertyChanged("acceso");
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool accesoSpecified {
-            get {
-                return this.accesoFieldSpecified;
-            }
-            set {
-                this.accesoFieldSpecified = value;
-                this.RaisePropertyChanged("accesoSpecified");
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
-        public paisesDTO pais {
-            get {
-                return this.paisField;
-            }
-            set {
-                this.paisField = value;
-                this.RaisePropertyChanged("pais");
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=2)]
-        public usuariosDTO usuario {
-            get {
-                return this.usuarioField;
-            }
-            set {
-                this.usuarioField = value;
-                this.RaisePropertyChanged("usuario");
-            }
-        }
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://softpacws.pucp.edu.pe/")]
-    public partial class usuariosDTO : eliminableDTOBase {
-        
-        private bool activoField;
-        
-        private bool activoFieldSpecified;
-        
-        private string apellidosField;
-        
-        private string correo_electronicoField;
-        
-        private string nombreField;
-        
-        private string nombre_de_usuarioField;
-        
-        private string password_hashField;
-        
-        private bool superusuarioField;
-        
-        private bool superusuarioFieldSpecified;
-        
-        private int usuario_idField;
-        
-        private bool usuario_idFieldSpecified;
-        
-        private usuarioPaisAccesoDTO[] usuario_paisField;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
-        public bool activo {
-            get {
-                return this.activoField;
-            }
-            set {
-                this.activoField = value;
-                this.RaisePropertyChanged("activo");
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool activoSpecified {
-            get {
-                return this.activoFieldSpecified;
-            }
-            set {
-                this.activoFieldSpecified = value;
-                this.RaisePropertyChanged("activoSpecified");
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
-        public string apellidos {
-            get {
-                return this.apellidosField;
-            }
-            set {
-                this.apellidosField = value;
-                this.RaisePropertyChanged("apellidos");
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=2)]
-        public string correo_electronico {
-            get {
-                return this.correo_electronicoField;
-            }
-            set {
-                this.correo_electronicoField = value;
-                this.RaisePropertyChanged("correo_electronico");
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=3)]
-        public string nombre {
-            get {
-                return this.nombreField;
-            }
-            set {
-                this.nombreField = value;
-                this.RaisePropertyChanged("nombre");
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=4)]
-        public string nombre_de_usuario {
-            get {
-                return this.nombre_de_usuarioField;
-            }
-            set {
-                this.nombre_de_usuarioField = value;
-                this.RaisePropertyChanged("nombre_de_usuario");
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=5)]
-        public string password_hash {
-            get {
-                return this.password_hashField;
-            }
-            set {
-                this.password_hashField = value;
-                this.RaisePropertyChanged("password_hash");
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=6)]
-        public bool superusuario {
-            get {
-                return this.superusuarioField;
-            }
-            set {
-                this.superusuarioField = value;
-                this.RaisePropertyChanged("superusuario");
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool superusuarioSpecified {
-            get {
-                return this.superusuarioFieldSpecified;
-            }
-            set {
-                this.superusuarioFieldSpecified = value;
-                this.RaisePropertyChanged("superusuarioSpecified");
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=7)]
-        public int usuario_id {
-            get {
-                return this.usuario_idField;
-            }
-            set {
-                this.usuario_idField = value;
-                this.RaisePropertyChanged("usuario_id");
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool usuario_idSpecified {
-            get {
-                return this.usuario_idFieldSpecified;
-            }
-            set {
-                this.usuario_idFieldSpecified = value;
-                this.RaisePropertyChanged("usuario_idSpecified");
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("usuario_pais", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable=true, Order=8)]
-        public usuarioPaisAccesoDTO[] usuario_pais {
-            get {
-                return this.usuario_paisField;
-            }
-            set {
-                this.usuario_paisField = value;
-                this.RaisePropertyChanged("usuario_pais");
             }
         }
     }
@@ -1795,6 +1321,169 @@ namespace SoftPacBusiness.PropuestaPagoWS {
     }
     
     /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://softpacws.pucp.edu.pe/")]
+    public partial class acreedoresDTO : eliminableDTOBase {
+        
+        private int acreedor_idField;
+        
+        private bool acreedor_idFieldSpecified;
+        
+        private bool activoField;
+        
+        private bool activoFieldSpecified;
+        
+        private string condicionField;
+        
+        private string direccion_fiscalField;
+        
+        private paisesDTO paisField;
+        
+        private int plazo_de_pagoField;
+        
+        private bool plazo_de_pagoFieldSpecified;
+        
+        private string razon_socialField;
+        
+        private string rucField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
+        public int acreedor_id {
+            get {
+                return this.acreedor_idField;
+            }
+            set {
+                this.acreedor_idField = value;
+                this.RaisePropertyChanged("acreedor_id");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool acreedor_idSpecified {
+            get {
+                return this.acreedor_idFieldSpecified;
+            }
+            set {
+                this.acreedor_idFieldSpecified = value;
+                this.RaisePropertyChanged("acreedor_idSpecified");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
+        public bool activo {
+            get {
+                return this.activoField;
+            }
+            set {
+                this.activoField = value;
+                this.RaisePropertyChanged("activo");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool activoSpecified {
+            get {
+                return this.activoFieldSpecified;
+            }
+            set {
+                this.activoFieldSpecified = value;
+                this.RaisePropertyChanged("activoSpecified");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=2)]
+        public string condicion {
+            get {
+                return this.condicionField;
+            }
+            set {
+                this.condicionField = value;
+                this.RaisePropertyChanged("condicion");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=3)]
+        public string direccion_fiscal {
+            get {
+                return this.direccion_fiscalField;
+            }
+            set {
+                this.direccion_fiscalField = value;
+                this.RaisePropertyChanged("direccion_fiscal");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=4)]
+        public paisesDTO pais {
+            get {
+                return this.paisField;
+            }
+            set {
+                this.paisField = value;
+                this.RaisePropertyChanged("pais");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=5)]
+        public int plazo_de_pago {
+            get {
+                return this.plazo_de_pagoField;
+            }
+            set {
+                this.plazo_de_pagoField = value;
+                this.RaisePropertyChanged("plazo_de_pago");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool plazo_de_pagoSpecified {
+            get {
+                return this.plazo_de_pagoFieldSpecified;
+            }
+            set {
+                this.plazo_de_pagoFieldSpecified = value;
+                this.RaisePropertyChanged("plazo_de_pagoSpecified");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=6)]
+        public string razon_social {
+            get {
+                return this.razon_socialField;
+            }
+            set {
+                this.razon_socialField = value;
+                this.RaisePropertyChanged("razon_social");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=7)]
+        public string ruc {
+            get {
+                return this.rucField;
+            }
+            set {
+                this.rucField = value;
+                this.RaisePropertyChanged("ruc");
+            }
+        }
+    }
+    
+    /// <remarks/>
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(cuentasPropiasDTO))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(cuentasAcreedorDTO))]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
@@ -1968,43 +1657,364 @@ namespace SoftPacBusiness.PropuestaPagoWS {
         }
     }
     
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="listarUltimasPropuestasPorUsuario", WrapperNamespace="http://softpacws.pucp.edu.pe/", IsWrapped=true)]
-    public partial class listarUltimasPropuestasPorUsuarioRequest {
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://softpacws.pucp.edu.pe/")]
+    public partial class cuentasAcreedorDTO : cuentasBancariasDTO {
         
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://softpacws.pucp.edu.pe/", Order=0)]
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public int usuarioId;
+        private acreedoresDTO acreedorField;
         
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://softpacws.pucp.edu.pe/", Order=1)]
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public int cantidad;
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
+        public acreedoresDTO acreedor {
+            get {
+                return this.acreedorField;
+            }
+            set {
+                this.acreedorField = value;
+                this.RaisePropertyChanged("acreedor");
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://softpacws.pucp.edu.pe/")]
+    public partial class detallesPropuestaDTO : eliminableDTOBase {
         
-        public listarUltimasPropuestasPorUsuarioRequest() {
+        private cuentasAcreedorDTO cuenta_acreedorField;
+        
+        private cuentasPropiasDTO cuenta_propiaField;
+        
+        private int detalle_propuesta_idField;
+        
+        private bool detalle_propuesta_idFieldSpecified;
+        
+        private facturasDTO facturaField;
+        
+        private ushort forma_pagoField;
+        
+        private decimal monto_pagoField;
+        
+        private bool monto_pagoFieldSpecified;
+        
+        private propuestasPagoDTO propuesta_pagoField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
+        public cuentasAcreedorDTO cuenta_acreedor {
+            get {
+                return this.cuenta_acreedorField;
+            }
+            set {
+                this.cuenta_acreedorField = value;
+                this.RaisePropertyChanged("cuenta_acreedor");
+            }
         }
         
-        public listarUltimasPropuestasPorUsuarioRequest(int usuarioId, int cantidad) {
-            this.usuarioId = usuarioId;
-            this.cantidad = cantidad;
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
+        public cuentasPropiasDTO cuenta_propia {
+            get {
+                return this.cuenta_propiaField;
+            }
+            set {
+                this.cuenta_propiaField = value;
+                this.RaisePropertyChanged("cuenta_propia");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=2)]
+        public int detalle_propuesta_id {
+            get {
+                return this.detalle_propuesta_idField;
+            }
+            set {
+                this.detalle_propuesta_idField = value;
+                this.RaisePropertyChanged("detalle_propuesta_id");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool detalle_propuesta_idSpecified {
+            get {
+                return this.detalle_propuesta_idFieldSpecified;
+            }
+            set {
+                this.detalle_propuesta_idFieldSpecified = value;
+                this.RaisePropertyChanged("detalle_propuesta_idSpecified");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=3)]
+        public facturasDTO factura {
+            get {
+                return this.facturaField;
+            }
+            set {
+                this.facturaField = value;
+                this.RaisePropertyChanged("factura");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=4)]
+        public ushort forma_pago {
+            get {
+                return this.forma_pagoField;
+            }
+            set {
+                this.forma_pagoField = value;
+                this.RaisePropertyChanged("forma_pago");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=5)]
+        public decimal monto_pago {
+            get {
+                return this.monto_pagoField;
+            }
+            set {
+                this.monto_pagoField = value;
+                this.RaisePropertyChanged("monto_pago");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool monto_pagoSpecified {
+            get {
+                return this.monto_pagoFieldSpecified;
+            }
+            set {
+                this.monto_pagoFieldSpecified = value;
+                this.RaisePropertyChanged("monto_pagoSpecified");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=6)]
+        public propuestasPagoDTO propuesta_pago {
+            get {
+                return this.propuesta_pagoField;
+            }
+            set {
+                this.propuesta_pagoField = value;
+                this.RaisePropertyChanged("propuesta_pago");
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://softpacws.pucp.edu.pe/")]
+    public partial class propuestasPagoDTO : eliminableDTOBase {
+        
+        private detallesPropuestaDTO[] detalles_propuestaField;
+        
+        private entidadesBancariasDTO entidad_bancariaField;
+        
+        private string estadoField;
+        
+        private System.DateTime fecha_hora_creacionField;
+        
+        private bool fecha_hora_creacionFieldSpecified;
+        
+        private System.DateTime fecha_hora_modificacionField;
+        
+        private bool fecha_hora_modificacionFieldSpecified;
+        
+        private int propuesta_idField;
+        
+        private bool propuesta_idFieldSpecified;
+        
+        private usuariosDTO usuario_creacionField;
+        
+        private usuariosDTO usuario_modificacionField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("detalles_propuesta", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable=true, Order=0)]
+        public detallesPropuestaDTO[] detalles_propuesta {
+            get {
+                return this.detalles_propuestaField;
+            }
+            set {
+                this.detalles_propuestaField = value;
+                this.RaisePropertyChanged("detalles_propuesta");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
+        public entidadesBancariasDTO entidad_bancaria {
+            get {
+                return this.entidad_bancariaField;
+            }
+            set {
+                this.entidad_bancariaField = value;
+                this.RaisePropertyChanged("entidad_bancaria");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=2)]
+        public string estado {
+            get {
+                return this.estadoField;
+            }
+            set {
+                this.estadoField = value;
+                this.RaisePropertyChanged("estado");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=3)]
+        public System.DateTime fecha_hora_creacion {
+            get {
+                return this.fecha_hora_creacionField;
+            }
+            set {
+                this.fecha_hora_creacionField = value;
+                this.RaisePropertyChanged("fecha_hora_creacion");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool fecha_hora_creacionSpecified {
+            get {
+                return this.fecha_hora_creacionFieldSpecified;
+            }
+            set {
+                this.fecha_hora_creacionFieldSpecified = value;
+                this.RaisePropertyChanged("fecha_hora_creacionSpecified");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=4)]
+        public System.DateTime fecha_hora_modificacion {
+            get {
+                return this.fecha_hora_modificacionField;
+            }
+            set {
+                this.fecha_hora_modificacionField = value;
+                this.RaisePropertyChanged("fecha_hora_modificacion");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool fecha_hora_modificacionSpecified {
+            get {
+                return this.fecha_hora_modificacionFieldSpecified;
+            }
+            set {
+                this.fecha_hora_modificacionFieldSpecified = value;
+                this.RaisePropertyChanged("fecha_hora_modificacionSpecified");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=5)]
+        public int propuesta_id {
+            get {
+                return this.propuesta_idField;
+            }
+            set {
+                this.propuesta_idField = value;
+                this.RaisePropertyChanged("propuesta_id");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool propuesta_idSpecified {
+            get {
+                return this.propuesta_idFieldSpecified;
+            }
+            set {
+                this.propuesta_idFieldSpecified = value;
+                this.RaisePropertyChanged("propuesta_idSpecified");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=6)]
+        public usuariosDTO usuario_creacion {
+            get {
+                return this.usuario_creacionField;
+            }
+            set {
+                this.usuario_creacionField = value;
+                this.RaisePropertyChanged("usuario_creacion");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=7)]
+        public usuariosDTO usuario_modificacion {
+            get {
+                return this.usuario_modificacionField;
+            }
+            set {
+                this.usuario_modificacionField = value;
+                this.RaisePropertyChanged("usuario_modificacion");
+            }
         }
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="listarUltimasPropuestasPorUsuarioResponse", WrapperNamespace="http://softpacws.pucp.edu.pe/", IsWrapped=true)]
-    public partial class listarUltimasPropuestasPorUsuarioResponse {
+    [System.ServiceModel.MessageContractAttribute(WrapperName="confirmarEnvioPropuesta", WrapperNamespace="http://softpacws.pucp.edu.pe/", IsWrapped=true)]
+    public partial class confirmarEnvioPropuestaRequest {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://softpacws.pucp.edu.pe/", Order=0)]
-        [System.Xml.Serialization.XmlElementAttribute("return", Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public SoftPacBusiness.PropuestaPagoWS.propuestasPagoDTO[] @return;
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public int propuestaId;
         
-        public listarUltimasPropuestasPorUsuarioResponse() {
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://softpacws.pucp.edu.pe/", Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public SoftPacBusiness.PropuestaPagoWS.usuariosDTO usuario;
+        
+        public confirmarEnvioPropuestaRequest() {
         }
         
-        public listarUltimasPropuestasPorUsuarioResponse(SoftPacBusiness.PropuestaPagoWS.propuestasPagoDTO[] @return) {
+        public confirmarEnvioPropuestaRequest(int propuestaId, SoftPacBusiness.PropuestaPagoWS.usuariosDTO usuario) {
+            this.propuestaId = propuestaId;
+            this.usuario = usuario;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="confirmarEnvioPropuestaResponse", WrapperNamespace="http://softpacws.pucp.edu.pe/", IsWrapped=true)]
+    public partial class confirmarEnvioPropuestaResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://softpacws.pucp.edu.pe/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public int @return;
+        
+        public confirmarEnvioPropuestaResponse() {
+        }
+        
+        public confirmarEnvioPropuestaResponse(int @return) {
             this.@return = @return;
         }
     }
@@ -2048,40 +2058,35 @@ namespace SoftPacBusiness.PropuestaPagoWS {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="generarDetallesPropuesta", WrapperNamespace="http://softpacws.pucp.edu.pe/", IsWrapped=true)]
-    public partial class generarDetallesPropuestaRequest {
+    [System.ServiceModel.MessageContractAttribute(WrapperName="obtenerPropuesta", WrapperNamespace="http://softpacws.pucp.edu.pe/", IsWrapped=true)]
+    public partial class obtenerPropuestaRequest {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://softpacws.pucp.edu.pe/", Order=0)]
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public SoftPacBusiness.PropuestaPagoWS.propuestasPagoDTO propuestaPagoParcial;
+        public int propuesta_id;
         
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://softpacws.pucp.edu.pe/", Order=1)]
-        [System.Xml.Serialization.XmlElementAttribute("cuentasSeleccionadas", Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public int[] cuentasSeleccionadas;
-        
-        public generarDetallesPropuestaRequest() {
+        public obtenerPropuestaRequest() {
         }
         
-        public generarDetallesPropuestaRequest(SoftPacBusiness.PropuestaPagoWS.propuestasPagoDTO propuestaPagoParcial, int[] cuentasSeleccionadas) {
-            this.propuestaPagoParcial = propuestaPagoParcial;
-            this.cuentasSeleccionadas = cuentasSeleccionadas;
+        public obtenerPropuestaRequest(int propuesta_id) {
+            this.propuesta_id = propuesta_id;
         }
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="generarDetallesPropuestaResponse", WrapperNamespace="http://softpacws.pucp.edu.pe/", IsWrapped=true)]
-    public partial class generarDetallesPropuestaResponse {
+    [System.ServiceModel.MessageContractAttribute(WrapperName="obtenerPropuestaResponse", WrapperNamespace="http://softpacws.pucp.edu.pe/", IsWrapped=true)]
+    public partial class obtenerPropuestaResponse {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://softpacws.pucp.edu.pe/", Order=0)]
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public SoftPacBusiness.PropuestaPagoWS.propuestasPagoDTO @return;
         
-        public generarDetallesPropuestaResponse() {
+        public obtenerPropuestaResponse() {
         }
         
-        public generarDetallesPropuestaResponse(SoftPacBusiness.PropuestaPagoWS.propuestasPagoDTO @return) {
+        public obtenerPropuestaResponse(SoftPacBusiness.PropuestaPagoWS.propuestasPagoDTO @return) {
             this.@return = @return;
         }
     }
@@ -2118,42 +2123,6 @@ namespace SoftPacBusiness.PropuestaPagoWS {
         }
         
         public insertarPropuestaResponse(int @return) {
-            this.@return = @return;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="modificarPropuesta", WrapperNamespace="http://softpacws.pucp.edu.pe/", IsWrapped=true)]
-    public partial class modificarPropuestaRequest {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://softpacws.pucp.edu.pe/", Order=0)]
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public SoftPacBusiness.PropuestaPagoWS.propuestasPagoDTO propuestaPago;
-        
-        public modificarPropuestaRequest() {
-        }
-        
-        public modificarPropuestaRequest(SoftPacBusiness.PropuestaPagoWS.propuestasPagoDTO propuestaPago) {
-            this.propuestaPago = propuestaPago;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="modificarPropuestaResponse", WrapperNamespace="http://softpacws.pucp.edu.pe/", IsWrapped=true)]
-    public partial class modificarPropuestaResponse {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://softpacws.pucp.edu.pe/", Order=0)]
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public int @return;
-        
-        public modificarPropuestaResponse() {
-        }
-        
-        public modificarPropuestaResponse(int @return) {
             this.@return = @return;
         }
     }
@@ -2202,42 +2171,6 @@ namespace SoftPacBusiness.PropuestaPagoWS {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="insertarDetallePropuesta", WrapperNamespace="http://softpacws.pucp.edu.pe/", IsWrapped=true)]
-    public partial class insertarDetallePropuestaRequest {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://softpacws.pucp.edu.pe/", Order=0)]
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public SoftPacBusiness.PropuestaPagoWS.detallesPropuestaDTO detalle;
-        
-        public insertarDetallePropuestaRequest() {
-        }
-        
-        public insertarDetallePropuestaRequest(SoftPacBusiness.PropuestaPagoWS.detallesPropuestaDTO detalle) {
-            this.detalle = detalle;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="insertarDetallePropuestaResponse", WrapperNamespace="http://softpacws.pucp.edu.pe/", IsWrapped=true)]
-    public partial class insertarDetallePropuestaResponse {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://softpacws.pucp.edu.pe/", Order=0)]
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public int @return;
-        
-        public insertarDetallePropuestaResponse() {
-        }
-        
-        public insertarDetallePropuestaResponse(int @return) {
-            this.@return = @return;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
     [System.ServiceModel.MessageContractAttribute(WrapperName="modificarDetallePropuesta", WrapperNamespace="http://softpacws.pucp.edu.pe/", IsWrapped=true)]
     public partial class modificarDetallePropuestaRequest {
         
@@ -2274,21 +2207,62 @@ namespace SoftPacBusiness.PropuestaPagoWS {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="insertarDetallePropuesta", WrapperNamespace="http://softpacws.pucp.edu.pe/", IsWrapped=true)]
+    public partial class insertarDetallePropuestaRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://softpacws.pucp.edu.pe/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public SoftPacBusiness.PropuestaPagoWS.detallesPropuestaDTO detalle;
+        
+        public insertarDetallePropuestaRequest() {
+        }
+        
+        public insertarDetallePropuestaRequest(SoftPacBusiness.PropuestaPagoWS.detallesPropuestaDTO detalle) {
+            this.detalle = detalle;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="insertarDetallePropuestaResponse", WrapperNamespace="http://softpacws.pucp.edu.pe/", IsWrapped=true)]
+    public partial class insertarDetallePropuestaResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://softpacws.pucp.edu.pe/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public int @return;
+        
+        public insertarDetallePropuestaResponse() {
+        }
+        
+        public insertarDetallePropuestaResponse(int @return) {
+            this.@return = @return;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
     [System.ServiceModel.MessageContractAttribute(WrapperName="listarConFiltros", WrapperNamespace="http://softpacws.pucp.edu.pe/", IsWrapped=true)]
     public partial class listarConFiltrosRequest {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://softpacws.pucp.edu.pe/", Order=0)]
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public int bancoId;
+        public int paisId;
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://softpacws.pucp.edu.pe/", Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public int bancoId;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://softpacws.pucp.edu.pe/", Order=2)]
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string estado;
         
         public listarConFiltrosRequest() {
         }
         
-        public listarConFiltrosRequest(int bancoId, string estado) {
+        public listarConFiltrosRequest(int paisId, int bancoId, string estado) {
+            this.paisId = paisId;
             this.bancoId = bancoId;
             this.estado = estado;
         }
@@ -2315,35 +2289,76 @@ namespace SoftPacBusiness.PropuestaPagoWS {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="obtenerPropuesta", WrapperNamespace="http://softpacws.pucp.edu.pe/", IsWrapped=true)]
-    public partial class obtenerPropuestaRequest {
+    [System.ServiceModel.MessageContractAttribute(WrapperName="generarDetallesPropuesta", WrapperNamespace="http://softpacws.pucp.edu.pe/", IsWrapped=true)]
+    public partial class generarDetallesPropuestaRequest {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://softpacws.pucp.edu.pe/", Order=0)]
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public int propuesta_id;
+        public SoftPacBusiness.PropuestaPagoWS.propuestasPagoDTO propuestaPagoParcial;
         
-        public obtenerPropuestaRequest() {
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://softpacws.pucp.edu.pe/", Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute("cuentasSeleccionadas", Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public int[] cuentasSeleccionadas;
+        
+        public generarDetallesPropuestaRequest() {
         }
         
-        public obtenerPropuestaRequest(int propuesta_id) {
-            this.propuesta_id = propuesta_id;
+        public generarDetallesPropuestaRequest(SoftPacBusiness.PropuestaPagoWS.propuestasPagoDTO propuestaPagoParcial, int[] cuentasSeleccionadas) {
+            this.propuestaPagoParcial = propuestaPagoParcial;
+            this.cuentasSeleccionadas = cuentasSeleccionadas;
         }
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="obtenerPropuestaResponse", WrapperNamespace="http://softpacws.pucp.edu.pe/", IsWrapped=true)]
-    public partial class obtenerPropuestaResponse {
+    [System.ServiceModel.MessageContractAttribute(WrapperName="generarDetallesPropuestaResponse", WrapperNamespace="http://softpacws.pucp.edu.pe/", IsWrapped=true)]
+    public partial class generarDetallesPropuestaResponse {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://softpacws.pucp.edu.pe/", Order=0)]
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public SoftPacBusiness.PropuestaPagoWS.propuestasPagoDTO @return;
         
-        public obtenerPropuestaResponse() {
+        public generarDetallesPropuestaResponse() {
         }
         
-        public obtenerPropuestaResponse(SoftPacBusiness.PropuestaPagoWS.propuestasPagoDTO @return) {
+        public generarDetallesPropuestaResponse(SoftPacBusiness.PropuestaPagoWS.propuestasPagoDTO @return) {
+            this.@return = @return;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="modificarPropuesta", WrapperNamespace="http://softpacws.pucp.edu.pe/", IsWrapped=true)]
+    public partial class modificarPropuestaRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://softpacws.pucp.edu.pe/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public SoftPacBusiness.PropuestaPagoWS.propuestasPagoDTO propuestaPago;
+        
+        public modificarPropuestaRequest() {
+        }
+        
+        public modificarPropuestaRequest(SoftPacBusiness.PropuestaPagoWS.propuestasPagoDTO propuestaPago) {
+            this.propuestaPago = propuestaPago;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="modificarPropuestaResponse", WrapperNamespace="http://softpacws.pucp.edu.pe/", IsWrapped=true)]
+    public partial class modificarPropuestaResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://softpacws.pucp.edu.pe/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public int @return;
+        
+        public modificarPropuestaResponse() {
+        }
+        
+        public modificarPropuestaResponse(int @return) {
             this.@return = @return;
         }
     }
@@ -2384,6 +2399,47 @@ namespace SoftPacBusiness.PropuestaPagoWS {
         }
     }
     
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="listarUltimasPropuestasPorUsuario", WrapperNamespace="http://softpacws.pucp.edu.pe/", IsWrapped=true)]
+    public partial class listarUltimasPropuestasPorUsuarioRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://softpacws.pucp.edu.pe/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public int usuarioId;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://softpacws.pucp.edu.pe/", Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public int cantidad;
+        
+        public listarUltimasPropuestasPorUsuarioRequest() {
+        }
+        
+        public listarUltimasPropuestasPorUsuarioRequest(int usuarioId, int cantidad) {
+            this.usuarioId = usuarioId;
+            this.cantidad = cantidad;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="listarUltimasPropuestasPorUsuarioResponse", WrapperNamespace="http://softpacws.pucp.edu.pe/", IsWrapped=true)]
+    public partial class listarUltimasPropuestasPorUsuarioResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://softpacws.pucp.edu.pe/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute("return", Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public SoftPacBusiness.PropuestaPagoWS.propuestasPagoDTO[] @return;
+        
+        public listarUltimasPropuestasPorUsuarioResponse() {
+        }
+        
+        public listarUltimasPropuestasPorUsuarioResponse(SoftPacBusiness.PropuestaPagoWS.propuestasPagoDTO[] @return) {
+            this.@return = @return;
+        }
+    }
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     public interface PropuestaPagoWSChannel : SoftPacBusiness.PropuestaPagoWS.PropuestaPagoWS, System.ServiceModel.IClientChannel {
     }
@@ -2412,28 +2468,28 @@ namespace SoftPacBusiness.PropuestaPagoWS {
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        SoftPacBusiness.PropuestaPagoWS.listarUltimasPropuestasPorUsuarioResponse SoftPacBusiness.PropuestaPagoWS.PropuestaPagoWS.listarUltimasPropuestasPorUsuario(SoftPacBusiness.PropuestaPagoWS.listarUltimasPropuestasPorUsuarioRequest request) {
-            return base.Channel.listarUltimasPropuestasPorUsuario(request);
+        SoftPacBusiness.PropuestaPagoWS.confirmarEnvioPropuestaResponse SoftPacBusiness.PropuestaPagoWS.PropuestaPagoWS.confirmarEnvioPropuesta(SoftPacBusiness.PropuestaPagoWS.confirmarEnvioPropuestaRequest request) {
+            return base.Channel.confirmarEnvioPropuesta(request);
         }
         
-        public SoftPacBusiness.PropuestaPagoWS.propuestasPagoDTO[] listarUltimasPropuestasPorUsuario(int usuarioId, int cantidad) {
-            SoftPacBusiness.PropuestaPagoWS.listarUltimasPropuestasPorUsuarioRequest inValue = new SoftPacBusiness.PropuestaPagoWS.listarUltimasPropuestasPorUsuarioRequest();
-            inValue.usuarioId = usuarioId;
-            inValue.cantidad = cantidad;
-            SoftPacBusiness.PropuestaPagoWS.listarUltimasPropuestasPorUsuarioResponse retVal = ((SoftPacBusiness.PropuestaPagoWS.PropuestaPagoWS)(this)).listarUltimasPropuestasPorUsuario(inValue);
+        public int confirmarEnvioPropuesta(int propuestaId, SoftPacBusiness.PropuestaPagoWS.usuariosDTO usuario) {
+            SoftPacBusiness.PropuestaPagoWS.confirmarEnvioPropuestaRequest inValue = new SoftPacBusiness.PropuestaPagoWS.confirmarEnvioPropuestaRequest();
+            inValue.propuestaId = propuestaId;
+            inValue.usuario = usuario;
+            SoftPacBusiness.PropuestaPagoWS.confirmarEnvioPropuestaResponse retVal = ((SoftPacBusiness.PropuestaPagoWS.PropuestaPagoWS)(this)).confirmarEnvioPropuesta(inValue);
             return retVal.@return;
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<SoftPacBusiness.PropuestaPagoWS.listarUltimasPropuestasPorUsuarioResponse> SoftPacBusiness.PropuestaPagoWS.PropuestaPagoWS.listarUltimasPropuestasPorUsuarioAsync(SoftPacBusiness.PropuestaPagoWS.listarUltimasPropuestasPorUsuarioRequest request) {
-            return base.Channel.listarUltimasPropuestasPorUsuarioAsync(request);
+        System.Threading.Tasks.Task<SoftPacBusiness.PropuestaPagoWS.confirmarEnvioPropuestaResponse> SoftPacBusiness.PropuestaPagoWS.PropuestaPagoWS.confirmarEnvioPropuestaAsync(SoftPacBusiness.PropuestaPagoWS.confirmarEnvioPropuestaRequest request) {
+            return base.Channel.confirmarEnvioPropuestaAsync(request);
         }
         
-        public System.Threading.Tasks.Task<SoftPacBusiness.PropuestaPagoWS.listarUltimasPropuestasPorUsuarioResponse> listarUltimasPropuestasPorUsuarioAsync(int usuarioId, int cantidad) {
-            SoftPacBusiness.PropuestaPagoWS.listarUltimasPropuestasPorUsuarioRequest inValue = new SoftPacBusiness.PropuestaPagoWS.listarUltimasPropuestasPorUsuarioRequest();
-            inValue.usuarioId = usuarioId;
-            inValue.cantidad = cantidad;
-            return ((SoftPacBusiness.PropuestaPagoWS.PropuestaPagoWS)(this)).listarUltimasPropuestasPorUsuarioAsync(inValue);
+        public System.Threading.Tasks.Task<SoftPacBusiness.PropuestaPagoWS.confirmarEnvioPropuestaResponse> confirmarEnvioPropuestaAsync(int propuestaId, SoftPacBusiness.PropuestaPagoWS.usuariosDTO usuario) {
+            SoftPacBusiness.PropuestaPagoWS.confirmarEnvioPropuestaRequest inValue = new SoftPacBusiness.PropuestaPagoWS.confirmarEnvioPropuestaRequest();
+            inValue.propuestaId = propuestaId;
+            inValue.usuario = usuario;
+            return ((SoftPacBusiness.PropuestaPagoWS.PropuestaPagoWS)(this)).confirmarEnvioPropuestaAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -2460,28 +2516,26 @@ namespace SoftPacBusiness.PropuestaPagoWS {
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        SoftPacBusiness.PropuestaPagoWS.generarDetallesPropuestaResponse SoftPacBusiness.PropuestaPagoWS.PropuestaPagoWS.generarDetallesPropuesta(SoftPacBusiness.PropuestaPagoWS.generarDetallesPropuestaRequest request) {
-            return base.Channel.generarDetallesPropuesta(request);
+        SoftPacBusiness.PropuestaPagoWS.obtenerPropuestaResponse SoftPacBusiness.PropuestaPagoWS.PropuestaPagoWS.obtenerPropuesta(SoftPacBusiness.PropuestaPagoWS.obtenerPropuestaRequest request) {
+            return base.Channel.obtenerPropuesta(request);
         }
         
-        public SoftPacBusiness.PropuestaPagoWS.propuestasPagoDTO generarDetallesPropuesta(SoftPacBusiness.PropuestaPagoWS.propuestasPagoDTO propuestaPagoParcial, int[] cuentasSeleccionadas) {
-            SoftPacBusiness.PropuestaPagoWS.generarDetallesPropuestaRequest inValue = new SoftPacBusiness.PropuestaPagoWS.generarDetallesPropuestaRequest();
-            inValue.propuestaPagoParcial = propuestaPagoParcial;
-            inValue.cuentasSeleccionadas = cuentasSeleccionadas;
-            SoftPacBusiness.PropuestaPagoWS.generarDetallesPropuestaResponse retVal = ((SoftPacBusiness.PropuestaPagoWS.PropuestaPagoWS)(this)).generarDetallesPropuesta(inValue);
+        public SoftPacBusiness.PropuestaPagoWS.propuestasPagoDTO obtenerPropuesta(int propuesta_id) {
+            SoftPacBusiness.PropuestaPagoWS.obtenerPropuestaRequest inValue = new SoftPacBusiness.PropuestaPagoWS.obtenerPropuestaRequest();
+            inValue.propuesta_id = propuesta_id;
+            SoftPacBusiness.PropuestaPagoWS.obtenerPropuestaResponse retVal = ((SoftPacBusiness.PropuestaPagoWS.PropuestaPagoWS)(this)).obtenerPropuesta(inValue);
             return retVal.@return;
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<SoftPacBusiness.PropuestaPagoWS.generarDetallesPropuestaResponse> SoftPacBusiness.PropuestaPagoWS.PropuestaPagoWS.generarDetallesPropuestaAsync(SoftPacBusiness.PropuestaPagoWS.generarDetallesPropuestaRequest request) {
-            return base.Channel.generarDetallesPropuestaAsync(request);
+        System.Threading.Tasks.Task<SoftPacBusiness.PropuestaPagoWS.obtenerPropuestaResponse> SoftPacBusiness.PropuestaPagoWS.PropuestaPagoWS.obtenerPropuestaAsync(SoftPacBusiness.PropuestaPagoWS.obtenerPropuestaRequest request) {
+            return base.Channel.obtenerPropuestaAsync(request);
         }
         
-        public System.Threading.Tasks.Task<SoftPacBusiness.PropuestaPagoWS.generarDetallesPropuestaResponse> generarDetallesPropuestaAsync(SoftPacBusiness.PropuestaPagoWS.propuestasPagoDTO propuestaPagoParcial, int[] cuentasSeleccionadas) {
-            SoftPacBusiness.PropuestaPagoWS.generarDetallesPropuestaRequest inValue = new SoftPacBusiness.PropuestaPagoWS.generarDetallesPropuestaRequest();
-            inValue.propuestaPagoParcial = propuestaPagoParcial;
-            inValue.cuentasSeleccionadas = cuentasSeleccionadas;
-            return ((SoftPacBusiness.PropuestaPagoWS.PropuestaPagoWS)(this)).generarDetallesPropuestaAsync(inValue);
+        public System.Threading.Tasks.Task<SoftPacBusiness.PropuestaPagoWS.obtenerPropuestaResponse> obtenerPropuestaAsync(int propuesta_id) {
+            SoftPacBusiness.PropuestaPagoWS.obtenerPropuestaRequest inValue = new SoftPacBusiness.PropuestaPagoWS.obtenerPropuestaRequest();
+            inValue.propuesta_id = propuesta_id;
+            return ((SoftPacBusiness.PropuestaPagoWS.PropuestaPagoWS)(this)).obtenerPropuestaAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -2505,29 +2559,6 @@ namespace SoftPacBusiness.PropuestaPagoWS {
             SoftPacBusiness.PropuestaPagoWS.insertarPropuestaRequest inValue = new SoftPacBusiness.PropuestaPagoWS.insertarPropuestaRequest();
             inValue.propuestaPago = propuestaPago;
             return ((SoftPacBusiness.PropuestaPagoWS.PropuestaPagoWS)(this)).insertarPropuestaAsync(inValue);
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        SoftPacBusiness.PropuestaPagoWS.modificarPropuestaResponse SoftPacBusiness.PropuestaPagoWS.PropuestaPagoWS.modificarPropuesta(SoftPacBusiness.PropuestaPagoWS.modificarPropuestaRequest request) {
-            return base.Channel.modificarPropuesta(request);
-        }
-        
-        public int modificarPropuesta(SoftPacBusiness.PropuestaPagoWS.propuestasPagoDTO propuestaPago) {
-            SoftPacBusiness.PropuestaPagoWS.modificarPropuestaRequest inValue = new SoftPacBusiness.PropuestaPagoWS.modificarPropuestaRequest();
-            inValue.propuestaPago = propuestaPago;
-            SoftPacBusiness.PropuestaPagoWS.modificarPropuestaResponse retVal = ((SoftPacBusiness.PropuestaPagoWS.PropuestaPagoWS)(this)).modificarPropuesta(inValue);
-            return retVal.@return;
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<SoftPacBusiness.PropuestaPagoWS.modificarPropuestaResponse> SoftPacBusiness.PropuestaPagoWS.PropuestaPagoWS.modificarPropuestaAsync(SoftPacBusiness.PropuestaPagoWS.modificarPropuestaRequest request) {
-            return base.Channel.modificarPropuestaAsync(request);
-        }
-        
-        public System.Threading.Tasks.Task<SoftPacBusiness.PropuestaPagoWS.modificarPropuestaResponse> modificarPropuestaAsync(SoftPacBusiness.PropuestaPagoWS.propuestasPagoDTO propuestaPago) {
-            SoftPacBusiness.PropuestaPagoWS.modificarPropuestaRequest inValue = new SoftPacBusiness.PropuestaPagoWS.modificarPropuestaRequest();
-            inValue.propuestaPago = propuestaPago;
-            return ((SoftPacBusiness.PropuestaPagoWS.PropuestaPagoWS)(this)).modificarPropuestaAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -2556,29 +2587,6 @@ namespace SoftPacBusiness.PropuestaPagoWS {
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        SoftPacBusiness.PropuestaPagoWS.insertarDetallePropuestaResponse SoftPacBusiness.PropuestaPagoWS.PropuestaPagoWS.insertarDetallePropuesta(SoftPacBusiness.PropuestaPagoWS.insertarDetallePropuestaRequest request) {
-            return base.Channel.insertarDetallePropuesta(request);
-        }
-        
-        public int insertarDetallePropuesta(SoftPacBusiness.PropuestaPagoWS.detallesPropuestaDTO detalle) {
-            SoftPacBusiness.PropuestaPagoWS.insertarDetallePropuestaRequest inValue = new SoftPacBusiness.PropuestaPagoWS.insertarDetallePropuestaRequest();
-            inValue.detalle = detalle;
-            SoftPacBusiness.PropuestaPagoWS.insertarDetallePropuestaResponse retVal = ((SoftPacBusiness.PropuestaPagoWS.PropuestaPagoWS)(this)).insertarDetallePropuesta(inValue);
-            return retVal.@return;
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<SoftPacBusiness.PropuestaPagoWS.insertarDetallePropuestaResponse> SoftPacBusiness.PropuestaPagoWS.PropuestaPagoWS.insertarDetallePropuestaAsync(SoftPacBusiness.PropuestaPagoWS.insertarDetallePropuestaRequest request) {
-            return base.Channel.insertarDetallePropuestaAsync(request);
-        }
-        
-        public System.Threading.Tasks.Task<SoftPacBusiness.PropuestaPagoWS.insertarDetallePropuestaResponse> insertarDetallePropuestaAsync(SoftPacBusiness.PropuestaPagoWS.detallesPropuestaDTO detalle) {
-            SoftPacBusiness.PropuestaPagoWS.insertarDetallePropuestaRequest inValue = new SoftPacBusiness.PropuestaPagoWS.insertarDetallePropuestaRequest();
-            inValue.detalle = detalle;
-            return ((SoftPacBusiness.PropuestaPagoWS.PropuestaPagoWS)(this)).insertarDetallePropuestaAsync(inValue);
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
         SoftPacBusiness.PropuestaPagoWS.modificarDetallePropuestaResponse SoftPacBusiness.PropuestaPagoWS.PropuestaPagoWS.modificarDetallePropuesta(SoftPacBusiness.PropuestaPagoWS.modificarDetallePropuestaRequest request) {
             return base.Channel.modificarDetallePropuesta(request);
         }
@@ -2602,12 +2610,36 @@ namespace SoftPacBusiness.PropuestaPagoWS {
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        SoftPacBusiness.PropuestaPagoWS.insertarDetallePropuestaResponse SoftPacBusiness.PropuestaPagoWS.PropuestaPagoWS.insertarDetallePropuesta(SoftPacBusiness.PropuestaPagoWS.insertarDetallePropuestaRequest request) {
+            return base.Channel.insertarDetallePropuesta(request);
+        }
+        
+        public int insertarDetallePropuesta(SoftPacBusiness.PropuestaPagoWS.detallesPropuestaDTO detalle) {
+            SoftPacBusiness.PropuestaPagoWS.insertarDetallePropuestaRequest inValue = new SoftPacBusiness.PropuestaPagoWS.insertarDetallePropuestaRequest();
+            inValue.detalle = detalle;
+            SoftPacBusiness.PropuestaPagoWS.insertarDetallePropuestaResponse retVal = ((SoftPacBusiness.PropuestaPagoWS.PropuestaPagoWS)(this)).insertarDetallePropuesta(inValue);
+            return retVal.@return;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<SoftPacBusiness.PropuestaPagoWS.insertarDetallePropuestaResponse> SoftPacBusiness.PropuestaPagoWS.PropuestaPagoWS.insertarDetallePropuestaAsync(SoftPacBusiness.PropuestaPagoWS.insertarDetallePropuestaRequest request) {
+            return base.Channel.insertarDetallePropuestaAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<SoftPacBusiness.PropuestaPagoWS.insertarDetallePropuestaResponse> insertarDetallePropuestaAsync(SoftPacBusiness.PropuestaPagoWS.detallesPropuestaDTO detalle) {
+            SoftPacBusiness.PropuestaPagoWS.insertarDetallePropuestaRequest inValue = new SoftPacBusiness.PropuestaPagoWS.insertarDetallePropuestaRequest();
+            inValue.detalle = detalle;
+            return ((SoftPacBusiness.PropuestaPagoWS.PropuestaPagoWS)(this)).insertarDetallePropuestaAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
         SoftPacBusiness.PropuestaPagoWS.listarConFiltrosResponse SoftPacBusiness.PropuestaPagoWS.PropuestaPagoWS.listarConFiltros(SoftPacBusiness.PropuestaPagoWS.listarConFiltrosRequest request) {
             return base.Channel.listarConFiltros(request);
         }
         
-        public SoftPacBusiness.PropuestaPagoWS.propuestasPagoDTO[] listarConFiltros(int bancoId, string estado) {
+        public SoftPacBusiness.PropuestaPagoWS.propuestasPagoDTO[] listarConFiltros(int paisId, int bancoId, string estado) {
             SoftPacBusiness.PropuestaPagoWS.listarConFiltrosRequest inValue = new SoftPacBusiness.PropuestaPagoWS.listarConFiltrosRequest();
+            inValue.paisId = paisId;
             inValue.bancoId = bancoId;
             inValue.estado = estado;
             SoftPacBusiness.PropuestaPagoWS.listarConFiltrosResponse retVal = ((SoftPacBusiness.PropuestaPagoWS.PropuestaPagoWS)(this)).listarConFiltros(inValue);
@@ -2619,34 +2651,60 @@ namespace SoftPacBusiness.PropuestaPagoWS {
             return base.Channel.listarConFiltrosAsync(request);
         }
         
-        public System.Threading.Tasks.Task<SoftPacBusiness.PropuestaPagoWS.listarConFiltrosResponse> listarConFiltrosAsync(int bancoId, string estado) {
+        public System.Threading.Tasks.Task<SoftPacBusiness.PropuestaPagoWS.listarConFiltrosResponse> listarConFiltrosAsync(int paisId, int bancoId, string estado) {
             SoftPacBusiness.PropuestaPagoWS.listarConFiltrosRequest inValue = new SoftPacBusiness.PropuestaPagoWS.listarConFiltrosRequest();
+            inValue.paisId = paisId;
             inValue.bancoId = bancoId;
             inValue.estado = estado;
             return ((SoftPacBusiness.PropuestaPagoWS.PropuestaPagoWS)(this)).listarConFiltrosAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        SoftPacBusiness.PropuestaPagoWS.obtenerPropuestaResponse SoftPacBusiness.PropuestaPagoWS.PropuestaPagoWS.obtenerPropuesta(SoftPacBusiness.PropuestaPagoWS.obtenerPropuestaRequest request) {
-            return base.Channel.obtenerPropuesta(request);
+        SoftPacBusiness.PropuestaPagoWS.generarDetallesPropuestaResponse SoftPacBusiness.PropuestaPagoWS.PropuestaPagoWS.generarDetallesPropuesta(SoftPacBusiness.PropuestaPagoWS.generarDetallesPropuestaRequest request) {
+            return base.Channel.generarDetallesPropuesta(request);
         }
         
-        public SoftPacBusiness.PropuestaPagoWS.propuestasPagoDTO obtenerPropuesta(int propuesta_id) {
-            SoftPacBusiness.PropuestaPagoWS.obtenerPropuestaRequest inValue = new SoftPacBusiness.PropuestaPagoWS.obtenerPropuestaRequest();
-            inValue.propuesta_id = propuesta_id;
-            SoftPacBusiness.PropuestaPagoWS.obtenerPropuestaResponse retVal = ((SoftPacBusiness.PropuestaPagoWS.PropuestaPagoWS)(this)).obtenerPropuesta(inValue);
+        public SoftPacBusiness.PropuestaPagoWS.propuestasPagoDTO generarDetallesPropuesta(SoftPacBusiness.PropuestaPagoWS.propuestasPagoDTO propuestaPagoParcial, int[] cuentasSeleccionadas) {
+            SoftPacBusiness.PropuestaPagoWS.generarDetallesPropuestaRequest inValue = new SoftPacBusiness.PropuestaPagoWS.generarDetallesPropuestaRequest();
+            inValue.propuestaPagoParcial = propuestaPagoParcial;
+            inValue.cuentasSeleccionadas = cuentasSeleccionadas;
+            SoftPacBusiness.PropuestaPagoWS.generarDetallesPropuestaResponse retVal = ((SoftPacBusiness.PropuestaPagoWS.PropuestaPagoWS)(this)).generarDetallesPropuesta(inValue);
             return retVal.@return;
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<SoftPacBusiness.PropuestaPagoWS.obtenerPropuestaResponse> SoftPacBusiness.PropuestaPagoWS.PropuestaPagoWS.obtenerPropuestaAsync(SoftPacBusiness.PropuestaPagoWS.obtenerPropuestaRequest request) {
-            return base.Channel.obtenerPropuestaAsync(request);
+        System.Threading.Tasks.Task<SoftPacBusiness.PropuestaPagoWS.generarDetallesPropuestaResponse> SoftPacBusiness.PropuestaPagoWS.PropuestaPagoWS.generarDetallesPropuestaAsync(SoftPacBusiness.PropuestaPagoWS.generarDetallesPropuestaRequest request) {
+            return base.Channel.generarDetallesPropuestaAsync(request);
         }
         
-        public System.Threading.Tasks.Task<SoftPacBusiness.PropuestaPagoWS.obtenerPropuestaResponse> obtenerPropuestaAsync(int propuesta_id) {
-            SoftPacBusiness.PropuestaPagoWS.obtenerPropuestaRequest inValue = new SoftPacBusiness.PropuestaPagoWS.obtenerPropuestaRequest();
-            inValue.propuesta_id = propuesta_id;
-            return ((SoftPacBusiness.PropuestaPagoWS.PropuestaPagoWS)(this)).obtenerPropuestaAsync(inValue);
+        public System.Threading.Tasks.Task<SoftPacBusiness.PropuestaPagoWS.generarDetallesPropuestaResponse> generarDetallesPropuestaAsync(SoftPacBusiness.PropuestaPagoWS.propuestasPagoDTO propuestaPagoParcial, int[] cuentasSeleccionadas) {
+            SoftPacBusiness.PropuestaPagoWS.generarDetallesPropuestaRequest inValue = new SoftPacBusiness.PropuestaPagoWS.generarDetallesPropuestaRequest();
+            inValue.propuestaPagoParcial = propuestaPagoParcial;
+            inValue.cuentasSeleccionadas = cuentasSeleccionadas;
+            return ((SoftPacBusiness.PropuestaPagoWS.PropuestaPagoWS)(this)).generarDetallesPropuestaAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        SoftPacBusiness.PropuestaPagoWS.modificarPropuestaResponse SoftPacBusiness.PropuestaPagoWS.PropuestaPagoWS.modificarPropuesta(SoftPacBusiness.PropuestaPagoWS.modificarPropuestaRequest request) {
+            return base.Channel.modificarPropuesta(request);
+        }
+        
+        public int modificarPropuesta(SoftPacBusiness.PropuestaPagoWS.propuestasPagoDTO propuestaPago) {
+            SoftPacBusiness.PropuestaPagoWS.modificarPropuestaRequest inValue = new SoftPacBusiness.PropuestaPagoWS.modificarPropuestaRequest();
+            inValue.propuestaPago = propuestaPago;
+            SoftPacBusiness.PropuestaPagoWS.modificarPropuestaResponse retVal = ((SoftPacBusiness.PropuestaPagoWS.PropuestaPagoWS)(this)).modificarPropuesta(inValue);
+            return retVal.@return;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<SoftPacBusiness.PropuestaPagoWS.modificarPropuestaResponse> SoftPacBusiness.PropuestaPagoWS.PropuestaPagoWS.modificarPropuestaAsync(SoftPacBusiness.PropuestaPagoWS.modificarPropuestaRequest request) {
+            return base.Channel.modificarPropuestaAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<SoftPacBusiness.PropuestaPagoWS.modificarPropuestaResponse> modificarPropuestaAsync(SoftPacBusiness.PropuestaPagoWS.propuestasPagoDTO propuestaPago) {
+            SoftPacBusiness.PropuestaPagoWS.modificarPropuestaRequest inValue = new SoftPacBusiness.PropuestaPagoWS.modificarPropuestaRequest();
+            inValue.propuestaPago = propuestaPago;
+            return ((SoftPacBusiness.PropuestaPagoWS.PropuestaPagoWS)(this)).modificarPropuestaAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -2670,6 +2728,31 @@ namespace SoftPacBusiness.PropuestaPagoWS {
             SoftPacBusiness.PropuestaPagoWS.listarPropuestasPorUsuarioRequest inValue = new SoftPacBusiness.PropuestaPagoWS.listarPropuestasPorUsuarioRequest();
             inValue.usuarioId = usuarioId;
             return ((SoftPacBusiness.PropuestaPagoWS.PropuestaPagoWS)(this)).listarPropuestasPorUsuarioAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        SoftPacBusiness.PropuestaPagoWS.listarUltimasPropuestasPorUsuarioResponse SoftPacBusiness.PropuestaPagoWS.PropuestaPagoWS.listarUltimasPropuestasPorUsuario(SoftPacBusiness.PropuestaPagoWS.listarUltimasPropuestasPorUsuarioRequest request) {
+            return base.Channel.listarUltimasPropuestasPorUsuario(request);
+        }
+        
+        public SoftPacBusiness.PropuestaPagoWS.propuestasPagoDTO[] listarUltimasPropuestasPorUsuario(int usuarioId, int cantidad) {
+            SoftPacBusiness.PropuestaPagoWS.listarUltimasPropuestasPorUsuarioRequest inValue = new SoftPacBusiness.PropuestaPagoWS.listarUltimasPropuestasPorUsuarioRequest();
+            inValue.usuarioId = usuarioId;
+            inValue.cantidad = cantidad;
+            SoftPacBusiness.PropuestaPagoWS.listarUltimasPropuestasPorUsuarioResponse retVal = ((SoftPacBusiness.PropuestaPagoWS.PropuestaPagoWS)(this)).listarUltimasPropuestasPorUsuario(inValue);
+            return retVal.@return;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<SoftPacBusiness.PropuestaPagoWS.listarUltimasPropuestasPorUsuarioResponse> SoftPacBusiness.PropuestaPagoWS.PropuestaPagoWS.listarUltimasPropuestasPorUsuarioAsync(SoftPacBusiness.PropuestaPagoWS.listarUltimasPropuestasPorUsuarioRequest request) {
+            return base.Channel.listarUltimasPropuestasPorUsuarioAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<SoftPacBusiness.PropuestaPagoWS.listarUltimasPropuestasPorUsuarioResponse> listarUltimasPropuestasPorUsuarioAsync(int usuarioId, int cantidad) {
+            SoftPacBusiness.PropuestaPagoWS.listarUltimasPropuestasPorUsuarioRequest inValue = new SoftPacBusiness.PropuestaPagoWS.listarUltimasPropuestasPorUsuarioRequest();
+            inValue.usuarioId = usuarioId;
+            inValue.cantidad = cantidad;
+            return ((SoftPacBusiness.PropuestaPagoWS.PropuestaPagoWS)(this)).listarUltimasPropuestasPorUsuarioAsync(inValue);
         }
     }
 }

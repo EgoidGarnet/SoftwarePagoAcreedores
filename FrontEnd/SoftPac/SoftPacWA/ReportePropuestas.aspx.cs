@@ -32,8 +32,8 @@ namespace SoftPacWA
             {
                 CargarDatosAuditoria();
                 CargarFiltros();
-                CargarFiltrosDesdeQueryString();
-                GenerarReporte();
+                // NO llamar a GenerarReporte() - la página inicia vacía
+                MostrarMensajeInicial();
             }
         }
 
@@ -54,14 +54,14 @@ namespace SoftPacWA
                     .Select(up => up.pais)
                     .ToList();
                 ddlPais.DataSource = paises;
-                ddlPais.DataTextField = "Nombre";
-                ddlPais.DataValueField = "PaisId";
+                ddlPais.DataTextField = "nombre";
+                ddlPais.DataValueField = "pais_id";
                 ddlPais.DataBind();
-                ddlPais.Items.Insert(0, new ListItem("Todos", ""));
+                ddlPais.Items.Insert(0, new ListItem("Seleccione un país", ""));
 
                 // Cargar bancos (se actualizará cuando se seleccione un país)
                 ddlBanco.Items.Clear();
-                ddlBanco.Items.Insert(0, new ListItem("Todos", ""));
+                ddlBanco.Items.Insert(0, new ListItem("Seleccione un banco", ""));
             }
             catch (Exception ex)
             {
@@ -69,19 +69,13 @@ namespace SoftPacWA
             }
         }
 
-        private void CargarFiltrosDesdeQueryString()
+        private void MostrarMensajeInicial()
         {
-            if (!string.IsNullOrEmpty(Request.QueryString["pais"]))
-            {
-                ddlPais.SelectedValue = Request.QueryString["pais"];
-                CargarBancosPorPais();
-            }
-
-            if (!string.IsNullOrEmpty(Request.QueryString["banco"]))
-                ddlBanco.SelectedValue = Request.QueryString["banco"];
-
-            if (!string.IsNullOrEmpty(Request.QueryString["estado"]))
-                ddlEstado.SelectedValue = Request.QueryString["estado"];
+            pnlSinDatos.Visible = true;
+            pnlResumenGeneral.Visible = false;
+            rptPropuestas.DataSource = null;
+            rptPropuestas.DataBind();
+            pnlAlertaValidacion.Visible = false;
         }
 
         protected void ddlPais_SelectedIndexChanged(object sender, EventArgs e)
@@ -95,7 +89,7 @@ namespace SoftPacWA
 
             if (string.IsNullOrEmpty(ddlPais.SelectedValue))
             {
-                ddlBanco.Items.Insert(0, new ListItem("Todos", ""));
+                ddlBanco.Items.Insert(0, new ListItem("Seleccione un banco", ""));
                 return;
             }
 
@@ -106,8 +100,8 @@ namespace SoftPacWA
                 .ToList();
 
             ddlBanco.DataSource = bancos;
-            ddlBanco.DataTextField = "Nombre";
-            ddlBanco.DataValueField = "EntidadBancariaId";
+            ddlBanco.DataTextField = "nombre";
+            ddlBanco.DataValueField = "entidad_bancaria_id";
             ddlBanco.DataBind();
 
             ddlBanco.Items.Insert(0, new ListItem("Todos", ""));
@@ -115,6 +109,25 @@ namespace SoftPacWA
 
         protected void btnAplicarFiltros_Click(object sender, EventArgs e)
         {
+            // Validar que al menos País o Banco esté seleccionado
+            if (string.IsNullOrEmpty(ddlPais.SelectedValue) && string.IsNullOrEmpty(ddlBanco.SelectedValue))
+            {
+                pnlAlertaValidacion.Visible = true;
+                lblMensajeValidacion.Text = "Debe seleccionar al menos un País o un Banco para generar el reporte.";
+
+                // Limpiar el reporte
+                rptPropuestas.DataSource = null;
+                rptPropuestas.DataBind();
+                pnlSinDatos.Visible = false;
+                pnlResumenGeneral.Visible = false;
+                pnlFiltrosAplicados.Visible = false;
+
+                return;
+            }
+
+            // Ocultar alerta de validación si pasó la validación
+            pnlAlertaValidacion.Visible = false;
+
             GenerarReporte();
         }
 
@@ -122,9 +135,12 @@ namespace SoftPacWA
         {
             ddlPais.SelectedIndex = 0;
             ddlBanco.Items.Clear();
-            ddlBanco.Items.Insert(0, new ListItem("Todos", ""));
+            ddlBanco.Items.Insert(0, new ListItem("Seleccione un banco", ""));
             ddlEstado.SelectedIndex = 0;
-            GenerarReporte();
+            txtDiasDesde.Text = string.Empty;
+
+            pnlAlertaValidacion.Visible = false;
+            MostrarMensajeInicial();
         }
 
         private void GenerarReporte()
@@ -137,9 +153,20 @@ namespace SoftPacWA
                     (int?)null : int.Parse(ddlBanco.SelectedValue);
                 string estado = ddlEstado.SelectedValue;
 
-                var datos = reporteBO.GenerarReporteDetallado(paisId, bancoId, estado);
+                // Parsear días desde (si está vacío o inválido, se usará 90 por defecto en el BO)
+                int? diasDesde = null;
+                if (!string.IsNullOrWhiteSpace(txtDiasDesde.Text))
+                {
+                    int dias;
+                    if (int.TryParse(txtDiasDesde.Text, out dias) && dias > 0)
+                    {
+                        diasDesde = dias;
+                    }
+                }
 
-                MostrarFiltrosAplicados();
+                var datos = reporteBO.GenerarReporteDetallado(paisId, bancoId, diasDesde, estado);
+
+                MostrarFiltrosAplicados(diasDesde);
 
                 if (datos.Count > 0)
                 {
@@ -175,10 +202,14 @@ namespace SoftPacWA
                 pnlResumenGeneral.Visible = false;
                 rptPropuestas.DataSource = null;
                 rptPropuestas.DataBind();
+
+                // Opcional: mostrar mensaje de error
+                pnlAlertaValidacion.Visible = true;
+                lblMensajeValidacion.Text = $"Error al generar el reporte: {ex.Message}";
             }
         }
 
-        private void MostrarFiltrosAplicados()
+        private void MostrarFiltrosAplicados(int? diasDesde)
         {
             var filtros = new List<string>();
 
@@ -190,6 +221,10 @@ namespace SoftPacWA
 
             if (!string.IsNullOrEmpty(ddlEstado.SelectedValue))
                 filtros.Add($"Estado: {ddlEstado.SelectedItem.Text}");
+
+            // Mostrar días aplicados (ya sea el ingresado o el default de 90)
+            int diasAplicados = diasDesde ?? 90;
+            filtros.Add($"Últimos {diasAplicados} días");
 
             if (filtros.Count > 0)
             {
@@ -243,7 +278,18 @@ namespace SoftPacWA
                     (int?)null : int.Parse(ddlBanco.SelectedValue);
                 string estado = ddlEstado.SelectedValue;
 
-                var datos = reporteBO.GenerarReporteDetallado(paisId, bancoId, estado);
+                // Parsear días desde
+                int? diasDesde = null;
+                if (!string.IsNullOrWhiteSpace(txtDiasDesde.Text))
+                {
+                    int dias;
+                    if (int.TryParse(txtDiasDesde.Text, out dias) && dias > 0)
+                    {
+                        diasDesde = dias;
+                    }
+                }
+
+                var datos = reporteBO.GenerarReporteDetallado(paisId, bancoId, diasDesde, estado);
 
                 if (datos == null || datos.Count == 0)
                 {
@@ -259,6 +305,9 @@ namespace SoftPacWA
                     filtrosInfo["Banco"] = ddlBanco.SelectedItem.Text;
                 if (!string.IsNullOrEmpty(ddlEstado.SelectedValue))
                     filtrosInfo["Estado"] = ddlEstado.SelectedItem.Text;
+
+                int diasAplicados = diasDesde ?? 90;
+                filtrosInfo["Período"] = $"Últimos {diasAplicados} días";
 
                 byte[] pdfBytes = reporteBO.GenerarPDF(
                     datos,
@@ -281,8 +330,15 @@ namespace SoftPacWA
             }
             catch (Exception ex)
             {
+                // Mostrar error detallado
+                string errorMsg = $"Error al generar el PDF: {ex.Message}";
+                if (ex.InnerException != null)
+                {
+                    errorMsg += $" | Detalle: {ex.InnerException.Message}";
+                }
+
                 ScriptManager.RegisterStartupScript(this, GetType(), "alert",
-                    $"alert('Error al generar el PDF: {ex.Message.Replace("'", "\\'")}');", true);
+                    $"alert('{errorMsg.Replace("'", "\\'").Replace("\n", "\\n")}');", true);
             }
         }
 

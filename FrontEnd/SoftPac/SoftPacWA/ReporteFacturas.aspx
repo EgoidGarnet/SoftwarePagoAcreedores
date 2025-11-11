@@ -95,6 +95,10 @@
             align-items: center;
         }
 
+        .total-general-multi {
+            white-space: pre-line; /* Respeta los saltos de línea \n */
+        }
+
         .grupo-total {
             background-color: #f8f9fa;
             padding: 0.75rem 1.5rem;
@@ -121,8 +125,7 @@
             gap: 1rem;
             justify-content: center;
             margin-top: 2rem;
-            padding-top: 2rem;
-            border-top: 2px solid var(--color-light-1);
+            margin-bottom: 2rem;
         }
 
         .filter-section {
@@ -219,7 +222,24 @@
             </div>
         </div>
     </div>
+    <!-- Botones de Acción -->
+    <div class="botones-accion">
+        <asp:LinkButton ID="btnExportarPDF" runat="server"
+            CssClass="btn btn-danger btn-lg d-flex align-items-center justify-content-center"
+            OnClick="btnExportarPDF_Click"
+            ToolTip="Exportar reporte en PDF">
+    <i class="fas fa-file-pdf me-2"></i>
+    <span>Exportar a PDF</span>
+        </asp:LinkButton>
 
+        <asp:LinkButton ID="btnVolver" runat="server"
+            CssClass="btn btn-secondary btn-lg d-flex align-items-center justify-content-center"
+            OnClick="btnVolver_Click"
+            ToolTip="Volver a la vista de Facturas">
+    <i class="fas fa-arrow-left me-2"></i>
+    <span>Volver</span>
+        </asp:LinkButton>
+    </div>
     <!-- Reporte -->
     <div class="reporte-container">
         <!-- Encabezado del Reporte -->
@@ -296,16 +316,16 @@
                                 </asp:GridView>
                             </div>
 
-                            <div class="grupo-total">
+                            <%--<div class="grupo-total">
                                 Subtotal:
                                 <asp:Label ID="lblSubtotal" runat="server"></asp:Label>
-                            </div>
+                            </div>--%>
                         </div>
                     </ItemTemplate>
                 </asp:Repeater>
 
-                <div class="total-general">
-                    TOTAL GENERAL:
+                <div class="total-general total-general-multi">
+                    Total General:
                     <asp:Label ID="lblTotalGeneral" runat="server"></asp:Label>
                 </div>
 
@@ -315,25 +335,6 @@
                 </asp:Panel>
             </ContentTemplate>
         </asp:UpdatePanel>
-
-        <!-- Botones de Acción -->
-        <div class="botones-accion">
-            <asp:LinkButton ID="btnExportarPDF" runat="server"
-                CssClass="btn btn-danger btn-lg d-flex align-items-center justify-content-center"
-                OnClick="btnExportarPDF_Click"
-                ToolTip="Exportar reporte en PDF">
-        <i class="fas fa-file-pdf me-2"></i>
-        <span>Exportar a PDF</span>
-            </asp:LinkButton>
-
-            <asp:LinkButton ID="btnVolver" runat="server"
-                CssClass="btn btn-secondary btn-lg d-flex align-items-center justify-content-center"
-                OnClick="btnVolver_Click"
-                ToolTip="Volver a la vista de Facturas">
-        <i class="fas fa-arrow-left me-2"></i>
-        <span>Volver</span>
-            </asp:LinkButton>
-        </div>
 
     </div>
 </asp:Content>

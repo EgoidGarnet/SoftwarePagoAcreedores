@@ -46,8 +46,8 @@ namespace SoftPacWA
                     .ToList();
 
                 ddlFiltroPais.DataSource = paisesUsuario;
-                ddlFiltroPais.DataTextField = "Nombre";
-                ddlFiltroPais.DataValueField = "PaisId";
+                ddlFiltroPais.DataTextField = "nombre";
+                ddlFiltroPais.DataValueField = "pais_id";
                 ddlFiltroPais.DataBind();
                 ddlFiltroPais.Items.Insert(0, new ListItem("Todos los países", ""));
             }

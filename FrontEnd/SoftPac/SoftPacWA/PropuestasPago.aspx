@@ -249,42 +249,42 @@
                                 <HeaderStyle CssClass="table-light" />
                                 
                                 <Columns>
-                                    <asp:BoundField DataField="PropuestaId" HeaderText="ID" />
+                                    <asp:BoundField DataField="Propuesta_id" HeaderText="ID" />
                                     
                                     <asp:TemplateField HeaderText="Fecha Creación">
                                         <ItemTemplate>
-                                            <%# Eval("FechaHoraCreacion") != null ? Convert.ToDateTime(Eval("FechaHoraCreacion")).ToString("dd/MM/yyyy HH:mm") : "-" %>
+                                            <%# Eval("fecha_hora_creacion") != null ? Convert.ToDateTime(Eval("fecha_hora_creacion")).ToString("dd/MM/yyyy HH:mm") : "-" %>
                                         </ItemTemplate>
                                     </asp:TemplateField>
                                     
                                     <asp:TemplateField HeaderText="Usuario">
                                         <ItemTemplate>
-                                            <%# Eval("UsuarioCreacion.Nombre") + " " + Eval("UsuarioCreacion.Apellidos") %>
+                                            <%# Eval("usuario_creacion.nombre") + " " + Eval("usuario_creacion.apellidos") %>
                                         </ItemTemplate>
                                     </asp:TemplateField>
                                     
                                     <asp:TemplateField HeaderText="País">
                                         <ItemTemplate>
-                                            <%# Eval("EntidadBancaria.Pais.Nombre") %>
+                                            <%# Eval("entidad_bancaria.pais.nombre") %>
                                         </ItemTemplate>
                                     </asp:TemplateField>
                                     
                                     <asp:TemplateField HeaderText="Banco">
                                         <ItemTemplate>
-                                            <%# Eval("EntidadBancaria.Nombre") %>
+                                            <%# Eval("entidad_bancaria.nombre") %>
                                         </ItemTemplate>
                                     </asp:TemplateField>
                                     
                                     <asp:TemplateField HeaderText="Nº Pagos">
                                         <ItemTemplate>
-                                            <%# Eval("DetallesPropuesta.Count") %>
+                                            <%#((SoftPacBusiness.PropuestaPagoWS.propuestasPagoDTO)Container.DataItem).detalles_propuesta.Length %>
                                         </ItemTemplate>
                                     </asp:TemplateField>
                                     
                                     <asp:TemplateField HeaderText="Estado">
                                         <ItemTemplate>
-                                            <span class='badge <%# GetEstadoClass(Eval("Estado").ToString()) %>'>
-                                                <%# Eval("Estado") %>
+                                            <span class='badge <%# GetEstadoClass(Eval("estado").ToString()) %>'>
+                                                <%# Eval("estado") %>
                                             </span>
                                         </ItemTemplate>
                                     </asp:TemplateField>
@@ -293,17 +293,17 @@
                                         <ItemTemplate>
                                             <div class="acciones-buttons">
                                                 <asp:HyperLink ID="lnkVer" runat="server"
-                                                    NavigateUrl='<%# "~/DetallePropuesta.aspx?id=" + Eval("PropuestaId") %>'
+                                                    NavigateUrl='<%# "~/DetallePropuesta.aspx?id=" + Eval("propuesta_id") %>'
                                                     CssClass="btn btn-sm btn-info btn-icon"
                                                     ToolTip="Ver detalle">
                                                     <i class="fas fa-eye"></i>
                                                 </asp:HyperLink>
 
                                                 <asp:HyperLink ID="lnkEditar" runat="server"
-                                                    NavigateUrl='<%# "~/EditarPropuesta.aspx?id=" + Eval("PropuestaId") %>'
+                                                    NavigateUrl='<%# "~/EditarPropuesta.aspx?id=" + Eval("propuesta_id") %>'
                                                     CssClass="btn btn-sm btn-warning btn-icon"
                                                     ToolTip="Editar"
-                                                    Visible='<%# Eval("Estado").ToString() == "Pendiente" %>'>
+                                                    Visible='<%# Eval("estado").ToString() == "Pendiente" %>'>
                                                     <i class="fas fa-edit"></i>
                                                 </asp:HyperLink>
                                             </div>

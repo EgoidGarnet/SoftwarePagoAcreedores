@@ -5,18 +5,6 @@
       <xsd:import schemaLocation="http://localhost:8080/SoftPacWS/FacturasWS?xsd=1" namespace="http://softpacws.pucp.edu.pe/" />
     </xsd:schema>
   </types>
-  <message name="listarPendientesPorCriterios">
-    <part name="parameters" element="tns:listarPendientesPorCriterios" />
-  </message>
-  <message name="listarPendientesPorCriteriosResponse">
-    <part name="parameters" element="tns:listarPendientesPorCriteriosResponse" />
-  </message>
-  <message name="listarFacturas">
-    <part name="parameters" element="tns:listarFacturas" />
-  </message>
-  <message name="listarFacturasResponse">
-    <part name="parameters" element="tns:listarFacturasResponse" />
-  </message>
   <message name="modificarFactura">
     <part name="parameters" element="tns:modificarFactura" />
   </message>
@@ -28,6 +16,12 @@
   </message>
   <message name="listarPendientesResponse">
     <part name="parameters" element="tns:listarPendientesResponse" />
+  </message>
+  <message name="listarFacturas">
+    <part name="parameters" element="tns:listarFacturas" />
+  </message>
+  <message name="listarFacturasResponse">
+    <part name="parameters" element="tns:listarFacturasResponse" />
   </message>
   <message name="obtenerFactura">
     <part name="parameters" element="tns:obtenerFactura" />
@@ -41,11 +35,11 @@
   <message name="insertarFacturaResponse">
     <part name="parameters" element="tns:insertarFacturaResponse" />
   </message>
-  <message name="eliminarFactura">
-    <part name="parameters" element="tns:eliminarFactura" />
+  <message name="eliminarDetalleFactura">
+    <part name="parameters" element="tns:eliminarDetalleFactura" />
   </message>
-  <message name="eliminarFacturaResponse">
-    <part name="parameters" element="tns:eliminarFacturaResponse" />
+  <message name="eliminarDetalleFacturaResponse">
+    <part name="parameters" element="tns:eliminarDetalleFacturaResponse" />
   </message>
   <message name="insertarDetalleFactura">
     <part name="parameters" element="tns:insertarDetalleFactura" />
@@ -59,21 +53,19 @@
   <message name="modificarDetalleFacturaResponse">
     <part name="parameters" element="tns:modificarDetalleFacturaResponse" />
   </message>
-  <message name="eliminarDetalleFactura">
-    <part name="parameters" element="tns:eliminarDetalleFactura" />
+  <message name="eliminarFactura">
+    <part name="parameters" element="tns:eliminarFactura" />
   </message>
-  <message name="eliminarDetalleFacturaResponse">
-    <part name="parameters" element="tns:eliminarDetalleFacturaResponse" />
+  <message name="eliminarFacturaResponse">
+    <part name="parameters" element="tns:eliminarFacturaResponse" />
+  </message>
+  <message name="listarPendientesPorCriterios">
+    <part name="parameters" element="tns:listarPendientesPorCriterios" />
+  </message>
+  <message name="listarPendientesPorCriteriosResponse">
+    <part name="parameters" element="tns:listarPendientesPorCriteriosResponse" />
   </message>
   <portType name="FacturasWS">
-    <operation name="listarPendientesPorCriterios">
-      <input wsam:Action="http://softpacws.pucp.edu.pe/FacturasWS/listarPendientesPorCriteriosRequest" message="tns:listarPendientesPorCriterios" />
-      <output wsam:Action="http://softpacws.pucp.edu.pe/FacturasWS/listarPendientesPorCriteriosResponse" message="tns:listarPendientesPorCriteriosResponse" />
-    </operation>
-    <operation name="listarFacturas">
-      <input wsam:Action="http://softpacws.pucp.edu.pe/FacturasWS/listarFacturasRequest" message="tns:listarFacturas" />
-      <output wsam:Action="http://softpacws.pucp.edu.pe/FacturasWS/listarFacturasResponse" message="tns:listarFacturasResponse" />
-    </operation>
     <operation name="modificarFactura">
       <input wsam:Action="http://softpacws.pucp.edu.pe/FacturasWS/modificarFacturaRequest" message="tns:modificarFactura" />
       <output wsam:Action="http://softpacws.pucp.edu.pe/FacturasWS/modificarFacturaResponse" message="tns:modificarFacturaResponse" />
@@ -81,6 +73,10 @@
     <operation name="listarPendientes">
       <input wsam:Action="http://softpacws.pucp.edu.pe/FacturasWS/listarPendientesRequest" message="tns:listarPendientes" />
       <output wsam:Action="http://softpacws.pucp.edu.pe/FacturasWS/listarPendientesResponse" message="tns:listarPendientesResponse" />
+    </operation>
+    <operation name="listarFacturas">
+      <input wsam:Action="http://softpacws.pucp.edu.pe/FacturasWS/listarFacturasRequest" message="tns:listarFacturas" />
+      <output wsam:Action="http://softpacws.pucp.edu.pe/FacturasWS/listarFacturasResponse" message="tns:listarFacturasResponse" />
     </operation>
     <operation name="obtenerFactura">
       <input wsam:Action="http://softpacws.pucp.edu.pe/FacturasWS/obtenerFacturaRequest" message="tns:obtenerFactura" />
@@ -90,9 +86,9 @@
       <input wsam:Action="http://softpacws.pucp.edu.pe/FacturasWS/insertarFacturaRequest" message="tns:insertarFactura" />
       <output wsam:Action="http://softpacws.pucp.edu.pe/FacturasWS/insertarFacturaResponse" message="tns:insertarFacturaResponse" />
     </operation>
-    <operation name="eliminarFactura">
-      <input wsam:Action="http://softpacws.pucp.edu.pe/FacturasWS/eliminarFacturaRequest" message="tns:eliminarFactura" />
-      <output wsam:Action="http://softpacws.pucp.edu.pe/FacturasWS/eliminarFacturaResponse" message="tns:eliminarFacturaResponse" />
+    <operation name="eliminarDetalleFactura">
+      <input wsam:Action="http://softpacws.pucp.edu.pe/FacturasWS/eliminarDetalleFacturaRequest" message="tns:eliminarDetalleFactura" />
+      <output wsam:Action="http://softpacws.pucp.edu.pe/FacturasWS/eliminarDetalleFacturaResponse" message="tns:eliminarDetalleFacturaResponse" />
     </operation>
     <operation name="insertarDetalleFactura">
       <input wsam:Action="http://softpacws.pucp.edu.pe/FacturasWS/insertarDetalleFacturaRequest" message="tns:insertarDetalleFactura" />
@@ -102,31 +98,17 @@
       <input wsam:Action="http://softpacws.pucp.edu.pe/FacturasWS/modificarDetalleFacturaRequest" message="tns:modificarDetalleFactura" />
       <output wsam:Action="http://softpacws.pucp.edu.pe/FacturasWS/modificarDetalleFacturaResponse" message="tns:modificarDetalleFacturaResponse" />
     </operation>
-    <operation name="eliminarDetalleFactura">
-      <input wsam:Action="http://softpacws.pucp.edu.pe/FacturasWS/eliminarDetalleFacturaRequest" message="tns:eliminarDetalleFactura" />
-      <output wsam:Action="http://softpacws.pucp.edu.pe/FacturasWS/eliminarDetalleFacturaResponse" message="tns:eliminarDetalleFacturaResponse" />
+    <operation name="eliminarFactura">
+      <input wsam:Action="http://softpacws.pucp.edu.pe/FacturasWS/eliminarFacturaRequest" message="tns:eliminarFactura" />
+      <output wsam:Action="http://softpacws.pucp.edu.pe/FacturasWS/eliminarFacturaResponse" message="tns:eliminarFacturaResponse" />
+    </operation>
+    <operation name="listarPendientesPorCriterios">
+      <input wsam:Action="http://softpacws.pucp.edu.pe/FacturasWS/listarPendientesPorCriteriosRequest" message="tns:listarPendientesPorCriterios" />
+      <output wsam:Action="http://softpacws.pucp.edu.pe/FacturasWS/listarPendientesPorCriteriosResponse" message="tns:listarPendientesPorCriteriosResponse" />
     </operation>
   </portType>
   <binding name="FacturasWSPortBinding" type="tns:FacturasWS">
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
-    <operation name="listarPendientesPorCriterios">
-      <soap:operation soapAction="" />
-      <input>
-        <soap:body use="literal" />
-      </input>
-      <output>
-        <soap:body use="literal" />
-      </output>
-    </operation>
-    <operation name="listarFacturas">
-      <soap:operation soapAction="" />
-      <input>
-        <soap:body use="literal" />
-      </input>
-      <output>
-        <soap:body use="literal" />
-      </output>
-    </operation>
     <operation name="modificarFactura">
       <soap:operation soapAction="" />
       <input>
@@ -137,6 +119,15 @@
       </output>
     </operation>
     <operation name="listarPendientes">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="listarFacturas">
       <soap:operation soapAction="" />
       <input>
         <soap:body use="literal" />
@@ -163,7 +154,7 @@
         <soap:body use="literal" />
       </output>
     </operation>
-    <operation name="eliminarFactura">
+    <operation name="eliminarDetalleFactura">
       <soap:operation soapAction="" />
       <input>
         <soap:body use="literal" />
@@ -190,7 +181,16 @@
         <soap:body use="literal" />
       </output>
     </operation>
-    <operation name="eliminarDetalleFactura">
+    <operation name="eliminarFactura">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="listarPendientesPorCriterios">
       <soap:operation soapAction="" />
       <input>
         <soap:body use="literal" />

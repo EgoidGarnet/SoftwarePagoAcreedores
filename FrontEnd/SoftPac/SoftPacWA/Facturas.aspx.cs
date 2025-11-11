@@ -38,7 +38,7 @@ namespace SoftPacWA
             }
             SoftPacBusiness.FacturasWS.usuariosDTO user = new SoftPacBusiness.FacturasWS.usuariosDTO();
             user.usuario_id = UsuarioLogueado.usuario_id;
-            user.usuario_pais = (SoftPacBusiness.FacturasWS.usuarioPaisAccesoDTO[]) UsuarioLogueado.usuario_pais.Clone();
+            user.usuario_pais = DTOConverter.ConvertirArray<SoftPacBusiness.UsuariosWS.usuarioPaisAccesoDTO, SoftPacBusiness.FacturasWS.usuarioPaisAccesoDTO>(UsuarioLogueado.usuario_pais);
             paisesUsuario = user.usuario_pais.Where(up => up.acceso == true).Select(up => up.pais).ToList();
             if (!IsPostBack)
             {
@@ -53,18 +53,19 @@ namespace SoftPacWA
             {
                 // Cargar países
                 ddlFiltroPais.DataSource = paisesUsuario;
-                ddlFiltroPais.DataTextField = "Nombre";
-                ddlFiltroPais.DataValueField = "PaisId";
+                ddlFiltroPais.DataTextField = "nombre";
+                ddlFiltroPais.DataValueField = "pais_id";
                 ddlFiltroPais.DataBind();
-                ddlFiltroPais.Items.Insert(0, new ListItem("Todos los países", ""));
+                if (paisesUsuario.Count > 1)
+                    ddlFiltroPais.Items.Insert(0, new ListItem("Todos los países", ""));
 
                 // Cargar proveedores
                 var proveedores = acreedoresBO.ListarTodos().Where(a => a.activo).ToList();
                 ddlFiltroProveedor.DataSource = proveedores;
-                ddlFiltroProveedor.DataTextField = "RazonSocial";
-                ddlFiltroProveedor.DataValueField = "AcreedorId";
+                ddlFiltroProveedor.DataTextField = "razon_social";
+                ddlFiltroProveedor.DataValueField = "acreedor_id";
                 ddlFiltroProveedor.DataBind();
-                ddlFiltroProveedor.Items.Insert(0, new ListItem("Todos los proveedores", ""));
+                ddlFiltroProveedor.Items.Insert(0, new ListItem("Todos los acreedores", ""));
             }
             catch (Exception ex)
             {
@@ -160,13 +161,15 @@ namespace SoftPacWA
 
                 LinkButton btnEditar = (LinkButton)e.Row.FindControl("btnEditar");
                 LinkButton btnEliminar = (LinkButton)e.Row.FindControl("btnEliminar");
-                if (btnEditar != null && factura.monto_restante != factura.monto_total)
+                if (btnEditar != null && (factura.monto_restante != factura.monto_total || factura.estado == "Eliminado"
+                    || factura.estado == "Pagada"))
                 {
                     btnEditar.Enabled = false;
                     btnEditar.CssClass += " disabled";
                     btnEditar.ToolTip = "No se puede editar una factura con pagos registrados.";
                 }
-                if (btnEliminar != null && factura.monto_restante != factura.monto_total)
+                if (btnEliminar != null && (factura.monto_restante != factura.monto_total || factura.estado == "Eliminado"
+                    || factura.estado == "Pagada"))
                 {
                     btnEliminar.Enabled = false;
                     btnEliminar.CssClass += " disabled";
@@ -231,6 +234,8 @@ namespace SoftPacWA
                     return "badge-pagado";
                 case "vencida":
                     return "badge-vencido";
+                case "eliminado":
+                    return "badge-elimin";
                 default:
                     return "badge-pendiente";
             }

@@ -19,10 +19,22 @@ namespace SoftPac.Business
 
         // ========== MÉTODOS CRUD PRINCIPALES ==========
 
+        public void ActivarSpecified(cuentasPropiasDTO cuenta)
+        {
+            cuenta.activaSpecified = true;
+            cuenta.cuenta_bancaria_idSpecified = true;
+            cuenta.entidad_bancaria.entidad_bancaria_idSpecified = true;
+            cuenta.moneda.moneda_idSpecified = true;
+            cuenta.saldo_disponibleSpecified = true;
+        }
+
+
         public int Insertar(cuentasPropiasDTO cuenta)
         {
             try
             {
+
+                ActivarSpecified(cuenta);
                 return this.cuentasPropiasClienteSOAP.insertarCuentaPropia(cuenta);
             }
             catch (Exception ex)
@@ -35,6 +47,7 @@ namespace SoftPac.Business
         {
             try
             {
+                ActivarSpecified(cuenta);
                 return this.cuentasPropiasClienteSOAP.modificarCuentaPropia(cuenta);
             }
             catch (Exception ex)
@@ -47,6 +60,8 @@ namespace SoftPac.Business
         {
             try
             {
+                cuenta.cuenta_bancaria_idSpecified = true;
+                usuarioActual.usuario_idSpecified = true;
                 return this.cuentasPropiasClienteSOAP.eliminarCuentaPropia(cuenta, usuarioActual);
             }
             catch (Exception ex)

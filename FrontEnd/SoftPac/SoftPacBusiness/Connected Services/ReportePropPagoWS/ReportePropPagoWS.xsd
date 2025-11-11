@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://softpacws.pucp.edu.pe/" targetNamespace="http://softpacws.pucp.edu.pe/" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="listarReportePropuesta" type="tns:listarReportePropuesta" />
+  <xs:element name="listarReportePropuestaResponse" type="tns:listarReportePropuestaResponse" />
+  <xs:complexType name="listarReportePropuesta">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="pais_id" type="xs:int" />
+      <xs:element minOccurs="0" name="banco_id" type="xs:int" />
+      <xs:element minOccurs="0" name="dias_desde" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="listarReportePropuestaResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="return" type="tns:reportePropPagoDTO" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="reportePropPagoDTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="bancoPropuesta" type="xs:string" />
+      <xs:element minOccurs="0" name="correoUsuarioCreador" type="xs:string" />
+      <xs:element minOccurs="0" name="estado" type="xs:string" />
+      <xs:element minOccurs="0" name="fechaCreacion" type="xs:dateTime" />
+      <xs:element name="idPropuesta" type="xs:int" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="pagos" nillable="true" type="tns:reportePagoDTO" />
+      <xs:element minOccurs="0" name="pais" type="xs:string" />
+      <xs:element name="totalPagos" type="xs:int" />
+      <xs:element minOccurs="0" name="usuarioCreador" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="reportePagoDTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="acreedor" type="xs:string" />
+      <xs:element minOccurs="0" name="bancoDestino" type="xs:string" />
+      <xs:element minOccurs="0" name="bancoOrigen" type="xs:string" />
+      <xs:element minOccurs="0" name="cuentaDestino" type="xs:string" />
+      <xs:element minOccurs="0" name="cuentaOrigen" type="xs:string" />
+      <xs:element minOccurs="0" name="formaPago" type="xs:string" />
+      <xs:element minOccurs="0" name="moneda" type="xs:string" />
+      <xs:element minOccurs="0" name="monto" type="xs:decimal" />
+      <xs:element minOccurs="0" name="numeroFactura" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

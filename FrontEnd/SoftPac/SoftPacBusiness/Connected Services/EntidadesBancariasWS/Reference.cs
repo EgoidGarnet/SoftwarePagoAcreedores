@@ -16,17 +16,17 @@ namespace SoftPacBusiness.EntidadesBancariasWS {
     public interface EntidadesBancariasWS {
         
         // CODEGEN: El parámetro 'return' requiere información adicional de esquema que no se puede capturar con el modo de parámetros. El atributo específico es 'System.Xml.Serialization.XmlElementAttribute'.
-        [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/EntidadesBancariasWS/obtenerEntidadBancariaPorIdRequ" +
-            "est", ReplyAction="http://softpacws.pucp.edu.pe/EntidadesBancariasWS/obtenerEntidadBancariaPorIdResp" +
-            "onse")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/EntidadesBancariasWS/obtenerEntidadBancariaPorNombre" +
+            "Request", ReplyAction="http://softpacws.pucp.edu.pe/EntidadesBancariasWS/obtenerEntidadBancariaPorNombre" +
+            "Response")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
-        SoftPacBusiness.EntidadesBancariasWS.obtenerEntidadBancariaPorIdResponse obtenerEntidadBancariaPorId(SoftPacBusiness.EntidadesBancariasWS.obtenerEntidadBancariaPorIdRequest request);
+        SoftPacBusiness.EntidadesBancariasWS.obtenerEntidadBancariaPorNombreResponse obtenerEntidadBancariaPorNombre(SoftPacBusiness.EntidadesBancariasWS.obtenerEntidadBancariaPorNombreRequest request);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/EntidadesBancariasWS/obtenerEntidadBancariaPorIdRequ" +
-            "est", ReplyAction="http://softpacws.pucp.edu.pe/EntidadesBancariasWS/obtenerEntidadBancariaPorIdResp" +
-            "onse")]
-        System.Threading.Tasks.Task<SoftPacBusiness.EntidadesBancariasWS.obtenerEntidadBancariaPorIdResponse> obtenerEntidadBancariaPorIdAsync(SoftPacBusiness.EntidadesBancariasWS.obtenerEntidadBancariaPorIdRequest request);
+        [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/EntidadesBancariasWS/obtenerEntidadBancariaPorNombre" +
+            "Request", ReplyAction="http://softpacws.pucp.edu.pe/EntidadesBancariasWS/obtenerEntidadBancariaPorNombre" +
+            "Response")]
+        System.Threading.Tasks.Task<SoftPacBusiness.EntidadesBancariasWS.obtenerEntidadBancariaPorNombreResponse> obtenerEntidadBancariaPorNombreAsync(SoftPacBusiness.EntidadesBancariasWS.obtenerEntidadBancariaPorNombreRequest request);
         
         // CODEGEN: El parámetro 'return' requiere información adicional de esquema que no se puede capturar con el modo de parámetros. El atributo específico es 'System.Xml.Serialization.XmlElementAttribute'.
         [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/EntidadesBancariasWS/listarEntidadesBancariasRequest" +
@@ -40,6 +40,19 @@ namespace SoftPacBusiness.EntidadesBancariasWS {
             "", ReplyAction="http://softpacws.pucp.edu.pe/EntidadesBancariasWS/listarEntidadesBancariasRespons" +
             "e")]
         System.Threading.Tasks.Task<SoftPacBusiness.EntidadesBancariasWS.listarEntidadesBancariasResponse> listarEntidadesBancariasAsync(SoftPacBusiness.EntidadesBancariasWS.listarEntidadesBancariasRequest request);
+        
+        // CODEGEN: El parámetro 'return' requiere información adicional de esquema que no se puede capturar con el modo de parámetros. El atributo específico es 'System.Xml.Serialization.XmlElementAttribute'.
+        [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/EntidadesBancariasWS/obtenerEntidadBancariaPorIdRequ" +
+            "est", ReplyAction="http://softpacws.pucp.edu.pe/EntidadesBancariasWS/obtenerEntidadBancariaPorIdResp" +
+            "onse")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        SoftPacBusiness.EntidadesBancariasWS.obtenerEntidadBancariaPorIdResponse obtenerEntidadBancariaPorId(SoftPacBusiness.EntidadesBancariasWS.obtenerEntidadBancariaPorIdRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/EntidadesBancariasWS/obtenerEntidadBancariaPorIdRequ" +
+            "est", ReplyAction="http://softpacws.pucp.edu.pe/EntidadesBancariasWS/obtenerEntidadBancariaPorIdResp" +
+            "onse")]
+        System.Threading.Tasks.Task<SoftPacBusiness.EntidadesBancariasWS.obtenerEntidadBancariaPorIdResponse> obtenerEntidadBancariaPorIdAsync(SoftPacBusiness.EntidadesBancariasWS.obtenerEntidadBancariaPorIdRequest request);
     }
     
     /// <remarks/>
@@ -235,6 +248,70 @@ namespace SoftPacBusiness.EntidadesBancariasWS {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="obtenerEntidadBancariaPorNombre", WrapperNamespace="http://softpacws.pucp.edu.pe/", IsWrapped=true)]
+    public partial class obtenerEntidadBancariaPorNombreRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://softpacws.pucp.edu.pe/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string nombre_entidad;
+        
+        public obtenerEntidadBancariaPorNombreRequest() {
+        }
+        
+        public obtenerEntidadBancariaPorNombreRequest(string nombre_entidad) {
+            this.nombre_entidad = nombre_entidad;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="obtenerEntidadBancariaPorNombreResponse", WrapperNamespace="http://softpacws.pucp.edu.pe/", IsWrapped=true)]
+    public partial class obtenerEntidadBancariaPorNombreResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://softpacws.pucp.edu.pe/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public SoftPacBusiness.EntidadesBancariasWS.entidadesBancariasDTO @return;
+        
+        public obtenerEntidadBancariaPorNombreResponse() {
+        }
+        
+        public obtenerEntidadBancariaPorNombreResponse(SoftPacBusiness.EntidadesBancariasWS.entidadesBancariasDTO @return) {
+            this.@return = @return;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="listarEntidadesBancarias", WrapperNamespace="http://softpacws.pucp.edu.pe/", IsWrapped=true)]
+    public partial class listarEntidadesBancariasRequest {
+        
+        public listarEntidadesBancariasRequest() {
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="listarEntidadesBancariasResponse", WrapperNamespace="http://softpacws.pucp.edu.pe/", IsWrapped=true)]
+    public partial class listarEntidadesBancariasResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://softpacws.pucp.edu.pe/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute("return", Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public SoftPacBusiness.EntidadesBancariasWS.entidadesBancariasDTO[] @return;
+        
+        public listarEntidadesBancariasResponse() {
+        }
+        
+        public listarEntidadesBancariasResponse(SoftPacBusiness.EntidadesBancariasWS.entidadesBancariasDTO[] @return) {
+            this.@return = @return;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
     [System.ServiceModel.MessageContractAttribute(WrapperName="obtenerEntidadBancariaPorId", WrapperNamespace="http://softpacws.pucp.edu.pe/", IsWrapped=true)]
     public partial class obtenerEntidadBancariaPorIdRequest {
         
@@ -268,34 +345,6 @@ namespace SoftPacBusiness.EntidadesBancariasWS {
         }
     }
     
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="listarEntidadesBancarias", WrapperNamespace="http://softpacws.pucp.edu.pe/", IsWrapped=true)]
-    public partial class listarEntidadesBancariasRequest {
-        
-        public listarEntidadesBancariasRequest() {
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="listarEntidadesBancariasResponse", WrapperNamespace="http://softpacws.pucp.edu.pe/", IsWrapped=true)]
-    public partial class listarEntidadesBancariasResponse {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://softpacws.pucp.edu.pe/", Order=0)]
-        [System.Xml.Serialization.XmlElementAttribute("return", Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public SoftPacBusiness.EntidadesBancariasWS.entidadesBancariasDTO[] @return;
-        
-        public listarEntidadesBancariasResponse() {
-        }
-        
-        public listarEntidadesBancariasResponse(SoftPacBusiness.EntidadesBancariasWS.entidadesBancariasDTO[] @return) {
-            this.@return = @return;
-        }
-    }
-    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     public interface EntidadesBancariasWSChannel : SoftPacBusiness.EntidadesBancariasWS.EntidadesBancariasWS, System.ServiceModel.IClientChannel {
     }
@@ -324,26 +373,26 @@ namespace SoftPacBusiness.EntidadesBancariasWS {
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        SoftPacBusiness.EntidadesBancariasWS.obtenerEntidadBancariaPorIdResponse SoftPacBusiness.EntidadesBancariasWS.EntidadesBancariasWS.obtenerEntidadBancariaPorId(SoftPacBusiness.EntidadesBancariasWS.obtenerEntidadBancariaPorIdRequest request) {
-            return base.Channel.obtenerEntidadBancariaPorId(request);
+        SoftPacBusiness.EntidadesBancariasWS.obtenerEntidadBancariaPorNombreResponse SoftPacBusiness.EntidadesBancariasWS.EntidadesBancariasWS.obtenerEntidadBancariaPorNombre(SoftPacBusiness.EntidadesBancariasWS.obtenerEntidadBancariaPorNombreRequest request) {
+            return base.Channel.obtenerEntidadBancariaPorNombre(request);
         }
         
-        public SoftPacBusiness.EntidadesBancariasWS.entidadesBancariasDTO obtenerEntidadBancariaPorId(int entidades_bancarias_id) {
-            SoftPacBusiness.EntidadesBancariasWS.obtenerEntidadBancariaPorIdRequest inValue = new SoftPacBusiness.EntidadesBancariasWS.obtenerEntidadBancariaPorIdRequest();
-            inValue.entidades_bancarias_id = entidades_bancarias_id;
-            SoftPacBusiness.EntidadesBancariasWS.obtenerEntidadBancariaPorIdResponse retVal = ((SoftPacBusiness.EntidadesBancariasWS.EntidadesBancariasWS)(this)).obtenerEntidadBancariaPorId(inValue);
+        public SoftPacBusiness.EntidadesBancariasWS.entidadesBancariasDTO obtenerEntidadBancariaPorNombre(string nombre_entidad) {
+            SoftPacBusiness.EntidadesBancariasWS.obtenerEntidadBancariaPorNombreRequest inValue = new SoftPacBusiness.EntidadesBancariasWS.obtenerEntidadBancariaPorNombreRequest();
+            inValue.nombre_entidad = nombre_entidad;
+            SoftPacBusiness.EntidadesBancariasWS.obtenerEntidadBancariaPorNombreResponse retVal = ((SoftPacBusiness.EntidadesBancariasWS.EntidadesBancariasWS)(this)).obtenerEntidadBancariaPorNombre(inValue);
             return retVal.@return;
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<SoftPacBusiness.EntidadesBancariasWS.obtenerEntidadBancariaPorIdResponse> SoftPacBusiness.EntidadesBancariasWS.EntidadesBancariasWS.obtenerEntidadBancariaPorIdAsync(SoftPacBusiness.EntidadesBancariasWS.obtenerEntidadBancariaPorIdRequest request) {
-            return base.Channel.obtenerEntidadBancariaPorIdAsync(request);
+        System.Threading.Tasks.Task<SoftPacBusiness.EntidadesBancariasWS.obtenerEntidadBancariaPorNombreResponse> SoftPacBusiness.EntidadesBancariasWS.EntidadesBancariasWS.obtenerEntidadBancariaPorNombreAsync(SoftPacBusiness.EntidadesBancariasWS.obtenerEntidadBancariaPorNombreRequest request) {
+            return base.Channel.obtenerEntidadBancariaPorNombreAsync(request);
         }
         
-        public System.Threading.Tasks.Task<SoftPacBusiness.EntidadesBancariasWS.obtenerEntidadBancariaPorIdResponse> obtenerEntidadBancariaPorIdAsync(int entidades_bancarias_id) {
-            SoftPacBusiness.EntidadesBancariasWS.obtenerEntidadBancariaPorIdRequest inValue = new SoftPacBusiness.EntidadesBancariasWS.obtenerEntidadBancariaPorIdRequest();
-            inValue.entidades_bancarias_id = entidades_bancarias_id;
-            return ((SoftPacBusiness.EntidadesBancariasWS.EntidadesBancariasWS)(this)).obtenerEntidadBancariaPorIdAsync(inValue);
+        public System.Threading.Tasks.Task<SoftPacBusiness.EntidadesBancariasWS.obtenerEntidadBancariaPorNombreResponse> obtenerEntidadBancariaPorNombreAsync(string nombre_entidad) {
+            SoftPacBusiness.EntidadesBancariasWS.obtenerEntidadBancariaPorNombreRequest inValue = new SoftPacBusiness.EntidadesBancariasWS.obtenerEntidadBancariaPorNombreRequest();
+            inValue.nombre_entidad = nombre_entidad;
+            return ((SoftPacBusiness.EntidadesBancariasWS.EntidadesBancariasWS)(this)).obtenerEntidadBancariaPorNombreAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -365,6 +414,29 @@ namespace SoftPacBusiness.EntidadesBancariasWS {
         public System.Threading.Tasks.Task<SoftPacBusiness.EntidadesBancariasWS.listarEntidadesBancariasResponse> listarEntidadesBancariasAsync() {
             SoftPacBusiness.EntidadesBancariasWS.listarEntidadesBancariasRequest inValue = new SoftPacBusiness.EntidadesBancariasWS.listarEntidadesBancariasRequest();
             return ((SoftPacBusiness.EntidadesBancariasWS.EntidadesBancariasWS)(this)).listarEntidadesBancariasAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        SoftPacBusiness.EntidadesBancariasWS.obtenerEntidadBancariaPorIdResponse SoftPacBusiness.EntidadesBancariasWS.EntidadesBancariasWS.obtenerEntidadBancariaPorId(SoftPacBusiness.EntidadesBancariasWS.obtenerEntidadBancariaPorIdRequest request) {
+            return base.Channel.obtenerEntidadBancariaPorId(request);
+        }
+        
+        public SoftPacBusiness.EntidadesBancariasWS.entidadesBancariasDTO obtenerEntidadBancariaPorId(int entidades_bancarias_id) {
+            SoftPacBusiness.EntidadesBancariasWS.obtenerEntidadBancariaPorIdRequest inValue = new SoftPacBusiness.EntidadesBancariasWS.obtenerEntidadBancariaPorIdRequest();
+            inValue.entidades_bancarias_id = entidades_bancarias_id;
+            SoftPacBusiness.EntidadesBancariasWS.obtenerEntidadBancariaPorIdResponse retVal = ((SoftPacBusiness.EntidadesBancariasWS.EntidadesBancariasWS)(this)).obtenerEntidadBancariaPorId(inValue);
+            return retVal.@return;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<SoftPacBusiness.EntidadesBancariasWS.obtenerEntidadBancariaPorIdResponse> SoftPacBusiness.EntidadesBancariasWS.EntidadesBancariasWS.obtenerEntidadBancariaPorIdAsync(SoftPacBusiness.EntidadesBancariasWS.obtenerEntidadBancariaPorIdRequest request) {
+            return base.Channel.obtenerEntidadBancariaPorIdAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<SoftPacBusiness.EntidadesBancariasWS.obtenerEntidadBancariaPorIdResponse> obtenerEntidadBancariaPorIdAsync(int entidades_bancarias_id) {
+            SoftPacBusiness.EntidadesBancariasWS.obtenerEntidadBancariaPorIdRequest inValue = new SoftPacBusiness.EntidadesBancariasWS.obtenerEntidadBancariaPorIdRequest();
+            inValue.entidades_bancarias_id = entidades_bancarias_id;
+            return ((SoftPacBusiness.EntidadesBancariasWS.EntidadesBancariasWS)(this)).obtenerEntidadBancariaPorIdAsync(inValue);
         }
     }
 }

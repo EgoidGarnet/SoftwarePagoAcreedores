@@ -37,6 +37,11 @@
             color: white;
         }
 
+        .badge-elimin {
+            background-color: #ff0000;
+            color: white;
+        }
+
         .action-buttons {
             display: flex;
             gap: 0.5rem;
@@ -127,9 +132,9 @@
                 </asp:DropDownList>
             </div>
             <div class="col-12 col-md-3">
-                <label class="form-label">Proveedor</label>
+                <label class="form-label">Acreedor</label>
                 <asp:DropDownList ID="ddlFiltroProveedor" runat="server" CssClass="form-select" AutoPostBack="true" OnSelectedIndexChanged="AplicarFiltros">
-                    <asp:ListItem Value="">Todos los proveedores</asp:ListItem>
+                    <asp:ListItem Value="">Todos los acreedores</asp:ListItem>
                 </asp:DropDownList>
             </div>
             <div class="col-6 col-md-2">
@@ -177,36 +182,36 @@
                             GridLines="None"
                             OnRowDataBound="gvFacturas_RowDataBound">
                             <Columns>
-                                <asp:BoundField DataField="NumeroFactura" HeaderText="Número de factura" />
-                                <asp:TemplateField HeaderText="Proveedor">
+                                <asp:BoundField DataField="numero_factura" HeaderText="Número de factura" />
+                                <asp:TemplateField HeaderText="Acreedor">
                                     <ItemTemplate>
-                                        <%# Eval("Acreedor.RazonSocial") %>
+                                        <%# Eval("acreedor.razon_social") %>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="País">
                                     <ItemTemplate>
-                                        <%# Eval("Acreedor.Pais.Nombre") %>
+                                        <%# Eval("acreedor.pais.nombre") %>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="Fecha de emisión">
                                     <ItemTemplate>
-                                        <%# Eval("FechaEmision") != null ? Convert.ToDateTime(Eval("FechaEmision")).ToString("dd/MM/yyyy") : "" %>
+                                        <%# Eval("fecha_emision") != null ? Convert.ToDateTime(Eval("fecha_emision")).ToString("dd/MM/yyyy") : "" %>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="Fecha límite de pago">
                                     <ItemTemplate>
-                                        <%# Eval("FechaLimitePago") != null ? Convert.ToDateTime(Eval("FechaLimitePago")).ToString("dd/MM/yyyy") : "" %>
+                                        <%# Eval("fecha_limite_pago") != null ? Convert.ToDateTime(Eval("fecha_limite_pago")).ToString("dd/MM/yyyy") : "" %>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="Monto total">
                                     <ItemTemplate>
-                                        <%# string.Format("{0} {1:N2}", Eval("Moneda.CodigoIso"), Eval("MontoTotal")) %>
+                                        <%# string.Format("{0} {1:N2}", Eval("moneda.codigo_iso"), Eval("monto_total")) %>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="Estado">
                                     <ItemTemplate>
-                                        <span class='badge-estado <%# GetEstadoClass(Eval("Estado").ToString()) %>'>
-                                            <%# Eval("Estado") %>
+                                        <span class='badge-estado <%# GetEstadoClass(Eval("estado").ToString()) %>'>
+                                            <%# Eval("estado") %>
                                         </span>
                                     </ItemTemplate>
                                 </asp:TemplateField>
@@ -214,17 +219,17 @@
                                     <ItemTemplate>
                                         <div class="action-buttons">
                                             <asp:LinkButton ID="btnVer" runat="server" CssClass="btn btn-sm btn-info btn-icon" 
-                                                CommandName="Ver" CommandArgument='<%# Eval("FacturaId") %>' 
+                                                CommandName="Ver" CommandArgument='<%# Eval("factura_id") %>' 
                                                 OnClick="btnAccion_Click" ToolTip="Ver detalles">
                                                 <i class="fas fa-eye"></i>
                                             </asp:LinkButton>
                                             <asp:LinkButton ID="btnEditar" runat="server" CssClass="btn btn-sm btn-warning btn-icon" 
-                                                CommandName="Editar" CommandArgument='<%# Eval("FacturaId") %>' 
+                                                CommandName="Editar" CommandArgument='<%# Eval("factura_id") %>' 
                                                 OnClick="btnAccion_Click" ToolTip="Editar">
                                                 <i class="fas fa-edit"></i>
                                             </asp:LinkButton>
                                             <asp:LinkButton ID="btnEliminar" runat="server" CssClass="btn btn-sm btn-danger btn-icon" 
-                                                CommandName="Eliminar" CommandArgument='<%# Eval("FacturaId") %>' 
+                                                CommandName="Eliminar" CommandArgument='<%# Eval("factura_id") %>' 
                                                 OnClick="btnAccion_Click" ToolTip="Eliminar"
                                                 OnClientClick="return confirm('¿Está seguro de eliminar esta factura?');">
                                                 <i class="fas fa-trash"></i>

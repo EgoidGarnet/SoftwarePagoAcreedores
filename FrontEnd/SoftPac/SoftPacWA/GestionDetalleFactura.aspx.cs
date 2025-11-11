@@ -23,7 +23,7 @@ namespace SoftPacWA
         // Propiedad para saber a qué factura regresar
         private int? FacturaIdPadre
         {
-            get {  return Session["facturaId"] as int?; }
+            get { return Session["facturaId"] as int?; }
             set { Session["facturaId"] = value; }
         }
 
@@ -31,7 +31,8 @@ namespace SoftPacWA
         {
             if (!IsPostBack)
             {
-                if(DetalleActual!=null) lblMoneda.Text = DetalleActual.factura.moneda.codigo_iso;
+
+                if (DetalleActual != null) lblMoneda.Text = DetalleActual.factura.moneda.codigo_iso;
                 ConfigurarPaginaPorAccion();
             }
         }
@@ -75,14 +76,18 @@ namespace SoftPacWA
                 if (Accion.Equals("insertar"))
                 {
                     // Crear un nuevo detalle
-                    var nuevoDetalle = new detallesFacturaDTO
-                    {
-                        descripcion = txtDescripcion.Text,
-                        subtotal = Convert.ToDecimal(txtSubtotal.Text),
-                        factura = new facturasDTO { factura_id = (int)FacturaIdPadre }
-                    };
-                    nuevoDetalle.factura=facturasBO.ObtenerPorId(FacturaIdPadre ?? 0);
-                    nuevoDetalle.factura.detalles_Factura.ToList().Add(nuevoDetalle);
+                    detallesFacturaDTO nuevoDetalle = new detallesFacturaDTO();
+                    nuevoDetalle.descripcion = txtDescripcion.Text;
+                    nuevoDetalle.subtotal = Convert.ToDecimal(txtSubtotal.Text);
+                    facturasDTO facturaAux = new facturasDTO();
+                    facturaAux.factura_id = FacturaIdPadre ?? 0;
+                    facturaAux = facturasBO.ObtenerPorId(FacturaIdPadre ?? 0);
+                    if (facturaAux.detalles_Factura == null)
+                        facturaAux.detalles_Factura = new detallesFacturaDTO[] { };
+                    var lista = (facturaAux.detalles_Factura ?? Array.Empty<detallesFacturaDTO>()).ToList();
+                    lista.Add(nuevoDetalle);
+                    facturaAux.detalles_Factura = lista.ToArray();
+                    nuevoDetalle.factura = facturaAux;
                     facturasBO.InsertarDetalle(nuevoDetalle);
                 }
                 else // Editar

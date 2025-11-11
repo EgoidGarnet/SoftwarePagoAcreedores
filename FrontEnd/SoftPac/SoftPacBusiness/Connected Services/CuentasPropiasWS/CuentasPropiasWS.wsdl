@@ -5,35 +5,29 @@
       <xsd:import schemaLocation="http://localhost:8080/SoftPacWS/CuentasPropiasWS?xsd=1" namespace="http://softpacws.pucp.edu.pe/" />
     </xsd:schema>
   </types>
-  <message name="insertarCuentaPropiaParametros">
-    <part name="parameters" element="tns:insertarCuentaPropiaParametros" />
+  <message name="listarCuentasActivas">
+    <part name="parameters" element="tns:listarCuentasActivas" />
   </message>
-  <message name="insertarCuentaPropiaParametrosResponse">
-    <part name="parameters" element="tns:insertarCuentaPropiaParametrosResponse" />
-  </message>
-  <message name="modificarCuentaPropiaParametros">
-    <part name="parameters" element="tns:modificarCuentaPropiaParametros" />
-  </message>
-  <message name="modificarCuentaPropiaParametrosResponse">
-    <part name="parameters" element="tns:modificarCuentaPropiaParametrosResponse" />
-  </message>
-  <message name="eliminarCuentaPropiaParametros">
-    <part name="parameters" element="tns:eliminarCuentaPropiaParametros" />
-  </message>
-  <message name="eliminarCuentaPropiaParametrosResponse">
-    <part name="parameters" element="tns:eliminarCuentaPropiaParametrosResponse" />
-  </message>
-  <message name="tieneSaldoSuficiente">
-    <part name="parameters" element="tns:tieneSaldoSuficiente" />
-  </message>
-  <message name="tieneSaldoSuficienteResponse">
-    <part name="parameters" element="tns:tieneSaldoSuficienteResponse" />
+  <message name="listarCuentasActivasResponse">
+    <part name="parameters" element="tns:listarCuentasActivasResponse" />
   </message>
   <message name="insertarCuentaPropia">
     <part name="parameters" element="tns:insertarCuentaPropia" />
   </message>
   <message name="insertarCuentaPropiaResponse">
     <part name="parameters" element="tns:insertarCuentaPropiaResponse" />
+  </message>
+  <message name="obtenerCuentaPropiaPorId">
+    <part name="parameters" element="tns:obtenerCuentaPropiaPorId" />
+  </message>
+  <message name="obtenerCuentaPropiaPorIdResponse">
+    <part name="parameters" element="tns:obtenerCuentaPropiaPorIdResponse" />
+  </message>
+  <message name="tieneSaldoSuficiente">
+    <part name="parameters" element="tns:tieneSaldoSuficiente" />
+  </message>
+  <message name="tieneSaldoSuficienteResponse">
+    <part name="parameters" element="tns:tieneSaldoSuficienteResponse" />
   </message>
   <message name="modificarCuentaPropia">
     <part name="parameters" element="tns:modificarCuentaPropia" />
@@ -59,38 +53,40 @@
   <message name="listarCuentasPropiasResponse">
     <part name="parameters" element="tns:listarCuentasPropiasResponse" />
   </message>
-  <message name="listarCuentasActivas">
-    <part name="parameters" element="tns:listarCuentasActivas" />
+  <message name="modificarCuentaPropiaParametros">
+    <part name="parameters" element="tns:modificarCuentaPropiaParametros" />
   </message>
-  <message name="listarCuentasActivasResponse">
-    <part name="parameters" element="tns:listarCuentasActivasResponse" />
+  <message name="modificarCuentaPropiaParametrosResponse">
+    <part name="parameters" element="tns:modificarCuentaPropiaParametrosResponse" />
   </message>
-  <message name="obtenerCuentaPropiaPorId">
-    <part name="parameters" element="tns:obtenerCuentaPropiaPorId" />
+  <message name="eliminarCuentaPropiaParametros">
+    <part name="parameters" element="tns:eliminarCuentaPropiaParametros" />
   </message>
-  <message name="obtenerCuentaPropiaPorIdResponse">
-    <part name="parameters" element="tns:obtenerCuentaPropiaPorIdResponse" />
+  <message name="eliminarCuentaPropiaParametrosResponse">
+    <part name="parameters" element="tns:eliminarCuentaPropiaParametrosResponse" />
+  </message>
+  <message name="insertarCuentaPropiaParametros">
+    <part name="parameters" element="tns:insertarCuentaPropiaParametros" />
+  </message>
+  <message name="insertarCuentaPropiaParametrosResponse">
+    <part name="parameters" element="tns:insertarCuentaPropiaParametrosResponse" />
   </message>
   <portType name="CuentasPropiasWS">
-    <operation name="insertarCuentaPropiaParametros">
-      <input wsam:Action="http://softpacws.pucp.edu.pe/CuentasPropiasWS/insertarCuentaPropiaParametrosRequest" message="tns:insertarCuentaPropiaParametros" />
-      <output wsam:Action="http://softpacws.pucp.edu.pe/CuentasPropiasWS/insertarCuentaPropiaParametrosResponse" message="tns:insertarCuentaPropiaParametrosResponse" />
-    </operation>
-    <operation name="modificarCuentaPropiaParametros">
-      <input wsam:Action="http://softpacws.pucp.edu.pe/CuentasPropiasWS/modificarCuentaPropiaParametrosRequest" message="tns:modificarCuentaPropiaParametros" />
-      <output wsam:Action="http://softpacws.pucp.edu.pe/CuentasPropiasWS/modificarCuentaPropiaParametrosResponse" message="tns:modificarCuentaPropiaParametrosResponse" />
-    </operation>
-    <operation name="eliminarCuentaPropiaParametros">
-      <input wsam:Action="http://softpacws.pucp.edu.pe/CuentasPropiasWS/eliminarCuentaPropiaParametrosRequest" message="tns:eliminarCuentaPropiaParametros" />
-      <output wsam:Action="http://softpacws.pucp.edu.pe/CuentasPropiasWS/eliminarCuentaPropiaParametrosResponse" message="tns:eliminarCuentaPropiaParametrosResponse" />
-    </operation>
-    <operation name="tieneSaldoSuficiente">
-      <input wsam:Action="http://softpacws.pucp.edu.pe/CuentasPropiasWS/tieneSaldoSuficienteRequest" message="tns:tieneSaldoSuficiente" />
-      <output wsam:Action="http://softpacws.pucp.edu.pe/CuentasPropiasWS/tieneSaldoSuficienteResponse" message="tns:tieneSaldoSuficienteResponse" />
+    <operation name="listarCuentasActivas">
+      <input wsam:Action="http://softpacws.pucp.edu.pe/CuentasPropiasWS/listarCuentasActivasRequest" message="tns:listarCuentasActivas" />
+      <output wsam:Action="http://softpacws.pucp.edu.pe/CuentasPropiasWS/listarCuentasActivasResponse" message="tns:listarCuentasActivasResponse" />
     </operation>
     <operation name="insertarCuentaPropia">
       <input wsam:Action="http://softpacws.pucp.edu.pe/CuentasPropiasWS/insertarCuentaPropiaRequest" message="tns:insertarCuentaPropia" />
       <output wsam:Action="http://softpacws.pucp.edu.pe/CuentasPropiasWS/insertarCuentaPropiaResponse" message="tns:insertarCuentaPropiaResponse" />
+    </operation>
+    <operation name="obtenerCuentaPropiaPorId">
+      <input wsam:Action="http://softpacws.pucp.edu.pe/CuentasPropiasWS/obtenerCuentaPropiaPorIdRequest" message="tns:obtenerCuentaPropiaPorId" />
+      <output wsam:Action="http://softpacws.pucp.edu.pe/CuentasPropiasWS/obtenerCuentaPropiaPorIdResponse" message="tns:obtenerCuentaPropiaPorIdResponse" />
+    </operation>
+    <operation name="tieneSaldoSuficiente">
+      <input wsam:Action="http://softpacws.pucp.edu.pe/CuentasPropiasWS/tieneSaldoSuficienteRequest" message="tns:tieneSaldoSuficiente" />
+      <output wsam:Action="http://softpacws.pucp.edu.pe/CuentasPropiasWS/tieneSaldoSuficienteResponse" message="tns:tieneSaldoSuficienteResponse" />
     </operation>
     <operation name="modificarCuentaPropia">
       <input wsam:Action="http://softpacws.pucp.edu.pe/CuentasPropiasWS/modificarCuentaPropiaRequest" message="tns:modificarCuentaPropia" />
@@ -108,45 +104,22 @@
       <input wsam:Action="http://softpacws.pucp.edu.pe/CuentasPropiasWS/listarCuentasPropiasRequest" message="tns:listarCuentasPropias" />
       <output wsam:Action="http://softpacws.pucp.edu.pe/CuentasPropiasWS/listarCuentasPropiasResponse" message="tns:listarCuentasPropiasResponse" />
     </operation>
-    <operation name="listarCuentasActivas">
-      <input wsam:Action="http://softpacws.pucp.edu.pe/CuentasPropiasWS/listarCuentasActivasRequest" message="tns:listarCuentasActivas" />
-      <output wsam:Action="http://softpacws.pucp.edu.pe/CuentasPropiasWS/listarCuentasActivasResponse" message="tns:listarCuentasActivasResponse" />
+    <operation name="modificarCuentaPropiaParametros">
+      <input wsam:Action="http://softpacws.pucp.edu.pe/CuentasPropiasWS/modificarCuentaPropiaParametrosRequest" message="tns:modificarCuentaPropiaParametros" />
+      <output wsam:Action="http://softpacws.pucp.edu.pe/CuentasPropiasWS/modificarCuentaPropiaParametrosResponse" message="tns:modificarCuentaPropiaParametrosResponse" />
     </operation>
-    <operation name="obtenerCuentaPropiaPorId">
-      <input wsam:Action="http://softpacws.pucp.edu.pe/CuentasPropiasWS/obtenerCuentaPropiaPorIdRequest" message="tns:obtenerCuentaPropiaPorId" />
-      <output wsam:Action="http://softpacws.pucp.edu.pe/CuentasPropiasWS/obtenerCuentaPropiaPorIdResponse" message="tns:obtenerCuentaPropiaPorIdResponse" />
+    <operation name="eliminarCuentaPropiaParametros">
+      <input wsam:Action="http://softpacws.pucp.edu.pe/CuentasPropiasWS/eliminarCuentaPropiaParametrosRequest" message="tns:eliminarCuentaPropiaParametros" />
+      <output wsam:Action="http://softpacws.pucp.edu.pe/CuentasPropiasWS/eliminarCuentaPropiaParametrosResponse" message="tns:eliminarCuentaPropiaParametrosResponse" />
+    </operation>
+    <operation name="insertarCuentaPropiaParametros">
+      <input wsam:Action="http://softpacws.pucp.edu.pe/CuentasPropiasWS/insertarCuentaPropiaParametrosRequest" message="tns:insertarCuentaPropiaParametros" />
+      <output wsam:Action="http://softpacws.pucp.edu.pe/CuentasPropiasWS/insertarCuentaPropiaParametrosResponse" message="tns:insertarCuentaPropiaParametrosResponse" />
     </operation>
   </portType>
   <binding name="CuentasPropiasWSPortBinding" type="tns:CuentasPropiasWS">
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
-    <operation name="insertarCuentaPropiaParametros">
-      <soap:operation soapAction="" />
-      <input>
-        <soap:body use="literal" />
-      </input>
-      <output>
-        <soap:body use="literal" />
-      </output>
-    </operation>
-    <operation name="modificarCuentaPropiaParametros">
-      <soap:operation soapAction="" />
-      <input>
-        <soap:body use="literal" />
-      </input>
-      <output>
-        <soap:body use="literal" />
-      </output>
-    </operation>
-    <operation name="eliminarCuentaPropiaParametros">
-      <soap:operation soapAction="" />
-      <input>
-        <soap:body use="literal" />
-      </input>
-      <output>
-        <soap:body use="literal" />
-      </output>
-    </operation>
-    <operation name="tieneSaldoSuficiente">
+    <operation name="listarCuentasActivas">
       <soap:operation soapAction="" />
       <input>
         <soap:body use="literal" />
@@ -156,6 +129,24 @@
       </output>
     </operation>
     <operation name="insertarCuentaPropia">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="obtenerCuentaPropiaPorId">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="tieneSaldoSuficiente">
       <soap:operation soapAction="" />
       <input>
         <soap:body use="literal" />
@@ -200,7 +191,7 @@
         <soap:body use="literal" />
       </output>
     </operation>
-    <operation name="listarCuentasActivas">
+    <operation name="modificarCuentaPropiaParametros">
       <soap:operation soapAction="" />
       <input>
         <soap:body use="literal" />
@@ -209,7 +200,16 @@
         <soap:body use="literal" />
       </output>
     </operation>
-    <operation name="obtenerCuentaPropiaPorId">
+    <operation name="eliminarCuentaPropiaParametros">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="insertarCuentaPropiaParametros">
       <soap:operation soapAction="" />
       <input>
         <soap:body use="literal" />

@@ -37,17 +37,25 @@ namespace SoftPacWA
             }
         }
 
+        private SoftPacBusiness.UsuariosWS.usuariosDTO UsuarioLogueado
+        {
+            get
+            {
+                return (SoftPacBusiness.UsuariosWS.usuariosDTO)Session["UsuarioLogueado"];
+            }
+        }
+
         private HashSet<int> DetallesEliminados
         {
             get
             {
-                if (ViewState["DetallesEliminados"] == null)
-                    ViewState["DetallesEliminados"] = new HashSet<int>();
-                return (HashSet<int>)ViewState["DetallesEliminados"];
+                if (Session["DetallesEliminados"] == null)
+                    Session["DetallesEliminados"] = new HashSet<int>();
+                return (HashSet<int>)Session["DetallesEliminados"];
             }
             set
             {
-                ViewState["DetallesEliminados"] = value;
+                Session["DetallesEliminados"] = value;
             }
         }
 
@@ -95,8 +103,8 @@ namespace SoftPacWA
                 lblPais.Text = propuesta.entidad_bancaria?.pais?.nombre ?? "-";
                 lblBanco.Text = propuesta.entidad_bancaria?.nombre ?? "-";
 
-                // Guardar propuesta en ViewState
-                ViewState["PropuestaOriginal"] = propuesta;
+                // Guardar propuesta en Session
+                Session["PropuestaOriginal"] = propuesta;
 
                 // Cargar detalles
                 ActualizarVista();
@@ -109,7 +117,7 @@ namespace SoftPacWA
 
         private void ActualizarVista()
         {
-            var propuesta = ViewState["PropuestaOriginal"] as propuestasPagoDTO;
+            var propuesta = Session["PropuestaOriginal"] as propuestasPagoDTO;
             if (propuesta == null)
                 return;
 
@@ -165,7 +173,7 @@ namespace SoftPacWA
             var detallesVM = detalles
                 .Select(d => new DetalleViewModel
                 {
-                    DetalleId = d.detalle_propuesta_idSpecified? d.detalle_propuesta_id : 0,
+                    DetalleId = d.detalle_propuesta_idSpecified ? d.detalle_propuesta_id : 0,
                     NumeroFactura = d.factura?.numero_factura ?? "-",
                     RazonSocialAcreedor = d.factura?.acreedor?.razon_social ?? "-",
                     CodigoMoneda = d.factura?.moneda?.codigo_iso ?? "-",
@@ -173,7 +181,7 @@ namespace SoftPacWA
                     CuentaOrigen = d.cuenta_propia?.numero_cuenta ?? "-",
                     CuentaDestino = d.cuenta_acreedor?.numero_cuenta ?? "-",
                     FormaPago = MapearFormaPago((char?)d.forma_pago),
-                    FormaPagoChar = d.forma_pago.ToString() ?? "T"
+                    FormaPagoChar = ((char?)d.forma_pago).ToString() ?? "T"
                 })
                 .ToList();
 
@@ -182,8 +190,8 @@ namespace SoftPacWA
 
             lblCantidadPagos.Text = $"{detallesVM.Count} pago(s)";
 
-            // Guardar en ViewState para paginación
-            ViewState["DetallesViewModel"] = detallesVM;
+            // Guardar en Session para paginación
+            Session["DetallesViewModel"] = detallesVM;
 
             // Configurar evento onclick para los botones de eliminar
             foreach (GridViewRow row in gvDetalles.Rows)
@@ -256,7 +264,7 @@ namespace SoftPacWA
         {
             try
             {
-                var propuesta = ViewState["PropuestaOriginal"] as propuestasPagoDTO;
+                var propuesta = Session["PropuestaOriginal"] as propuestasPagoDTO;
                 if (propuesta == null)
                 {
                     MostrarMensaje("No se encontró la propuesta a guardar", "danger");
@@ -270,14 +278,13 @@ namespace SoftPacWA
                 var detallesEliminados = DetallesEliminados;
                 if (detallesEliminados.Count > 0)
                 {
-                    var detallesActivos = propuesta.detalles_propuesta
-                        .Where(d => !d.detalle_propuesta_idSpecified || !detallesEliminados.Contains(d.detalle_propuesta_id))
-                        .ToList();
-
-                    propuesta.detalles_propuesta.ToList().Clear();
-                    foreach (var detalle in detallesActivos)
+                    foreach (var detalle in propuesta.detalles_propuesta)
                     {
-                        propuesta.detalles_propuesta.ToList().Add(detalle);
+                        if (detallesEliminados.Contains(detalle.detalle_propuesta_id))
+                        {
+                            detalle.fecha_eliminacion = DateTime.Now;
+                            detalle.usuario_eliminacion = DTOConverter.Convertir<SoftPacBusiness.UsuariosWS.usuariosDTO, SoftPacBusiness.PropuestaPagoWS.usuariosDTO>(UsuarioLogueado);
+                        }
                     }
                 }
 
@@ -289,14 +296,12 @@ namespace SoftPacWA
                 }
 
                 // Configurar datos de auditoría
-                int usuarioId = Convert.ToInt32(Session["UsuarioId"]);
-                SoftPacBusiness.PropuestaPagoWS.usuariosDTO user = new SoftPacBusiness.PropuestaPagoWS.usuariosDTO();
-                user.usuario_id = usuarioId;
-                propuesta.usuario_modificacion = user;
+
+                propuesta.usuario_modificacion = DTOConverter.Convertir<SoftPacBusiness.UsuariosWS.usuariosDTO, SoftPacBusiness.PropuestaPagoWS.usuariosDTO>(UsuarioLogueado);
                 propuesta.fecha_hora_modificacion = DateTime.Now;
 
                 // Guardar en base de datos
-                bool resultado = propuestasBO.Modificar(propuesta)==1;
+                bool resultado = propuestasBO.Modificar(propuesta) == 1;
 
                 if (resultado)
                 {
@@ -325,7 +330,7 @@ namespace SoftPacWA
                 if (ddlFormaPago != null)
                 {
                     // Obtener el DetalleId de la fila
-                    var detallesVM = ViewState["DetallesViewModel"] as List<DetalleViewModel>;
+                    var detallesVM = Session["DetallesViewModel"] as List<DetalleViewModel>;
                     if (detallesVM != null && row.RowIndex < detallesVM.Count)
                     {
                         int detalleId = detallesVM[row.RowIndex].DetalleId;

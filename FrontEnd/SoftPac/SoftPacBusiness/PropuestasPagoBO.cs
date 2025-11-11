@@ -19,8 +19,8 @@ namespace SoftPac.Business
 
         public IList<propuestasPagoDTO> ListarUltimasPorUsuario(int usuarioId, int cantidad)
         {
-            return propuestaPagoClienteSOAP.listarUltimasPropuestasPorUsuario(usuarioId,cantidad);
-            
+            return propuestaPagoClienteSOAP.listarUltimasPropuestasPorUsuario(usuarioId, cantidad);
+
         }
 
         // --- MÉTODO NUEVO ---
@@ -38,8 +38,8 @@ namespace SoftPac.Business
 
         public IList<propuestasPagoDTO> ListarConFiltros(int? paisId, int? bancoId, string estado)
         {
-            int bancoIde = (int)bancoId;
-            return propuestaPagoClienteSOAP.listarConFiltros(bancoIde, estado);
+            return propuestaPagoClienteSOAP.listarConFiltros(paisId?? 0, bancoId ?? 0, estado ?? "") ?? Array.Empty<propuestasPagoDTO>();
+            
         }
 
         public propuestasPagoDTO GenerarDetallesParciales(List<int> facturasSeleccionadas, int bancoId)
@@ -50,7 +50,8 @@ namespace SoftPac.Business
 
         public int Insertar(propuestasPagoDTO propuestaCompleta)
         {
-           return propuestaPagoClienteSOAP.insertarPropuesta(propuestaCompleta);
+            LlenarSpecified(propuestaCompleta);
+            return propuestaPagoClienteSOAP.insertarPropuesta(propuestaCompleta);
         }
 
 
@@ -66,7 +67,36 @@ namespace SoftPac.Business
 
         public int Modificar(propuestasPagoDTO propuesta)
         {
+            LlenarSpecified(propuesta);
+            LlenarDetalleSpecified(propuesta);
             return propuestaPagoClienteSOAP.modificarPropuesta(propuesta);
+        }
+
+        public void LlenarSpecified(propuestasPagoDTO propuestaCompleta)
+        {
+            propuestaCompleta.fecha_hora_creacionSpecified = true;
+            propuestaCompleta.fecha_hora_modificacionSpecified = true;
+            propuestaCompleta.propuesta_idSpecified = true;
+            propuestaCompleta.entidad_bancaria.entidad_bancaria_idSpecified = true;
+            propuestaCompleta.usuario_creacion.usuario_idSpecified = true;
+            propuestaCompleta.usuario_modificacion.usuario_idSpecified = true;
+        }
+        public void LlenarDetalleSpecified(propuestasPagoDTO propuestaCompleta)
+        {
+            foreach (var detalle in propuestaCompleta.detalles_propuesta)
+            {
+                detalle.detalle_propuesta_idSpecified = true;
+                if (detalle.usuario_eliminacion != null)
+                {
+                    detalle.fecha_eliminacionSpecified = true;
+                    detalle.usuario_eliminacion.usuario_idSpecified = true;
+                }
+            }
+        }
+
+        public int confirmarEnvioPropuesta(int propuestaId, usuariosDTO usuario)
+        {
+            return propuestaPagoClienteSOAP.confirmarEnvioPropuesta(propuestaId, usuario);
         }
     }
 }

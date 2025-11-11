@@ -17,6 +17,14 @@ namespace SoftPacWA
     {
         private PropuestasPagoBO propuestasBO = new PropuestasPagoBO();
 
+        private SoftPacBusiness.UsuariosWS.usuariosDTO UsuarioLogueado
+        {
+            get
+            {
+                return (SoftPacBusiness.UsuariosWS.usuariosDTO)Session["UsuarioLogueado"];
+            }
+        }
+
         // Clase auxiliar para el GridView
         [Serializable]
         public class DetalleViewModel
@@ -131,7 +139,7 @@ namespace SoftPacWA
             bool esPendiente = estado == "Pendiente";
             btnEditar.Visible = esPendiente;
             btnAnular.Visible = esPendiente;
-
+            btnEnviar.Visible = esPendiente;
             if (esPendiente)
             {
                 btnAnular.OnClientClick = "return mostrarModalAnular();";
@@ -232,6 +240,18 @@ namespace SoftPacWA
             // La anulación real se hace en btnConfirmarAnulacion_Click
         }
 
+        protected void btnEnviar_Click(object sender, EventArgs e)
+        {
+            if (propuestasBO.confirmarEnvioPropuesta(PropuestaId,DTOConverter.Convertir<SoftPacBusiness.UsuariosWS.usuariosDTO,SoftPacBusiness.PropuestaPagoWS.usuariosDTO>(UsuarioLogueado)) == 1)
+            {
+                MostrarMensaje("Se envío la propuesta correctamente.", "success");
+            }
+            else
+            {
+                MostrarMensaje("La propuesta no pudo enviarse correctamente, revise el saldo disponible en las cuentas propias.", "danger");
+            }
+        }
+
         protected void btnExportar_Click(object sender, EventArgs e)
         {
             try
@@ -303,7 +323,7 @@ namespace SoftPacWA
         {
             var propuestaXML = new PropuestaExportXML
             {
-                PropuestaId = propuesta.propuesta_idSpecified? propuesta.propuesta_id : 0,
+                PropuestaId = propuesta.propuesta_idSpecified ? propuesta.propuesta_id : 0,
                 Estado = propuesta.estado ?? "",
                 FechaCreacion = propuesta.fecha_hora_creacion.ToString("yyyy-MM-dd HH:mm:ss") ?? "",
                 EntidadBancaria = propuesta.entidad_bancaria?.nombre ?? "",
@@ -422,9 +442,12 @@ namespace SoftPacWA
 
         protected void btnConfirmarAnulacion_Click(object sender, EventArgs e)
         {
-            if (!Page.IsValid)
-                return;
-
+            //if (!Page.IsValid || string.IsNullOrWhiteSpace(txtMotivoAnulacion.Text))
+            //{
+            //    ScriptManager.RegisterStartupScript(this, GetType(), "mostrarModal",
+            //        "$('#modalAnular').modal('show');", true);
+            //    return;
+            //}
             try
             {
                 var propuesta = propuestasBO.ObtenerPorId(PropuestaId);
@@ -441,15 +464,11 @@ namespace SoftPacWA
                     return;
                 }
 
-                // Actualizar estado y motivo
+                // txtMotivoAnulacion, enviar correo a superusuario
+                // Actualizar estado
                 propuesta.estado = "Anulada";
-                // Aquí deberías tener un campo en el DTO para guardar el motivo de anulación
-                // propuesta.MotivoAnulacion = txtMotivoAnulacion.Text;
 
-                int usuarioId = Convert.ToInt32(Session["UsuarioId"]);
-                SoftPacBusiness.PropuestaPagoWS.usuariosDTO usuarioModificacion = new SoftPacBusiness.PropuestaPagoWS.usuariosDTO();
-                usuarioModificacion.usuario_id = usuarioId;
-                propuesta.usuario_modificacion = usuarioModificacion;
+                propuesta.usuario_modificacion = DTOConverter.Convertir<SoftPacBusiness.UsuariosWS.usuariosDTO, SoftPacBusiness.PropuestaPagoWS.usuariosDTO>(UsuarioLogueado);
                 propuesta.fecha_hora_modificacion = DateTime.Now;
 
                 bool resultado = propuestasBO.Modificar(propuesta) == 1;

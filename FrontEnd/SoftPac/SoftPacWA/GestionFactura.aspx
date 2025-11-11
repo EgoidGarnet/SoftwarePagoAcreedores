@@ -80,6 +80,7 @@
                                 <asp:ListItem Text="Pendiente" Value="Pendiente"></asp:ListItem>
                                 <asp:ListItem Text="Pagada" Value="Pagada"></asp:ListItem>
                                 <asp:ListItem Text="Vencida" Value="Vencida"></asp:ListItem>
+                                <asp:ListItem Text="Eliminado" Value="Eliminado"></asp:ListItem>
                             </asp:DropDownList>
                         </div>
                     </div>
@@ -164,19 +165,19 @@
                             <asp:BoundField DataField="Descripcion" HeaderText="Descripción" />
                             <asp:TemplateField HeaderText="Subtotal">
                                 <ItemTemplate>
-                                    <%# string.Format("{0} {1:N2}", Eval("Factura.Moneda.CodigoIso"), Eval("Subtotal")) %>
+                                    <%# string.Format("{0} {1:N2}", Eval("factura.moneda.codigo_iso"), Eval("subtotal")) %>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Acciones">
                                 <ItemTemplate>
                                     <div class="action-buttons">
                                         <asp:LinkButton ID="btnEditar" runat="server" CssClass="btn btn-sm btn-warning btn-icon" 
-                                            CommandName="Editar" CommandArgument='<%# Eval("DetalleFacturaId") %>' 
+                                            CommandName="Editar" CommandArgument='<%# Eval("detalle_factura_id") %>' 
                                             OnClick="btnAccion_Click" ToolTip="Editar">
                                             <i class="fas fa-edit"></i>
                                         </asp:LinkButton>
                                         <asp:LinkButton ID="btnEliminar" runat="server" CssClass="btn btn-sm btn-danger btn-icon" 
-                                            CommandName="Eliminar" CommandArgument='<%# Eval("DetalleFacturaId") %>' 
+                                            CommandName="Eliminar" CommandArgument='<%# Eval("detalle_factura_id") %>' 
                                             OnClick="btnAccion_Click" ToolTip="Eliminar"
                                             OnClientClick="return confirm('¿Está seguro de eliminar este detalle de factura?');">
                                             <i class="fas fa-trash"></i>

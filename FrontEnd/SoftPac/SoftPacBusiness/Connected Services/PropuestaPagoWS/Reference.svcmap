@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ReferenceGroup xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ID="01f5bd17-c1dd-4dc0-9b86-608ea858a0df" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+<ReferenceGroup xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ID="0692dc26-723c-4aa1-ad7d-b7004f2462b6" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
   <ClientOptions>
     <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
     <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
@@ -22,8 +22,8 @@
     <MetadataSource Address="http://localhost:8080/SoftPacWS/PropuestaPagoWS?wsdl" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="PropuestaPagoWS.xsd" MetadataType="Schema" ID="6477a347-8e40-4d4d-8829-a6a9cd65e565" SourceId="1" SourceUrl="http://localhost:8080/SoftPacWS/PropuestaPagoWS?xsd=1" />
-    <MetadataFile FileName="PropuestaPagoWS.wsdl" MetadataType="Wsdl" ID="f3d3cba2-4d17-4272-a8fa-b9f6aa64c489" SourceId="1" SourceUrl="http://localhost:8080/SoftPacWS/PropuestaPagoWS?wsdl" />
+    <MetadataFile FileName="PropuestaPagoWS.xsd" MetadataType="Schema" ID="bc835062-dfac-4ba2-a4f6-6037f2646282" SourceId="1" SourceUrl="http://localhost:8080/SoftPacWS/PropuestaPagoWS?xsd=1" />
+    <MetadataFile FileName="PropuestaPagoWS.wsdl" MetadataType="Wsdl" ID="c6e9416e-479a-4f5e-bdf0-eb35f2e96680" SourceId="1" SourceUrl="http://localhost:8080/SoftPacWS/PropuestaPagoWS?wsdl" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

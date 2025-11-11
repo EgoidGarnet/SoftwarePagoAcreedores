@@ -1,4 +1,5 @@
-﻿using SoftPacBusiness.UsuariosWS;
+﻿
+using SoftPacBusiness.UsuariosWS;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,11 +12,11 @@ namespace SoftPac.Business
     public class UsuariosBO
     {
         private UsuariosWSClient usuariosBO;
-        
+
         public UsuariosBO()
         {
             this.usuariosBO = new UsuariosWSClient();
-            
+
         }
 
         // --- MÉTODO NUEVO PARA AUTENTICAR ---
@@ -24,7 +25,7 @@ namespace SoftPac.Business
 
             return this.usuariosBO.autenticarUsuarioPorNombreUsuario(nombreUsuario, password);
 
-        }   
+        }
 
         // Aquí puedes añadir el resto de los métodos que necesites (Insertar, Modificar, etc.)
         public IList<usuariosDTO> ListarTodos()
@@ -49,6 +50,13 @@ namespace SoftPac.Business
             return usuariosBO.modificarAccesoUsuario(usuarioId, nuevoNombreUsuario, activo, paisesIds.ToArray());
         }
 
+        public int ModificarUsuario(usuariosDTO usuario)
+        {
+            SetearSpecifiedTrue(usuario);
+            return usuariosBO.modificarUsuario(usuario);
+        }
+
+
         public int EliminarUsuario(int usuarioId, int usuarioEliminacionId)
         {
             usuariosDTO usuario = new usuariosDTO();
@@ -57,7 +65,7 @@ namespace SoftPac.Business
             usuarioEliminacion.usuario_id = usuarioEliminacionId;
             SetearSpecifiedTrue(usuario);
             SetearSpecifiedTrue(usuarioEliminacion);
-            return usuariosBO.eliminarUsuario(usuario,usuarioEliminacion);
+            return usuariosBO.eliminarUsuario(usuario, usuarioEliminacion);
         }
         public void SetearSpecifiedTrue(usuariosDTO usuario)
         {
@@ -66,7 +74,7 @@ namespace SoftPac.Business
             usuario.usuario_idSpecified = true;
             if (usuario.usuario_pais != null)
             {
-                foreach(var usuario_pais in usuario.usuario_pais)
+                foreach (var usuario_pais in usuario.usuario_pais)
                 {
                     usuario_pais.pais.pais_idSpecified = true;
                 }

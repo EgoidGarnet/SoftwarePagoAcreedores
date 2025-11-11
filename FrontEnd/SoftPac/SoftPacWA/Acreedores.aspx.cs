@@ -1,12 +1,13 @@
 ﻿// Acreedores.aspx.cs
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web.UI;
-using System.Web.UI.WebControls;
 using SoftPac.Business;
 using SoftPacBusiness.AcreedoresWS;
 using SoftPacBusiness.UsuariosWS;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Web.UI;
+using System.Web.UI.WebControls;
 using paisesDTO = SoftPacBusiness.UsuariosWS.paisesDTO;
 using usuariosDTO = SoftPacBusiness.UsuariosWS.usuariosDTO;
 
@@ -33,9 +34,8 @@ namespace SoftPacWA
                 MostrarMensaje((string)Session["MensajeExito"], "success");
                 Session["MensajeExito"] = null;
             }
-
-            // países a los que el usuario tiene acceso
-            paisesUsuario = UsuarioLogueado.usuario_pais
+            //países a los que el usuario tiene acceso
+            paisesUsuario = UsuarioLogueado.usuario_pais?
                 .Where(up => up.acceso)
                 .Select(up => up.pais)
                 .ToList();
@@ -68,8 +68,8 @@ namespace SoftPacWA
             try
             {
                 ddlFiltroPais.DataSource = paisesUsuario;
-                ddlFiltroPais.DataTextField = "Nombre";
-                ddlFiltroPais.DataValueField = "PaisId";
+                ddlFiltroPais.DataTextField = "nombre";
+                ddlFiltroPais.DataValueField = "pais_id";
                 ddlFiltroPais.DataBind();
                 ddlFiltroPais.Items.Insert(0, new ListItem("Todos los países", ""));
             }
@@ -83,48 +83,42 @@ namespace SoftPacWA
         {
             try
             {
-                List<acreedoresDTO> lista = acreedoresBO.ListarTodos().ToList();
+                // Países habilitados para el usuario
+                var paisesIdsUsuario = UsuarioLogueado?.usuario_pais?
+                    .Where(up => up.acceso && up.pais != null)
+                    .Select(up => up.pais.pais_id)
+                    .Distinct()
+                    .ToArray() ?? Array.Empty<int>();
 
-                HashSet<int> paisesPermitidos = new HashSet<int>(paisesUsuario.Select(p => p.pais_id));
-                lista = lista.Where(a =>
-                    a.pais != null &&
-                    a.pais.pais_idSpecified &&
-                    paisesPermitidos.Contains(a.pais.pais_id)).ToList();
+                var lista = acreedoresBO.ListarPorPaises(paisesIdsUsuario); // BindingList<acreedoresDTO>
+                IEnumerable<acreedoresDTO> query = lista; // trabajar en IEnumerable
 
-                if (!string.IsNullOrEmpty(ddlFiltroPais.SelectedValue))
-                {
-                    int paisId = int.Parse(ddlFiltroPais.SelectedValue);
-                    lista = lista.Where(a => a.pais != null &&
-                                             a.pais.pais_idSpecified &&
-                                             a.pais.pais_id == paisId).ToList();
-                }
+                if (int.TryParse(ddlFiltroPais.SelectedValue, out int paisId) && paisId > 0)
+                    query = query.Where(a => a.pais != null && a.pais.pais_id == paisId);
 
-                string texto = (txtBuscar.Text ?? string.Empty).Trim().ToLower();
+                string texto = (txtBuscar.Text ?? string.Empty).Trim();
                 if (!string.IsNullOrEmpty(texto))
-                {
-                    lista = lista.Where(a =>
-                        (a.razon_social ?? string.Empty).ToLower().Contains(texto) ||
-                        (a.ruc ?? string.Empty).ToLower().Contains(texto)
-                    ).ToList();
-                }
+                    query = query.Where(a =>
+                        (!string.IsNullOrEmpty(a.razon_social) && a.razon_social.IndexOf(texto, StringComparison.OrdinalIgnoreCase) >= 0) ||
+                        (!string.IsNullOrEmpty(a.ruc) && a.ruc.IndexOf(texto, StringComparison.OrdinalIgnoreCase) >= 0));
 
-                lista = lista.OrderBy(a => a.razon_social).ToList();
-                listaAcreedores = lista;
-
-                gvAcreedores.DataSource = lista.Select(a => new
+                var data = query.Select(a => new
                 {
-                    
                     a.acreedor_id,
                     a.razon_social,
-                    PaisNombre = GetPaisNombreSeguro(a.pais), // <— Fallback seguro
+                    PaisNombre = GetPaisNombreSeguro(a.pais),
                     Estado = a.activo ? "Activo" : "Inactivo"
-                }).ToList();
+                })
+                .OrderBy(x => x.razon_social)
+                .ToList();
 
+                gvAcreedores.DataSource = data;
                 gvAcreedores.DataBind();
-                lblRegistros.Text = $"Mostrando {lista.Count} registro(s)";
             }
             catch (Exception ex)
             {
+                gvAcreedores.DataSource = new List<object>();
+                gvAcreedores.DataBind();
                 MostrarMensaje("Error al cargar acreedores: " + ex.Message, "danger");
             }
         }
@@ -193,7 +187,7 @@ namespace SoftPacWA
                         Response.Redirect("GestionAcreedor.aspx?accion=editar&id=" + acreedorId);
                         break;
 
-                    case "Eliminar": // alterna Activo/Inactivo en BO
+                    case "Eliminar":
                         {
                             SoftPacBusiness.AcreedoresWS.usuariosDTO usuarioLog = new SoftPacBusiness.AcreedoresWS.usuariosDTO();
                             usuarioLog.usuario_id = UsuarioLogueado.usuario_id;

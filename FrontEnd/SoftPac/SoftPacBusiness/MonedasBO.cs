@@ -46,5 +46,10 @@ namespace SoftPac.Business
                 throw new ApplicationException("Error al obtener moneda por ID.", ex);
             }
         }
+
+        public monedasDTO ObtenerPorDivisa(string divisa)
+        {
+            return this.monedasClienteSOAP.obtenerMonedaPorDivisa(divisa);
+        }
     }
 }

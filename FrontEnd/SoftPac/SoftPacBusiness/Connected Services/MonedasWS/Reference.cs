@@ -16,13 +16,13 @@ namespace SoftPacBusiness.MonedasWS {
     public interface MonedasWS {
         
         // CODEGEN: El parámetro 'return' requiere información adicional de esquema que no se puede capturar con el modo de parámetros. El atributo específico es 'System.Xml.Serialization.XmlElementAttribute'.
-        [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/MonedasWS/listarMonedasRequest", ReplyAction="http://softpacws.pucp.edu.pe/MonedasWS/listarMonedasResponse")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/MonedasWS/obtenerMonedaPorDivisaRequest", ReplyAction="http://softpacws.pucp.edu.pe/MonedasWS/obtenerMonedaPorDivisaResponse")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
-        SoftPacBusiness.MonedasWS.listarMonedasResponse listarMonedas(SoftPacBusiness.MonedasWS.listarMonedasRequest request);
+        SoftPacBusiness.MonedasWS.obtenerMonedaPorDivisaResponse obtenerMonedaPorDivisa(SoftPacBusiness.MonedasWS.obtenerMonedaPorDivisaRequest request);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/MonedasWS/listarMonedasRequest", ReplyAction="http://softpacws.pucp.edu.pe/MonedasWS/listarMonedasResponse")]
-        System.Threading.Tasks.Task<SoftPacBusiness.MonedasWS.listarMonedasResponse> listarMonedasAsync(SoftPacBusiness.MonedasWS.listarMonedasRequest request);
+        [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/MonedasWS/obtenerMonedaPorDivisaRequest", ReplyAction="http://softpacws.pucp.edu.pe/MonedasWS/obtenerMonedaPorDivisaResponse")]
+        System.Threading.Tasks.Task<SoftPacBusiness.MonedasWS.obtenerMonedaPorDivisaResponse> obtenerMonedaPorDivisaAsync(SoftPacBusiness.MonedasWS.obtenerMonedaPorDivisaRequest request);
         
         // CODEGEN: El parámetro 'return' requiere información adicional de esquema que no se puede capturar con el modo de parámetros. El atributo específico es 'System.Xml.Serialization.XmlElementAttribute'.
         [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/MonedasWS/obtenerMonedaPorIDRequest", ReplyAction="http://softpacws.pucp.edu.pe/MonedasWS/obtenerMonedaPorIDResponse")]
@@ -32,6 +32,15 @@ namespace SoftPacBusiness.MonedasWS {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/MonedasWS/obtenerMonedaPorIDRequest", ReplyAction="http://softpacws.pucp.edu.pe/MonedasWS/obtenerMonedaPorIDResponse")]
         System.Threading.Tasks.Task<SoftPacBusiness.MonedasWS.obtenerMonedaPorIDResponse> obtenerMonedaPorIDAsync(SoftPacBusiness.MonedasWS.obtenerMonedaPorIDRequest request);
+        
+        // CODEGEN: El parámetro 'return' requiere información adicional de esquema que no se puede capturar con el modo de parámetros. El atributo específico es 'System.Xml.Serialization.XmlElementAttribute'.
+        [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/MonedasWS/listarMonedasRequest", ReplyAction="http://softpacws.pucp.edu.pe/MonedasWS/listarMonedasResponse")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        SoftPacBusiness.MonedasWS.listarMonedasResponse listarMonedas(SoftPacBusiness.MonedasWS.listarMonedasRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/MonedasWS/listarMonedasRequest", ReplyAction="http://softpacws.pucp.edu.pe/MonedasWS/listarMonedasResponse")]
+        System.Threading.Tasks.Task<SoftPacBusiness.MonedasWS.listarMonedasResponse> listarMonedasAsync(SoftPacBusiness.MonedasWS.listarMonedasRequest request);
     }
     
     /// <remarks/>
@@ -269,27 +278,35 @@ namespace SoftPacBusiness.MonedasWS {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="listarMonedas", WrapperNamespace="http://softpacws.pucp.edu.pe/", IsWrapped=true)]
-    public partial class listarMonedasRequest {
+    [System.ServiceModel.MessageContractAttribute(WrapperName="obtenerMonedaPorDivisa", WrapperNamespace="http://softpacws.pucp.edu.pe/", IsWrapped=true)]
+    public partial class obtenerMonedaPorDivisaRequest {
         
-        public listarMonedasRequest() {
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://softpacws.pucp.edu.pe/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string moneda_divisa;
+        
+        public obtenerMonedaPorDivisaRequest() {
+        }
+        
+        public obtenerMonedaPorDivisaRequest(string moneda_divisa) {
+            this.moneda_divisa = moneda_divisa;
         }
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="listarMonedasResponse", WrapperNamespace="http://softpacws.pucp.edu.pe/", IsWrapped=true)]
-    public partial class listarMonedasResponse {
+    [System.ServiceModel.MessageContractAttribute(WrapperName="obtenerMonedaPorDivisaResponse", WrapperNamespace="http://softpacws.pucp.edu.pe/", IsWrapped=true)]
+    public partial class obtenerMonedaPorDivisaResponse {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://softpacws.pucp.edu.pe/", Order=0)]
-        [System.Xml.Serialization.XmlElementAttribute("return", Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public SoftPacBusiness.MonedasWS.monedasDTO[] @return;
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public SoftPacBusiness.MonedasWS.monedasDTO @return;
         
-        public listarMonedasResponse() {
+        public obtenerMonedaPorDivisaResponse() {
         }
         
-        public listarMonedasResponse(SoftPacBusiness.MonedasWS.monedasDTO[] @return) {
+        public obtenerMonedaPorDivisaResponse(SoftPacBusiness.MonedasWS.monedasDTO @return) {
             this.@return = @return;
         }
     }
@@ -330,6 +347,34 @@ namespace SoftPacBusiness.MonedasWS {
         }
     }
     
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="listarMonedas", WrapperNamespace="http://softpacws.pucp.edu.pe/", IsWrapped=true)]
+    public partial class listarMonedasRequest {
+        
+        public listarMonedasRequest() {
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="listarMonedasResponse", WrapperNamespace="http://softpacws.pucp.edu.pe/", IsWrapped=true)]
+    public partial class listarMonedasResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://softpacws.pucp.edu.pe/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute("return", Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public SoftPacBusiness.MonedasWS.monedasDTO[] @return;
+        
+        public listarMonedasResponse() {
+        }
+        
+        public listarMonedasResponse(SoftPacBusiness.MonedasWS.monedasDTO[] @return) {
+            this.@return = @return;
+        }
+    }
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     public interface MonedasWSChannel : SoftPacBusiness.MonedasWS.MonedasWS, System.ServiceModel.IClientChannel {
     }
@@ -358,24 +403,26 @@ namespace SoftPacBusiness.MonedasWS {
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        SoftPacBusiness.MonedasWS.listarMonedasResponse SoftPacBusiness.MonedasWS.MonedasWS.listarMonedas(SoftPacBusiness.MonedasWS.listarMonedasRequest request) {
-            return base.Channel.listarMonedas(request);
+        SoftPacBusiness.MonedasWS.obtenerMonedaPorDivisaResponse SoftPacBusiness.MonedasWS.MonedasWS.obtenerMonedaPorDivisa(SoftPacBusiness.MonedasWS.obtenerMonedaPorDivisaRequest request) {
+            return base.Channel.obtenerMonedaPorDivisa(request);
         }
         
-        public SoftPacBusiness.MonedasWS.monedasDTO[] listarMonedas() {
-            SoftPacBusiness.MonedasWS.listarMonedasRequest inValue = new SoftPacBusiness.MonedasWS.listarMonedasRequest();
-            SoftPacBusiness.MonedasWS.listarMonedasResponse retVal = ((SoftPacBusiness.MonedasWS.MonedasWS)(this)).listarMonedas(inValue);
+        public SoftPacBusiness.MonedasWS.monedasDTO obtenerMonedaPorDivisa(string moneda_divisa) {
+            SoftPacBusiness.MonedasWS.obtenerMonedaPorDivisaRequest inValue = new SoftPacBusiness.MonedasWS.obtenerMonedaPorDivisaRequest();
+            inValue.moneda_divisa = moneda_divisa;
+            SoftPacBusiness.MonedasWS.obtenerMonedaPorDivisaResponse retVal = ((SoftPacBusiness.MonedasWS.MonedasWS)(this)).obtenerMonedaPorDivisa(inValue);
             return retVal.@return;
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<SoftPacBusiness.MonedasWS.listarMonedasResponse> SoftPacBusiness.MonedasWS.MonedasWS.listarMonedasAsync(SoftPacBusiness.MonedasWS.listarMonedasRequest request) {
-            return base.Channel.listarMonedasAsync(request);
+        System.Threading.Tasks.Task<SoftPacBusiness.MonedasWS.obtenerMonedaPorDivisaResponse> SoftPacBusiness.MonedasWS.MonedasWS.obtenerMonedaPorDivisaAsync(SoftPacBusiness.MonedasWS.obtenerMonedaPorDivisaRequest request) {
+            return base.Channel.obtenerMonedaPorDivisaAsync(request);
         }
         
-        public System.Threading.Tasks.Task<SoftPacBusiness.MonedasWS.listarMonedasResponse> listarMonedasAsync() {
-            SoftPacBusiness.MonedasWS.listarMonedasRequest inValue = new SoftPacBusiness.MonedasWS.listarMonedasRequest();
-            return ((SoftPacBusiness.MonedasWS.MonedasWS)(this)).listarMonedasAsync(inValue);
+        public System.Threading.Tasks.Task<SoftPacBusiness.MonedasWS.obtenerMonedaPorDivisaResponse> obtenerMonedaPorDivisaAsync(string moneda_divisa) {
+            SoftPacBusiness.MonedasWS.obtenerMonedaPorDivisaRequest inValue = new SoftPacBusiness.MonedasWS.obtenerMonedaPorDivisaRequest();
+            inValue.moneda_divisa = moneda_divisa;
+            return ((SoftPacBusiness.MonedasWS.MonedasWS)(this)).obtenerMonedaPorDivisaAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -399,6 +446,27 @@ namespace SoftPacBusiness.MonedasWS {
             SoftPacBusiness.MonedasWS.obtenerMonedaPorIDRequest inValue = new SoftPacBusiness.MonedasWS.obtenerMonedaPorIDRequest();
             inValue.moneda_id = moneda_id;
             return ((SoftPacBusiness.MonedasWS.MonedasWS)(this)).obtenerMonedaPorIDAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        SoftPacBusiness.MonedasWS.listarMonedasResponse SoftPacBusiness.MonedasWS.MonedasWS.listarMonedas(SoftPacBusiness.MonedasWS.listarMonedasRequest request) {
+            return base.Channel.listarMonedas(request);
+        }
+        
+        public SoftPacBusiness.MonedasWS.monedasDTO[] listarMonedas() {
+            SoftPacBusiness.MonedasWS.listarMonedasRequest inValue = new SoftPacBusiness.MonedasWS.listarMonedasRequest();
+            SoftPacBusiness.MonedasWS.listarMonedasResponse retVal = ((SoftPacBusiness.MonedasWS.MonedasWS)(this)).listarMonedas(inValue);
+            return retVal.@return;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<SoftPacBusiness.MonedasWS.listarMonedasResponse> SoftPacBusiness.MonedasWS.MonedasWS.listarMonedasAsync(SoftPacBusiness.MonedasWS.listarMonedasRequest request) {
+            return base.Channel.listarMonedasAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<SoftPacBusiness.MonedasWS.listarMonedasResponse> listarMonedasAsync() {
+            SoftPacBusiness.MonedasWS.listarMonedasRequest inValue = new SoftPacBusiness.MonedasWS.listarMonedasRequest();
+            return ((SoftPacBusiness.MonedasWS.MonedasWS)(this)).listarMonedasAsync(inValue);
         }
     }
 }

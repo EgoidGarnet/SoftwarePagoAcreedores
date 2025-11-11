@@ -1,21 +1,24 @@
-﻿using iText.Kernel.Pdf;
-using iText.Layout;
-using iText.Layout.Element;
-using iText.Layout.Properties;
-using iText.Kernel.Colors;
-using iText.Kernel.Font;
-using iText.IO.Font.Constants;
+﻿using QuestPDF.Fluent;
+using QuestPDF.Infrastructure;
+using SoftPacBusiness.PropuestaPagoWS;
+using SoftPacBusiness.ReportePropPagoWS;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using SoftPacBusiness.PropuestaPagoWS;
+using QuestPDF.Helpers;
 
 namespace SoftPac.Business
 {
     public class ReportePropuestasBO
     {
-        private PropuestaPagoWSClient propuestaPagoClienteSOAP = new PropuestaPagoWSClient();
+        private ReportePropPagoWSClient reportePropuestaClienteSOAP = new ReportePropPagoWSClient();
+
+        public ReportePropuestasBO()
+        {
+            // Configurar QuestPDF (solo necesario una vez en la aplicación)
+            QuestPDF.Settings.License = LicenseType.Community;
+        }
 
         public class DetallePago
         {
@@ -45,250 +48,296 @@ namespace SoftPac.Business
         public List<PropuestaDetalle> GenerarReporteDetallado(
             int? paisId,
             int? bancoId,
+            int? diasDesde,
             string estado)
         {
-            var propuestas = propuestaPagoClienteSOAP.listarConFiltros((int)bancoId, estado);
+            // Si diasDesde es null, usar 90 días por defecto
+            int dias = diasDesde ?? 90;
 
-            //// Aplicar filtros
-            //if (paisId.HasValue)
-            //    propuestas = propuestas
-            //        .Where(p => p.EntidadBancaria?.Pais?.PaisId == paisId.Value)
-            //        .ToList();
+            // Llamar al webservice con los nuevos parámetros
+            var propuestasDTO = reportePropuestaClienteSOAP.listarReportePropuesta(
+                paisId.HasValue ? (int)paisId : 0,
+                bancoId.HasValue ? (int)bancoId : 0,
+                dias
+            );
 
-            //if (bancoId.HasValue)
-            //    propuestas = propuestas
-            //        .Where(p => p.EntidadBancaria?.EntidadBancariaId == bancoId.Value)
-            //        .ToList();
+            if (propuestasDTO == null || propuestasDTO.Length == 0)
+                return new List<PropuestaDetalle>();
 
-            //if (!string.IsNullOrEmpty(estado))
-            //    propuestas = propuestas
-            //        .Where(p => p.Estado == estado)
-            //        .ToList();
-
-            // Convertir a modelo de reporte
-            var resultado = propuestas
-                .OrderByDescending(p => p.fecha_hora_creacion)
-                .Select(p => new PropuestaDetalle
+            // Convertir de ReportePropPagoDTO[] a List<PropuestaDetalle>
+            var resultado = propuestasDTO.Select(dto => new PropuestaDetalle
+            {
+                PropuestaId = dto.idPropuesta,
+                FechaCreacion = dto.fechaCreacion,
+                UsuarioCreador = !string.IsNullOrEmpty(dto.correoUsuarioCreador)
+                    ? $"{dto.usuarioCreador} ({dto.correoUsuarioCreador})"
+                    : dto.usuarioCreador ?? "-",
+                Pais = dto.pais ?? "-",
+                EntidadBancaria = dto.bancoPropuesta ?? "-",
+                Estado = dto.estado ?? "-",
+                TotalPagos = dto.totalPagos,
+                Detalles = dto.pagos?.Select(pago => new DetallePago
                 {
-                    PropuestaId = p.propuesta_idSpecified? p.propuesta_id : 0,
-                    FechaCreacion = p.fecha_hora_creacionSpecified ? p.fecha_hora_creacion: DateTime.Now,
-                    UsuarioCreador = p.usuario_creacion != null ?
-                        $"{p.usuario_creacion.nombre} {p.usuario_creacion.apellidos}" : "-",
-                    Pais = p.entidad_bancaria?.pais?.nombre ?? "-",
-                    EntidadBancaria = p.entidad_bancaria?.nombre ?? "-",
-                    Estado = p.estado ?? "-",
-                    TotalPagos = p.detalles_propuesta != null ? p.detalles_propuesta.Length : 0,
-                    Detalles = p.detalles_propuesta?.Select(d => new DetallePago
-                    {
-                        NumeroFactura = d.factura?.numero_factura ?? "-",
-                        Acreedor = d.factura?.acreedor?.razon_social ?? "-",
-                        Moneda = d.factura?.moneda?.codigo_iso ?? "-",
-                        Monto = d.monto_pago,
-                        CuentaOrigen = d.cuenta_propia?.numero_cuenta ?? "-",
-                        BancoOrigen = d.cuenta_propia?.entidad_bancaria?.nombre ?? "-",
-                        CuentaDestino = d.cuenta_acreedor?.numero_cuenta ?? "-",
-                        BancoDestino = d.cuenta_acreedor?.entidad_bancaria?.nombre ?? "-",
-                        FormaPago = MapearFormaPago((char?)d.forma_pago)
-                    }).ToList() ?? new List<DetallePago>()
-                })
+                    NumeroFactura = pago.numeroFactura ?? "-",
+                    Acreedor = pago.acreedor ?? "-",
+                    Moneda = pago.moneda ?? "-",
+                    Monto = pago.monto,
+                    CuentaOrigen = pago.cuentaOrigen ?? "-",
+                    BancoOrigen = pago.bancoOrigen ?? "-",
+                    CuentaDestino = pago.cuentaDestino ?? "-",
+                    BancoDestino = pago.bancoDestino ?? "-",
+                    FormaPago = pago.formaPago ?? "-"
+                }).ToList() ?? new List<DetallePago>()
+            }).ToList();
+
+            // Filtrar por estado en memoria si se especificó
+            if (!string.IsNullOrEmpty(estado))
+            {
+                resultado = resultado
+                    .Where(p => p.Estado.Equals(estado, StringComparison.OrdinalIgnoreCase))
+                    .ToList();
+            }
+
+            // Ordenar por fecha de creación descendente
+            resultado = resultado
+                .OrderByDescending(p => p.FechaCreacion)
                 .ToList();
 
             return resultado;
         }
 
-        private string MapearFormaPago(char? formaPago)
-        {
-            if (!formaPago.HasValue)
-                return "-";
-
-            switch (char.ToUpper(formaPago.Value))
-            {
-                case 'T':
-                    return "Transferencia";
-                case 'C':
-                    return "Cheque";
-                case 'E':
-                    return "Efectivo";
-                default:
-                    return formaPago.ToString();
-            }
-        }
-
         public byte[] GenerarPDF(
-            List<PropuestaDetalle> datos,
-            string usuario,
-            Dictionary<string, string> filtros)
+       List<PropuestaDetalle> datos,
+       string usuario,
+       Dictionary<string, string> filtros)
         {
-            using (var ms = new MemoryStream())
+            try
             {
-                var writer = new PdfWriter(ms);
-                var pdf = new PdfDocument(writer);
-                var document = new Document(pdf);
 
-                // Fuentes
-                PdfFont fontBold = PdfFontFactory.CreateFont(StandardFonts.HELVETICA_BOLD);
-                PdfFont fontNormal = PdfFontFactory.CreateFont(StandardFonts.HELVETICA);
-
-                // Colores del sistema
-                var colorPrimario = new DeviceRgb(11, 31, 52);
-                var colorSecundario = new DeviceRgb(96, 116, 138);
-
-                // Cabecera
-                var titulo = new Paragraph("REPORTE DE PROPUESTAS DE PAGO")
-                    .SetFont(fontBold)
-                    .SetFontSize(18)
-                    .SetTextAlignment(TextAlignment.CENTER)
-                    .SetFontColor(colorPrimario);
-                document.Add(titulo);
-
-                var subtitulo = new Paragraph("Detalle de Pagos Individuales por Propuesta")
-                    .SetFont(fontNormal)
-                    .SetFontSize(12)
-                    .SetTextAlignment(TextAlignment.CENTER)
-                    .SetFontColor(colorSecundario);
-                document.Add(subtitulo);
-
-                document.Add(new Paragraph("\n"));
-
-                // Información de auditoría
-                var tablaAudit = new Table(2).UseAllAvailableWidth();
-                tablaAudit.AddCell(new Cell().Add(new Paragraph("Fecha de Generación:").SetFont(fontBold)));
-                tablaAudit.AddCell(new Cell().Add(new Paragraph(DateTime.Now.ToString("dd/MM/yyyy")).SetFont(fontNormal)));
-                tablaAudit.AddCell(new Cell().Add(new Paragraph("Hora de Generación:").SetFont(fontBold)));
-                tablaAudit.AddCell(new Cell().Add(new Paragraph(DateTime.Now.ToString("HH:mm:ss")).SetFont(fontNormal)));
-                tablaAudit.AddCell(new Cell().Add(new Paragraph("Usuario:").SetFont(fontBold)));
-                tablaAudit.AddCell(new Cell().Add(new Paragraph(usuario).SetFont(fontNormal)));
-                document.Add(tablaAudit);
-
-                document.Add(new Paragraph("\n"));
-
-                // Filtros aplicados
-                if (filtros != null && filtros.Count > 0)
+                return Document.Create(container =>
                 {
-                    var paragrafoFiltros = new Paragraph()
-                        .SetFont(fontNormal)
-                        .SetFontColor(colorPrimario);
-
-                    paragrafoFiltros.Add(new Text("Filtros Aplicados: ").SetFont(fontBold));
-
-                    foreach (var filtro in filtros)
+                    container.Page(page =>
                     {
-                        paragrafoFiltros.Add(new Text($"{filtro.Key}: {filtro.Value} | ").SetFont(fontNormal));
-                    }
+                        page.Size(PageSizes.A4);
+                        page.Margin(2, Unit.Centimetre);
+                        page.PageColor(Colors.White);
+                        page.DefaultTextStyle(x => x.FontSize(10).FontColor(Colors.Black));
 
-                    document.Add(paragrafoFiltros);
-                    document.Add(new Paragraph("\n"));
-                }
+                        // Cabecera
+                        page.Header().Column(column =>
+                        {
+                            column.Item().AlignCenter().Text("REPORTE DE PROPUESTAS DE PAGO")
+                                .FontSize(18)
+                                .Bold()
+                                .FontColor(Colors.Blue.Darken4);
 
-                // Datos de propuestas
-                int totalPropuestas = 0;
-                int totalPagos = 0;
+                            column.Item().AlignCenter().Text("Detalle de Pagos Individuales por Propuesta")
+                                .FontSize(12)
+                                .FontColor(Colors.Grey.Darken1);
 
-                foreach (var propuesta in datos)
-                {
-                    totalPropuestas++;
-                    totalPagos += propuesta.TotalPagos;
+                            column.Item().PaddingTop(10);
 
-                    // Encabezado de propuesta
-                    var tituloPropuesta = new Paragraph($"Propuesta #{propuesta.PropuestaId} - {propuesta.EntidadBancaria}")
-                        .SetFont(fontBold)
-                        .SetFontSize(14)
-                        .SetBackgroundColor(colorPrimario)
-                        .SetFontColor(ColorConstants.WHITE)
-                        .SetPadding(5);
-                    document.Add(tituloPropuesta);
+                            // Información de auditoría
+                            column.Item().Table(table =>
+                            {
+                                table.ColumnsDefinition(columns =>
+                                {
+                                    columns.RelativeColumn();
+                                    columns.RelativeColumn();
+                                });
 
-                    // Información de la propuesta
-                    var tablaInfo = new Table(4).UseAllAvailableWidth();
-                    tablaInfo.SetMarginTop(5);
-                    tablaInfo.SetMarginBottom(10);
+                                table.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten2).PaddingBottom(5)
+                                    .Text("Fecha de Generación:").Bold();
+                                table.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten2).PaddingBottom(5)
+                                    .Text(DateTime.Now.ToString("dd/MM/yyyy"));
 
-                    tablaInfo.AddCell(new Cell().Add(new Paragraph("Fecha Creación:").SetFont(fontBold)));
-                    tablaInfo.AddCell(new Cell().Add(new Paragraph(propuesta.FechaCreacion.ToString("dd/MM/yyyy HH:mm")).SetFont(fontNormal)));
-                    tablaInfo.AddCell(new Cell().Add(new Paragraph("Usuario:").SetFont(fontBold)));
-                    tablaInfo.AddCell(new Cell().Add(new Paragraph(propuesta.UsuarioCreador).SetFont(fontNormal)));
-                    tablaInfo.AddCell(new Cell().Add(new Paragraph("País:").SetFont(fontBold)));
-                    tablaInfo.AddCell(new Cell().Add(new Paragraph(propuesta.Pais).SetFont(fontNormal)));
-                    tablaInfo.AddCell(new Cell().Add(new Paragraph("Estado:").SetFont(fontBold)));
-                    tablaInfo.AddCell(new Cell().Add(new Paragraph(propuesta.Estado).SetFont(fontNormal)));
+                                table.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten2).PaddingBottom(5)
+                                    .Text("Hora de Generación:").Bold();
+                                table.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten2).PaddingBottom(5)
+                                    .Text(DateTime.Now.ToString("HH:mm:ss"));
 
-                    document.Add(tablaInfo);
+                                table.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten2).PaddingBottom(5)
+                                    .Text("Usuario:").Bold();
+                                table.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten2).PaddingBottom(5)
+                                    .Text(usuario ?? "-");
+                            });
 
-                    // Tabla de detalles
-                    var tablaDetalles = new Table(new float[] { 2, 3, 1, 2, 2, 2, 2, 2, 2 })
-                        .UseAllAvailableWidth();
+                            // Filtros aplicados
+                            if (filtros != null && filtros.Count > 0)
+                            {
+                                column.Item().PaddingTop(10).Text(text =>
+                                {
+                                    text.Span("Filtros Aplicados: ").Bold().FontColor(Colors.Blue.Darken4);
 
-                    // Encabezados
-                    tablaDetalles.AddHeaderCell(new Cell().Add(new Paragraph("N° Factura").SetFont(fontBold).SetFontSize(9)));
-                    tablaDetalles.AddHeaderCell(new Cell().Add(new Paragraph("Proveedor").SetFont(fontBold).SetFontSize(9)));
-                    tablaDetalles.AddHeaderCell(new Cell().Add(new Paragraph("Mon.").SetFont(fontBold).SetFontSize(9)));
-                    tablaDetalles.AddHeaderCell(new Cell().Add(new Paragraph("Monto").SetFont(fontBold).SetFontSize(9)));
-                    tablaDetalles.AddHeaderCell(new Cell().Add(new Paragraph("Cta. Origen").SetFont(fontBold).SetFontSize(9)));
-                    tablaDetalles.AddHeaderCell(new Cell().Add(new Paragraph("Banco Orig.").SetFont(fontBold).SetFontSize(9)));
-                    tablaDetalles.AddHeaderCell(new Cell().Add(new Paragraph("Cta. Dest.").SetFont(fontBold).SetFontSize(9)));
-                    tablaDetalles.AddHeaderCell(new Cell().Add(new Paragraph("Banco Dest.").SetFont(fontBold).SetFontSize(9)));
-                    tablaDetalles.AddHeaderCell(new Cell().Add(new Paragraph("Forma Pago").SetFont(fontBold).SetFontSize(9)));
+                                    foreach (var filtro in filtros)
+                                    {
+                                        text.Span($"{filtro.Key}: {filtro.Value} | ");
+                                    }
+                                });
+                            }
+                        });
 
-                    // Filas
-                    foreach (var detalle in propuesta.Detalles)
-                    {
-                        tablaDetalles.AddCell(new Cell().Add(new Paragraph(detalle.NumeroFactura).SetFont(fontNormal).SetFontSize(8)));
-                        tablaDetalles.AddCell(new Cell().Add(new Paragraph(detalle.Acreedor).SetFont(fontNormal).SetFontSize(8)));
-                        tablaDetalles.AddCell(new Cell().Add(new Paragraph(detalle.Moneda).SetFont(fontNormal).SetFontSize(8)));
-                        tablaDetalles.AddCell(new Cell().Add(new Paragraph(detalle.Monto.ToString("N2")).SetFont(fontNormal).SetFontSize(8)).SetTextAlignment(TextAlignment.RIGHT));
-                        tablaDetalles.AddCell(new Cell().Add(new Paragraph(detalle.CuentaOrigen).SetFont(fontNormal).SetFontSize(8)));
-                        tablaDetalles.AddCell(new Cell().Add(new Paragraph(detalle.BancoOrigen).SetFont(fontNormal).SetFontSize(8)));
-                        tablaDetalles.AddCell(new Cell().Add(new Paragraph(detalle.CuentaDestino).SetFont(fontNormal).SetFontSize(8)));
-                        tablaDetalles.AddCell(new Cell().Add(new Paragraph(detalle.BancoDestino).SetFont(fontNormal).SetFontSize(8)));
-                        tablaDetalles.AddCell(new Cell().Add(new Paragraph(detalle.FormaPago).SetFont(fontNormal).SetFontSize(8)));
-                    }
+                        // Contenido principal
+                        page.Content().Column(column =>
+                        {
+                            if (datos == null || !datos.Any())
+                            {
+                                column.Item().PaddingTop(20).AlignCenter()
+                                    .Text("No hay datos para mostrar")
+                                    .FontSize(14)
+                                    .Italic();
+                                return;
+                            }
 
-                    document.Add(tablaDetalles);
+                            int totalPropuestas = 0;
+                            int totalPagos = 0;
 
-                    // Totales por moneda
-                    var totalesPorMoneda = propuesta.Detalles
-                        .GroupBy(d => d.Moneda)
-                        .Select(g => new { Moneda = g.Key, Total = g.Sum(x => x.Monto) })
-                        .ToList();
+                            foreach (var propuesta in datos)
+                            {
+                                totalPropuestas++;
+                                totalPagos += propuesta.TotalPagos;
 
-                    var parrafoTotales = new Paragraph()
-                        .SetFont(fontNormal)
-                        .SetMarginTop(5)
-                        .SetMarginBottom(15);
+                                // Encabezado de propuesta
+                                column.Item().PaddingTop(10).Background(Colors.Blue.Darken4)
+                                    .Padding(8).Text($"Propuesta #{propuesta.PropuestaId} - {propuesta.EntidadBancaria ?? "N/A"}")
+                                    .FontSize(12)
+                                    .Bold()
+                                    .FontColor(Colors.White);
 
-                    parrafoTotales.Add(new Text("Totales: ").SetFont(fontBold));
+                                // Información de la propuesta
+                                column.Item().BorderLeft(1).BorderRight(1).BorderBottom(1)
+                                    .BorderColor(Colors.Grey.Lighten2)
+                                    .Padding(8)
+                                    .Table(table =>
+                                    {
+                                        table.ColumnsDefinition(columns =>
+                                        {
+                                            columns.ConstantColumn(100);
+                                            columns.RelativeColumn();
+                                            columns.ConstantColumn(100);
+                                            columns.RelativeColumn();
+                                        });
 
-                    foreach (var total in totalesPorMoneda)
-                    {
-                        parrafoTotales.Add(new Text($"{total.Moneda}: {total.Total:N2}   ").SetFont(fontNormal));
-                    }
+                                        table.Cell().Text("Fecha Creación:").Bold().FontSize(9);
+                                        table.Cell().Text(propuesta.FechaCreacion.ToString("dd/MM/yyyy HH:mm")).FontSize(9);
+                                        table.Cell().Text("Usuario:").Bold().FontSize(9);
+                                        table.Cell().Text(propuesta.UsuarioCreador ?? "-").FontSize(9);
 
-                    document.Add(parrafoTotales);
-                    document.Add(new Paragraph("\n"));
-                }
+                                        table.Cell().Text("País:").Bold().FontSize(9);
+                                        table.Cell().Text(propuesta.Pais ?? "-").FontSize(9);
+                                        table.Cell().Text("Estado:").Bold().FontSize(9);
+                                        table.Cell().Text(propuesta.Estado ?? "-").FontSize(9);
+                                    });
 
-                // Resumen final
-                var resumenFinal = new Paragraph($"RESUMEN TOTAL: {totalPropuestas} Propuestas | {totalPagos} Pagos")
-                    .SetFont(fontBold)
-                    .SetFontSize(14)
-                    .SetTextAlignment(TextAlignment.CENTER)
-                    .SetBackgroundColor(colorPrimario)
-                    .SetFontColor(ColorConstants.WHITE)
-                    .SetPadding(10)
-                    .SetMarginTop(20);
-                document.Add(resumenFinal);
+                                // Tabla de detalles
+                                if (propuesta.Detalles != null && propuesta.Detalles.Any())
+                                {
+                                    column.Item().PaddingTop(5).Table(detallesTable =>
+                                    {
+                                        // Definir columnas con tamaños ajustados
+                                        detallesTable.ColumnsDefinition(columns =>
+                                        {
+                                            columns.ConstantColumn(45);   // N° Factura
+                                            columns.RelativeColumn(2);    // Proveedor
+                                            columns.ConstantColumn(35);   // Moneda
+                                            columns.ConstantColumn(55);   // Monto
+                                            columns.ConstantColumn(55);   // Cta. Origen
+                                            columns.RelativeColumn(1.5f); // Banco Orig.
+                                            columns.ConstantColumn(55);   // Cta. Dest.
+                                            columns.RelativeColumn(1.5f); // Banco Dest.
+                                            columns.ConstantColumn(50);   // Forma Pago
+                                        });
 
-                // Pie de página con número de página
-                int numberOfPages = pdf.GetNumberOfPages();
-                for (int i = 1; i <= numberOfPages; i++)
-                {
-                    document.ShowTextAligned(
-                        new Paragraph($"Página {i} de {numberOfPages}").SetFont(fontNormal),
-                        297.5f, 30, i, TextAlignment.CENTER, VerticalAlignment.BOTTOM, 0);
-                }
+                                        // Encabezados
+                                        detallesTable.Header(header =>
+                                        {
+                                            header.Cell().Background(Colors.Grey.Lighten3).Padding(3)
+                                                .Text("Factura").FontSize(8).Bold();
+                                            header.Cell().Background(Colors.Grey.Lighten3).Padding(3)
+                                                .Text("Proveedor").FontSize(8).Bold();
+                                            header.Cell().Background(Colors.Grey.Lighten3).Padding(3)
+                                                .Text("Mon").FontSize(8).Bold();
+                                            header.Cell().Background(Colors.Grey.Lighten3).Padding(3)
+                                                .Text("Monto").FontSize(8).Bold().AlignRight();
+                                            header.Cell().Background(Colors.Grey.Lighten3).Padding(3)
+                                                .Text("Cta Orig").FontSize(8).Bold();
+                                            header.Cell().Background(Colors.Grey.Lighten3).Padding(3)
+                                                .Text("Banco Orig").FontSize(8).Bold();
+                                            header.Cell().Background(Colors.Grey.Lighten3).Padding(3)
+                                                .Text("Cta Dest").FontSize(8).Bold();
+                                            header.Cell().Background(Colors.Grey.Lighten3).Padding(3)
+                                                .Text("Banco Dest").FontSize(8).Bold();
+                                            header.Cell().Background(Colors.Grey.Lighten3).Padding(3)
+                                                .Text("F. Pago").FontSize(8).Bold();
+                                        });
 
-                document.Close();
-                return ms.ToArray();
+                                        // Filas de datos
+                                        foreach (var detalle in propuesta.Detalles)
+                                        {
+                                            detallesTable.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten2)
+                                                .Padding(2).Text(detalle.NumeroFactura ?? "-").FontSize(7);
+                                            detallesTable.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten2)
+                                                .Padding(2).Text(detalle.Acreedor ?? "-").FontSize(7);
+                                            detallesTable.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten2)
+                                                .Padding(2).Text(detalle.Moneda ?? "-").FontSize(7);
+                                            detallesTable.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten2)
+                                                .Padding(2).Text(detalle.Monto.ToString("N2")).FontSize(7).AlignRight();
+                                            detallesTable.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten2)
+                                                .Padding(2).Text(detalle.CuentaOrigen ?? "-").FontSize(7);
+                                            detallesTable.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten2)
+                                                .Padding(2).Text(detalle.BancoOrigen ?? "-").FontSize(7);
+                                            detallesTable.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten2)
+                                                .Padding(2).Text(detalle.CuentaDestino ?? "-").FontSize(7);
+                                            detallesTable.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten2)
+                                                .Padding(2).Text(detalle.BancoDestino ?? "-").FontSize(7);
+                                            detallesTable.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten2)
+                                                .Padding(2).Text(detalle.FormaPago ?? "-").FontSize(7);
+                                        }
+                                    });
+
+                                    // Totales por moneda
+                                    var totalesPorMoneda = propuesta.Detalles
+                                        .GroupBy(d => d.Moneda)
+                                        .Select(g => new { Moneda = g.Key, Total = g.Sum(x => x.Monto) })
+                                        .ToList();
+
+                                    column.Item().PaddingTop(5).PaddingLeft(5).Text(text =>
+                                    {
+                                        text.Span("Totales: ").Bold().FontSize(9);
+
+                                        foreach (var total in totalesPorMoneda)
+                                        {
+                                            text.Span($"{total.Moneda}: {total.Total:N2}   ").FontSize(9);
+                                        }
+                                    });
+                                }
+
+                                column.Item().PaddingBottom(10);
+                            }
+
+                            // Resumen final
+                            column.Item().PaddingTop(10).Background(Colors.Blue.Darken4)
+                                .Padding(10).AlignCenter()
+                                .Text($"RESUMEN TOTAL: {totalPropuestas} Propuestas | {totalPagos} Pagos")
+                                .FontSize(12)
+                                .Bold()
+                                .FontColor(Colors.White);
+                        });
+
+                        // Pie de página
+                        page.Footer().AlignCenter().Text(text =>
+                        {
+                            text.Span("Página ");
+                            text.CurrentPageNumber();
+                            text.Span(" de ");
+                            text.TotalPages();
+                        });
+                    });
+                }).GeneratePdf();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error al generar PDF: {ex.Message}", ex);
             }
         }
     }

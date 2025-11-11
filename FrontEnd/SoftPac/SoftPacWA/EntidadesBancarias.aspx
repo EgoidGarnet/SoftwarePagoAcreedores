@@ -94,13 +94,13 @@
                             EmptyDataText="No se encontraron entidades bancarias"
                             GridLines="None">
                             <Columns>
-                                <asp:BoundField DataField="EntidadBancariaId" HeaderText="ID" />
-                                <asp:BoundField DataField="Nombre" HeaderText="Nombre" />
-                                <asp:BoundField DataField="FormatoAceptado" HeaderText="Formato Aceptado" />
-                                <asp:BoundField DataField="CodigoSwift" HeaderText="Código SWIFT" />
+                                <asp:BoundField DataField="entidad_bancaria_id" HeaderText="ID" />
+                                <asp:BoundField DataField="nombre" HeaderText="Nombre" />
+                                <asp:BoundField DataField="formato_aceptado" HeaderText="Formato Aceptado" />
+                                <asp:BoundField DataField="codigo_swift" HeaderText="Código SWIFT" />
                                 <asp:TemplateField HeaderText="País">
                                     <ItemTemplate>
-                                        <%# Eval("Pais.Nombre") %>
+                                        <%# Eval("pais.nombre") %>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                             </Columns>

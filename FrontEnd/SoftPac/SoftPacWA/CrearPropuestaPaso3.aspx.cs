@@ -90,11 +90,10 @@ namespace SoftPacWA
 
                 var saldosRequeridos = propuestaParcial.detalles_propuesta
                     .Where(d => d.factura?.moneda != null)
-                    .GroupBy(d => d.factura.moneda)
+                    .GroupBy(d => d.factura.moneda.moneda_id)
                     .Select(g => new SaldoRequerido
                     {
-                        
-                        Moneda =  DTOConverter.Convertir<SoftPacBusiness.PropuestaPagoWS.monedasDTO,monedasDTO>(g.Key),
+                        Moneda = DTOConverter.Convertir<SoftPacBusiness.PropuestaPagoWS.monedasDTO, monedasDTO>(g.First(d => true).factura.moneda),
                         MontoRequerido = g.Sum(d => d.monto_pago) * 1.01m // margen 1%
                     })
                     .OrderBy(s => s.Moneda.nombre)

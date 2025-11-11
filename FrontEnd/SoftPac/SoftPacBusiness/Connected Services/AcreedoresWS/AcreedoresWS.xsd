@@ -5,6 +5,8 @@
   <xs:element name="insertarAcreedores" type="tns:insertarAcreedores" />
   <xs:element name="insertarAcreedoresResponse" type="tns:insertarAcreedoresResponse" />
   <xs:element name="listarAcreedores" type="tns:listarAcreedores" />
+  <xs:element name="listarAcreedoresPorPaises" type="tns:listarAcreedoresPorPaises" />
+  <xs:element name="listarAcreedoresPorPaisesResponse" type="tns:listarAcreedoresPorPaisesResponse" />
   <xs:element name="listarAcreedoresResponse" type="tns:listarAcreedoresResponse" />
   <xs:element name="modificarAcreedores" type="tns:modificarAcreedores" />
   <xs:element name="modificarAcreedoresResponse" type="tns:modificarAcreedoresResponse" />
@@ -72,6 +74,16 @@
       <xs:element minOccurs="0" name="acceso" type="xs:boolean" />
       <xs:element minOccurs="0" name="pais" type="tns:paisesDTO" />
       <xs:element minOccurs="0" name="usuario" type="tns:usuariosDTO" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="listarAcreedoresPorPaises">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="paises_ids" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="listarAcreedoresPorPaisesResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="return" type="tns:acreedoresDTO" />
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="insertarAcreedores">

@@ -211,7 +211,14 @@
                     CssClass="btn btn-primary"
                     OnClick="btnExportar_Click"
                     ToolTip="Exportar propuesta">
-                    <i class="fas fa-paper-plane"></i> Exportar
+                    <i class="fas fa-file-export"></i> Exportar
+                </asp:LinkButton>
+                
+                <asp:LinkButton ID="btnEnviar" runat="server" 
+                    CssClass="btn btn-info"
+                    OnClick="btnEnviar_Click"
+                    ToolTip="Confirmar envío">
+                    <i class="fas fa-paper-plane"></i> Confirmar Envío
                 </asp:LinkButton>
             </div>
         </div>
@@ -302,7 +309,7 @@
                             <Columns>
                                 <asp:BoundField DataField="NumeroFactura" HeaderText="N° Factura" />
                                 
-                                <asp:TemplateField HeaderText="Proveedor">
+                                <asp:TemplateField HeaderText="acreedor">
                                     <ItemTemplate>
                                         <%# Eval("RazonSocialAcreedor") %>
                                     </ItemTemplate>
@@ -377,7 +384,7 @@
                         <i class="fas fa-exclamation-triangle"></i>
                         <strong>Advertencia:</strong> Esta acción no se puede deshacer.
                     </div>
-                    <div class="mb-3">
+                    <%--<div class="mb-3">
                         <label class="form-label fw-bold">Motivo de Anulación <span class="text-danger">*</span></label>
                         <asp:TextBox ID="txtMotivoAnulacion" runat="server" 
                             CssClass="form-control" 
@@ -391,15 +398,14 @@
                             CssClass="text-danger"
                             Display="Dynamic"
                             ValidationGroup="Anular" />
-                    </div>
+                    </div>--%>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                     <asp:Button ID="btnConfirmarAnulacion" runat="server" 
                         Text="Confirmar Anulación" 
                         CssClass="btn btn-danger"
-                        OnClick="btnConfirmarAnulacion_Click"
-                        ValidationGroup="Anular" />
+                        OnClick="btnConfirmarAnulacion_Click" />
                 </div>
             </div>
         </div>

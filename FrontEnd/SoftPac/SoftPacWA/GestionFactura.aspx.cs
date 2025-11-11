@@ -53,6 +53,7 @@ namespace SoftPacWA
                 CargarControlesIniciales();
                 ConfigurarPaginaPorAccion();
             }
+            txtMontoRestante.Text = txtMontoTotal.Text;
         }
 
         private void CargarControlesIniciales()
@@ -93,7 +94,7 @@ namespace SoftPacWA
             btnNuevoDetalle.Visible = true;
             HabilitarControles(true);
             ddlEstado.SelectedValue = "Pendiente";
-            ddlEstado.Enabled = false; 
+            ddlEstado.Enabled = false;
             txtMontoTotal.Attributes.Add("onkeyup", $"document.getElementById('{txtMontoRestante.ClientID}').value = this.value;");
         }
 
@@ -105,12 +106,13 @@ namespace SoftPacWA
             btnCancelar.Visible = true;
             btnEditar.Visible = false;
             btnNuevoDetalle.Visible = true;
-            HabilitarControles(true); 
+            HabilitarControles(true);
             txtNumeroFactura.ReadOnly = true;
             ddlPais.Enabled = false;
             ddlAcreedor.Enabled = false;
-            btnEliminarFactura.Visible = true; 
-            if (factura != null && factura.monto_restante != factura.monto_total)
+            btnEliminarFactura.Visible = true;
+            if (factura != null && (factura.monto_restante != factura.monto_total || factura.estado == "Eliminado"
+                    || factura.estado == "Pagada"))
             {
                 btnEliminarFactura.Enabled = false;
                 btnEliminarFactura.ToolTip = "No se puede eliminar una factura con pagos registrados.";
@@ -128,7 +130,8 @@ namespace SoftPacWA
             btnEditar.Visible = true;
             btnNuevoDetalle.Visible = false;
             btnEliminarFactura.Visible = true;
-            if (factura != null && factura.monto_restante != factura.monto_total)
+            if (factura != null && (factura.monto_restante != factura.monto_total || factura.estado == "Eliminado"
+                    || factura.estado == "Pagada"))
             {
                 btnEditar.Enabled = false;
                 btnEditar.ToolTip = "No se puede editar una factura con pagos registrados.";
@@ -146,8 +149,8 @@ namespace SoftPacWA
         private void CargarPaises()
         {
             ddlPais.DataSource = UsuarioLogueado.usuario_pais.Where(up => up.acceso == true).Select(up => up.pais).ToList();
-            ddlPais.DataTextField = "Nombre";
-            ddlPais.DataValueField = "PaisId";
+            ddlPais.DataTextField = "nombre";
+            ddlPais.DataValueField = "pais_id";
             ddlPais.DataBind();
             ddlPais.Items.Insert(0, new ListItem("-- Seleccione un País --", "0"));
         }
@@ -162,8 +165,8 @@ namespace SoftPacWA
             }
 
             ddlAcreedor.DataSource = acreedores;
-            ddlAcreedor.DataTextField = "RazonSocial";
-            ddlAcreedor.DataValueField = "AcreedorId";
+            ddlAcreedor.DataTextField = "razon_social";
+            ddlAcreedor.DataValueField = "acreedor_id";
             ddlAcreedor.DataBind();
             ddlAcreedor.Items.Insert(0, new ListItem("-- Seleccione un Acreedor --", "0"));
         }
@@ -183,7 +186,7 @@ namespace SoftPacWA
                     monedasFiltradas = todasLasMonedas.Where(m => m.codigo_iso == "PEN" || m.codigo_iso == "USD").ToList();
                     break;
 
-                case "Mexico":
+                case "México":
                     monedasFiltradas = todasLasMonedas.Where(m => m.codigo_iso == "MXN" || m.codigo_iso == "USD").ToList();
                     break;
 
@@ -200,8 +203,8 @@ namespace SoftPacWA
 
             // 3. Enlazar la lista filtrada al DropDownList
             ddlMoneda.DataSource = monedasFiltradas;
-            ddlMoneda.DataTextField = "Nombre";
-            ddlMoneda.DataValueField = "MonedaId";
+            ddlMoneda.DataTextField = "nombre";
+            ddlMoneda.DataValueField = "moneda_id";
             ddlMoneda.DataBind();
         }
 
@@ -235,12 +238,15 @@ namespace SoftPacWA
                     txtTasaIva.Text = factura.tasa_iva.ToString("F2");
                     txtOtrosTributos.Text = factura.otros_tributos.ToString("F2");
 
-                    gvDetallesFactura.DataSource = factura.detalles_Factura;
-                    if (Accion.ToLower() == "verdetalle")
+                    if (factura.detalles_Factura != null)
                     {
-                        gvDetallesFactura.Columns[2].Visible = false;
+                        gvDetallesFactura.DataSource = factura.detalles_Factura;
+                        if (Accion.ToLower() == "verdetalle")
+                        {
+                            gvDetallesFactura.Columns[2].Visible = false;
+                        }
+                        gvDetallesFactura.DataBind();
                     }
-                    gvDetallesFactura.DataBind();
 
                     ActualizarCamposPorPais();
                 }
@@ -297,19 +303,20 @@ namespace SoftPacWA
         protected void btnGuardar_Click(object sender, EventArgs e)
         {
             facturasDTO factura = new facturasDTO();
+            factura.acreedor = new SoftPacBusiness.FacturasWS.acreedoresDTO();
             if (Accion == "editar" && FacturaId.HasValue)
             {
                 factura = facturasBO.ObtenerPorId(FacturaId.Value);
             }
             if (!ValidarCamposObligatorios()) return;
-            if(Accion == "insertar")
+            if (Accion == "insertar")
             {
                 factura.numero_factura = txtNumeroFactura.Text;
                 SoftPacBusiness.AcreedoresWS.acreedoresDTO acreedor = acreedoresBO.obtenerPorId(Convert.ToInt32(ddlAcreedor.SelectedValue));
                 factura.acreedor.acreedor_id = acreedor.acreedor_id;
             }
             factura.estado = ddlEstado.SelectedValue;
-            if(!DateTime.TryParse(txtFechaEmision.Text, out DateTime fe))
+            if (!DateTime.TryParse(txtFechaEmision.Text, out DateTime fe))
             {
                 MostrarMensaje("La fecha de emisión no es válida", "warning");
                 return;
@@ -340,9 +347,14 @@ namespace SoftPacWA
             if (Accion == "insertar")
             {
                 factura.monto_restante = factura.monto_total;
-                facturasBO.Insertar(factura);
+                int resultadoId = facturasBO.Insertar(factura);
                 Session["MensajeExito"] = "Factura creada correctamente. Ahora puedes agregar detalles.";
-                FacturaId = factura.factura_id;
+                if (resultadoId == 0)
+                {
+                    MostrarMensaje("Error al crear la factura", "danger");
+                    return;
+                }
+                FacturaId = resultadoId;
                 Response.Redirect($"GestionFactura.aspx?accion=editar");
             }
             else
@@ -381,7 +393,7 @@ namespace SoftPacWA
                 case "eliminar":
                     SoftPacBusiness.FacturasWS.usuariosDTO user = new SoftPacBusiness.FacturasWS.usuariosDTO();
                     user.usuario_id = UsuarioLogueado.usuario_id;
-                    var resultado = facturasBO.EliminarDetalle(detalleFactura,user);
+                    var resultado = facturasBO.EliminarDetalle(detalleFactura, user);
                     if (resultado == 1)
                     {
                         MostrarMensaje("Detalle eliminado correctamente", "success");
@@ -495,7 +507,7 @@ namespace SoftPacWA
                     break;
 
                 case "Colombia":
-                case "Mexico":
+                case "México":
                     lblMontoIgv.Text = "IVA";
                     lblRegimenFiscal.Text = "Régimen Fiscal";
                     divTasaIva.Visible = true;

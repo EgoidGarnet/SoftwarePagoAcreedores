@@ -5,17 +5,23 @@
       <xsd:import schemaLocation="http://localhost:8080/SoftPacWS/AcreedoresWS?xsd=1" namespace="http://softpacws.pucp.edu.pe/" />
     </xsd:schema>
   </types>
+  <message name="listarAcreedoresPorPaises">
+    <part name="parameters" element="tns:listarAcreedoresPorPaises" />
+  </message>
+  <message name="listarAcreedoresPorPaisesResponse">
+    <part name="parameters" element="tns:listarAcreedoresPorPaisesResponse" />
+  </message>
   <message name="listarAcreedores">
     <part name="parameters" element="tns:listarAcreedores" />
   </message>
   <message name="listarAcreedoresResponse">
     <part name="parameters" element="tns:listarAcreedoresResponse" />
   </message>
-  <message name="insertarAcreedores">
-    <part name="parameters" element="tns:insertarAcreedores" />
+  <message name="obtenerAcreedor">
+    <part name="parameters" element="tns:obtenerAcreedor" />
   </message>
-  <message name="insertarAcreedoresResponse">
-    <part name="parameters" element="tns:insertarAcreedoresResponse" />
+  <message name="obtenerAcreedorResponse">
+    <part name="parameters" element="tns:obtenerAcreedorResponse" />
   </message>
   <message name="modificarAcreedores">
     <part name="parameters" element="tns:modificarAcreedores" />
@@ -29,20 +35,24 @@
   <message name="eliminarAcreedorResponse">
     <part name="parameters" element="tns:eliminarAcreedorResponse" />
   </message>
-  <message name="obtenerAcreedor">
-    <part name="parameters" element="tns:obtenerAcreedor" />
+  <message name="insertarAcreedores">
+    <part name="parameters" element="tns:insertarAcreedores" />
   </message>
-  <message name="obtenerAcreedorResponse">
-    <part name="parameters" element="tns:obtenerAcreedorResponse" />
+  <message name="insertarAcreedoresResponse">
+    <part name="parameters" element="tns:insertarAcreedoresResponse" />
   </message>
   <portType name="AcreedoresWS">
+    <operation name="listarAcreedoresPorPaises">
+      <input wsam:Action="http://softpacws.pucp.edu.pe/AcreedoresWS/listarAcreedoresPorPaisesRequest" message="tns:listarAcreedoresPorPaises" />
+      <output wsam:Action="http://softpacws.pucp.edu.pe/AcreedoresWS/listarAcreedoresPorPaisesResponse" message="tns:listarAcreedoresPorPaisesResponse" />
+    </operation>
     <operation name="listarAcreedores">
       <input wsam:Action="http://softpacws.pucp.edu.pe/AcreedoresWS/listarAcreedoresRequest" message="tns:listarAcreedores" />
       <output wsam:Action="http://softpacws.pucp.edu.pe/AcreedoresWS/listarAcreedoresResponse" message="tns:listarAcreedoresResponse" />
     </operation>
-    <operation name="insertarAcreedores">
-      <input wsam:Action="http://softpacws.pucp.edu.pe/AcreedoresWS/insertarAcreedoresRequest" message="tns:insertarAcreedores" />
-      <output wsam:Action="http://softpacws.pucp.edu.pe/AcreedoresWS/insertarAcreedoresResponse" message="tns:insertarAcreedoresResponse" />
+    <operation name="obtenerAcreedor">
+      <input wsam:Action="http://softpacws.pucp.edu.pe/AcreedoresWS/obtenerAcreedorRequest" message="tns:obtenerAcreedor" />
+      <output wsam:Action="http://softpacws.pucp.edu.pe/AcreedoresWS/obtenerAcreedorResponse" message="tns:obtenerAcreedorResponse" />
     </operation>
     <operation name="modificarAcreedores">
       <input wsam:Action="http://softpacws.pucp.edu.pe/AcreedoresWS/modificarAcreedoresRequest" message="tns:modificarAcreedores" />
@@ -52,13 +62,22 @@
       <input wsam:Action="http://softpacws.pucp.edu.pe/AcreedoresWS/eliminarAcreedorRequest" message="tns:eliminarAcreedor" />
       <output wsam:Action="http://softpacws.pucp.edu.pe/AcreedoresWS/eliminarAcreedorResponse" message="tns:eliminarAcreedorResponse" />
     </operation>
-    <operation name="obtenerAcreedor">
-      <input wsam:Action="http://softpacws.pucp.edu.pe/AcreedoresWS/obtenerAcreedorRequest" message="tns:obtenerAcreedor" />
-      <output wsam:Action="http://softpacws.pucp.edu.pe/AcreedoresWS/obtenerAcreedorResponse" message="tns:obtenerAcreedorResponse" />
+    <operation name="insertarAcreedores">
+      <input wsam:Action="http://softpacws.pucp.edu.pe/AcreedoresWS/insertarAcreedoresRequest" message="tns:insertarAcreedores" />
+      <output wsam:Action="http://softpacws.pucp.edu.pe/AcreedoresWS/insertarAcreedoresResponse" message="tns:insertarAcreedoresResponse" />
     </operation>
   </portType>
   <binding name="AcreedoresWSPortBinding" type="tns:AcreedoresWS">
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <operation name="listarAcreedoresPorPaises">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
     <operation name="listarAcreedores">
       <soap:operation soapAction="" />
       <input>
@@ -68,7 +87,7 @@
         <soap:body use="literal" />
       </output>
     </operation>
-    <operation name="insertarAcreedores">
+    <operation name="obtenerAcreedor">
       <soap:operation soapAction="" />
       <input>
         <soap:body use="literal" />
@@ -95,7 +114,7 @@
         <soap:body use="literal" />
       </output>
     </operation>
-    <operation name="obtenerAcreedor">
+    <operation name="insertarAcreedores">
       <soap:operation soapAction="" />
       <input>
         <soap:body use="literal" />

@@ -5,11 +5,11 @@
       <xsd:import schemaLocation="http://localhost:8080/SoftPacWS/MonedasWS?xsd=1" namespace="http://softpacws.pucp.edu.pe/" />
     </xsd:schema>
   </types>
-  <message name="listarMonedas">
-    <part name="parameters" element="tns:listarMonedas" />
+  <message name="obtenerMonedaPorDivisa">
+    <part name="parameters" element="tns:obtenerMonedaPorDivisa" />
   </message>
-  <message name="listarMonedasResponse">
-    <part name="parameters" element="tns:listarMonedasResponse" />
+  <message name="obtenerMonedaPorDivisaResponse">
+    <part name="parameters" element="tns:obtenerMonedaPorDivisaResponse" />
   </message>
   <message name="obtenerMonedaPorID">
     <part name="parameters" element="tns:obtenerMonedaPorID" />
@@ -17,19 +17,29 @@
   <message name="obtenerMonedaPorIDResponse">
     <part name="parameters" element="tns:obtenerMonedaPorIDResponse" />
   </message>
+  <message name="listarMonedas">
+    <part name="parameters" element="tns:listarMonedas" />
+  </message>
+  <message name="listarMonedasResponse">
+    <part name="parameters" element="tns:listarMonedasResponse" />
+  </message>
   <portType name="MonedasWS">
-    <operation name="listarMonedas">
-      <input wsam:Action="http://softpacws.pucp.edu.pe/MonedasWS/listarMonedasRequest" message="tns:listarMonedas" />
-      <output wsam:Action="http://softpacws.pucp.edu.pe/MonedasWS/listarMonedasResponse" message="tns:listarMonedasResponse" />
+    <operation name="obtenerMonedaPorDivisa">
+      <input wsam:Action="http://softpacws.pucp.edu.pe/MonedasWS/obtenerMonedaPorDivisaRequest" message="tns:obtenerMonedaPorDivisa" />
+      <output wsam:Action="http://softpacws.pucp.edu.pe/MonedasWS/obtenerMonedaPorDivisaResponse" message="tns:obtenerMonedaPorDivisaResponse" />
     </operation>
     <operation name="obtenerMonedaPorID">
       <input wsam:Action="http://softpacws.pucp.edu.pe/MonedasWS/obtenerMonedaPorIDRequest" message="tns:obtenerMonedaPorID" />
       <output wsam:Action="http://softpacws.pucp.edu.pe/MonedasWS/obtenerMonedaPorIDResponse" message="tns:obtenerMonedaPorIDResponse" />
     </operation>
+    <operation name="listarMonedas">
+      <input wsam:Action="http://softpacws.pucp.edu.pe/MonedasWS/listarMonedasRequest" message="tns:listarMonedas" />
+      <output wsam:Action="http://softpacws.pucp.edu.pe/MonedasWS/listarMonedasResponse" message="tns:listarMonedasResponse" />
+    </operation>
   </portType>
   <binding name="MonedasWSPortBinding" type="tns:MonedasWS">
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
-    <operation name="listarMonedas">
+    <operation name="obtenerMonedaPorDivisa">
       <soap:operation soapAction="" />
       <input>
         <soap:body use="literal" />
@@ -39,6 +49,15 @@
       </output>
     </operation>
     <operation name="obtenerMonedaPorID">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="listarMonedas">
       <soap:operation soapAction="" />
       <input>
         <soap:body use="literal" />

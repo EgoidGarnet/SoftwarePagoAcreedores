@@ -53,8 +53,8 @@ namespace SoftPacWA
         private void CargarPaises()
         {
             ddlPais.DataSource = paisesUsuario;
-            ddlPais.DataTextField = "Nombre";
-            ddlPais.DataValueField = "PaisId";
+            ddlPais.DataTextField = "nombre";
+            ddlPais.DataValueField = "pais_id";
             ddlPais.DataBind();
         }
 

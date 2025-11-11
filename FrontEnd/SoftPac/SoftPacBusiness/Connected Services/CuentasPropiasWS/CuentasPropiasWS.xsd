@@ -140,6 +140,16 @@
       <xs:element minOccurs="0" maxOccurs="unbounded" name="return" type="tns:cuentasPropiasDTO" />
     </xs:sequence>
   </xs:complexType>
+  <xs:complexType name="modificarCuentaPropia">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="cuenta_propia" type="tns:cuentasPropiasDTO" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="modificarCuentaPropiaResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
   <xs:complexType name="modificarCuentaPropiaParametros">
     <xs:sequence>
       <xs:element minOccurs="0" name="cuentas_propias_id" type="xs:int" />
@@ -157,14 +167,14 @@
       <xs:element minOccurs="0" name="return" type="xs:int" />
     </xs:sequence>
   </xs:complexType>
-  <xs:complexType name="modificarCuentaPropia">
+  <xs:complexType name="listarPorEntidadBancaria">
     <xs:sequence>
-      <xs:element minOccurs="0" name="cuenta_propia" type="tns:cuentasPropiasDTO" />
+      <xs:element minOccurs="0" name="arg0" type="xs:int" />
     </xs:sequence>
   </xs:complexType>
-  <xs:complexType name="modificarCuentaPropiaResponse">
+  <xs:complexType name="listarPorEntidadBancariaResponse">
     <xs:sequence>
-      <xs:element minOccurs="0" name="return" type="xs:int" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="return" type="tns:cuentasPropiasDTO" />
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="eliminarCuentaPropiaParametros">
@@ -176,16 +186,6 @@
   <xs:complexType name="eliminarCuentaPropiaParametrosResponse">
     <xs:sequence>
       <xs:element minOccurs="0" name="return" type="xs:int" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="listarPorEntidadBancaria">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="arg0" type="xs:int" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="listarPorEntidadBancariaResponse">
-    <xs:sequence>
-      <xs:element minOccurs="0" maxOccurs="unbounded" name="return" type="tns:cuentasPropiasDTO" />
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="listarCuentasActivas">
@@ -207,6 +207,16 @@
       <xs:element name="return" type="xs:boolean" />
     </xs:sequence>
   </xs:complexType>
+  <xs:complexType name="insertarCuentaPropia">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="cuenta_propia" type="tns:cuentasPropiasDTO" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="insertarCuentaPropiaResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
   <xs:complexType name="insertarCuentaPropiaParametros">
     <xs:sequence>
       <xs:element minOccurs="0" name="saldo_disponible" type="xs:decimal" />
@@ -219,16 +229,6 @@
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="insertarCuentaPropiaParametrosResponse">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="return" type="xs:int" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="insertarCuentaPropia">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="cuenta_propia" type="tns:cuentasPropiasDTO" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="insertarCuentaPropiaResponse">
     <xs:sequence>
       <xs:element minOccurs="0" name="return" type="xs:int" />
     </xs:sequence>

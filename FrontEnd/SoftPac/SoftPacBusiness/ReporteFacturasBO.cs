@@ -1,21 +1,24 @@
-﻿using iText.Kernel.Pdf;
-using iText.Layout;
-using iText.Layout.Element;
-using iText.Layout.Properties;
-using iText.Kernel.Colors;
-using iText.Kernel.Font;
-using iText.IO.Font.Constants;
+﻿using QuestPDF.Fluent;
+using QuestPDF.Helpers;
+using QuestPDF.Infrastructure;
+using SoftPacBusiness.ReporteFactPendWS;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using SoftPacBusiness.FacturasWS;
+using static SoftPac.Business.ReporteFacturasBO;
 
 namespace SoftPac.Business
 {
     public class ReporteFacturasBO
     {
-        private FacturasWSClient facturasClienteSOAP = new FacturasWSClient();
+        private ReporteFactPendWSClient facturasClienteSOAP = new ReporteFactPendWSClient();
+
+        public ReporteFacturasBO()
+        {
+            // Configurar QuestPDF (solo necesario una vez en la aplicación)
+            QuestPDF.Settings.License = LicenseType.Community;
+        }
 
         public class FacturaReporte
         {
@@ -41,98 +44,125 @@ namespace SoftPac.Business
             int? monedaId,
             string rangoFiltro)
         {
-            var facturas = facturasClienteSOAP.listarFacturas()
-                .Where(f => f.estado == "Pendiente" && f.monto_restante > 0)
-                .ToList();
+            // Paso 1: Generar el reporte en BD
+            facturasClienteSOAP.generarReporteFacturasPendientes(
+                acreedorId.HasValue ? (int)acreedorId : 0,
+                paisId.HasValue ? (int)paisId : 0,
+                monedaId.HasValue ? (int)monedaId : 0
+            );
 
-            // Aplicar filtros
-            if (acreedorId.HasValue)
-                facturas = facturas.Where(f => f.acreedor?.acreedor_id == acreedorId.Value).ToList();
+            // Paso 2: Obtener los datos del reporte
+            var reporteDTO = facturasClienteSOAP.listarPorFiltros(
+                acreedorId.HasValue ? (int)acreedorId : 0,
+                paisId.HasValue ? (int)paisId : 0,
+                monedaId.HasValue ? (int)monedaId : 0
+            );
 
-            if (paisId.HasValue)
-                facturas = facturas.Where(f => f.acreedor?.pais?.pais_id == paisId.Value).ToList();
+            if (reporteDTO == null || reporteDTO.Length == 0)
+                return new List<RangoVencimiento>();
 
-            if (monedaId.HasValue)
-                facturas = facturas.Where(f => f.moneda?.moneda_id == monedaId.Value).ToList();
-
-            // Convertir a modelo de reporte
-            var facturasReporte = facturas.Select(f => new FacturaReporte
+            // Paso 3: Convertir de ReporteFactPendDTO[] a List<FacturaReporte>
+            var facturasReporte = reporteDTO.Select(dto => new FacturaReporte
             {
-                NumeroFactura = f.numero_factura ?? "-",
-                Acreedor = f.acreedor?.razon_social ?? "-",
-                Pais = f.acreedor?.pais?.nombre ?? "-",
-                FechaVencimiento = f.fecha_limite_pagoSpecified? f.fecha_limite_pago : DateTime.Now,
-                DiasVencimiento = f.fecha_limite_pagoSpecified ?
-                    (f.fecha_limite_pago - DateTime.Now).Days : 0,
-                Moneda = f.moneda?.codigo_iso ?? "-",
-                Monto = f.monto_restante
+                NumeroFactura = dto.factura?.numero_factura ?? "-",
+                Acreedor = dto.acreedor?.razon_social ?? "-",
+                Pais = dto.pais?.nombre ?? "-",
+                FechaVencimiento = dto.factura != null && dto.factura.fecha_limite_pagoSpecified
+                    ? dto.factura.fecha_limite_pago
+                    : DateTime.Now,
+                DiasVencimiento = dto.dias_vencimiento,
+                Moneda = dto.moneda?.codigo_iso ?? "-",
+                Monto = dto.factura?.monto_restante ?? 0
             }).ToList();
 
-            // Agrupar por rangos
-            var rangos = new List<RangoVencimiento>();
-
-            if (string.IsNullOrEmpty(rangoFiltro) || rangoFiltro == "0-30")
+            // Paso 4: Filtrar por rango si se especificó
+            if (!string.IsNullOrEmpty(rangoFiltro))
             {
-                var facturas030 = facturasReporte
-                    .Where(f => f.DiasVencimiento >= 0 && f.DiasVencimiento <= 30)
-                    .OrderBy(f => f.DiasVencimiento)
-                    .ToList();
-
-                if (facturas030.Any())
-                    rangos.Add(new RangoVencimiento
-                    {
-                        Rango = "0-30 días",
-                        Facturas = facturas030
-                    });
+                facturasReporte = FiltrarPorRango(facturasReporte, rangoFiltro);
             }
 
-            if (string.IsNullOrEmpty(rangoFiltro) || rangoFiltro == "31-60")
-            {
-                var facturas3160 = facturasReporte
-                    .Where(f => f.DiasVencimiento >= 31 && f.DiasVencimiento <= 60)
-                    .OrderBy(f => f.DiasVencimiento)
-                    .ToList();
-
-                if (facturas3160.Any())
-                    rangos.Add(new RangoVencimiento
-                    {
-                        Rango = "31-60 días",
-                        Facturas = facturas3160
-                    });
-            }
-
-            if (string.IsNullOrEmpty(rangoFiltro) || rangoFiltro == "61-90")
-            {
-                var facturas6190 = facturasReporte
-                    .Where(f => f.DiasVencimiento >= 61 && f.DiasVencimiento <= 90)
-                    .OrderBy(f => f.DiasVencimiento)
-                    .ToList();
-
-                if (facturas6190.Any())
-                    rangos.Add(new RangoVencimiento
-                    {
-                        Rango = "61-90 días",
-                        Facturas = facturas6190
-                    });
-            }
-
-            if (string.IsNullOrEmpty(rangoFiltro) || rangoFiltro == "90+")
-            {
-                var facturas90plus = facturasReporte
-                    .Where(f => f.DiasVencimiento > 90)
-                    .OrderBy(f => f.DiasVencimiento)
-                    .ToList();
-
-                if (facturas90plus.Any())
-                    rangos.Add(new RangoVencimiento
-                    {
-                        Rango = "+90 días",
-                        Facturas = facturas90plus
-                    });
-            }
+            // Paso 5: Agrupar por rangos
+            var rangos = AgruparPorRangos(facturasReporte);
 
             return rangos;
         }
+
+        private List<FacturaReporte> FiltrarPorRango(List<FacturaReporte> facturas, string rangoFiltro)
+        {
+            switch (rangoFiltro)
+            {
+                case "0-30":
+                    return facturas.Where(f => f.DiasVencimiento >= 0 && f.DiasVencimiento <= 30).ToList();
+                case "31-60":
+                    return facturas.Where(f => f.DiasVencimiento >= 31 && f.DiasVencimiento <= 60).ToList();
+                case "61-90":
+                    return facturas.Where(f => f.DiasVencimiento >= 61 && f.DiasVencimiento <= 90).ToList();
+                case "90+":
+                    return facturas.Where(f => f.DiasVencimiento > 90).ToList();
+                default:
+                    return facturas;
+            }
+        }
+
+        private List<RangoVencimiento> AgruparPorRangos(List<FacturaReporte> facturas)
+        {
+            var rangos = new List<RangoVencimiento>();
+
+            // Rango 0-30 días
+            var facturas030 = facturas
+                .Where(f => f.DiasVencimiento >= 0 && f.DiasVencimiento <= 30)
+                .OrderBy(f => f.DiasVencimiento)
+                .ToList();
+
+            if (facturas030.Any())
+                rangos.Add(new RangoVencimiento
+                {
+                    Rango = "0-30 días",
+                    Facturas = facturas030
+                });
+
+            // Rango 31-60 días
+            var facturas3160 = facturas
+                .Where(f => f.DiasVencimiento >= 31 && f.DiasVencimiento <= 60)
+                .OrderBy(f => f.DiasVencimiento)
+                .ToList();
+
+            if (facturas3160.Any())
+                rangos.Add(new RangoVencimiento
+                {
+                    Rango = "31-60 días",
+                    Facturas = facturas3160
+                });
+
+            // Rango 61-90 días
+            var facturas6190 = facturas
+                .Where(f => f.DiasVencimiento >= 61 && f.DiasVencimiento <= 90)
+                .OrderBy(f => f.DiasVencimiento)
+                .ToList();
+
+            if (facturas6190.Any())
+                rangos.Add(new RangoVencimiento
+                {
+                    Rango = "61-90 días",
+                    Facturas = facturas6190
+                });
+
+            // Rango +90 días
+            var facturas90plus = facturas
+                .Where(f => f.DiasVencimiento > 90)
+                .OrderBy(f => f.DiasVencimiento)
+                .ToList();
+
+            if (facturas90plus.Any())
+                rangos.Add(new RangoVencimiento
+                {
+                    Rango = "+90 días",
+                    Facturas = facturas90plus
+                });
+
+            return rangos;
+        }
+
 
         public byte[] GenerarPDF(
             List<RangoVencimiento> datos,
@@ -140,146 +170,193 @@ namespace SoftPac.Business
             Dictionary<string, string> filtros)
         {
 
-            using (var ms = new MemoryStream())
+            var document = Document.Create(container =>
             {
-                var writer = new PdfWriter(ms);
-                var pdf = new PdfDocument(writer);
-                var document = new Document(pdf);
-
-                // Fuentes
-                PdfFont fontBold = PdfFontFactory.CreateFont(StandardFonts.HELVETICA_BOLD);
-                PdfFont fontNormal = PdfFontFactory.CreateFont(StandardFonts.HELVETICA);
-
-                // Colores del sistema
-                var colorPrimario = new DeviceRgb(11, 31, 52);
-                var colorSecundario = new DeviceRgb(96, 116, 138);
-
-                // Cabecera
-                var titulo = new Paragraph("REPORTE DE FACTURAS PENDIENTES")
-                    .SetFont(fontBold)
-                    .SetFontSize(18)
-                    .SetTextAlignment(TextAlignment.CENTER)
-                    .SetFontColor(colorPrimario);
-                document.Add(titulo);
-
-                var subtitulo = new Paragraph("Agrupadas por Rangos de Vencimiento")
-                    .SetFont(fontNormal)
-                    .SetFontSize(12)
-                    .SetTextAlignment(TextAlignment.CENTER)
-                    .SetFontColor(colorSecundario);
-                document.Add(subtitulo);
-
-                document.Add(new Paragraph("\n"));
-
-                // Información de auditoría
-                var tablaAudit = new Table(2).UseAllAvailableWidth();
-                tablaAudit.AddCell(new Cell().Add(new Paragraph("Fecha de Generación:").SetFont(fontBold)));
-                tablaAudit.AddCell(new Cell().Add(new Paragraph(DateTime.Now.ToString("dd/MM/yyyy")).SetFont(fontNormal)));
-                tablaAudit.AddCell(new Cell().Add(new Paragraph("Hora de Generación:").SetFont(fontBold)));
-                tablaAudit.AddCell(new Cell().Add(new Paragraph(DateTime.Now.ToString("HH:mm:ss")).SetFont(fontNormal)));
-                tablaAudit.AddCell(new Cell().Add(new Paragraph("Usuario:").SetFont(fontBold)));
-                tablaAudit.AddCell(new Cell().Add(new Paragraph(usuario).SetFont(fontNormal)));
-                document.Add(tablaAudit);
-
-                document.Add(new Paragraph("\n"));
-
-                // Filtros aplicados
-                if (filtros != null && filtros.Count > 0)
+                container.Page(page =>
                 {
-                    var paragrafoFiltros = new Paragraph()
-                        .SetFont(fontNormal)
-                        .SetFontColor(colorPrimario);
+                    page.Size(PageSizes.A4.Landscape());
+                    page.Margin(30);
 
-                    paragrafoFiltros.Add(new Text("Filtros Aplicados: ").SetFont(fontBold));
-
-                    foreach (var filtro in filtros)
+                    // Cabecera
+                    page.Header().Column(column =>
                     {
-                        paragrafoFiltros.Add(new Text($"{filtro.Key}: {filtro.Value} | ").SetFont(fontNormal));
-                    }
+                        column.Item().AlignCenter().Text("REPORTE DE FACTURAS PENDIENTES")
+                            .FontSize(18)
+                            .Bold()
+                            .FontColor("#0B1F34");
 
-                    document.Add(paragrafoFiltros);
-                    document.Add(new Paragraph("\n"));
-                }
+                        column.Item().AlignCenter().Text("Agrupadas por Rangos de Vencimiento")
+                            .FontSize(12)
+                            .FontColor("#60748A");
 
-                // Datos por rango
-                decimal totalGeneral = 0;
+                        column.Item().PaddingVertical(10);
 
-                foreach (var rango in datos)
-                {
-                    // Título del rango
-                    var tituloRango = new Paragraph($"{rango.Rango} ({rango.CantidadFacturas} facturas)")
-                        .SetFont(fontBold)
-                        .SetFontSize(14)
-                        .SetBackgroundColor(colorPrimario)
-                        .SetFontColor(ColorConstants.WHITE)
-                        .SetPadding(5);
-                    document.Add(tituloRango);
+                        // Información de auditoría
+                        column.Item().Table(table =>
+                        {
+                            table.ColumnsDefinition(columns =>
+                            {
+                                columns.ConstantColumn(150);
+                                columns.RelativeColumn();
+                            });
 
-                    // Tabla de facturas
-                    var tabla = new Table(new float[] { 2, 3, 2, 2, 2, 1, 2 }).UseAllAvailableWidth();
-                    tabla.SetMarginTop(10);
+                            table.Cell().Text("Fecha de Generación:").Bold();
+                            table.Cell().Text(DateTime.Now.ToString("dd/MM/yyyy"));
 
-                    // Encabezados
-                    tabla.AddHeaderCell(new Cell().Add(new Paragraph("N° Factura").SetFont(fontBold)));
-                    tabla.AddHeaderCell(new Cell().Add(new Paragraph("Proveedor").SetFont(fontBold)));
-                    tabla.AddHeaderCell(new Cell().Add(new Paragraph("País").SetFont(fontBold)));
-                    tabla.AddHeaderCell(new Cell().Add(new Paragraph("F. Vencimiento").SetFont(fontBold)));
-                    tabla.AddHeaderCell(new Cell().Add(new Paragraph("Días").SetFont(fontBold)));
-                    tabla.AddHeaderCell(new Cell().Add(new Paragraph("Mon.").SetFont(fontBold)));
-                    tabla.AddHeaderCell(new Cell().Add(new Paragraph("Monto").SetFont(fontBold)).SetTextAlignment(TextAlignment.RIGHT));
+                            table.Cell().Text("Hora de Generación:").Bold();
+                            table.Cell().Text(DateTime.Now.ToString("HH:mm:ss"));
 
-                    decimal subtotal = 0;
+                            table.Cell().Text("Usuario:").Bold();
+                            table.Cell().Text(usuario);
+                        });
 
-                    // Filas
-                    foreach (var factura in rango.Facturas)
+                        // Filtros aplicados
+                        if (filtros != null && filtros.Count > 0)
+                        {
+                            column.Item().PaddingTop(10).Row(row =>
+                            {
+                                row.AutoItem().Text("Filtros Aplicados: ").Bold().FontColor("#0B1F34");
+                                row.RelativeItem().Text(string.Join(" | ",
+                                    filtros.Select(f => $"{f.Key}: {f.Value}")));
+                            });
+                        }
+                    });
+
+                    // Contenido
+                    page.Content().Column(column =>
                     {
-                        tabla.AddCell(new Cell().Add(new Paragraph(factura.NumeroFactura).SetFont(fontNormal)));
-                        tabla.AddCell(new Cell().Add(new Paragraph(factura.Acreedor).SetFont(fontNormal)));
-                        tabla.AddCell(new Cell().Add(new Paragraph(factura.Pais).SetFont(fontNormal)));
-                        tabla.AddCell(new Cell().Add(new Paragraph(factura.FechaVencimiento.ToString("dd/MM/yyyy")).SetFont(fontNormal)));
-                        tabla.AddCell(new Cell().Add(new Paragraph(factura.DiasVencimiento.ToString()).SetFont(fontNormal)));
-                        tabla.AddCell(new Cell().Add(new Paragraph(factura.Moneda).SetFont(fontNormal)));
-                        tabla.AddCell(new Cell().Add(new Paragraph(factura.Monto.ToString("N2")).SetFont(fontNormal)).SetTextAlignment(TextAlignment.RIGHT));
+                        // Diccionario para acumular totales por moneda
+                        var totalesPorMoneda = new Dictionary<string, decimal>();
 
-                        subtotal += factura.Monto;
-                    }
+                        foreach (var rango in datos)
+                        {
+                            // Título del rango
+                            column.Item().PaddingTop(15).Background("#0B1F34").Padding(5)
+                                .Text($"{rango.Rango} ({rango.CantidadFacturas} facturas)")
+                                .FontSize(14)
+                                .Bold()
+                                .FontColor(Colors.White);
 
-                    document.Add(tabla);
+                            // Agrupar facturas por moneda dentro del rango
+                            var facturasPorMoneda = rango.Facturas
+                                .GroupBy(f => f.Moneda)
+                                .OrderBy(g => g.Key);
 
-                    // Subtotal
-                    var paragrafoSubtotal = new Paragraph($"Subtotal: {subtotal:N2}")
-                        .SetFont(fontBold)
-                        .SetTextAlignment(TextAlignment.RIGHT)
-                        .SetMarginTop(5)
-                        .SetMarginBottom(15);
-                    document.Add(paragrafoSubtotal);
+                            foreach (var grupoMoneda in facturasPorMoneda)
+                            {
+                                // Subtítulo de moneda (opcional, puedes comentarlo si no lo quieres)
+                                column.Item().PaddingTop(10).Text($"Moneda: {grupoMoneda.Key}")
+                                    .FontSize(11)
+                                    .SemiBold()
+                                    .FontColor("#60748A");
 
-                    totalGeneral += subtotal;
-                }
+                                decimal subtotal = 0;
 
-                // Total general
-                var totalParagraph = new Paragraph($"TOTAL GENERAL: {totalGeneral:N2}")
-                    .SetFont(fontBold)
-                    .SetFontSize(14)
-                    .SetTextAlignment(TextAlignment.RIGHT)
-                    .SetBackgroundColor(colorPrimario)
-                    .SetFontColor(ColorConstants.WHITE)
-                    .SetPadding(10)
-                    .SetMarginTop(20);
-                document.Add(totalParagraph);
+                                // Tabla de facturas para esta moneda
+                                column.Item().PaddingTop(5).Table(table =>
+                                {
+                                    table.ColumnsDefinition(columns =>
+                                    {
+                                        columns.RelativeColumn(2);
+                                        columns.RelativeColumn(3);
+                                        columns.RelativeColumn(2);
+                                        columns.RelativeColumn(2);
+                                        columns.RelativeColumn(2);
+                                        columns.RelativeColumn(1);
+                                        columns.RelativeColumn(2);
+                                    });
 
-                // Pie de página con número de página
-                int numberOfPages = pdf.GetNumberOfPages();
-                for (int i = 1; i <= numberOfPages; i++)
-                {
-                    document.ShowTextAligned(
-                        new Paragraph($"Página {i} de {numberOfPages}").SetFont(fontNormal),
-                        297.5f, 30, i, TextAlignment.CENTER, VerticalAlignment.BOTTOM, 0);
-                }
+                                    // Encabezados
+                                    table.Header(header =>
+                                    {
+                                        header.Cell().Background(Colors.Grey.Lighten2).Padding(5)
+                                            .Text("N° Factura").Bold();
+                                        header.Cell().Background(Colors.Grey.Lighten2).Padding(5)
+                                            .Text("Proveedor").Bold();
+                                        header.Cell().Background(Colors.Grey.Lighten2).Padding(5)
+                                            .Text("País").Bold();
+                                        header.Cell().Background(Colors.Grey.Lighten2).Padding(5)
+                                            .Text("F. Vencimiento").Bold();
+                                        header.Cell().Background(Colors.Grey.Lighten2).Padding(5)
+                                            .Text("Días").Bold();
+                                        header.Cell().Background(Colors.Grey.Lighten2).Padding(5)
+                                            .Text("Mon.").Bold();
+                                        header.Cell().Background(Colors.Grey.Lighten2).Padding(5)
+                                            .AlignRight().Text("Monto").Bold();
+                                    });
 
-                document.Close();
-                return ms.ToArray();
-            }
+
+                                    // Filas de facturas de esta moneda
+                                    foreach (var factura in grupoMoneda)
+                                    {
+                                        table.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten2)
+                                            .Padding(5).Text(factura.NumeroFactura);
+                                        table.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten2)
+                                            .Padding(5).Text(factura.Acreedor);
+                                        table.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten2)
+                                            .Padding(5).Text(factura.Pais);
+                                        table.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten2)
+                                            .Padding(5).Text(factura.FechaVencimiento.ToString("dd/MM/yyyy"));
+                                        table.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten2)
+                                            .Padding(5).Text(factura.DiasVencimiento.ToString());
+                                        table.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten2)
+                                            .Padding(5).Text(factura.Moneda);
+                                        table.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten2)
+                                            .Padding(5).AlignRight().Text(factura.Monto.ToString("N2"));
+
+                                        subtotal += factura.Monto;
+                                    }
+                                });
+
+                                // Subtotal por moneda en este rango
+                                column.Item().PaddingTop(5).PaddingBottom(10).AlignRight()
+                                    .Text($"Subtotal {grupoMoneda.Key}: {subtotal:N2}")
+                                    .Bold()
+                                    .FontColor("#0B1F34");
+
+                                // Acumular en el total general por moneda
+                                if (!totalesPorMoneda.ContainsKey(grupoMoneda.Key))
+                                    totalesPorMoneda[grupoMoneda.Key] = 0;
+
+                                totalesPorMoneda[grupoMoneda.Key] += subtotal;
+                            }
+                        }
+
+                        // Total general por moneda
+                        column.Item().PaddingTop(20).Background("#0B1F34").Padding(10)
+                            .Column(totalColumn =>
+                            {
+                                totalColumn.Item().AlignCenter()
+                                    .Text("TOTALES GENERALES")
+                                    .FontSize(14)
+                                    .Bold()
+                                    .FontColor(Colors.White);
+
+                                totalColumn.Item().PaddingTop(5);
+
+                                foreach (var totalMoneda in totalesPorMoneda.OrderBy(m => m.Key))
+                                {
+                                    totalColumn.Item().AlignRight()
+                                        .Text($"{totalMoneda.Key}: {totalMoneda.Value:N2}")
+                                        .FontSize(12)
+                                        .Bold()
+                                        .FontColor(Colors.White);
+                                }
+                            });
+                    });
+
+                    // Pie de página
+                    page.Footer().AlignCenter().Text(text =>
+                    {
+                        text.Span("Página ");
+                        text.CurrentPageNumber();
+                        text.Span(" de ");
+                        text.TotalPages();
+                    });
+                });
+            });
+
+            return document.GeneratePdf();
         }
     }
 }

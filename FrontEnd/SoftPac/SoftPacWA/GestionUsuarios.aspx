@@ -46,17 +46,61 @@
             background-color: #092037;
             border-color: #092037;
         }
+
+        .error-message {
+            color: #dc3545;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+            display: block;
+        }
+
+        .filter-section {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .page-title h3 {
+            color: var(--color-primary);
+            margin-bottom: 1rem;
+        }
     </style>
 
     <asp:UpdatePanel ID="upMain" runat="server">
         <ContentTemplate>
             <div id="divMensaje" runat="server" visible="false"></div>
 
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h1>Administración de Usuarios</h1>
-                <asp:LinkButton ID="btnAbrirModalNuevo" runat="server" CssClass="btn btn-primary" OnClick="btnAbrirModalNuevo_Click">
-                    <i class="fas fa-plus me-2"></i> Nuevo Usuario
-                </asp:LinkButton>
+            <div class="page-title">
+                <h3 class="pb-1"><i class="fas fa-users-cog"></i> Administración de Usuarios</h3>
+            </div>
+
+            <!-- Sección de filtros -->
+            <div class="filter-section">
+                <div class="row gx-3 gy-3">
+                    <div class="col-12 col-md-5">
+                        <label class="form-label">Buscar por Nombre de Usuario</label>
+                        <asp:TextBox ID="txtBuscar" runat="server" CssClass="form-control" placeholder="Ingrese nombre de usuario"></asp:TextBox>
+                    </div>
+                    <div class="col-12 col-md-3">
+                        <label class="form-label">Estado</label>
+                        <asp:DropDownList ID="ddlFiltroEstado" runat="server" CssClass="form-select">
+                            <asp:ListItem Value="" Selected="True">Todos</asp:ListItem>
+                            <asp:ListItem Value="activo">Solo Activos</asp:ListItem>
+                            <asp:ListItem Value="inactivo">Solo Inactivos</asp:ListItem>
+                        </asp:DropDownList>
+                    </div>
+                    <div class="col-12 col-md-4 d-flex align-items-end gap-2 flex-wrap">
+                        <asp:Button ID="btnFiltrar" runat="server" Text="Filtrar" CssClass="btn btn-primary" OnClick="btnFiltrar_Click" />
+                        <asp:Button ID="btnLimpiar" runat="server" Text="Limpiar" CssClass="btn btn-secondary" OnClick="btnLimpiar_Click" />
+                        <div class="ms-auto">
+                            <asp:LinkButton ID="btnAbrirModalNuevo" runat="server" CssClass="btn btn-primary" OnClick="btnAbrirModalNuevo_Click">
+                                <i class="fas fa-plus me-2"></i> Nuevo Usuario
+                            </asp:LinkButton>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="card shadow-sm">
@@ -114,20 +158,24 @@
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">Nombre</label>
                                     <asp:TextBox ID="txtNombre" runat="server" CssClass="form-control"></asp:TextBox>
+                                    <asp:Label ID="lblErrorNombre" runat="server" CssClass="error-message" Visible="false"></asp:Label>
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">Apellidos</label>
                                     <asp:TextBox ID="txtApellidos" runat="server" CssClass="form-control"></asp:TextBox>
+                                    <asp:Label ID="lblErrorApellidos" runat="server" CssClass="error-message" Visible="false"></asp:Label>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">Nombre de Usuario</label>
                                     <asp:TextBox ID="txtNombreUsuario" runat="server" CssClass="form-control"></asp:TextBox>
+                                    <asp:Label ID="lblErrorNombreUsuario" runat="server" CssClass="error-message" Visible="false"></asp:Label>
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">Correo Electrónico</label>
                                     <asp:TextBox ID="txtCorreo" runat="server" CssClass="form-control" TextMode="Email"></asp:TextBox>
+                                    <asp:Label ID="lblErrorCorreo" runat="server" CssClass="error-message" Visible="false"></asp:Label>
                                 </div>
                             </div>
                             <div class="row">
@@ -135,6 +183,7 @@
                                     <label class="form-label">Contraseña</label>
                                     <asp:TextBox ID="txtPasswordModal" runat="server" CssClass="form-control" TextMode="Password"></asp:TextBox>
                                     <small class="form-text text-muted">Dejar en blanco para no cambiarla al modificar.</small>
+                                    <asp:Label ID="lblErrorPassword" runat="server" CssClass="error-message" Visible="false"></asp:Label>
                                 </div>
                             </div>
                             <hr />
@@ -142,6 +191,7 @@
                                 <div class="col-md-4 mb-3">
                                     <label class="form-label">Países con Acceso</label>
                                     <asp:CheckBoxList ID="cblPaises" runat="server" CssClass="form-check"></asp:CheckBoxList>
+                                    <asp:Label ID="lblErrorPaises" runat="server" CssClass="error-message" Visible="false"></asp:Label>
                                 </div>
                                 <div class="col-md-4 mb-3">
                                     <div class="form-check form-switch mt-4">

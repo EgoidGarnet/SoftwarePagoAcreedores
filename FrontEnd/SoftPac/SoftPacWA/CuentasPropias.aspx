@@ -64,8 +64,8 @@
                             <asp:BoundField DataField="saldo_disponible" HeaderText="Saldo Disponible" DataFormatString="{0:N2}" />
                             <asp:TemplateField HeaderText="Estado">
                                 <ItemTemplate>
-                                    <span class='badge <%# (bool)Eval("Activa") ? "bg-success" : "bg-danger" %>'>
-                                        <%# (bool)Eval("Activa") ? "Activo" : "Inactivo" %>
+                                    <span class='badge <%# (bool)Eval("activa") ? "bg-success" : "bg-danger" %>'>
+                                        <%# (bool)Eval("activa") ? "Activo" : "Inactivo" %>
                                     </span>
                                 </ItemTemplate>
                             </asp:TemplateField>

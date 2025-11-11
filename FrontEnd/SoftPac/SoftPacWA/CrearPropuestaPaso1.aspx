@@ -65,6 +65,10 @@
         .form-label i {
             color: var(--color-secondary);
         }
+        
+        .form-select-lg {
+            font-size: 1rem;
+        }
 
         .required-asterisk {
             color: #dc3545;

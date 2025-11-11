@@ -4,6 +4,8 @@
   <xs:element name="listarEntidadesBancariasResponse" type="tns:listarEntidadesBancariasResponse" />
   <xs:element name="obtenerEntidadBancariaPorId" type="tns:obtenerEntidadBancariaPorId" />
   <xs:element name="obtenerEntidadBancariaPorIdResponse" type="tns:obtenerEntidadBancariaPorIdResponse" />
+  <xs:element name="obtenerEntidadBancariaPorNombre" type="tns:obtenerEntidadBancariaPorNombre" />
+  <xs:element name="obtenerEntidadBancariaPorNombreResponse" type="tns:obtenerEntidadBancariaPorNombreResponse" />
   <xs:complexType name="obtenerEntidadBancariaPorId">
     <xs:sequence>
       <xs:element minOccurs="0" name="entidades_bancarias_id" type="xs:int" />
@@ -37,6 +39,16 @@
   <xs:complexType name="listarEntidadesBancariasResponse">
     <xs:sequence>
       <xs:element minOccurs="0" maxOccurs="unbounded" name="return" type="tns:entidadesBancariasDTO" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="obtenerEntidadBancariaPorNombre">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="nombre_entidad" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="obtenerEntidadBancariaPorNombreResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:entidadesBancariasDTO" />
     </xs:sequence>
   </xs:complexType>
 </xs:schema>

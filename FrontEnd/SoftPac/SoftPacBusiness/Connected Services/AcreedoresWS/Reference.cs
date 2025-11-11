@@ -16,6 +16,16 @@ namespace SoftPacBusiness.AcreedoresWS {
     public interface AcreedoresWS {
         
         // CODEGEN: El parámetro 'return' requiere información adicional de esquema que no se puede capturar con el modo de parámetros. El atributo específico es 'System.Xml.Serialization.XmlElementAttribute'.
+        [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/AcreedoresWS/listarAcreedoresPorPaisesRequest", ReplyAction="http://softpacws.pucp.edu.pe/AcreedoresWS/listarAcreedoresPorPaisesResponse")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(eliminableDTOBase))]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        SoftPacBusiness.AcreedoresWS.listarAcreedoresPorPaisesResponse listarAcreedoresPorPaises(SoftPacBusiness.AcreedoresWS.listarAcreedoresPorPaisesRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/AcreedoresWS/listarAcreedoresPorPaisesRequest", ReplyAction="http://softpacws.pucp.edu.pe/AcreedoresWS/listarAcreedoresPorPaisesResponse")]
+        System.Threading.Tasks.Task<SoftPacBusiness.AcreedoresWS.listarAcreedoresPorPaisesResponse> listarAcreedoresPorPaisesAsync(SoftPacBusiness.AcreedoresWS.listarAcreedoresPorPaisesRequest request);
+        
+        // CODEGEN: El parámetro 'return' requiere información adicional de esquema que no se puede capturar con el modo de parámetros. El atributo específico es 'System.Xml.Serialization.XmlElementAttribute'.
         [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/AcreedoresWS/listarAcreedoresRequest", ReplyAction="http://softpacws.pucp.edu.pe/AcreedoresWS/listarAcreedoresResponse")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(eliminableDTOBase))]
@@ -26,14 +36,14 @@ namespace SoftPacBusiness.AcreedoresWS {
         System.Threading.Tasks.Task<SoftPacBusiness.AcreedoresWS.listarAcreedoresResponse> listarAcreedoresAsync(SoftPacBusiness.AcreedoresWS.listarAcreedoresRequest request);
         
         // CODEGEN: El parámetro 'return' requiere información adicional de esquema que no se puede capturar con el modo de parámetros. El atributo específico es 'System.Xml.Serialization.XmlElementAttribute'.
-        [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/AcreedoresWS/insertarAcreedoresRequest", ReplyAction="http://softpacws.pucp.edu.pe/AcreedoresWS/insertarAcreedoresResponse")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/AcreedoresWS/obtenerAcreedorRequest", ReplyAction="http://softpacws.pucp.edu.pe/AcreedoresWS/obtenerAcreedorResponse")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(eliminableDTOBase))]
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
-        SoftPacBusiness.AcreedoresWS.insertarAcreedoresResponse insertarAcreedores(SoftPacBusiness.AcreedoresWS.insertarAcreedoresRequest request);
+        SoftPacBusiness.AcreedoresWS.obtenerAcreedorResponse obtenerAcreedor(SoftPacBusiness.AcreedoresWS.obtenerAcreedorRequest request);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/AcreedoresWS/insertarAcreedoresRequest", ReplyAction="http://softpacws.pucp.edu.pe/AcreedoresWS/insertarAcreedoresResponse")]
-        System.Threading.Tasks.Task<SoftPacBusiness.AcreedoresWS.insertarAcreedoresResponse> insertarAcreedoresAsync(SoftPacBusiness.AcreedoresWS.insertarAcreedoresRequest request);
+        [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/AcreedoresWS/obtenerAcreedorRequest", ReplyAction="http://softpacws.pucp.edu.pe/AcreedoresWS/obtenerAcreedorResponse")]
+        System.Threading.Tasks.Task<SoftPacBusiness.AcreedoresWS.obtenerAcreedorResponse> obtenerAcreedorAsync(SoftPacBusiness.AcreedoresWS.obtenerAcreedorRequest request);
         
         // CODEGEN: El parámetro 'return' requiere información adicional de esquema que no se puede capturar con el modo de parámetros. El atributo específico es 'System.Xml.Serialization.XmlElementAttribute'.
         [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/AcreedoresWS/modificarAcreedoresRequest", ReplyAction="http://softpacws.pucp.edu.pe/AcreedoresWS/modificarAcreedoresResponse")]
@@ -56,14 +66,14 @@ namespace SoftPacBusiness.AcreedoresWS {
         System.Threading.Tasks.Task<SoftPacBusiness.AcreedoresWS.eliminarAcreedorResponse> eliminarAcreedorAsync(SoftPacBusiness.AcreedoresWS.eliminarAcreedorRequest request);
         
         // CODEGEN: El parámetro 'return' requiere información adicional de esquema que no se puede capturar con el modo de parámetros. El atributo específico es 'System.Xml.Serialization.XmlElementAttribute'.
-        [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/AcreedoresWS/obtenerAcreedorRequest", ReplyAction="http://softpacws.pucp.edu.pe/AcreedoresWS/obtenerAcreedorResponse")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/AcreedoresWS/insertarAcreedoresRequest", ReplyAction="http://softpacws.pucp.edu.pe/AcreedoresWS/insertarAcreedoresResponse")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(eliminableDTOBase))]
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
-        SoftPacBusiness.AcreedoresWS.obtenerAcreedorResponse obtenerAcreedor(SoftPacBusiness.AcreedoresWS.obtenerAcreedorRequest request);
+        SoftPacBusiness.AcreedoresWS.insertarAcreedoresResponse insertarAcreedores(SoftPacBusiness.AcreedoresWS.insertarAcreedoresRequest request);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/AcreedoresWS/obtenerAcreedorRequest", ReplyAction="http://softpacws.pucp.edu.pe/AcreedoresWS/obtenerAcreedorResponse")]
-        System.Threading.Tasks.Task<SoftPacBusiness.AcreedoresWS.obtenerAcreedorResponse> obtenerAcreedorAsync(SoftPacBusiness.AcreedoresWS.obtenerAcreedorRequest request);
+        [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/AcreedoresWS/insertarAcreedoresRequest", ReplyAction="http://softpacws.pucp.edu.pe/AcreedoresWS/insertarAcreedoresResponse")]
+        System.Threading.Tasks.Task<SoftPacBusiness.AcreedoresWS.insertarAcreedoresResponse> insertarAcreedoresAsync(SoftPacBusiness.AcreedoresWS.insertarAcreedoresRequest request);
     }
     
     /// <remarks/>
@@ -633,6 +643,42 @@ namespace SoftPacBusiness.AcreedoresWS {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="listarAcreedoresPorPaises", WrapperNamespace="http://softpacws.pucp.edu.pe/", IsWrapped=true)]
+    public partial class listarAcreedoresPorPaisesRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://softpacws.pucp.edu.pe/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute("paises_ids", Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public int[] paises_ids;
+        
+        public listarAcreedoresPorPaisesRequest() {
+        }
+        
+        public listarAcreedoresPorPaisesRequest(int[] paises_ids) {
+            this.paises_ids = paises_ids;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="listarAcreedoresPorPaisesResponse", WrapperNamespace="http://softpacws.pucp.edu.pe/", IsWrapped=true)]
+    public partial class listarAcreedoresPorPaisesResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://softpacws.pucp.edu.pe/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute("return", Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public SoftPacBusiness.AcreedoresWS.acreedoresDTO[] @return;
+        
+        public listarAcreedoresPorPaisesResponse() {
+        }
+        
+        public listarAcreedoresPorPaisesResponse(SoftPacBusiness.AcreedoresWS.acreedoresDTO[] @return) {
+            this.@return = @return;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
     [System.ServiceModel.MessageContractAttribute(WrapperName="listarAcreedores", WrapperNamespace="http://softpacws.pucp.edu.pe/", IsWrapped=true)]
     public partial class listarAcreedoresRequest {
         
@@ -661,65 +707,35 @@ namespace SoftPacBusiness.AcreedoresWS {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="insertarAcreedores", WrapperNamespace="http://softpacws.pucp.edu.pe/", IsWrapped=true)]
-    public partial class insertarAcreedoresRequest {
+    [System.ServiceModel.MessageContractAttribute(WrapperName="obtenerAcreedor", WrapperNamespace="http://softpacws.pucp.edu.pe/", IsWrapped=true)]
+    public partial class obtenerAcreedorRequest {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://softpacws.pucp.edu.pe/", Order=0)]
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public string razon_social;
+        public int id_acreedor;
         
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://softpacws.pucp.edu.pe/", Order=1)]
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public string ruc;
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://softpacws.pucp.edu.pe/", Order=2)]
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public string direccion_fiscal;
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://softpacws.pucp.edu.pe/", Order=3)]
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public string condicion;
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://softpacws.pucp.edu.pe/", Order=4)]
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public int plazo_de_pago;
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://softpacws.pucp.edu.pe/", Order=5)]
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public string activo;
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://softpacws.pucp.edu.pe/", Order=6)]
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public int id_pais;
-        
-        public insertarAcreedoresRequest() {
+        public obtenerAcreedorRequest() {
         }
         
-        public insertarAcreedoresRequest(string razon_social, string ruc, string direccion_fiscal, string condicion, int plazo_de_pago, string activo, int id_pais) {
-            this.razon_social = razon_social;
-            this.ruc = ruc;
-            this.direccion_fiscal = direccion_fiscal;
-            this.condicion = condicion;
-            this.plazo_de_pago = plazo_de_pago;
-            this.activo = activo;
-            this.id_pais = id_pais;
+        public obtenerAcreedorRequest(int id_acreedor) {
+            this.id_acreedor = id_acreedor;
         }
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="insertarAcreedoresResponse", WrapperNamespace="http://softpacws.pucp.edu.pe/", IsWrapped=true)]
-    public partial class insertarAcreedoresResponse {
+    [System.ServiceModel.MessageContractAttribute(WrapperName="obtenerAcreedorResponse", WrapperNamespace="http://softpacws.pucp.edu.pe/", IsWrapped=true)]
+    public partial class obtenerAcreedorResponse {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://softpacws.pucp.edu.pe/", Order=0)]
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public int @return;
+        public SoftPacBusiness.AcreedoresWS.acreedoresDTO @return;
         
-        public insertarAcreedoresResponse() {
+        public obtenerAcreedorResponse() {
         }
         
-        public insertarAcreedoresResponse(int @return) {
+        public obtenerAcreedorResponse(SoftPacBusiness.AcreedoresWS.acreedoresDTO @return) {
             this.@return = @return;
         }
     }
@@ -839,35 +855,65 @@ namespace SoftPacBusiness.AcreedoresWS {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="obtenerAcreedor", WrapperNamespace="http://softpacws.pucp.edu.pe/", IsWrapped=true)]
-    public partial class obtenerAcreedorRequest {
+    [System.ServiceModel.MessageContractAttribute(WrapperName="insertarAcreedores", WrapperNamespace="http://softpacws.pucp.edu.pe/", IsWrapped=true)]
+    public partial class insertarAcreedoresRequest {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://softpacws.pucp.edu.pe/", Order=0)]
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public int id_acreedor;
+        public string razon_social;
         
-        public obtenerAcreedorRequest() {
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://softpacws.pucp.edu.pe/", Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string ruc;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://softpacws.pucp.edu.pe/", Order=2)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string direccion_fiscal;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://softpacws.pucp.edu.pe/", Order=3)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string condicion;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://softpacws.pucp.edu.pe/", Order=4)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public int plazo_de_pago;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://softpacws.pucp.edu.pe/", Order=5)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string activo;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://softpacws.pucp.edu.pe/", Order=6)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public int id_pais;
+        
+        public insertarAcreedoresRequest() {
         }
         
-        public obtenerAcreedorRequest(int id_acreedor) {
-            this.id_acreedor = id_acreedor;
+        public insertarAcreedoresRequest(string razon_social, string ruc, string direccion_fiscal, string condicion, int plazo_de_pago, string activo, int id_pais) {
+            this.razon_social = razon_social;
+            this.ruc = ruc;
+            this.direccion_fiscal = direccion_fiscal;
+            this.condicion = condicion;
+            this.plazo_de_pago = plazo_de_pago;
+            this.activo = activo;
+            this.id_pais = id_pais;
         }
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="obtenerAcreedorResponse", WrapperNamespace="http://softpacws.pucp.edu.pe/", IsWrapped=true)]
-    public partial class obtenerAcreedorResponse {
+    [System.ServiceModel.MessageContractAttribute(WrapperName="insertarAcreedoresResponse", WrapperNamespace="http://softpacws.pucp.edu.pe/", IsWrapped=true)]
+    public partial class insertarAcreedoresResponse {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://softpacws.pucp.edu.pe/", Order=0)]
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public SoftPacBusiness.AcreedoresWS.acreedoresDTO @return;
+        public int @return;
         
-        public obtenerAcreedorResponse() {
+        public insertarAcreedoresResponse() {
         }
         
-        public obtenerAcreedorResponse(SoftPacBusiness.AcreedoresWS.acreedoresDTO @return) {
+        public insertarAcreedoresResponse(int @return) {
             this.@return = @return;
         }
     }
@@ -900,6 +946,29 @@ namespace SoftPacBusiness.AcreedoresWS {
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        SoftPacBusiness.AcreedoresWS.listarAcreedoresPorPaisesResponse SoftPacBusiness.AcreedoresWS.AcreedoresWS.listarAcreedoresPorPaises(SoftPacBusiness.AcreedoresWS.listarAcreedoresPorPaisesRequest request) {
+            return base.Channel.listarAcreedoresPorPaises(request);
+        }
+        
+        public SoftPacBusiness.AcreedoresWS.acreedoresDTO[] listarAcreedoresPorPaises(int[] paises_ids) {
+            SoftPacBusiness.AcreedoresWS.listarAcreedoresPorPaisesRequest inValue = new SoftPacBusiness.AcreedoresWS.listarAcreedoresPorPaisesRequest();
+            inValue.paises_ids = paises_ids;
+            SoftPacBusiness.AcreedoresWS.listarAcreedoresPorPaisesResponse retVal = ((SoftPacBusiness.AcreedoresWS.AcreedoresWS)(this)).listarAcreedoresPorPaises(inValue);
+            return retVal.@return;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<SoftPacBusiness.AcreedoresWS.listarAcreedoresPorPaisesResponse> SoftPacBusiness.AcreedoresWS.AcreedoresWS.listarAcreedoresPorPaisesAsync(SoftPacBusiness.AcreedoresWS.listarAcreedoresPorPaisesRequest request) {
+            return base.Channel.listarAcreedoresPorPaisesAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<SoftPacBusiness.AcreedoresWS.listarAcreedoresPorPaisesResponse> listarAcreedoresPorPaisesAsync(int[] paises_ids) {
+            SoftPacBusiness.AcreedoresWS.listarAcreedoresPorPaisesRequest inValue = new SoftPacBusiness.AcreedoresWS.listarAcreedoresPorPaisesRequest();
+            inValue.paises_ids = paises_ids;
+            return ((SoftPacBusiness.AcreedoresWS.AcreedoresWS)(this)).listarAcreedoresPorPaisesAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
         SoftPacBusiness.AcreedoresWS.listarAcreedoresResponse SoftPacBusiness.AcreedoresWS.AcreedoresWS.listarAcreedores(SoftPacBusiness.AcreedoresWS.listarAcreedoresRequest request) {
             return base.Channel.listarAcreedores(request);
         }
@@ -921,38 +990,26 @@ namespace SoftPacBusiness.AcreedoresWS {
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        SoftPacBusiness.AcreedoresWS.insertarAcreedoresResponse SoftPacBusiness.AcreedoresWS.AcreedoresWS.insertarAcreedores(SoftPacBusiness.AcreedoresWS.insertarAcreedoresRequest request) {
-            return base.Channel.insertarAcreedores(request);
+        SoftPacBusiness.AcreedoresWS.obtenerAcreedorResponse SoftPacBusiness.AcreedoresWS.AcreedoresWS.obtenerAcreedor(SoftPacBusiness.AcreedoresWS.obtenerAcreedorRequest request) {
+            return base.Channel.obtenerAcreedor(request);
         }
         
-        public int insertarAcreedores(string razon_social, string ruc, string direccion_fiscal, string condicion, int plazo_de_pago, string activo, int id_pais) {
-            SoftPacBusiness.AcreedoresWS.insertarAcreedoresRequest inValue = new SoftPacBusiness.AcreedoresWS.insertarAcreedoresRequest();
-            inValue.razon_social = razon_social;
-            inValue.ruc = ruc;
-            inValue.direccion_fiscal = direccion_fiscal;
-            inValue.condicion = condicion;
-            inValue.plazo_de_pago = plazo_de_pago;
-            inValue.activo = activo;
-            inValue.id_pais = id_pais;
-            SoftPacBusiness.AcreedoresWS.insertarAcreedoresResponse retVal = ((SoftPacBusiness.AcreedoresWS.AcreedoresWS)(this)).insertarAcreedores(inValue);
+        public SoftPacBusiness.AcreedoresWS.acreedoresDTO obtenerAcreedor(int id_acreedor) {
+            SoftPacBusiness.AcreedoresWS.obtenerAcreedorRequest inValue = new SoftPacBusiness.AcreedoresWS.obtenerAcreedorRequest();
+            inValue.id_acreedor = id_acreedor;
+            SoftPacBusiness.AcreedoresWS.obtenerAcreedorResponse retVal = ((SoftPacBusiness.AcreedoresWS.AcreedoresWS)(this)).obtenerAcreedor(inValue);
             return retVal.@return;
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<SoftPacBusiness.AcreedoresWS.insertarAcreedoresResponse> SoftPacBusiness.AcreedoresWS.AcreedoresWS.insertarAcreedoresAsync(SoftPacBusiness.AcreedoresWS.insertarAcreedoresRequest request) {
-            return base.Channel.insertarAcreedoresAsync(request);
+        System.Threading.Tasks.Task<SoftPacBusiness.AcreedoresWS.obtenerAcreedorResponse> SoftPacBusiness.AcreedoresWS.AcreedoresWS.obtenerAcreedorAsync(SoftPacBusiness.AcreedoresWS.obtenerAcreedorRequest request) {
+            return base.Channel.obtenerAcreedorAsync(request);
         }
         
-        public System.Threading.Tasks.Task<SoftPacBusiness.AcreedoresWS.insertarAcreedoresResponse> insertarAcreedoresAsync(string razon_social, string ruc, string direccion_fiscal, string condicion, int plazo_de_pago, string activo, int id_pais) {
-            SoftPacBusiness.AcreedoresWS.insertarAcreedoresRequest inValue = new SoftPacBusiness.AcreedoresWS.insertarAcreedoresRequest();
-            inValue.razon_social = razon_social;
-            inValue.ruc = ruc;
-            inValue.direccion_fiscal = direccion_fiscal;
-            inValue.condicion = condicion;
-            inValue.plazo_de_pago = plazo_de_pago;
-            inValue.activo = activo;
-            inValue.id_pais = id_pais;
-            return ((SoftPacBusiness.AcreedoresWS.AcreedoresWS)(this)).insertarAcreedoresAsync(inValue);
+        public System.Threading.Tasks.Task<SoftPacBusiness.AcreedoresWS.obtenerAcreedorResponse> obtenerAcreedorAsync(int id_acreedor) {
+            SoftPacBusiness.AcreedoresWS.obtenerAcreedorRequest inValue = new SoftPacBusiness.AcreedoresWS.obtenerAcreedorRequest();
+            inValue.id_acreedor = id_acreedor;
+            return ((SoftPacBusiness.AcreedoresWS.AcreedoresWS)(this)).obtenerAcreedorAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -1018,26 +1075,38 @@ namespace SoftPacBusiness.AcreedoresWS {
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        SoftPacBusiness.AcreedoresWS.obtenerAcreedorResponse SoftPacBusiness.AcreedoresWS.AcreedoresWS.obtenerAcreedor(SoftPacBusiness.AcreedoresWS.obtenerAcreedorRequest request) {
-            return base.Channel.obtenerAcreedor(request);
+        SoftPacBusiness.AcreedoresWS.insertarAcreedoresResponse SoftPacBusiness.AcreedoresWS.AcreedoresWS.insertarAcreedores(SoftPacBusiness.AcreedoresWS.insertarAcreedoresRequest request) {
+            return base.Channel.insertarAcreedores(request);
         }
         
-        public SoftPacBusiness.AcreedoresWS.acreedoresDTO obtenerAcreedor(int id_acreedor) {
-            SoftPacBusiness.AcreedoresWS.obtenerAcreedorRequest inValue = new SoftPacBusiness.AcreedoresWS.obtenerAcreedorRequest();
-            inValue.id_acreedor = id_acreedor;
-            SoftPacBusiness.AcreedoresWS.obtenerAcreedorResponse retVal = ((SoftPacBusiness.AcreedoresWS.AcreedoresWS)(this)).obtenerAcreedor(inValue);
+        public int insertarAcreedores(string razon_social, string ruc, string direccion_fiscal, string condicion, int plazo_de_pago, string activo, int id_pais) {
+            SoftPacBusiness.AcreedoresWS.insertarAcreedoresRequest inValue = new SoftPacBusiness.AcreedoresWS.insertarAcreedoresRequest();
+            inValue.razon_social = razon_social;
+            inValue.ruc = ruc;
+            inValue.direccion_fiscal = direccion_fiscal;
+            inValue.condicion = condicion;
+            inValue.plazo_de_pago = plazo_de_pago;
+            inValue.activo = activo;
+            inValue.id_pais = id_pais;
+            SoftPacBusiness.AcreedoresWS.insertarAcreedoresResponse retVal = ((SoftPacBusiness.AcreedoresWS.AcreedoresWS)(this)).insertarAcreedores(inValue);
             return retVal.@return;
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<SoftPacBusiness.AcreedoresWS.obtenerAcreedorResponse> SoftPacBusiness.AcreedoresWS.AcreedoresWS.obtenerAcreedorAsync(SoftPacBusiness.AcreedoresWS.obtenerAcreedorRequest request) {
-            return base.Channel.obtenerAcreedorAsync(request);
+        System.Threading.Tasks.Task<SoftPacBusiness.AcreedoresWS.insertarAcreedoresResponse> SoftPacBusiness.AcreedoresWS.AcreedoresWS.insertarAcreedoresAsync(SoftPacBusiness.AcreedoresWS.insertarAcreedoresRequest request) {
+            return base.Channel.insertarAcreedoresAsync(request);
         }
         
-        public System.Threading.Tasks.Task<SoftPacBusiness.AcreedoresWS.obtenerAcreedorResponse> obtenerAcreedorAsync(int id_acreedor) {
-            SoftPacBusiness.AcreedoresWS.obtenerAcreedorRequest inValue = new SoftPacBusiness.AcreedoresWS.obtenerAcreedorRequest();
-            inValue.id_acreedor = id_acreedor;
-            return ((SoftPacBusiness.AcreedoresWS.AcreedoresWS)(this)).obtenerAcreedorAsync(inValue);
+        public System.Threading.Tasks.Task<SoftPacBusiness.AcreedoresWS.insertarAcreedoresResponse> insertarAcreedoresAsync(string razon_social, string ruc, string direccion_fiscal, string condicion, int plazo_de_pago, string activo, int id_pais) {
+            SoftPacBusiness.AcreedoresWS.insertarAcreedoresRequest inValue = new SoftPacBusiness.AcreedoresWS.insertarAcreedoresRequest();
+            inValue.razon_social = razon_social;
+            inValue.ruc = ruc;
+            inValue.direccion_fiscal = direccion_fiscal;
+            inValue.condicion = condicion;
+            inValue.plazo_de_pago = plazo_de_pago;
+            inValue.activo = activo;
+            inValue.id_pais = id_pais;
+            return ((SoftPacBusiness.AcreedoresWS.AcreedoresWS)(this)).insertarAcreedoresAsync(inValue);
         }
     }
 }

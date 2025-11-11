@@ -52,8 +52,8 @@ namespace SoftPacWA
                 // Cargar acreedores
                 var acreedores = acreedoresBO.ListarTodos().Where(a => a.activo).ToList();
                 ddlAcreedor.DataSource = acreedores;
-                ddlAcreedor.DataTextField = "RazonSocial";
-                ddlAcreedor.DataValueField = "AcreedorId";
+                ddlAcreedor.DataTextField = "razon_social";
+                ddlAcreedor.DataValueField = "acreedor_id";
                 ddlAcreedor.DataBind();
                 ddlAcreedor.Items.Insert(0, new ListItem("Todos", ""));
 
@@ -63,16 +63,16 @@ namespace SoftPacWA
                     .Select(up => up.pais)
                     .ToList();
                 ddlPais.DataSource = paises;
-                ddlPais.DataTextField = "Nombre";
-                ddlPais.DataValueField = "PaisId";
+                ddlPais.DataTextField = "nombre";
+                ddlPais.DataValueField = "pais_id";
                 ddlPais.DataBind();
                 ddlPais.Items.Insert(0, new ListItem("Todos", ""));
 
                 // Cargar monedas
                 var monedas = monedasBO.ListarTodos();
                 ddlMoneda.DataSource = monedas;
-                ddlMoneda.DataTextField = "CodigoIso";
-                ddlMoneda.DataValueField = "MonedaId";
+                ddlMoneda.DataTextField = "codigo_iso";
+                ddlMoneda.DataValueField = "moneda_id";
                 ddlMoneda.DataBind();
                 ddlMoneda.Items.Insert(0, new ListItem("Todas", ""));
             }
@@ -134,8 +134,12 @@ namespace SoftPacWA
                     pnlSinDatos.Visible = false;
 
                     // Calcular total general
-                    decimal totalGeneral = datos.Sum(r => r.Facturas.Sum(f => f.Monto));
-                    lblTotalGeneral.Text = $"{totalGeneral:N2}";
+                    var totalesGenerales = datos
+                        .SelectMany(r => r.Facturas)
+                        .GroupBy(f => f.Moneda)
+                        .Select(g => $"{g.Key}: {g.Sum(x => x.Monto):N2}")
+                        .ToList();
+                    lblTotalGeneral.Text = string.Join("\n", totalesGenerales);
                 }
                 else
                 {
@@ -196,8 +200,11 @@ namespace SoftPacWA
                 Label lblSubtotal = (Label)e.Item.FindControl("lblSubtotal");
                 if (lblSubtotal != null)
                 {
-                    decimal subtotal = rango.Facturas.Sum(f => f.Monto);
-                    lblSubtotal.Text = $"{subtotal:N2}";
+                    var subtotalesPorMoneda = rango.Facturas
+                        .GroupBy(f => f.Moneda)
+                        .Select(g => $"{g.Key}: {g.Sum(x => x.Monto):N2}")
+                        .ToList();
+                    lblSubtotal.Text = string.Join(" | ", subtotalesPorMoneda);
                 }
             }
         }
@@ -239,23 +246,40 @@ namespace SoftPacWA
                     filtrosInfo
                 );
 
-                // Limpiar la respuesta
+                // IMPORTANTE: Verificar que pdfBytes no sea null
+                if (pdfBytes == null || pdfBytes.Length == 0)
+                {
+                    ScriptManager.RegisterStartupScript(this, GetType(), "alert",
+                        "alert('Error: No se pudo generar el PDF.');", true);
+                    return;
+                }
+
+                // Limpiar completamente la respuesta
                 Response.Clear();
+                Response.ClearHeaders();
+                Response.ClearContent();
                 Response.Buffer = true;
                 Response.ContentType = "application/pdf";
                 Response.AddHeader("Content-Disposition",
                     $"attachment; filename=ReporteFacturas_{DateTime.Now:yyyyMMddHHmmss}.pdf");
+                Response.AddHeader("Content-Length", pdfBytes.Length.ToString());
                 Response.BinaryWrite(pdfBytes);
                 Response.Flush();
 
-                // Importante: usar HttpContext.Current.ApplicationInstance.CompleteRequest()
-                // en lugar de Response.End() para evitar ThreadAbortException
+                // Usar CompleteRequest en lugar de End para evitar ThreadAbortException
                 HttpContext.Current.ApplicationInstance.CompleteRequest();
             }
             catch (Exception ex)
             {
+                // Mostrar error detallado
+                string errorMsg = $"Error al generar el PDF: {ex.Message}";
+                if (ex.InnerException != null)
+                {
+                    errorMsg += $" | Detalle: {ex.InnerException.Message}";
+                }
+
                 ScriptManager.RegisterStartupScript(this, GetType(), "alert",
-                    $"alert('Error al generar el PDF: {ex.Message.Replace("'", "\\'")}');", true);
+                    $"alert('{errorMsg.Replace("'", "\\'").Replace("\n", "\\n")}');", true);
             }
         }
 
