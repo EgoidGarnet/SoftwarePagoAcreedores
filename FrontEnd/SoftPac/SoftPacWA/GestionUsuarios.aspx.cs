@@ -196,7 +196,7 @@ namespace SoftPacWA
             txtCorreo.Enabled = true;
             txtPasswordModal.Text = string.Empty;
             chkActivo.Checked = true;
-            chkActivo.Disabled = false;
+            chkActivo.Disabled = true;
             chkSuperusuario.Checked = false;
             chkSuperusuario.Disabled = false;
             cblPaises.ClearSelection();
@@ -305,7 +305,6 @@ namespace SoftPacWA
                 lblErrorPaises.Visible = true;
                 esValido = false;
             }
-
 
 
             return esValido;
