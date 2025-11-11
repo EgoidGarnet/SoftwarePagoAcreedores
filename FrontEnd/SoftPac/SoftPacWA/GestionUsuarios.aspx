@@ -1,10 +1,9 @@
-﻿
-<%@ Page Title="Gestión de Usuarios" Language="C#" MasterPageFile="~/Admin.Master" AutoEventWireup="true" CodeBehind="GestionUsuarios.aspx.cs" Inherits="SoftPacWA.GestionUsuarios" %>
+﻿<%@ Page Title="Gestión de Usuarios" Language="C#" MasterPageFile="~/Admin.Master" AutoEventWireup="true" CodeBehind="GestionUsuarios.aspx.cs" Inherits="SoftPacWA.GestionUsuarios" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <style>
         :root {
-            --color-primary: #0B1F34; 
+            --color-primary: #0B1F34;
             --color-secondary: #60748A;
             --color-accent: #5E4923;
             --color-light-1: #CED6DE;
@@ -43,10 +42,10 @@
             border-color: var(--color-primary);
         }
 
-        .btn-primary:hover {
-            background-color: #092037;
-            border-color: #092037;
-        }
+            .btn-primary:hover {
+                background-color: #092037;
+                border-color: #092037;
+            }
 
         .error-message {
             color: #dc3545;
@@ -67,6 +66,23 @@
             color: var(--color-primary);
             margin-bottom: 1rem;
         }
+
+        /* Estilos para el autocomplete */
+        .ui-autocomplete {
+            max-height: 200px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            z-index: 1000;
+        }
+
+        .ui-menu-item {
+            padding: 8px 12px;
+            cursor: pointer;
+        }
+
+            .ui-menu-item:hover {
+                background-color: var(--color-light-1);
+            }
     </style>
 
     <asp:UpdatePanel ID="upMain" runat="server">
@@ -74,15 +90,16 @@
             <div id="divMensaje" runat="server" visible="false"></div>
 
             <div class="page-title">
-                <h3 class="pb-1"><i class="fas fa-users-cog"></i> Administración de Usuarios</h3>
+                <h3 class="pb-1"><i class="fas fa-users-cog"></i>Administración de Usuarios</h3>
             </div>
 
             <!-- Sección de filtros -->
             <div class="filter-section">
                 <div class="row gx-3 gy-3">
                     <div class="col-12 col-md-5">
-                        <label class="form-label">Buscar por Nombre de Usuario</label>
-                        <asp:TextBox ID="txtBuscar" runat="server" CssClass="form-control" placeholder="Ingrese nombre de usuario"></asp:TextBox>
+                        <label class="form-label">Buscar por nombre de usuario</label>
+                        <asp:TextBox ID="txtBuscar" runat="server" CssClass="form-control" placeholder="Ingrese nombre de usuario" autocomplete="off"></asp:TextBox>
+                        <asp:HiddenField ID="hfUsuariosJson" runat="server" />
                     </div>
                     <div class="col-12 col-md-3">
                         <label class="form-label">Estado</label>
@@ -220,10 +237,40 @@
         </div>
     </div>
 
+    <!-- jQuery UI para autocomplete "este es otro nugget que no se ha instalado, se podría instalar para omitir esto"--> -
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
     <script type="text/javascript">
         function abrirModal() {
             var modal = new bootstrap.Modal(document.getElementById('modalUsuario'), {});
             modal.show();
         }
-    </script>
+
+        $(document).ready(function () {
+            var usuariosJson = $('#<%= hfUsuariosJson.ClientID %>').val();
+        var usuarios = usuariosJson ? JSON.parse(usuariosJson) : [];
+        $('#<%= txtBuscar.ClientID %>').autocomplete({
+            source: function (request, response) {
+                var term = request.term.toLowerCase();
+                var matches = $.grep(usuarios, function (usuario) {          
+                    return usuario.nombre_de_usuario.toLowerCase().startsWith(term) ||
+                        usuario.nombre.toLowerCase().startsWith(term) ||
+                        usuario.apellidos.toLowerCase().startsWith(term);
+                });
+
+                response(matches.slice(0, 10).map(function (usuario) {
+                    return {
+                        label: usuario.nombre_de_usuario + ' (' + usuario.nombre + ' ' + usuario.apellidos + ')',
+                        value: usuario.nombre_de_usuario
+                    };
+                }));
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                $(this).val(ui.item.value);
+                return false;
+            }
+        });
+    });
+</script>
 </asp:Content>

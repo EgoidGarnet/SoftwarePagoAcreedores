@@ -613,20 +613,50 @@ namespace SoftPacWA
         {
             var sb = new StringBuilder();
 
-            // Encabezados
-            sb.AppendLine("NumeroFactura,Proveedor,Moneda,Monto,CuentaOrigen,BancoOrigen,CuentaDestino,BancoDestino,FormaPago,Fecha");
 
-            // Datos (solo detalles activos)
             var detallesActivos = propuesta.detalles_propuesta
                 .Where(d => d.fecha_eliminacionSpecified == false);
 
             foreach (var detalle in detallesActivos)
             {
-                sb.AppendLine($"\"{detalle.factura?.numero_factura ?? ""}\",\"{detalle.factura?.acreedor?.razon_social ?? ""}\",\"{detalle.factura?.moneda?.codigo_iso ?? ""}\",{detalle.monto_pago:F2},\"{detalle.cuenta_propia?.numero_cuenta ?? ""}\",\"{detalle.cuenta_propia?.entidad_bancaria?.nombre ?? ""}\",\"{detalle.cuenta_acreedor?.numero_cuenta ?? ""}\",\"{detalle.cuenta_acreedor?.entidad_bancaria?.nombre ?? ""}\",\"{MapearFormaPago((char?)detalle.forma_pago)}\",\"{DateTime.Now:yyyy-MM-dd}\"");
+                string numeroFactura = (detalle.factura?.numero_factura ?? "").Replace("-", "");
+
+                string proveedor = RemoverTildes(detalle.factura?.acreedor?.razon_social ?? "");
+                string moneda = detalle.factura?.moneda?.codigo_iso ?? "";
+
+                string monto = detalle.monto_pago.ToString("F2", System.Globalization.CultureInfo.InvariantCulture);
+
+                string cuentaOrigen = detalle.cuenta_propia?.numero_cuenta ?? "";
+                string bancoOrigen = RemoverTildes(detalle.cuenta_propia?.entidad_bancaria?.nombre ?? "");
+                string cuentaDestino = detalle.cuenta_acreedor?.numero_cuenta ?? "";
+                string bancoDestino = RemoverTildes(detalle.cuenta_acreedor?.entidad_bancaria?.nombre ?? "");
+                string formaPago = RemoverTildes(MapearFormaPago((char?)detalle.forma_pago));
+
+                string fecha = DateTime.Now.ToString("yyyyMMdd");
+
+                sb.AppendLine($"{numeroFactura},{proveedor},{moneda},{monto},{cuentaOrigen},{bancoOrigen},{cuentaDestino},{bancoDestino},{formaPago},{fecha}");
             }
 
-            // Descargar archivo
             DescargarArchivo(sb.ToString(), $"PropuestaPago_{propuesta.propuesta_id}.csv", "text/csv");
+        }
+
+        private string RemoverTildes(string texto)
+        {
+            if (string.IsNullOrEmpty(texto))
+                return texto;
+
+            string normalized = texto.Normalize(System.Text.NormalizationForm.FormD);
+            var sb = new StringBuilder();
+
+            foreach (char c in normalized)
+            {
+                if (System.Globalization.CharUnicodeInfo.GetUnicodeCategory(c) != System.Globalization.UnicodeCategory.NonSpacingMark)
+                {
+                    sb.Append(c);
+                }
+            }
+
+            return sb.ToString().Normalize(System.Text.NormalizationForm.FormC);
         }
 
         private void ExportarXML(propuestasPagoDTO propuesta)

@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Web.Script.Serialization;
 
 namespace SoftPacWA
 {
@@ -20,6 +21,30 @@ namespace SoftPacWA
             {
                 CargarUsuarios();
                 CargarPaises();
+                CargarUsuariosParaAutocomplete();
+            }
+        }
+
+        private void CargarUsuariosParaAutocomplete()
+        {
+            try
+            {
+                List<usuariosDTO> listaUsuarios = usuariosBO.ListarTodos().ToList();
+
+                var usuariosSimplificados = listaUsuarios.Select(u => new
+                {
+                    nombre_de_usuario = u.nombre_de_usuario ?? "",
+                    nombre = u.nombre ?? "",
+                    apellidos = u.apellidos ?? ""
+                }).ToList();
+
+                JavaScriptSerializer serializer = new JavaScriptSerializer();
+                string json = serializer.Serialize(usuariosSimplificados);
+                hfUsuariosJson.Value = json;
+            }
+            catch (Exception ex)
+            {
+                hfUsuariosJson.Value = "[]";
             }
         }
 
@@ -144,6 +169,9 @@ namespace SoftPacWA
         private void CargarDatosEnModal(usuariosDTO usuario)
         {
             litModalTitulo.Text = "Modificar Usuario";
+
+            // Limpiar mensajes de error PRIMERO
+            LimpiarMensajesError();
 
             // Campos no editables (en gris)
             txtNombre.Text = usuario.nombre;
