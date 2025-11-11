@@ -16,6 +16,7 @@ namespace SoftPacWA
     public partial class DetallePropuesta : System.Web.UI.Page
     {
         private PropuestasPagoBO propuestasBO = new PropuestasPagoBO();
+        private CuentasPropiasBO cuentasPropiasBO = new CuentasPropiasBO();
 
         private SoftPacBusiness.UsuariosWS.usuariosDTO UsuarioLogueado
         {
@@ -23,6 +24,18 @@ namespace SoftPacWA
             {
                 return (SoftPacBusiness.UsuariosWS.usuariosDTO)Session["UsuarioLogueado"];
             }
+        }
+
+        // Clase auxiliar para Cuentas Propias
+        [Serializable]
+        public class CuentaPropiaViewModel
+        {
+            public int CuentaId { get; set; }
+            public string Banco { get; set; }
+            public string NumeroCuenta { get; set; }
+            public decimal SaldoDisponible { get; set; }
+            public decimal SaldoUsado { get; set; }
+            public bool SaldoInsuficiente { get; set; }
         }
 
         // Clase auxiliar para el GridView
@@ -121,11 +134,36 @@ namespace SoftPacWA
                 // Controlar visibilidad de botones según estado
                 ConfigurarBotonesPorEstado(propuesta.estado);
 
+                // Cargar cuentas propiasif
+                if (propuesta.estado?.ToLower() == "pendiente" && propuesta.detalles_propuesta != null && propuesta.detalles_propuesta.Length!=0)
+                {
+                    CargarCuentasPropias(propuesta);
+                }
+                else
+                {
+                    // Ocultar toda la card de cuentas (si le agregas runat="server" al div)
+                    // o simplemente no cargar datos y el EmptyDataTemplate se mostrará
+                    pnlCuentasPropias.Visible = false;
+                    gvCuentasPropias.DataSource = null;
+                    gvCuentasPropias.DataBind();
+                }
+
+                if (propuesta.detalles_propuesta == null || propuesta.detalles_propuesta.Length == 0)
+                {
+                    pnlTotalesMoneda.Visible = false;
+                }
+                else pnlTotalesMoneda.Visible = true;
+
+                // Validar alertas
+                if (propuesta.estado.ToLower() == "pendiente")
+                    ValidarAlertas(propuesta);
+
                 // Cargar totales por moneda
                 CargarTotalesPorMoneda(propuesta);
 
                 // Cargar detalles
                 CargarDetallesPagos(propuesta);
+
             }
             catch (Exception ex)
             {
@@ -146,12 +184,51 @@ namespace SoftPacWA
             }
         }
 
+        private void CargarCuentasPropias(propuestasPagoDTO propuesta)
+        {
+            if (propuesta.detalles_propuesta == null || propuesta.detalles_propuesta.Length == 0)
+            {
+                gvCuentasPropias.DataSource = null;
+                gvCuentasPropias.DataBind();
+                return;
+            }
+
+            // Agrupar por cuenta propia
+            var cuentasVM = propuesta.detalles_propuesta
+                .Where(d => d.cuenta_propia != null && d.fecha_eliminacionSpecified == false)
+                .GroupBy(d => d.cuenta_propia.cuenta_bancaria_id)
+                .Select(g => {
+                    var cuenta = g.First().cuenta_propia;
+                    decimal saldoUsado = g.Sum(d => d.monto_pago);
+                    return new CuentaPropiaViewModel
+                    {
+                        CuentaId = cuenta.cuenta_bancaria_id,
+                        Banco = cuenta.entidad_bancaria?.nombre ?? "-",
+                        NumeroCuenta = cuenta.numero_cuenta ?? "-",
+                        SaldoDisponible = cuenta.saldo_disponible,
+                        SaldoUsado = saldoUsado,
+                        SaldoInsuficiente = cuenta.saldo_disponible < saldoUsado
+                    };
+                })
+                .ToList();
+
+            gvCuentasPropias.DataSource = cuentasVM;
+            gvCuentasPropias.DataBind();
+
+            // Guardar en ViewState
+            ViewState["CuentasViewModel"] = cuentasVM;
+        }
+
         private void CargarTotalesPorMoneda(propuestasPagoDTO propuesta)
         {
             if (propuesta.detalles_propuesta == null || propuesta.detalles_propuesta.Length == 0)
                 return;
 
-            var totales = propuesta.detalles_propuesta
+            var detallesActivos = propuesta.detalles_propuesta
+                .Where(d => d.fecha_eliminacionSpecified == false)
+                .ToList();
+
+            var totales = detallesActivos
                 .GroupBy(d => d.factura?.moneda?.codigo_iso ?? "-")
                 .Select(g => new
                 {
@@ -173,7 +250,11 @@ namespace SoftPacWA
                 return;
             }
 
-            var detallesVM = propuesta.detalles_propuesta
+            var detallesActivos = propuesta.detalles_propuesta
+                .Where(d => d.fecha_eliminacionSpecified == false)
+                .ToList();
+
+            var detallesVM = detallesActivos
                 .Select(d => new DetalleViewModel
                 {
                     NumeroFactura = d.factura?.numero_factura ?? "-",
@@ -197,6 +278,46 @@ namespace SoftPacWA
             ViewState["DetallesViewModel"] = detallesVM;
         }
 
+        private void ValidarAlertas(propuestasPagoDTO propuesta)
+        {
+
+            if (propuesta.detalles_propuesta == null || propuesta.detalles_propuesta.Length == 0)
+            {
+                pnlAlertaFacturasPagadas.Visible = false;
+                pnlAlertaMontosDistintos.Visible = false;
+
+                MostrarMensaje("La propuesta no tiene pagos. Considere anularla.", "warning");
+
+                // Deshabilitar todos los botones excepto anular
+                btnEditar.Visible = false;
+                btnEnviar.Visible = false;
+                btnExportar.Visible = false;
+                btnAnular.Visible = true; // Solo anular visible
+
+                return;
+            }
+
+            var detallesActivos = propuesta.detalles_propuesta
+                .Where(d => d.fecha_eliminacionSpecified == false)
+                .ToList();
+
+            // Verificar facturas pagadas o eliminadas
+            bool hayFacturasPagadas = detallesActivos
+                .Any(d => d.factura != null &&
+                         (d.factura.estado != "Pendiente" || d.factura.monto_restante == 0));
+
+            pnlAlertaFacturasPagadas.Visible = hayFacturasPagadas;
+
+            // Verificar montos distintos (solo en facturas pendientes con monto restante > 0)
+            bool hayMontosDistintos = detallesActivos
+                .Any(d => d.factura != null &&
+                         d.factura.estado == "Pendiente" &&
+                         d.factura.monto_restante > 0 &&
+                         Math.Abs(d.factura.monto_restante - d.monto_pago) > 0.01m);
+
+            pnlAlertaMontosDistintos.Visible = hayMontosDistintos;
+        }
+
         private string MapearFormaPago(char? formaPago)
         {
             if (!formaPago.HasValue)
@@ -215,6 +336,72 @@ namespace SoftPacWA
             }
         }
 
+        protected void gvCuentasPropias_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            if (e.CommandName == "ActualizarSaldo")
+            {
+                try
+                {
+                    int index = Convert.ToInt32(e.CommandArgument);
+                    GridViewRow row = gvCuentasPropias.Rows[index];
+
+                    int cuentaId = Convert.ToInt32(gvCuentasPropias.DataKeys[index].Value);
+                    TextBox txtSaldo = (TextBox)row.FindControl("txtSaldoNuevo");
+
+                    if (txtSaldo != null && !string.IsNullOrWhiteSpace(txtSaldo.Text))
+                    {
+                        decimal nuevoSaldo;
+                        if (decimal.TryParse(txtSaldo.Text, out nuevoSaldo) && nuevoSaldo >= 0)
+                        {
+                            // Obtener el DTO de la cuenta
+                            var cuenta = cuentasPropiasBO.ObtenerPorId(cuentaId);
+
+                            if (cuenta != null)
+                            {
+                                cuenta.saldo_disponible = nuevoSaldo;
+
+                                if (cuentasPropiasBO.Modificar(cuenta) == 1)
+                                {
+                                    MostrarMensaje("Saldo actualizado correctamente", "success");
+                                    CargarDetalle();
+                                }
+                                else
+                                {
+                                    MostrarMensaje("Error al actualizar el saldo", "danger");
+                                }
+                            }
+                        }
+                        else
+                        {
+                            MostrarMensaje("Ingrese un saldo válido", "warning");
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MostrarMensaje($"Error al actualizar saldo: {ex.Message}", "danger");
+                }
+            }
+        }
+
+        protected void gvCuentasPropias_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                var cuenta = (CuentaPropiaViewModel)e.Row.DataItem;
+
+                // Aplicar estilo rojo si el saldo es insuficiente
+                if (cuenta.SaldoInsuficiente)
+                {
+                    Label lblSaldoDisponible = (Label)e.Row.FindControl("lblSaldoDisponible");
+                    if (lblSaldoDisponible != null)
+                    {
+                        lblSaldoDisponible.CssClass = "text-danger fw-bold";
+                    }
+                }
+            }
+        }
+
         protected void gvDetalles_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
             gvDetalles.PageIndex = e.NewPageIndex;
@@ -227,6 +414,89 @@ namespace SoftPacWA
             }
 
             upDetalles.Update();
+        }
+
+        protected void btnEliminarPagos_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var propuesta = propuestasBO.ObtenerPorId(PropuestaId);
+
+                if (propuesta == null || propuesta.detalles_propuesta == null)
+                {
+                    MostrarMensaje("No se encontró la propuesta", "danger");
+                    return;
+                }
+
+                var usuarioDTO = DTOConverter.Convertir<SoftPacBusiness.UsuariosWS.usuariosDTO,
+                    SoftPacBusiness.PropuestaPagoWS.usuariosDTO>(UsuarioLogueado);
+
+                // Marcar como eliminados los detalles con facturas pagadas/eliminadas
+                foreach (var detalle in propuesta.detalles_propuesta)
+                {
+                    if (detalle.factura != null &&
+                        (detalle.factura.estado != "Pendiente" || detalle.factura.monto_restante == 0))
+                    {
+                        detalle.fecha_eliminacion = DateTime.Now;
+                        detalle.fecha_eliminacionSpecified = true;
+                        detalle.usuario_eliminacion = usuarioDTO;
+                    }
+                }
+
+                if (propuestasBO.Modificar(propuesta) == 1)
+                {
+                    MostrarMensaje("Pagos eliminados correctamente", "success");
+                    CargarDetalle();
+                }
+                else
+                {
+                    MostrarMensaje("Error al eliminar los pagos", "danger");
+                }
+            }
+            catch (Exception ex)
+            {
+                MostrarMensaje($"Error al eliminar pagos: {ex.Message}", "danger");
+            }
+        }
+
+        protected void btnActualizarMontos_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var propuesta = propuestasBO.ObtenerPorId(PropuestaId);
+
+                if (propuesta == null || propuesta.detalles_propuesta == null)
+                {
+                    MostrarMensaje("No se encontró la propuesta", "danger");
+                    return;
+                }
+
+                // Actualizar montos donde no coincidan (solo facturas pendientes)
+                foreach (var detalle in propuesta.detalles_propuesta)
+                {
+                    if (detalle.factura != null &&
+                        detalle.factura.estado == "Pendiente" &&
+                        detalle.factura.monto_restante > 0 &&
+                        Math.Abs(detalle.factura.monto_restante - detalle.monto_pago) > 0.01m)
+                    {
+                        detalle.monto_pago = detalle.factura.monto_restante;
+                    }
+                }
+
+                if (propuestasBO.Modificar(propuesta) == 1)
+                {
+                    MostrarMensaje("Montos actualizados correctamente", "success");
+                    CargarDetalle();
+                }
+                else
+                {
+                    MostrarMensaje("Error al actualizar los montos", "danger");
+                }
+            }
+            catch (Exception ex)
+            {
+                MostrarMensaje($"Error al actualizar montos: {ex.Message}", "danger");
+            }
         }
 
         protected void btnEditar_Click(object sender, EventArgs e)
@@ -242,13 +512,50 @@ namespace SoftPacWA
 
         protected void btnEnviar_Click(object sender, EventArgs e)
         {
-            if (propuestasBO.confirmarEnvioPropuesta(PropuestaId,DTOConverter.Convertir<SoftPacBusiness.UsuariosWS.usuariosDTO,SoftPacBusiness.PropuestaPagoWS.usuariosDTO>(UsuarioLogueado)) == 1)
+            try
             {
-                MostrarMensaje("Se envío la propuesta correctamente.", "success");
+                var propuesta = propuestasBO.ObtenerPorId(PropuestaId);
+
+                if (propuesta == null || propuesta.detalles_propuesta == null)
+                {
+                    MostrarMensaje("No se encontró la propuesta", "danger");
+                    return;
+                }
+
+                // Validar saldos de cuentas propias
+                var cuentasConProblemas = propuesta.detalles_propuesta
+                    .Where(d => d.cuenta_propia != null && d.fecha_eliminacionSpecified == false)
+                    .GroupBy(d => d.cuenta_propia.cuenta_bancaria_id)
+                    .Select(g => new
+                    {
+                        Cuenta = g.First().cuenta_propia,
+                        SaldoUsado = g.Sum(d => d.monto_pago)
+                    })
+                    .Where(c => c.Cuenta.saldo_disponible < c.SaldoUsado)
+                    .ToList();
+
+                if (cuentasConProblemas.Any())
+                {
+                    MostrarMensaje("No se puede enviar la propuesta. Hay cuentas con saldo insuficiente (marcadas en rojo).", "danger");
+                    return;
+                }
+
+                // Intentar confirmar envío
+                if (propuestasBO.confirmarEnvioPropuesta(PropuestaId,
+                    DTOConverter.Convertir<SoftPacBusiness.UsuariosWS.usuariosDTO,
+                    SoftPacBusiness.PropuestaPagoWS.usuariosDTO>(UsuarioLogueado)) == 1)
+                {
+                    MostrarMensaje("Se envió la propuesta correctamente.", "success");
+                    CargarDetalle();
+                }
+                else
+                {
+                    MostrarMensaje("La propuesta no pudo enviarse correctamente, revise el saldo disponible en las cuentas propias.", "danger");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                MostrarMensaje("La propuesta no pudo enviarse correctamente, revise el saldo disponible en las cuentas propias.", "danger");
+                MostrarMensaje($"Error al enviar la propuesta: {ex.Message}", "danger");
             }
         }
 
@@ -309,8 +616,11 @@ namespace SoftPacWA
             // Encabezados
             sb.AppendLine("NumeroFactura,Proveedor,Moneda,Monto,CuentaOrigen,BancoOrigen,CuentaDestino,BancoDestino,FormaPago,Fecha");
 
-            // Datos
-            foreach (var detalle in propuesta.detalles_propuesta)
+            // Datos (solo detalles activos)
+            var detallesActivos = propuesta.detalles_propuesta
+                .Where(d => d.fecha_eliminacionSpecified == false);
+
+            foreach (var detalle in detallesActivos)
             {
                 sb.AppendLine($"\"{detalle.factura?.numero_factura ?? ""}\",\"{detalle.factura?.acreedor?.razon_social ?? ""}\",\"{detalle.factura?.moneda?.codigo_iso ?? ""}\",{detalle.monto_pago:F2},\"{detalle.cuenta_propia?.numero_cuenta ?? ""}\",\"{detalle.cuenta_propia?.entidad_bancaria?.nombre ?? ""}\",\"{detalle.cuenta_acreedor?.numero_cuenta ?? ""}\",\"{detalle.cuenta_acreedor?.entidad_bancaria?.nombre ?? ""}\",\"{MapearFormaPago((char?)detalle.forma_pago)}\",\"{DateTime.Now:yyyy-MM-dd}\"");
             }
@@ -321,13 +631,17 @@ namespace SoftPacWA
 
         private void ExportarXML(propuestasPagoDTO propuesta)
         {
+            var detallesActivos = propuesta.detalles_propuesta
+                .Where(d => d.fecha_eliminacionSpecified == false)
+                .ToList();
+
             var propuestaXML = new PropuestaExportXML
             {
                 PropuestaId = propuesta.propuesta_idSpecified ? propuesta.propuesta_id : 0,
                 Estado = propuesta.estado ?? "",
                 FechaCreacion = propuesta.fecha_hora_creacion.ToString("yyyy-MM-dd HH:mm:ss") ?? "",
                 EntidadBancaria = propuesta.entidad_bancaria?.nombre ?? "",
-                Detalles = propuesta.detalles_propuesta.Select(d => new DetalleExportXML
+                Detalles = detallesActivos.Select(d => new DetalleExportXML
                 {
                     NumeroFactura = d.factura?.numero_factura ?? "",
                     Proveedor = d.factura?.acreedor?.razon_social ?? "",
@@ -356,6 +670,9 @@ namespace SoftPacWA
         private void ExportarTXT(propuestasPagoDTO propuesta)
         {
             var sb = new StringBuilder();
+            var detallesActivos = propuesta.detalles_propuesta
+                .Where(d => d.fecha_eliminacionSpecified == false)
+                .ToArray();
 
             // Formato de texto con ancho fijo
             sb.AppendLine("=".PadRight(120, '='));
@@ -364,7 +681,7 @@ namespace SoftPacWA
             sb.AppendLine($"Estado: {propuesta.estado}");
             sb.AppendLine($"Fecha: {propuesta.fecha_hora_creacion:yyyy-MM-dd HH:mm}");
             sb.AppendLine($"Banco: {propuesta.entidad_bancaria?.nombre}");
-            sb.AppendLine($"Total de pagos: {propuesta.detalles_propuesta.Length}");
+            sb.AppendLine($"Total de pagos: {detallesActivos.Length}");
             sb.AppendLine("=".PadRight(120, '='));
             sb.AppendLine();
 
@@ -373,7 +690,7 @@ namespace SoftPacWA
             sb.AppendLine("-".PadRight(120, '-'));
 
             // Datos
-            foreach (var detalle in propuesta.detalles_propuesta)
+            foreach (var detalle in detallesActivos)
             {
                 string factura = (detalle.factura?.numero_factura ?? "").PadRight(15);
                 string proveedor = TruncarTexto(detalle.factura?.acreedor?.razon_social ?? "", 30).PadRight(30);
@@ -392,6 +709,10 @@ namespace SoftPacWA
 
         private void ExportarMT101(propuestasPagoDTO propuesta)
         {
+            var detallesActivos = propuesta.detalles_propuesta
+                .Where(d => d.fecha_eliminacionSpecified == false)
+                .ToArray();
+
             // Formato MT101 (SWIFT) simplificado
             var sb = new StringBuilder();
 
@@ -399,13 +720,13 @@ namespace SoftPacWA
             sb.AppendLine("{2:I101BANKXXXXAXXXN}");
             sb.AppendLine("{4:");
             sb.AppendLine($":20:PROP{propuesta.propuesta_id:D10}");
-            sb.AppendLine($":28D:1/{propuesta.detalles_propuesta.Length}");
+            sb.AppendLine($":28D:1/{detallesActivos.Length}");
             sb.AppendLine($":50H:/{propuesta.entidad_bancaria?.codigo_swift ?? ""}");
             sb.AppendLine($"{propuesta.entidad_bancaria?.nombre ?? ""}");
             sb.AppendLine($":30:{DateTime.Now:yyyyMMdd}");
 
             int secuencia = 1;
-            foreach (var detalle in propuesta.detalles_propuesta)
+            foreach (var detalle in detallesActivos)
             {
                 sb.AppendLine($":21:{secuencia:D10}");
                 sb.AppendLine($":32B:{detalle.factura?.moneda?.codigo_iso ?? "USD"}{detalle.monto_pago:F2}");
@@ -442,12 +763,6 @@ namespace SoftPacWA
 
         protected void btnConfirmarAnulacion_Click(object sender, EventArgs e)
         {
-            //if (!Page.IsValid || string.IsNullOrWhiteSpace(txtMotivoAnulacion.Text))
-            //{
-            //    ScriptManager.RegisterStartupScript(this, GetType(), "mostrarModal",
-            //        "$('#modalAnular').modal('show');", true);
-            //    return;
-            //}
             try
             {
                 var propuesta = propuestasBO.ObtenerPorId(PropuestaId);
@@ -464,7 +779,6 @@ namespace SoftPacWA
                     return;
                 }
 
-                // txtMotivoAnulacion, enviar correo a superusuario
                 // Actualizar estado
                 propuesta.estado = "Anulada";
 

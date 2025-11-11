@@ -141,6 +141,15 @@ namespace SoftPacWA
         protected global::System.Web.UI.WebControls.Label lblTotalPagos;
 
         /// <summary>
+        /// Control pnlTotalesMoneda.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlTotalesMoneda;
+
+        /// <summary>
         /// Control rptTotales.
         /// </summary>
         /// <remarks>
@@ -148,6 +157,69 @@ namespace SoftPacWA
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Repeater rptTotales;
+
+        /// <summary>
+        /// Control pnlCuentasPropias.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlCuentasPropias;
+
+        /// <summary>
+        /// Control upCuentas.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel upCuentas;
+
+        /// <summary>
+        /// Control gvCuentasPropias.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView gvCuentasPropias;
+
+        /// <summary>
+        /// Control pnlAlertaFacturasPagadas.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlAlertaFacturasPagadas;
+
+        /// <summary>
+        /// Control btnEliminarPagos.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton btnEliminarPagos;
+
+        /// <summary>
+        /// Control pnlAlertaMontosDistintos.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlAlertaMontosDistintos;
+
+        /// <summary>
+        /// Control btnActualizarMontos.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton btnActualizarMontos;
 
         /// <summary>
         /// Control lblCantidadPagos.

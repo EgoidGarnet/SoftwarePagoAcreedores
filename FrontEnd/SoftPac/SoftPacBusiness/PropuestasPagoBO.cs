@@ -83,13 +83,16 @@ namespace SoftPac.Business
         }
         public void LlenarDetalleSpecified(propuestasPagoDTO propuestaCompleta)
         {
-            foreach (var detalle in propuestaCompleta.detalles_propuesta)
+            if (propuestaCompleta.detalles_propuesta != null)
             {
-                detalle.detalle_propuesta_idSpecified = true;
-                if (detalle.usuario_eliminacion != null)
+                foreach (var detalle in propuestaCompleta.detalles_propuesta)
                 {
-                    detalle.fecha_eliminacionSpecified = true;
-                    detalle.usuario_eliminacion.usuario_idSpecified = true;
+                    detalle.detalle_propuesta_idSpecified = true;
+                    if (detalle.usuario_eliminacion != null)
+                    {
+                        detalle.fecha_eliminacionSpecified = true;
+                        detalle.usuario_eliminacion.usuario_idSpecified = true;
+                    }
                 }
             }
         }

@@ -116,6 +116,7 @@
             border-radius: 12px;
             padding: 1.5rem;
             box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-bottom: 2rem;
         }
 
         .detalles-header {
@@ -145,6 +146,10 @@
             opacity: 0.5;
         }
 
+        .saldo-input {
+            width: 120px;
+        }
+
         @media (max-width: 768px) {
             .page-header {
                 flex-direction: column;
@@ -169,7 +174,7 @@
 </asp:Content>
 
 <asp:Content ID="Main" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <div class="page-container">
+    <asp:Panel class="page-container">
         
         <!-- Mensajes -->
         <asp:Panel ID="pnlMensaje" runat="server" Visible="false" CssClass="alert alert-dismissible fade show" role="alert">
@@ -264,7 +269,7 @@
         </div>
 
         <!-- Totales por Moneda -->
-        <div class="totales-section">
+        <asp:Panel ID="pnlTotalesMoneda" runat="server" class="totales-section">
             <div class="totales-title">
                 <i class="fas fa-coins"></i>
                 Totales por Moneda
@@ -278,7 +283,109 @@
                     </ItemTemplate>
                 </asp:Repeater>
             </div>
-        </div>
+        </asp:Panel>
+
+        <!-- Cuentas Propias -->
+        <asp:Panel ID="pnlCuentasPropias" runat="server" CssClass="detalles-card">
+            <div class="detalles-header">
+                <h3 class="detalles-title">
+                    <i class="fas fa-wallet"></i>
+                    Cuentas Propias y Saldos
+                </h3>
+            </div>
+
+            <asp:UpdatePanel ID="upCuentas" runat="server" UpdateMode="Conditional">
+                <ContentTemplate>
+                    <div class="table-responsive">
+                        <asp:GridView ID="gvCuentasPropias" runat="server"
+                            AutoGenerateColumns="false"
+                            CssClass="table table-hover align-middle"
+                            GridLines="None"
+                            DataKeyNames="CuentaId"
+                            OnRowCommand="gvCuentasPropias_RowCommand"
+                            OnRowDataBound="gvCuentasPropias_RowDataBound"
+                            EmptyDataText="No hay cuentas asociadas a esta propuesta.">
+                            
+                            <HeaderStyle CssClass="table-light" />
+                            
+                            <Columns>
+                                <asp:BoundField DataField="Banco" HeaderText="Banco" />
+                                <asp:BoundField DataField="NumeroCuenta" HeaderText="Número de Cuenta" />
+                                
+                                <asp:TemplateField HeaderText="Saldo Disponible">
+                                    <ItemTemplate>
+                                        <asp:Label ID="lblSaldoDisponible" runat="server" 
+                                            Text='<%# string.Format("{0:N2}", Eval("SaldoDisponible")) %>'>
+                                        </asp:Label>
+                                    </ItemTemplate>
+                                    <ItemStyle HorizontalAlign="Right" />
+                                </asp:TemplateField>
+                                
+                                <asp:TemplateField HeaderText="Saldo Usado">
+                                    <ItemTemplate>
+                                        <%# string.Format("{0:N2}", Eval("SaldoUsado")) %>
+                                    </ItemTemplate>
+                                    <ItemStyle HorizontalAlign="Right" />
+                                </asp:TemplateField>
+                                
+                                <asp:TemplateField HeaderText="Actualizar Saldo">
+                                    <ItemTemplate>
+                                        <div class="input-group input-group-sm">
+                                            <asp:TextBox ID="txtSaldoNuevo" runat="server" 
+                                                CssClass="form-control saldo-input" 
+                                                TextMode="Number"
+                                                step="0.01"
+                                                placeholder="Nuevo saldo">
+                                            </asp:TextBox>
+                                            <asp:LinkButton ID="btnActualizarSaldo" runat="server"
+                                                CssClass="btn btn-primary btn-sm"
+                                                CommandName="ActualizarSaldo"
+                                                CommandArgument='<%# Container.DataItemIndex %>'
+                                                ToolTip="Actualizar saldo">
+                                                <i class="fas fa-sync-alt"></i>
+                                            </asp:LinkButton>
+                                        </div>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                            </Columns>
+
+                            <EmptyDataTemplate>
+                                <div class="empty-state">
+                                    <i class="fas fa-wallet"></i>
+                                    <h5>No hay cuentas propias</h5>
+                                    <p>Esta propuesta no tiene cuentas asociadas.</p>
+                                </div>
+                            </EmptyDataTemplate>
+                        </asp:GridView>
+                    </div>
+                </ContentTemplate>
+            </asp:UpdatePanel>
+        </asp:Panel>
+
+        <!-- Alertas de Validación -->
+        <asp:Panel ID="pnlAlertaFacturasPagadas" runat="server" Visible="false" 
+            CssClass="alert alert-warning alert-dismissible fade show" role="alert">
+            <i class="fas fa-exclamation-triangle me-2"></i>
+            <strong>Atención:</strong> Hay facturas pagadas o eliminadas incluidas en los pagos.
+            <asp:LinkButton ID="btnEliminarPagos" runat="server" 
+                CssClass="btn btn-sm btn-warning ms-3"
+                OnClick="btnEliminarPagos_Click">
+                <i class="fas fa-trash-alt"></i> Eliminar Pagos
+            </asp:LinkButton>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </asp:Panel>
+
+        <asp:Panel ID="pnlAlertaMontosDistintos" runat="server" Visible="false" 
+            CssClass="alert alert-info alert-dismissible fade show" role="alert">
+            <i class="fas fa-info-circle me-2"></i>
+            <strong>Información:</strong> Algunas facturas tienen montos distintos al monto restante.
+            <asp:LinkButton ID="btnActualizarMontos" runat="server" 
+                CssClass="btn btn-sm btn-info ms-3"
+                OnClick="btnActualizarMontos_Click">
+                <i class="fas fa-sync-alt"></i> Actualizar Montos
+            </asp:LinkButton>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </asp:Panel>
 
         <!-- Detalles de Pagos -->
         <div class="detalles-card">
@@ -309,7 +416,7 @@
                             <Columns>
                                 <asp:BoundField DataField="NumeroFactura" HeaderText="N° Factura" />
                                 
-                                <asp:TemplateField HeaderText="acreedor">
+                                <asp:TemplateField HeaderText="Acreedor">
                                     <ItemTemplate>
                                         <%# Eval("RazonSocialAcreedor") %>
                                     </ItemTemplate>
@@ -384,21 +491,6 @@
                         <i class="fas fa-exclamation-triangle"></i>
                         <strong>Advertencia:</strong> Esta acción no se puede deshacer.
                     </div>
-                    <%--<div class="mb-3">
-                        <label class="form-label fw-bold">Motivo de Anulación <span class="text-danger">*</span></label>
-                        <asp:TextBox ID="txtMotivoAnulacion" runat="server" 
-                            CssClass="form-control" 
-                            TextMode="MultiLine" 
-                            Rows="4"
-                            placeholder="Ingrese el motivo por el cual se anula esta propuesta..."
-                            MaxLength="500"></asp:TextBox>
-                        <asp:RequiredFieldValidator ID="rfvMotivo" runat="server"
-                            ControlToValidate="txtMotivoAnulacion"
-                            ErrorMessage="Debe ingresar un motivo de anulación"
-                            CssClass="text-danger"
-                            Display="Dynamic"
-                            ValidationGroup="Anular" />
-                    </div>--%>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>

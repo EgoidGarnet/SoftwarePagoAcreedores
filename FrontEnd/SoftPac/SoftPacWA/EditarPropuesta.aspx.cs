@@ -94,6 +94,12 @@ namespace SoftPacWA
                     return;
                 }
 
+                if (propuesta.detalles_propuesta == null || propuesta.detalles_propuesta.Length == 0)
+                {
+                    Response.Redirect($"~/DetallePropuesta.aspx?id={PropuestaId}");
+                    return;
+                }
+
                 // Cargar información general
                 lblPropuestaId.Text = propuesta.propuesta_id.ToString() ?? "-";
                 lblFechaCreacion.Text = propuesta.fecha_hora_creacion.ToString("dd/MM/yyyy HH:mm") ?? "-";
