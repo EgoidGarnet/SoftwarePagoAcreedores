@@ -14,11 +14,11 @@ namespace SoftPacWA
         private EntidadesBancariasBO bancosBO = new EntidadesBancariasBO();
         private UsuariosBO usuariosBO = new UsuariosBO();
 
-        private SoftPacBusiness.UsuariosWS.usuariosDTO UsuarioLogueado
+        private usuariosDTO UsuarioLogueado
         {
             get
             {
-                return (SoftPacBusiness.UsuariosWS.usuariosDTO)Session["UsuarioLogueado"];
+                return (usuariosDTO)Session["UsuarioLogueado"];
             }
         }
 
@@ -58,8 +58,8 @@ namespace SoftPacWA
             try
             {
                 ddlFiltroPais.DataSource = UsuarioLogueado.usuario_pais.Where(up => up.acceso == true).Select(up => up.pais);
-                ddlFiltroPais.DataTextField = "nombre";
-                ddlFiltroPais.DataValueField = "pais_id";
+                ddlFiltroPais.DataTextField = "Nombre";
+                ddlFiltroPais.DataValueField = "PaisId";
                 ddlFiltroPais.DataBind();
                 ddlFiltroPais.Items.Insert(0, new ListItem("-- Todos --", ""));
 
@@ -78,13 +78,12 @@ namespace SoftPacWA
             {
                 int? paisId = string.IsNullOrEmpty(ddlFiltroPais.SelectedValue) ? (int?)null : int.Parse(ddlFiltroPais.SelectedValue);
                 int? bancoId = string.IsNullOrEmpty(ddlFiltroBanco.SelectedValue) ? (int?)null : int.Parse(ddlFiltroBanco.SelectedValue);
-                string estado = string.IsNullOrEmpty(ddlFiltroEstado.SelectedValue) ? null : ddlFiltroEstado.SelectedValue;
+                string estado = ddlFiltroEstado.SelectedValue;
 
                 var propuestas = propuestasBO.ListarConFiltros(paisId, bancoId, estado)
-                    .Where(p => p != null)
                     .OrderByDescending(p => p.fecha_hora_creacion)
                     .ToList();
-                
+
                 if (propuestas.Count > 0)
                 {
                     gvPropuestas.DataSource = propuestas;
@@ -104,7 +103,7 @@ namespace SoftPacWA
             }
             catch (Exception ex)
             {
-                MostrarMensaje($"Error al cargar propuestas: {ex.Message}, {ex.StackTrace}", "danger");
+                MostrarMensaje($"Error al cargar propuestas: {ex.Message}", "danger");
                 gvPropuestas.Visible = false;
                 pnlEmptyState.Visible = true;
             }
@@ -173,8 +172,8 @@ namespace SoftPacWA
                     .ToList();
 
                 ddlFiltroBanco.DataSource = bancos;
-                ddlFiltroBanco.DataTextField = "nombre";
-                ddlFiltroBanco.DataValueField = "entidad_bancaria_id";
+                ddlFiltroBanco.DataTextField = "Nombre";
+                ddlFiltroBanco.DataValueField = "EntidadBancariaId";
                 ddlFiltroBanco.DataBind();
 
                 ddlFiltroBanco.Items.Insert(0, new ListItem("-- Todos --", ""));
@@ -207,7 +206,7 @@ namespace SoftPacWA
             {
                 case "PENDIENTE": return "bg-warning text-dark";
                 case "ENVIADA": return "bg-success";
-                case "ANULADA": return "bg-danger";
+                case "ELIMINADA": return "bg-danger";
                 default: return "bg-light text-dark";
             }
         }

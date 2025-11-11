@@ -135,7 +135,7 @@ namespace SoftPacWA
             {
                 case "PENDIENTE": return "bg-warning text-dark";
                 case "ENVIADA": return "bg-success";
-                case "ANULADA": return "bg-danger";
+                case "ELIMINADA": return "bg-danger";
                 default: return "bg-light text-dark";
             }
         }

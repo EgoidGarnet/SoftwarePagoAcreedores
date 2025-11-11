@@ -38,7 +38,8 @@ namespace SoftPac.Business
 
         public IList<propuestasPagoDTO> ListarConFiltros(int? paisId, int? bancoId, string estado)
         {
-            return propuestaPagoClienteSOAP.listarConFiltros(bancoId??0, estado??"") ?? Array.Empty<propuestasPagoDTO>();
+            int bancoIde = (int)bancoId;
+            return propuestaPagoClienteSOAP.listarConFiltros(bancoIde, estado);
         }
 
         public propuestasPagoDTO GenerarDetallesParciales(List<int> facturasSeleccionadas, int bancoId)
@@ -49,8 +50,7 @@ namespace SoftPac.Business
 
         public int Insertar(propuestasPagoDTO propuestaCompleta)
         {
-            LlenarSpecified(propuestaCompleta);
-            return propuestaPagoClienteSOAP.insertarPropuesta(propuestaCompleta);
+           return propuestaPagoClienteSOAP.insertarPropuesta(propuestaCompleta);
         }
 
 
@@ -66,18 +66,7 @@ namespace SoftPac.Business
 
         public int Modificar(propuestasPagoDTO propuesta)
         {
-            LlenarSpecified(propuesta);
             return propuestaPagoClienteSOAP.modificarPropuesta(propuesta);
-        }
-
-        public void LlenarSpecified(propuestasPagoDTO propuestaCompleta)
-        {
-            propuestaCompleta.fecha_hora_creacionSpecified = true;
-            propuestaCompleta.fecha_hora_modificacionSpecified = true;
-            propuestaCompleta.propuesta_idSpecified = true;
-            propuestaCompleta.entidad_bancaria.entidad_bancaria_idSpecified = true;
-            propuestaCompleta.usuario_creacion.usuario_idSpecified = true;
-            propuestaCompleta.usuario_modificacion.usuario_idSpecified = true;
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using SoftPac.Business;
-using SoftPacBusiness.FacturasWS;
 using SoftPacBusiness.PropuestaPagoWS;
 using System;
 using System.Collections.Generic;
@@ -15,7 +14,6 @@ namespace SoftPacWA
         private PaisesBO paisesBO = new PaisesBO();
         private EntidadesBancariasBO bancosBO = new EntidadesBancariasBO();
         private PropuestasPagoBO propuestasPagoBO = new PropuestasPagoBO();
-        private List<SoftPacBusiness.FacturasWS.facturasDTO> FacturasDisponibles { get { return Session["FacturasDisponibles"] as List<SoftPacBusiness.FacturasWS.facturasDTO>; } set { Session["FacturasDisponibles"]  = (List<SoftPacBusiness.FacturasWS.facturasDTO>) value;} }
         private int PaisId {
             get => Convert.ToInt32(Session["PropuestaPago_PaisId"]);
         }
@@ -86,8 +84,8 @@ namespace SoftPacWA
 
                 lblTotalRegistros.Text = $"{facturas.Count} factura(s) disponible(s)";
 
-                // Guardar lista en Session para uso posterior
-                FacturasDisponibles = facturas;
+                // Guardar lista en ViewState para uso posterior
+                ViewState["FacturasDisponibles"] = facturas;
 
                 if (facturas.Count == 0)
                 {
@@ -106,9 +104,14 @@ namespace SoftPacWA
         protected void gvFacturas_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
             gvFacturas.PageIndex = e.NewPageIndex;
-            var facturas = FacturasDisponibles as List<SoftPacBusiness.FacturasWS.facturasDTO>;
-            gvFacturas.DataSource = facturas;
-            gvFacturas.DataBind();
+
+            // Recuperar lista de ViewState
+            var facturas = ViewState["FacturasDisponibles"] as List<facturasDTO>;
+            if (facturas != null)
+            {
+                gvFacturas.DataSource = facturas;
+                gvFacturas.DataBind();
+            }
         }
 
         protected void btnVolver_Click(object sender, EventArgs e)
@@ -130,11 +133,14 @@ namespace SoftPacWA
                     if (chk != null && chk.Checked)
                     {
                         // Obtener el ID de la factura de la fila
-                        var facturas = FacturasDisponibles;
+                        var facturas = ViewState["FacturasDisponibles"] as List<facturasDTO>;
                         if (facturas != null && row.RowIndex < facturas.Count)
                         {
                             var factura = facturas[row.RowIndex];
-                            facturasSeleccionadas.Add(factura.factura_id);
+                            if (factura.factura_idSpecified)
+                            {
+                                facturasSeleccionadas.Add(factura.factura_id);
+                            }
                         }
                     }
                 }
@@ -173,7 +179,6 @@ namespace SoftPacWA
                 Session["PropuestaPago_DetallesParciales"] = propuestaParcial;
 
                 // Redirigir al Paso 3
-                Session.Remove("FacturasDisponibles");
                 Response.Redirect("~/CrearPropuestaPaso3.aspx");
             }
             catch (Exception ex)

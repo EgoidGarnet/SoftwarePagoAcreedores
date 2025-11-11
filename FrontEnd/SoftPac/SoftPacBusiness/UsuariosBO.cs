@@ -49,13 +49,6 @@ namespace SoftPac.Business
             return usuariosBO.modificarAccesoUsuario(usuarioId, nuevoNombreUsuario, activo, paisesIds.ToArray());
         }
 
-        public int ModificarUsuario(usuariosDTO usuario)
-        {
-            SetearSpecifiedTrue(usuario);
-            return usuariosBO.modificarUsuario(usuario);
-        }
-
-
         public int EliminarUsuario(int usuarioId, int usuarioEliminacionId)
         {
             usuariosDTO usuario = new usuariosDTO();

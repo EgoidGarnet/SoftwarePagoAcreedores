@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ReferenceGroup xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ID="ca72eacf-2473-49b2-95b9-54d914014296" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+<ReferenceGroup xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ID="3a9c7b13-4d07-4811-97ba-df2c06627bdf" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
   <ClientOptions>
     <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
     <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
@@ -22,8 +22,8 @@
     <MetadataSource Address="http://localhost:8080/SoftPacWS/CuentasAcreedorWS?wsdl" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="CuentasAcreedorWS.xsd" MetadataType="Schema" ID="0590199a-d4e3-4be5-9932-b7faad38b67e" SourceId="1" SourceUrl="http://localhost:8080/SoftPacWS/CuentasAcreedorWS?xsd=1" />
-    <MetadataFile FileName="CuentasAcreedorWS.wsdl" MetadataType="Wsdl" ID="da43ba6f-d8f8-494f-8002-84a82bb0f878" SourceId="1" SourceUrl="http://localhost:8080/SoftPacWS/CuentasAcreedorWS?wsdl" />
+    <MetadataFile FileName="CuentasAcreedorWS.xsd" MetadataType="Schema" ID="5035473a-cbdb-4ba1-9663-5455d76b202f" SourceId="1" SourceUrl="http://localhost:8080/SoftPacWS/CuentasAcreedorWS?xsd=1" />
+    <MetadataFile FileName="CuentasAcreedorWS.wsdl" MetadataType="Wsdl" ID="e44c2384-288e-4e13-acee-53b6f1a015e9" SourceId="1" SourceUrl="http://localhost:8080/SoftPacWS/CuentasAcreedorWS?wsdl" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

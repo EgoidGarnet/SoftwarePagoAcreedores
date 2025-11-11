@@ -17,14 +17,6 @@ namespace SoftPacWA
     {
         private PropuestasPagoBO propuestasBO = new PropuestasPagoBO();
 
-        private SoftPacBusiness.UsuariosWS.usuariosDTO UsuarioLogueado
-        {
-            get
-            {
-                return (SoftPacBusiness.UsuariosWS.usuariosDTO)Session["UsuarioLogueado"];
-            }
-        }
-
         // Clase auxiliar para el GridView
         [Serializable]
         public class DetalleViewModel
@@ -430,12 +422,9 @@ namespace SoftPacWA
 
         protected void btnConfirmarAnulacion_Click(object sender, EventArgs e)
         {
-            //if (!Page.IsValid || string.IsNullOrWhiteSpace(txtMotivoAnulacion.Text))
-            //{
-            //    ScriptManager.RegisterStartupScript(this, GetType(), "mostrarModal",
-            //        "$('#modalAnular').modal('show');", true);
-            //    return;
-            //}
+            if (!Page.IsValid)
+                return;
+
             try
             {
                 var propuesta = propuestasBO.ObtenerPorId(PropuestaId);
@@ -452,11 +441,15 @@ namespace SoftPacWA
                     return;
                 }
 
-                // txtMotivoAnulacion, enviar correo a superusuario
-                // Actualizar estado
+                // Actualizar estado y motivo
                 propuesta.estado = "Anulada";
+                // Aquí deberías tener un campo en el DTO para guardar el motivo de anulación
+                // propuesta.MotivoAnulacion = txtMotivoAnulacion.Text;
 
-                propuesta.usuario_modificacion = DTOConverter.Convertir<SoftPacBusiness.UsuariosWS.usuariosDTO,SoftPacBusiness.PropuestaPagoWS.usuariosDTO>(UsuarioLogueado);
+                int usuarioId = Convert.ToInt32(Session["UsuarioId"]);
+                SoftPacBusiness.PropuestaPagoWS.usuariosDTO usuarioModificacion = new SoftPacBusiness.PropuestaPagoWS.usuariosDTO();
+                usuarioModificacion.usuario_id = usuarioId;
+                propuesta.usuario_modificacion = usuarioModificacion;
                 propuesta.fecha_hora_modificacion = DateTime.Now;
 
                 bool resultado = propuestasBO.Modificar(propuesta) == 1;

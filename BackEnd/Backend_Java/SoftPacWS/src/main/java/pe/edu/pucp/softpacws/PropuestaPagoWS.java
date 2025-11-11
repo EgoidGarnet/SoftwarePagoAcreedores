@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import pe.edu.pucp.softpac.bo.PropuestaPagoBO;
 import pe.edu.pucp.softpac.model.DetallesPropuestaDTO;
 import pe.edu.pucp.softpac.model.PropuestasPagoDTO;
+import pe.edu.pucp.softpac.model.UsuariosDTO;
 
 @WebService(serviceName = "PropuestaPagoWS")
 public class PropuestaPagoWS {
@@ -64,8 +65,9 @@ public class PropuestaPagoWS {
     }
     
     @WebMethod(operationName = "listarConFiltros")
-    public ArrayList<PropuestasPagoDTO> listarConFiltros(@WebParam(name = "bancoId") Integer bancoId,@WebParam(name = "estado") String estado){
-        return propuestaPagoBO.ListarConFiltros(bancoId, estado);
+    public ArrayList<PropuestasPagoDTO> listarConFiltros(@WebParam(name = "paisId") Integer pais_id, 
+            @WebParam(name = "bancoId") Integer bancoId,@WebParam(name = "estado") String estado){
+        return propuestaPagoBO.ListarConFiltros(pais_id, bancoId, estado);
     }    
 
     @WebMethod(operationName = "generarDetallesParciales")
@@ -79,6 +81,9 @@ public class PropuestaPagoWS {
         return propuestaPagoBO.GenerarDetallesPropuesta(propuestaPagoParcial,cuentasSeleccionadas);
     }
     
-
+    @WebMethod(operationName = "confirmarEnvioPropuesta")
+    public Integer confirmarEnvioPropuesta(@WebParam(name = "propuestaId")int propuestaId, @WebParam(name = "usuario")UsuariosDTO usuario){
+        return propuestaPagoBO.confirmarEnvioPropuesta(propuestaId, usuario);
+    }
     
 }
