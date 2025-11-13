@@ -31,6 +31,7 @@ namespace SoftPacWA
             if (!IsPostBack)
             {
                 CargarFiltros();
+                CargarFiltroEntidades(); // Cargar todas las entidades inicialmente
                 CargarEntidades();
             }
         }
@@ -57,6 +58,55 @@ namespace SoftPacWA
             }
         }
 
+        private void CargarFiltroEntidades()
+        {
+            try
+            {
+                // Obtener países del usuario
+                var paisesUsuario = UsuarioLogueado.usuario_pais
+                    .Where(up => up.acceso == true)
+                    .Select(up => up.pais.pais_id)
+                    .ToList();
+
+                // Obtener todas las entidades según los países del usuario
+                var entidades = entidadesBO.ListarTodos()
+                    .Where(e => e.pais != null && paisesUsuario.Contains(e.pais.pais_id))
+                    .OrderBy(e => e.nombre)
+                    .ToList();
+
+                // Si hay un país seleccionado, filtrar solo entidades de ese país
+                if (!string.IsNullOrEmpty(ddlFiltroPais.SelectedValue))
+                {
+                    int paisId = int.Parse(ddlFiltroPais.SelectedValue);
+                    entidades = entidades.Where(e => e.pais != null && e.pais.pais_id == paisId).ToList();
+                }
+
+                // Limpiar el dropdown antes de cargar
+                ddlFiltroEntidad.Items.Clear();
+
+                ddlFiltroEntidad.DataSource = entidades;
+                ddlFiltroEntidad.DataTextField = "nombre";
+                ddlFiltroEntidad.DataValueField = "entidad_bancaria_id";
+                ddlFiltroEntidad.DataBind();
+
+                // Agregar la opción por defecto DESPUÉS de hacer DataBind
+                ddlFiltroEntidad.Items.Insert(0, new ListItem("Todas las entidades", ""));
+
+                // IMPORTANTE: Asegurar que esté seleccionada la primera opción
+                ddlFiltroEntidad.SelectedIndex = 0;
+            }
+            catch (Exception ex)
+            {
+                MostrarMensaje("Error al cargar entidades: " + ex.Message, "danger");
+            }
+        }
+
+        protected void ddlFiltroPais_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // Recargar el dropdown de entidades según el país seleccionado
+            CargarFiltroEntidades();
+        }
+
         private void CargarEntidades()
         {
             try
@@ -67,14 +117,29 @@ namespace SoftPacWA
                     .Select(up => up.pais.pais_id)
                     .ToList();
 
+                // Iniciar con todas las entidades del usuario
                 ListaEntidades = entidadesBO.ListarTodos()
-                    .Where(e => paisesUsuario.Contains(e.pais.pais_id)).ToList();
+                    .Where(e => e.pais != null && paisesUsuario.Contains(e.pais.pais_id)).ToList();
+
+                // Debug: Ver cuántas entidades tenemos antes de filtrar
+                System.Diagnostics.Debug.WriteLine($"Total entidades antes de filtrar: {ListaEntidades.Count}");
+                System.Diagnostics.Debug.WriteLine($"País seleccionado: '{ddlFiltroPais.SelectedValue}'");
+                System.Diagnostics.Debug.WriteLine($"Entidad seleccionada: '{ddlFiltroEntidad.SelectedValue}'");
 
                 // Aplicar filtro de país si está seleccionado
                 if (!string.IsNullOrEmpty(ddlFiltroPais.SelectedValue))
                 {
                     int paisId = int.Parse(ddlFiltroPais.SelectedValue);
-                    ListaEntidades = ListaEntidades.Where(e => e.pais?.pais_id == paisId).ToList();
+                    ListaEntidades = ListaEntidades.Where(e => e.pais != null && e.pais.pais_id == paisId).ToList();
+                    System.Diagnostics.Debug.WriteLine($"Después de filtrar por país: {ListaEntidades.Count}");
+                }
+
+                // Aplicar filtro de entidad bancaria si está seleccionado
+                if (!string.IsNullOrEmpty(ddlFiltroEntidad.SelectedValue))
+                {
+                    int entidadId = int.Parse(ddlFiltroEntidad.SelectedValue);
+                    ListaEntidades = ListaEntidades.Where(e => e.entidad_bancaria_id == entidadId).ToList();
+                    System.Diagnostics.Debug.WriteLine($"Después de filtrar por entidad: {ListaEntidades.Count}");
                 }
 
                 // Ordenar por nombre
@@ -94,12 +159,24 @@ namespace SoftPacWA
 
         protected void btnFiltrar_Click(object sender, EventArgs e)
         {
+            gvEntidades.PageIndex = 0; // Resetear a la primera página
             CargarEntidades();
         }
 
         protected void btnLimpiar_Click(object sender, EventArgs e)
         {
+            // Resetear ambos dropdowns al índice 0 (primera opción)
             ddlFiltroPais.SelectedIndex = 0;
+            ddlFiltroEntidad.Items.Clear(); // Limpiar el dropdown de entidades
+
+            // Recargar todas las entidades disponibles
+            CargarFiltroEntidades();
+
+            // Asegurar que el dropdown de entidades esté en "Todas las entidades"
+            ddlFiltroEntidad.SelectedIndex = 0;
+
+            // Resetear la paginación y recargar datos
+            gvEntidades.PageIndex = 0;
             CargarEntidades();
         }
 

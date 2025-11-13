@@ -64,18 +64,29 @@
 
     <!-- Filtros -->
     <div class="filter-section">
-        <div class="row gx-3 gy-4">
-            <div class="col-12 col-md-6">
-                <label class="form-label">País</label>
-                <asp:DropDownList ID="ddlFiltroPais" runat="server" CssClass="form-select">
-                    <asp:ListItem Value="">Todos los países</asp:ListItem>
-                </asp:DropDownList>
-            </div>
-            <div class="col-md-6 d-flex align-items-end gap-2 flex-wrap">
-                <asp:Button ID="btnFiltrar" runat="server" Text="Filtrar" CssClass="btn btn-primary" OnClick="btnFiltrar_Click" />
-                <asp:Button ID="btnLimpiar" runat="server" Text="Limpiar" CssClass="btn btn-secondary" OnClick="btnLimpiar_Click" />
-            </div>
-        </div>
+        <asp:UpdatePanel ID="upFiltros" runat="server" UpdateMode="Conditional">
+            <ContentTemplate>
+                <div class="row gx-3 gy-4">
+                    <div class="col-12 col-md-4">
+                        <label class="form-label">País</label>
+                        <asp:DropDownList ID="ddlFiltroPais" runat="server" CssClass="form-select" 
+                            AutoPostBack="true" OnSelectedIndexChanged="ddlFiltroPais_SelectedIndexChanged">
+                            <asp:ListItem Value="">Todos los países</asp:ListItem>
+                        </asp:DropDownList>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <label class="form-label">Entidad Bancaria</label>
+                        <asp:DropDownList ID="ddlFiltroEntidad" runat="server" CssClass="form-select">
+                            <asp:ListItem Value="">Todas las entidades</asp:ListItem>
+                        </asp:DropDownList>
+                    </div>
+                    <div class="col-md-4 d-flex align-items-end gap-2 flex-wrap">
+                        <asp:Button ID="btnFiltrar" runat="server" Text="Filtrar" CssClass="btn btn-primary" OnClick="btnFiltrar_Click" />
+                        <asp:Button ID="btnLimpiar" runat="server" Text="Limpiar" CssClass="btn btn-secondary" OnClick="btnLimpiar_Click" />
+                    </div>
+                </div>
+            </ContentTemplate>
+        </asp:UpdatePanel>
     </div>
 
     <!-- Tabla de Entidades Bancarias -->
@@ -83,7 +94,7 @@
         <div class="lista-header">
             <h3 class="lista-title">Lista de Entidades Bancarias</h3>
         </div>
-        
+    
         <div class="lista-body">
             <asp:UpdatePanel ID="upEntidades" runat="server" UpdateMode="Conditional">
                 <ContentTemplate>
@@ -109,9 +120,15 @@
                                 PageButtonCount="10" />
                         </asp:GridView>
                     </div>
+                    <asp:Label ID="Label1" runat="server" CssClass="total-registros"></asp:Label>
                 </ContentTemplate>
+                <Triggers>
+                    <asp:AsyncPostBackTrigger ControlID="btnFiltrar" EventName="Click" />
+                    <asp:AsyncPostBackTrigger ControlID="btnLimpiar" EventName="Click" />
+                </Triggers>
             </asp:UpdatePanel>
         </div>
+    </div>
         
         <div class="lista-footer">
             <asp:Label ID="lblRegistros" runat="server" CssClass="total-registros"></asp:Label>

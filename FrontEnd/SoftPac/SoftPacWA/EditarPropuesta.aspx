@@ -254,7 +254,7 @@
         </div>
 
         <!-- Totales por Moneda -->
-        <div class="totales-section">
+        <asp:Panel class="totales-section" runat="server" ID="PnlTotalesMoneda">
             <div class="totales-title">
                 <i class="fas fa-coins"></i>
                 Totales por Moneda
@@ -268,6 +268,12 @@
                     </ItemTemplate>
                 </asp:Repeater>
             </div>
+        </asp:Panel>
+
+        <!-- Botón para agregar nuevo detalle (colocar justo encima de la grilla de detalles) -->
+        <div style="margin-bottom:1rem;">
+            <asp:Button ID="btnAgregarDetalle" runat="server" Text="Agregar Detalle" CssClass="btn btn-primary"
+                OnClick="btnAgregarDetalle_Click" />
         </div>
 
         <!-- Detalles de Pagos -->

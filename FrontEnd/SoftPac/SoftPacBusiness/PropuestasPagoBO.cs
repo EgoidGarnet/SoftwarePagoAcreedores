@@ -33,7 +33,7 @@ namespace SoftPac.Business
         public IList<propuestasPagoDTO> ListarActividadPorUsuario(int usuarioId)
         {
             // Llama al nuevo método del DAO que no filtra por borrado lógico
-            return propuestaPagoClienteSOAP.listarActividadPorUsuario(usuarioId);
+            return propuestaPagoClienteSOAP.listarActividadPorUsuario(usuarioId) ?? Array.Empty<propuestasPagoDTO>();
         }
 
         public IList<propuestasPagoDTO> ListarConFiltros(int? paisId, int? bancoId, string estado)

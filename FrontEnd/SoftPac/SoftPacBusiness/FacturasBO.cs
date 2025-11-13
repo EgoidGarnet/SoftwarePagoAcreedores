@@ -80,6 +80,22 @@ namespace SoftPac.Business
 
         public int Modificar(facturasDTO factura)
         {
+            if (factura.detalles_Factura!=null) {
+                foreach(detallesFacturaDTO detalle in factura.detalles_Factura)
+                {
+                    detalle.factura = null;
+                }
+            }
+            factura.fecha_emisionSpecified = true;
+            factura.fecha_recepcionSpecified = true;
+            factura.fecha_limite_pagoSpecified = true;
+            factura.moneda.moneda_idSpecified = true;
+            factura.acreedor.acreedor_idSpecified = true;
+            factura.monto_totalSpecified = true;
+            factura.monto_restanteSpecified = true;
+            factura.monto_igvSpecified = true;
+            factura.tasa_ivaSpecified = true;
+            factura.otros_tributosSpecified = true;
             return this.facturaClienteSOAP.modificarFactura(factura);
         }
 

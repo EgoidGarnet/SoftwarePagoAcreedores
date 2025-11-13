@@ -9,6 +9,7 @@ using SoftPacBusiness.FacturasWS;
 using SoftPacBusiness.UsuariosWS;
 using paisesDTO = SoftPacBusiness.FacturasWS.paisesDTO;
 using usuariosDTO = SoftPacBusiness.UsuariosWS.usuariosDTO;
+using System.Web.Script.Serialization;
 
 namespace SoftPacWA
 {
@@ -43,9 +44,39 @@ namespace SoftPacWA
             if (!IsPostBack)
             {
                 CargarFiltros();
+                CargarFacturasParaAutocomplete();
                 CargarFacturas();
             }
         }
+
+        #region Autocomplete
+        private void CargarFacturasParaAutocomplete()
+        {
+            try
+            {
+                List<facturasDTO> listaFacturas = facturasBO.ListarTodos()
+                    .Where(f => paisesUsuario.Select(pu => pu.pais_id).ToList().Contains(f.acreedor.pais.pais_id))
+                    .ToList();
+
+                var facturasSimplificadas = listaFacturas.Select(f => new
+                {
+                    numero_factura = f.numero_factura ?? "",
+                    acreedor = f.acreedor?.razon_social ?? "",
+                    monto_total = f.monto_total,
+                    moneda = f.moneda?.codigo_iso ?? "",
+                    estado = f.estado ?? ""
+                }).ToList();
+
+                JavaScriptSerializer serializer = new JavaScriptSerializer();
+                string json = serializer.Serialize(facturasSimplificadas);
+                hfFacturasJson.Value = json;
+            }
+            catch (Exception ex)
+            {
+                hfFacturasJson.Value = "[]";
+            }
+        }
+        #endregion
 
         private void CargarFiltros()
         {
@@ -79,6 +110,16 @@ namespace SoftPacWA
             {
                 ListaFacturas = facturasBO.ListarTodos().ToList();
                 ListaFacturas = ListaFacturas.Where(f => paisesUsuario.Select(pu => pu.pais_id).ToList().Contains(f.acreedor.pais.pais_id)).ToList();
+
+                // Filtro por número de factura (búsqueda)
+                string numeroFacturaBusqueda = (txtBuscarFactura.Text ?? string.Empty).Trim().ToLower();
+                if (!string.IsNullOrEmpty(numeroFacturaBusqueda))
+                {
+                    ListaFacturas = ListaFacturas.Where(f =>
+                        (f.numero_factura ?? string.Empty).ToLower().Contains(numeroFacturaBusqueda) ||
+                        (f.acreedor?.razon_social ?? string.Empty).ToLower().Contains(numeroFacturaBusqueda)
+                    ).ToList();
+                }
 
                 // Aplicar filtros
                 if (!string.IsNullOrEmpty(ddlFiltroPais.SelectedValue))
@@ -140,6 +181,7 @@ namespace SoftPacWA
 
         protected void LimpiarFiltros(object sender, EventArgs e)
         {
+            txtBuscarFactura.Text = string.Empty;
             ddlFiltroPais.SelectedIndex = 0;
             ddlFiltroProveedor.SelectedIndex = 0;
             txtFechaDesde.Text = string.Empty;

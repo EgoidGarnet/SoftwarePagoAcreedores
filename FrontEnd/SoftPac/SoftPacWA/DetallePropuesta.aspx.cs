@@ -51,6 +51,8 @@ namespace SoftPacWA
             public string CuentaDestino { get; set; }
             public string BancoDestino { get; set; }
             public string FormaPago { get; set; }
+            public string Estado { get; set; }
+            public int DetalleId { get; set; }
         }
 
         // Clase para exportación XML
@@ -118,6 +120,8 @@ namespace SoftPacWA
                     btnAnular.Visible = false;
                     return;
                 }
+
+                ViewState["PropuestaEstado"] = propuesta.estado;
 
                 // Cargar información general
                 lblPropuestaId.Text = propuesta.propuesta_id.ToString() ?? "-";
@@ -244,10 +248,9 @@ namespace SoftPacWA
 
         private void CargarDetallesPagos(propuestasPagoDTO propuesta)
         {
-            if (propuesta.detalles_propuesta == null || propuesta.detalles_propuesta.Length == 0)
+            if (propuesta.detalles_propuesta == null)
             {
-                lblCantidadPagos.Text = "0 pago(s)";
-                return;
+                propuesta.detalles_propuesta = Array.Empty<detallesPropuestaDTO>();
             }
 
             var detallesActivos = propuesta.detalles_propuesta
@@ -257,6 +260,7 @@ namespace SoftPacWA
             var detallesVM = detallesActivos
                 .Select(d => new DetalleViewModel
                 {
+                    DetalleId = d.detalle_propuesta_id, // AGREGAR ESTO
                     NumeroFactura = d.factura?.numero_factura ?? "-",
                     RazonSocialAcreedor = d.factura?.acreedor?.razon_social ?? "-",
                     CodigoMoneda = d.factura?.moneda?.codigo_iso ?? "-",
@@ -265,7 +269,8 @@ namespace SoftPacWA
                     BancoOrigen = d.cuenta_propia?.entidad_bancaria?.nombre ?? "-",
                     CuentaDestino = d.cuenta_acreedor?.numero_cuenta ?? "-",
                     BancoDestino = d.cuenta_acreedor?.entidad_bancaria?.nombre ?? "-",
-                    FormaPago = MapearFormaPago((char?)d.forma_pago)
+                    FormaPago = MapearFormaPago((char?)d.forma_pago),
+                    Estado = d.estado ?? "Pagado" // AGREGAR ESTO
                 })
                 .ToList();
 
@@ -274,7 +279,6 @@ namespace SoftPacWA
 
             lblCantidadPagos.Text = $"{detallesVM.Count} pago(s)";
 
-            // Guardar en ViewState para paginación
             ViewState["DetallesViewModel"] = detallesVM;
         }
 
@@ -289,7 +293,7 @@ namespace SoftPacWA
                 MostrarMensaje("La propuesta no tiene pagos. Considere anularla.", "warning");
 
                 // Deshabilitar todos los botones excepto anular
-                btnEditar.Visible = false;
+                btnEditar.Visible = true;
                 btnEnviar.Visible = false;
                 btnExportar.Visible = false;
                 btnAnular.Visible = true; // Solo anular visible
@@ -414,6 +418,16 @@ namespace SoftPacWA
             }
 
             upDetalles.Update();
+        }
+
+        protected void gvDetalles_DataBound(object sender, EventArgs e)
+        {
+            string estadoprop = ViewState["PropuestaEstado"] as string;
+            bool esEnviada = string.Equals(estadoprop, "Enviada", StringComparison.OrdinalIgnoreCase);
+            var estadoCol = gvDetalles.Columns
+                .Cast<DataControlField>()
+                .FirstOrDefault(c => string.Equals(c.HeaderText, "Estado de Pago", StringComparison.OrdinalIgnoreCase));
+            if (estadoCol != null) estadoCol.Visible = esEnviada;
         }
 
         protected void btnEliminarPagos_Click(object sender, EventArgs e)
@@ -557,6 +571,167 @@ namespace SoftPacWA
             {
                 MostrarMensaje($"Error al enviar la propuesta: {ex.Message}", "danger");
             }
+        }
+        protected void btnConfirmarRechazo_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                int detalleId = Convert.ToInt32(hfDetalleIdRechazo.Value);
+
+                var propuesta = propuestasBO.ObtenerPorId(PropuestaId);
+
+                if (propuesta == null || propuesta.detalles_propuesta == null)
+                {
+                    MostrarMensaje("No se encontró la propuesta", "danger");
+                    return;
+                }
+
+                var detalle = propuesta.detalles_propuesta
+                    .FirstOrDefault(d => d.detalle_propuesta_id == detalleId);
+
+                if (detalle == null)
+                {
+                    MostrarMensaje("No se encontró el detalle del pago", "danger");
+                    return;
+                }
+
+                if (detalle.estado == "Rechazado")
+                {
+                    MostrarMensaje("Este pago ya fue rechazado anteriormente", "warning");
+                    return;
+                }
+
+                // 1. Actualizar estado del detalle
+                detalle.estado = "Rechazado";
+
+                // 2. Actualizar factura
+                if (detalle.factura != null)
+                {
+                    var facturaBO = new FacturasBO();
+                    var factura = facturaBO.ObtenerPorId(detalle.factura.factura_id);
+
+                    if (factura != null)
+                    {
+                        factura.estado = "Pendiente";
+                        factura.monto_restante += detalle.monto_pago;
+                        facturaBO.Modificar(factura);
+                    }
+                }
+
+                // 3. Actualizar cuenta propia
+                if (detalle.cuenta_propia != null)
+                {
+                    var cuenta = cuentasPropiasBO.ObtenerPorId(detalle.cuenta_propia.cuenta_bancaria_id);
+
+                    if (cuenta != null)
+                    {
+                        cuenta.saldo_disponible += detalle.monto_pago;
+                        cuentasPropiasBO.Modificar(cuenta);
+                    }
+                }
+
+                // 4. Guardar cambios en propuesta
+                if (propuestasBO.Modificar(propuesta) == 1)
+                {
+                    ScriptManager.RegisterStartupScript(this, GetType(), "cerrarModal",
+                        "$('#modalRechazarPago').modal('hide');", true);
+
+                    MostrarMensaje("Pago rechazado correctamente. Se actualizó la factura y el saldo de la cuenta.", "success");
+                    CargarDetalle();
+                }
+                else
+                {
+                    MostrarMensaje("Error al rechazar el pago", "danger");
+                }
+            }
+            catch (Exception ex)
+            {
+                MostrarMensaje($"Error al rechazar el pago: {ex.Message}", "danger");
+            }
+        }
+
+        protected void gvDetalles_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            if (e.CommandName == "RechazarPago")
+            {
+                int detalleId = Convert.ToInt32(e.CommandArgument);
+                hfDetalleIdRechazo.Value = detalleId.ToString();
+
+                ScriptManager.RegisterStartupScript(this, GetType(), "mostrarModal",
+                    "$('#modalRechazarPago').modal('show');", true);
+            }
+        }
+        protected string GetEstadoPagoHtml(string estado, object detalleIdObj)
+        {
+            string estadoprop = ViewState["PropuestaEstado"] as string;
+
+            if (string.IsNullOrWhiteSpace(estadoprop) || !string.Equals(estadoprop, "Enviada", StringComparison.OrdinalIgnoreCase))
+                return "-";
+
+            int detalleId = Convert.ToInt32(detalleIdObj);
+
+            if (estado == "Rechazado")
+            {
+                return "<i class='fas fa-times-circle icon-cuadrado bg-danger-hover text-danger' title='Pago Rechazado'></i>";
+            }
+            else if (estado == "Pagado")
+            {
+                return $"<a href='#' onclick='mostrarModalRechazar({detalleId}); return false;' class='text-decoration-none'> < i class='fas fa-check-circle icon-cuadrado bg-success-hover text-success' title='Rechazar pago'></i></a>";
+            }
+
+            return "-";
+        }
+        protected void btnConfirmarAnulacion_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var propuesta = propuestasBO.ObtenerPorId(PropuestaId);
+
+                if (propuesta == null)
+                {
+                    MostrarMensaje("No se encontró la propuesta", "danger");
+                    return;
+                }
+
+                if (propuesta.estado != "Pendiente")
+                {
+                    MostrarMensaje("Solo se pueden anular propuestas en estado Pendiente", "warning");
+                    return;
+                }
+
+                // Actualizar estado
+                propuesta.estado = "Anulada";
+
+                propuesta.usuario_modificacion = DTOConverter.Convertir<SoftPacBusiness.UsuariosWS.usuariosDTO, SoftPacBusiness.PropuestaPagoWS.usuariosDTO>(UsuarioLogueado);
+                propuesta.fecha_hora_modificacion = DateTime.Now;
+
+                bool resultado = propuestasBO.Modificar(propuesta) == 1;
+
+                if (resultado)
+                {
+                    // Cerrar modal y recargar
+                    ScriptManager.RegisterStartupScript(this, GetType(), "cerrarModal",
+                        "$('#modalAnular').modal('hide');", true);
+
+                    MostrarMensaje("Propuesta anulada exitosamente", "success");
+                    CargarDetalle();
+                }
+                else
+                {
+                    MostrarMensaje("Error al anular la propuesta", "danger");
+                }
+            }
+            catch (Exception ex)
+            {
+                MostrarMensaje($"Error al anular la propuesta: {ex.Message}", "danger");
+            }
+        }
+
+        private void MostrarMensaje(string mensaje, string tipo)
+        {
+            pnlMensaje.Visible = true;
+            pnlMensaje.CssClass = $"alert alert-{tipo} alert-dismissible fade show";
+            lblMensaje.Text = mensaje;
         }
 
         protected void btnExportar_Click(object sender, EventArgs e)
@@ -791,57 +966,5 @@ namespace SoftPacWA
             Response.End();
         }
 
-        protected void btnConfirmarAnulacion_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                var propuesta = propuestasBO.ObtenerPorId(PropuestaId);
-
-                if (propuesta == null)
-                {
-                    MostrarMensaje("No se encontró la propuesta", "danger");
-                    return;
-                }
-
-                if (propuesta.estado != "Pendiente")
-                {
-                    MostrarMensaje("Solo se pueden anular propuestas en estado Pendiente", "warning");
-                    return;
-                }
-
-                // Actualizar estado
-                propuesta.estado = "Anulada";
-
-                propuesta.usuario_modificacion = DTOConverter.Convertir<SoftPacBusiness.UsuariosWS.usuariosDTO, SoftPacBusiness.PropuestaPagoWS.usuariosDTO>(UsuarioLogueado);
-                propuesta.fecha_hora_modificacion = DateTime.Now;
-
-                bool resultado = propuestasBO.Modificar(propuesta) == 1;
-
-                if (resultado)
-                {
-                    // Cerrar modal y recargar
-                    ScriptManager.RegisterStartupScript(this, GetType(), "cerrarModal",
-                        "$('#modalAnular').modal('hide');", true);
-
-                    MostrarMensaje("Propuesta anulada exitosamente", "success");
-                    CargarDetalle();
-                }
-                else
-                {
-                    MostrarMensaje("Error al anular la propuesta", "danger");
-                }
-            }
-            catch (Exception ex)
-            {
-                MostrarMensaje($"Error al anular la propuesta: {ex.Message}", "danger");
-            }
-        }
-
-        private void MostrarMensaje(string mensaje, string tipo)
-        {
-            pnlMensaje.Visible = true;
-            pnlMensaje.CssClass = $"alert alert-{tipo} alert-dismissible fade show";
-            lblMensaje.Text = mensaje;
-        }
     }
 }

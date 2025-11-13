@@ -567,18 +567,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Connected Services\PropuestaPagoWS\configuration91.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Connected Services\PropuestaPagoWS\configuration.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Connected Services\PropuestaPagoWS\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Connected Services\AcreedoresWS\configuration91.svcinfo" />
   </ItemGroup>
   <ItemGroup>
@@ -598,6 +586,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Connected Services\ReporteFactPendWS\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\PropuestaPagoWS\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\PropuestaPagoWS\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\PropuestaPagoWS\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>

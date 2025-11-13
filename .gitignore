@@ -70,3 +70,9 @@ iisexpress/
 [Tt]est[Rr]esult*/
 [Bb]enchmarkDotNet.Artifacts/
 *.TestResults.xml
+/BackEnd/SoftPacBusiness/target/
+/BackEnd/SoftPacDBManager/nbproject/
+/BackEnd/SoftPacDBManager/target/
+/BackEnd/SoftPacModel/target/
+/BackEnd/SoftPacPersistance/target/
+/BackEnd/SoftPacPersistance/nbproject/

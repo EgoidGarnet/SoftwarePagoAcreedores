@@ -170,11 +170,34 @@
                 width: 100%;
             }
         }
+
+        .icon-cuadrado {
+            display: inline-flex;
+            width: 40px;
+            height: 40px;
+            justify-content: center;
+            align-items: center;
+            border-radius: 8px;
+            transition: 0.2s ease;
+            cursor: pointer;
+        }
+
+        .bg-danger-hover:hover {
+            background: rgba(220, 53, 69, 0.15); /* rojo claro */
+        }
+
+        .bg-success-hover:hover {
+            background: rgba(40, 167, 69, 0.15); /* verde claro */
+        }
+
+        a .icon-cuadrado:hover {
+            transform: scale(1.1);
+        }
     </style>
 </asp:Content>
 
 <asp:Content ID="Main" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <asp:Panel class="page-container">
+    <asp:Panel class="page-container" runat="server">
         
         <!-- Mensajes -->
         <asp:Panel ID="pnlMensaje" runat="server" Visible="false" CssClass="alert alert-dismissible fade show" role="alert">
@@ -183,7 +206,7 @@
         </asp:Panel>
 
         <!-- Page Header -->
-        <div class="page-header">
+        <asp:Panel class="page-header" runat="server">
             <div>
                 <h2 class="page-title">
                     <i class="fas fa-file-alt"></i>
@@ -226,7 +249,7 @@
                     <i class="fas fa-paper-plane"></i> Confirmar Envío
                 </asp:LinkButton>
             </div>
-        </div>
+        </asp:Panel>
 
         <!-- Info Cards -->
         <div class="info-cards">
@@ -408,6 +431,9 @@
                             AllowPaging="true"
                             PageSize="20"
                             OnPageIndexChanging="gvDetalles_PageIndexChanging"
+                            OnRowCommand="gvDetalles_RowCommand"
+                            OnDataBound="gvDetalles_DataBound"
+                            DataKeyNames="DetalleId"
                             GridLines="None"
                             EmptyDataText="No hay detalles en esta propuesta.">
                             
@@ -456,6 +482,13 @@
                                 </asp:TemplateField>
                                 
                                 <asp:BoundField DataField="FormaPago" HeaderText="Forma de Pago" />
+
+                                <asp:TemplateField HeaderText="Estado de Pago">
+                                    <ItemTemplate>
+                                        <%# GetEstadoPagoHtml(Eval("Estado").ToString(), Eval("DetalleId")) %>
+                                    </ItemTemplate>
+                                    <ItemStyle HorizontalAlign="Center" />
+                                </asp:TemplateField>
                             </Columns>
 
                             <PagerStyle CssClass="pagination justify-content-center mt-3" />
@@ -473,7 +506,7 @@
                 </ContentTemplate>
             </asp:UpdatePanel>
         </div>
-    </div>
+    </asp:Panel>
 
     <!-- Modal de Anulación -->
     <div class="modal fade" id="modalAnular" tabindex="-1" aria-hidden="true">
@@ -502,10 +535,51 @@
             </div>
         </div>
     </div>
-
+    <!-- Modal de Rechazo de Pago -->
+    <div class="modal fade" id="modalRechazarPago" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-warning">
+                    <h5 class="modal-title">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        Rechazar Pago
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-warning">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <strong>Advertencia:</strong> Esta acción no se puede deshacer.
+                    </div>
+                    <p>Al rechazar este pago:</p>
+                    <ul>
+                        <li>La factura volverá al estado <strong>Pendiente</strong></li>
+                        <li>Se restaurará el monto pendiente de la factura</li>
+                        <li>Se devolverá el saldo a la cuenta propia</li>
+                        <li>El pago quedará marcado como <strong>Rechazado</strong> permanentemente</li>
+                    </ul>
+                    <p class="mb-0"><strong>¿Está seguro de rechazar este pago?</strong></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <asp:HiddenField ID="hfDetalleIdRechazo" runat="server" />
+                    <asp:Button ID="btnConfirmarRechazo" runat="server" 
+                        Text="Confirmar Rechazo" 
+                        CssClass="btn btn-warning"
+                        OnClick="btnConfirmarRechazo_Click" />
+                </div>
+            </div>
+        </div>
+    </div>
     <script type="text/javascript">
         function mostrarModalAnular() {
             $('#modalAnular').modal('show');
+            return false;
+        }
+
+        function mostrarModalRechazar(detalleId) {
+            document.getElementById('<%= hfDetalleIdRechazo.ClientID %>').value = detalleId;
+            $('#modalRechazarPago').modal('show');
             return false;
         }
     </script>

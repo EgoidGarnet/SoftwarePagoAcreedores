@@ -126,14 +126,22 @@
     <div class="filter-section">
         <div class="row gx-3 gy-4">
             <div class="col-12 col-md-3">
+                <label class="form-label">Buscar por Número de Factura</label>
+                <asp:TextBox ID="txtBuscarFactura" runat="server" CssClass="form-control" 
+                    placeholder="Ingrese número de factura" autocomplete="off"></asp:TextBox>
+                <asp:HiddenField ID="hfFacturasJson" runat="server" />
+            </div>
+            <div class="col-12 col-md-2">
                 <label class="form-label">País</label>
-                <asp:DropDownList ID="ddlFiltroPais" runat="server" CssClass="form-select" AutoPostBack="true" OnSelectedIndexChanged="AplicarFiltros">
+                <asp:DropDownList ID="ddlFiltroPais" runat="server" CssClass="form-select" 
+                    AutoPostBack="true" OnSelectedIndexChanged="AplicarFiltros">
                     <asp:ListItem Value="">Todos los países</asp:ListItem>
                 </asp:DropDownList>
             </div>
             <div class="col-12 col-md-3">
                 <label class="form-label">Acreedor</label>
-                <asp:DropDownList ID="ddlFiltroProveedor" runat="server" CssClass="form-select" AutoPostBack="true" OnSelectedIndexChanged="AplicarFiltros">
+                <asp:DropDownList ID="ddlFiltroProveedor" runat="server" CssClass="form-select" 
+                    AutoPostBack="true" OnSelectedIndexChanged="AplicarFiltros">
                     <asp:ListItem Value="">Todos los acreedores</asp:ListItem>
                 </asp:DropDownList>
             </div>
@@ -145,12 +153,14 @@
                 <label class="form-label">Vencimiento Hasta</label>
                 <asp:TextBox ID="txtFechaHasta" runat="server" CssClass="form-control" TextMode="Date"></asp:TextBox>
             </div>
-            <div class="col-md-2 d-flex align-items-end gap-2 flex-wrap">
+        </div>
+        <div class="row gx-3 gy-4 mt-2">
+            <div class="col-md-12 d-flex gap-2">
                 <asp:Button ID="btnFiltrar" runat="server" Text="Filtrar" CssClass="btn btn-primary" OnClick="AplicarFiltros" />
                 <asp:Button ID="btnLimpiar" runat="server" Text="Limpiar" CssClass="btn btn-secondary" OnClick="LimpiarFiltros" />
             </div>
         </div>
-    </div>
+     </div>
 
     <!-- Botón Nueva Factura -->
     <div class="mb-3">
@@ -251,4 +261,39 @@
             <asp:Label ID="lblRegistros" runat="server" CssClass="total-registros"></asp:Label>
         </div>
     </div>
+
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var facturasJson = $('#<%= hfFacturasJson.ClientID %>').val();
+            var facturas = facturasJson ? JSON.parse(facturasJson) : [];
+        
+            $('#<%= txtBuscarFactura.ClientID %>').autocomplete({
+                source: function (request, response) {
+                    var term = request.term.toLowerCase();
+                    var matches = $.grep(facturas, function (factura) {
+                        return factura.numero_factura.toLowerCase().includes(term) ||
+                               factura.acreedor.toLowerCase().includes(term) ||
+                               factura.monto_total.toString().includes(term);
+                    });
+
+                    response(matches.slice(0, 10).map(function (factura) {
+                        return {
+                            label: factura.numero_factura + ' - ' + factura.acreedor + ' (' + factura.moneda + ' ' + factura.monto_total + ') - ' + factura.estado,
+                            value: factura.numero_factura
+                        };
+                    }));
+                },
+                minLength: 1,
+                select: function (event, ui) {
+                    $(this).val(ui.item.value);
+                    return false;
+                }
+            });
+        });
+    </script>
+
+
 </asp:Content>

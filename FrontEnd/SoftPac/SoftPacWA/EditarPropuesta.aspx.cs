@@ -94,12 +94,6 @@ namespace SoftPacWA
                     return;
                 }
 
-                if (propuesta.detalles_propuesta == null || propuesta.detalles_propuesta.Length == 0)
-                {
-                    Response.Redirect($"~/DetallePropuesta.aspx?id={PropuestaId}");
-                    return;
-                }
-
                 // Cargar información general
                 lblPropuestaId.Text = propuesta.propuesta_id.ToString() ?? "-";
                 lblFechaCreacion.Text = propuesta.fecha_hora_creacion.ToString("dd/MM/yyyy HH:mm") ?? "-";
@@ -126,14 +120,16 @@ namespace SoftPacWA
             var propuesta = Session["PropuestaOriginal"] as propuestasPagoDTO;
             if (propuesta == null)
                 return;
+            var detallesActivos = new List<detallesPropuestaDTO>();
+            if (!(propuesta.detalles_propuesta == null || propuesta.detalles_propuesta.Length == 0))
+            {
 
-            var detallesEliminados = DetallesEliminados;
+                var detallesEliminados = DetallesEliminados;
 
-            // Filtrar detalles eliminados
-            var detallesActivos = propuesta.detalles_propuesta
-                .Where(d => d.detalle_propuesta_idSpecified && !detallesEliminados.Contains(d.detalle_propuesta_id))
-                .ToList();
-
+                detallesActivos = propuesta.detalles_propuesta
+                    .Where(d => d.detalle_propuesta_idSpecified && !detallesEliminados.Contains(d.detalle_propuesta_id))
+                    .ToList();
+            }
             lblTotalPagos.Text = detallesActivos.Count.ToString();
 
             // Cargar totales por moneda
@@ -149,6 +145,7 @@ namespace SoftPacWA
             {
                 rptTotales.DataSource = null;
                 rptTotales.DataBind();
+                PnlTotalesMoneda.Visible = false;
                 return;
             }
 
@@ -295,7 +292,7 @@ namespace SoftPacWA
                 }
 
                 // Validar que quede al menos un detalle
-                if (propuesta.detalles_propuesta.Length == 0)
+                if (propuesta.detalles_propuesta == null || propuesta.detalles_propuesta.Length == 0)
                 {
                     MostrarMensaje("La propuesta debe tener al menos un pago", "warning");
                     return;
@@ -352,6 +349,11 @@ namespace SoftPacWA
                     }
                 }
             }
+        }
+        protected void btnAgregarDetalle_Click(object sender, EventArgs e)
+        {
+            // Redirige a la nueva página para agregar un detalle, pasando el id de la propuesta
+            Response.Redirect($"~/AgregarDetallePropuesta.aspx?id={PropuestaId}");
         }
 
         protected void btnCancelar_Click(object sender, EventArgs e)

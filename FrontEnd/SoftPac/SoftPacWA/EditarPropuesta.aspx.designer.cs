@@ -105,6 +105,15 @@ namespace SoftPacWA
         protected global::System.Web.UI.WebControls.Label lblTotalPagos;
 
         /// <summary>
+        /// Control PnlTotalesMoneda.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel PnlTotalesMoneda;
+
+        /// <summary>
         /// Control rptTotales.
         /// </summary>
         /// <remarks>
@@ -112,6 +121,15 @@ namespace SoftPacWA
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Repeater rptTotales;
+
+        /// <summary>
+        /// Control btnAgregarDetalle.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnAgregarDetalle;
 
         /// <summary>
         /// Control lblCantidadPagos.

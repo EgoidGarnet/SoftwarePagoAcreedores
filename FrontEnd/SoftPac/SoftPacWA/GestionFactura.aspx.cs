@@ -161,7 +161,7 @@ namespace SoftPacWA
             if (ddlPais.SelectedValue != "0")
             {
                 int paisId = Convert.ToInt32(ddlPais.SelectedValue);
-                acreedores = acreedores.Where(a => a.pais.pais_id == paisId).ToList();
+                acreedores = acreedores.Where(a => a.pais.pais_id == paisId && a.activo==true).ToList();
             }
 
             ddlAcreedor.DataSource = acreedores;

@@ -83,7 +83,7 @@ namespace SoftPacWA
                         FechaAccion = propuesta.fecha_hora_creacion,
                         TipoAccion = "Creación",
                         Estado = propuesta.estado,
-                        NumFacturas = propuesta.detalles_propuesta.Length
+                        NumFacturas = propuesta.detalles_propuesta==null ? 0 : propuesta.detalles_propuesta.Length
                     });
                 }
                 // Acción de Modificación
@@ -95,7 +95,7 @@ namespace SoftPacWA
                         FechaAccion = propuesta.fecha_hora_modificacion,
                         TipoAccion = "Modificación",
                         Estado = propuesta.estado,
-                        NumFacturas = propuesta.detalles_propuesta.Length
+                        NumFacturas = propuesta.detalles_propuesta == null ? 0 : propuesta.detalles_propuesta.Length
                     });
                 }
                 // Acción de Eliminación
@@ -107,7 +107,7 @@ namespace SoftPacWA
                         FechaAccion = propuesta.fecha_eliminacion,
                         TipoAccion = "Eliminación",
                         Estado = "Eliminada",
-                        NumFacturas = propuesta.detalles_propuesta.Length
+                        NumFacturas = propuesta.detalles_propuesta == null ? 0 : propuesta.detalles_propuesta.Length
                     });
                 }
             }

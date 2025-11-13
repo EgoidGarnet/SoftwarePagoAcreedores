@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Web.Script.Serialization;
 
 namespace SoftPacWA
 {
@@ -37,9 +38,36 @@ namespace SoftPacWA
 
                 CargarFiltros();
                 CargarCatalogosModal();
+                CargarCuentasParaAutocomplete();
                 CargarGrid();
             }
         }
+
+        #region Autocomplete
+        private void CargarCuentasParaAutocomplete()
+        {
+            try
+            {
+                List<cuentasPropiasDTO> listaCuentas = cuentasBO.ListarTodos().ToList();
+
+                var cuentasSimplificadas = listaCuentas.Select(c => new
+                {
+                    numero_cuenta = c.numero_cuenta ?? "",
+                    entidad_bancaria = c.entidad_bancaria?.nombre ?? "",
+                    cci = c.cci ?? "",
+                    moneda = c.moneda?.codigo_iso ?? ""
+                }).ToList();
+
+                JavaScriptSerializer serializer = new JavaScriptSerializer();
+                string json = serializer.Serialize(cuentasSimplificadas);
+                hfCuentasJson.Value = json;
+            }
+            catch (Exception ex)
+            {
+                hfCuentasJson.Value = "[]";
+            }
+        }
+        #endregion
 
         #region Carga de Datos
         private void CargarGrid()
@@ -86,6 +114,17 @@ namespace SoftPacWA
         {
             IEnumerable<cuentasPropiasDTO> filtrados = ListaCompletaCuentas;
 
+            // Filtro por número de cuenta (búsqueda)
+            string numeroCuentaBusqueda = (txtBuscarCuenta.Text ?? string.Empty).Trim().ToLower();
+            if (!string.IsNullOrEmpty(numeroCuentaBusqueda))
+            {
+                filtrados = filtrados.Where(c =>
+                    (c.numero_cuenta ?? string.Empty).ToLower().Contains(numeroCuentaBusqueda) ||
+                    (c.cci ?? string.Empty).ToLower().Contains(numeroCuentaBusqueda) ||
+                    (c.entidad_bancaria?.nombre ?? string.Empty).ToLower().Contains(numeroCuentaBusqueda)
+                );
+            }
+
             // Filtro por entidad bancaria
             if (!string.IsNullOrEmpty(ddlFiltroEntidad.SelectedValue))
             {
@@ -114,6 +153,7 @@ namespace SoftPacWA
 
         protected void btnLimpiar_Click(object sender, EventArgs e)
         {
+            txtBuscarCuenta.Text = string.Empty;
             ddlFiltroEntidad.SelectedIndex = 0;
             ddlFiltroMoneda.SelectedIndex = 0;
             txtFiltroSaldo.Text = string.Empty;
@@ -145,7 +185,7 @@ namespace SoftPacWA
             }
             else if (e.CommandName == "Eliminar")
             {
-                var usuario = (SoftPacBusiness.UsuariosWS.usuariosDTO)Session ["UsuarioLogueado"];
+                var usuario = (SoftPacBusiness.UsuariosWS.usuariosDTO)Session["UsuarioLogueado"];
                 cuentasPropiasDTO cuentaEliminada = new cuentasPropiasDTO();
                 cuentaEliminada.cuenta_bancaria_id = cuentaId;
                 int resultado = cuentasBO.Eliminar(cuentaEliminada, DTOConverter.Convertir<SoftPacBusiness.UsuariosWS.usuariosDTO, SoftPacBusiness.CuentasPropiasWS.usuariosDTO>(usuario));
@@ -207,14 +247,13 @@ namespace SoftPacWA
                 cuentasPropiasDTO cuenta = new cuentasPropiasDTO
                 {
                     cuenta_bancaria_id = Convert.ToInt32(hfCuentaId.Value),
-                    entidad_bancaria = new SoftPacBusiness.CuentasPropiasWS.entidadesBancariasDTO { entidad_bancaria_id = Convert.ToInt32(ddlEntidadBancaria.SelectedValue)},
-                    moneda = new monedasDTO { moneda_id = Convert.ToInt32(ddlMoneda.SelectedValue)},
+                    entidad_bancaria = new SoftPacBusiness.CuentasPropiasWS.entidadesBancariasDTO { entidad_bancaria_id = Convert.ToInt32(ddlEntidadBancaria.SelectedValue) },
+                    moneda = new monedasDTO { moneda_id = Convert.ToInt32(ddlMoneda.SelectedValue) },
                     tipo_cuenta = txtTipoCuenta.Text,
                     numero_cuenta = txtNumeroCuenta.Text,
                     cci = txtCci.Text,
                     saldo_disponible = Convert.ToDecimal(txtSaldoDisponible.Text),
                     activa = chkActiva.Checked,
-                    
                 };
 
                 int resultado;
@@ -224,15 +263,17 @@ namespace SoftPacWA
                 }
                 else
                 {
-                    
                     resultado = cuentasBO.Modificar(cuenta);
                 }
 
                 if (resultado > 0)
                 {
-                    MostrarMensaje("Cuenta guardada correctamente.", "success");
                     ListaCompletaCuentas = cuentasBO.ListarTodos().ToList();
                     btnFiltrar_Click(null, null);
+                    MostrarMensaje("Cuenta guardada correctamente.", "success");
+
+                    ScriptManager.RegisterStartupScript(this, GetType(), "cerrarModal",
+                        "cerrarModal();", true);
                 }
                 else
                 {

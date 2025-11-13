@@ -28,25 +28,34 @@
 
             <!-- Sección de Filtros -->
             <div class="filter-section">
-                <div class="row g-3 align-items-end">
-                    <div class="col-md-3">
-                        <label class="form-label">Entidad Bancaria</label>
-                        <asp:DropDownList ID="ddlFiltroEntidad" runat="server" CssClass="form-select"></asp:DropDownList>
-                    </div>
-                    <div class="col-md-3">
-                        <label class="form-label">Moneda</label>
-                        <asp:DropDownList ID="ddlFiltroMoneda" runat="server" CssClass="form-select"></asp:DropDownList>
-                    </div>
-                    <div class="col-md-3">
-                        <label class="form-label">Saldo Disponible (mayor o igual que)</label>
-                        <asp:TextBox ID="txtFiltroSaldo" runat="server" CssClass="form-control" TextMode="Number" step="0.01"></asp:TextBox>
-                    </div>
-                    <div class="col-md-3 d-flex">
-                        <asp:Button ID="btnFiltrar" runat="server" Text="Filtrar" CssClass="btn btn-secondary me-2" OnClick="btnFiltrar_Click" />
-                        <asp:Button ID="btnLimpiar" runat="server" Text="Limpiar" CssClass="btn btn-outline-secondary" OnClick="btnLimpiar_Click" />
-                    </div>
+            <div class="row g-3 align-items-end">
+                <div class="col-md-3">
+                    <label class="form-label">Buscar por Número de Cuenta</label>
+                    <asp:TextBox ID="txtBuscarCuenta" runat="server" CssClass="form-control" 
+                        placeholder="Ingrese número de cuenta" autocomplete="off"></asp:TextBox>
+                    <asp:HiddenField ID="hfCuentasJson" runat="server" />
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">Entidad Bancaria</label>
+                    <asp:DropDownList ID="ddlFiltroEntidad" runat="server" CssClass="form-select"></asp:DropDownList>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">Moneda</label>
+                    <asp:DropDownList ID="ddlFiltroMoneda" runat="server" CssClass="form-select"></asp:DropDownList>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">Saldo Disponible (≥)</label>
+                    <asp:TextBox ID="txtFiltroSaldo" runat="server" CssClass="form-control" 
+                        TextMode="Number" step="0.01"></asp:TextBox>
+                </div>
+                <div class="col-md-3 d-flex">
+                    <asp:Button ID="btnFiltrar" runat="server" Text="Filtrar" 
+                        CssClass="btn btn-secondary me-2" OnClick="btnFiltrar_Click" />
+                    <asp:Button ID="btnLimpiar" runat="server" Text="Limpiar" 
+                        CssClass="btn btn-outline-secondary" OnClick="btnLimpiar_Click" />
                 </div>
             </div>
+        </div>
 
             <!-- Grilla de Cuentas -->
             <div class="card shadow-sm">
@@ -156,10 +165,58 @@
             </div>
         </div>
     </div>
-    <script type="text/javascript">
-        function abrirModal() {
-            var modal = new bootstrap.Modal(document.getElementById('modalCuenta'), {});
-            modal.show();
+    
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+
+<script type="text/javascript">
+    function abrirModal() {
+        var modal = new bootstrap.Modal(document.getElementById('modalCuenta'), {});
+        modal.show();
+    }
+
+    function cerrarModal() {
+        var modal = bootstrap.Modal.getInstance(document.getElementById('modalCuenta'));
+        if (modal) {
+            modal.hide();
         }
-    </script>
+        // Limpiar el backdrop si queda residual
+        var backdrops = document.querySelectorAll('.modal-backdrop');
+        backdrops.forEach(function (backdrop) {
+            backdrop.remove();
+        });
+        document.body.classList.remove('modal-open');
+        document.body.style.removeProperty('overflow');
+        document.body.style.removeProperty('padding-right');
+    }
+
+    // Autocomplete para búsqueda de cuentas
+    $(document).ready(function () {
+        var cuentasJson = $('#<%= hfCuentasJson.ClientID %>').val();
+        var cuentas = cuentasJson ? JSON.parse(cuentasJson) : [];
+        
+        $('#<%= txtBuscarCuenta.ClientID %>').autocomplete({
+            source: function (request, response) {
+                var term = request.term.toLowerCase();
+                var matches = $.grep(cuentas, function (cuenta) {
+                    return cuenta.numero_cuenta.toLowerCase().includes(term) ||
+                        cuenta.entidad_bancaria.toLowerCase().includes(term) ||
+                        cuenta.cci.toLowerCase().includes(term);
+                });
+
+                response(matches.slice(0, 10).map(function (cuenta) {
+                    return {
+                        label: cuenta.numero_cuenta + ' - ' + cuenta.entidad_bancaria + ' (' + cuenta.moneda + ')',
+                        value: cuenta.numero_cuenta
+                    };
+                }));
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                $(this).val(ui.item.value);
+                return false;
+            }
+        });
+    });
+</script>
 </asp:Content>
