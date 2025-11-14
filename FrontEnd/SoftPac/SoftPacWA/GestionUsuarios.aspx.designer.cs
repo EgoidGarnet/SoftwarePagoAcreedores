@@ -204,6 +204,33 @@ namespace SoftPacWA
         protected global::System.Web.UI.WebControls.TextBox txtPasswordModal;
 
         /// <summary>
+        /// Control btnRegenerarPassword.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnRegenerarPassword;
+
+        /// <summary>
+        /// Control litPasswordHint.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal litPasswordHint;
+
+        /// <summary>
+        /// Control hfPasswordRegenerada.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hfPasswordRegenerada;
+
+        /// <summary>
         /// Control lblErrorPassword.
         /// </summary>
         /// <remarks>

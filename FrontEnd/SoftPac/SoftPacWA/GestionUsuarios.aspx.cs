@@ -183,20 +183,26 @@ namespace SoftPacWA
 
         private void CargarDatosEnModal(usuariosDTO usuario)
         {
-            litModalTitulo.Text = "Modificar Usuario";  // ASEGÚRATE QUE ESTA LÍNEA ESTÉ PRESENTE
-
-            // Limpiar mensajes de error PRIMERO
+            litModalTitulo.Text = "Modificar Usuario";
             LimpiarMensajesError();
 
-            // Campos no editables (en gris)
+            // Campos no editables
             txtNombre.Text = usuario.nombre;
             txtNombre.Enabled = false;
             txtApellidos.Text = usuario.apellidos;
             txtApellidos.Enabled = false;
             txtCorreo.Text = usuario.correo_electronico;
             txtCorreo.Enabled = false;
-            txtPasswordModal.Text = "********"; // Mostrar asteriscos en lugar de la contraseña real
-            txtPasswordModal.Enabled = false; // Deshabilitar el campo
+
+            // Campo de contraseña - IMPORTANTE: vacío, no "********"
+            txtPasswordModal.Text = string.Empty;
+            txtPasswordModal.Enabled = false;
+            txtPasswordModal.CssClass = "form-control"; // Reset estilo
+            txtPasswordModal.Attributes["placeholder"] = "No se modificará";
+            btnRegenerarPassword.Visible = true; // MOSTRAR botón regenerar
+            hfPasswordRegenerada.Value = string.Empty; // Limpiar flag
+            litPasswordHint.Text = "La contraseña no se modificará. Use 'Regenerar' para crear una nueva.";
+
             chkSuperusuario.Checked = usuario.superusuario;
             chkSuperusuario.Disabled = true;
 
@@ -206,13 +212,12 @@ namespace SoftPacWA
             chkActivo.Checked = usuario.activo;
             chkActivo.Disabled = false;
 
-            // Limpiar selección de países y marcar solo los que tienen acceso = true
+            // Países
             cblPaises.ClearSelection();
             if (usuario.usuario_pais != null)
             {
                 foreach (var acceso in usuario.usuario_pais)
                 {
-                    // Solo marcar si acceso es true
                     if (acceso.acceso)
                     {
                         ListItem item = cblPaises.Items.FindByValue(acceso.pais.pais_id.ToString());
@@ -238,9 +243,14 @@ namespace SoftPacWA
             txtCorreo.Text = string.Empty;
             txtCorreo.Enabled = true;
 
-            // IMPORTANTE: Limpiar y mantener readonly el campo de contraseña
+            // Campo de contraseña para NUEVO usuario
             txtPasswordModal.Text = string.Empty;
-            txtPasswordModal.Enabled = false;  // Mantenerlo deshabilitado para nuevo usuario
+            txtPasswordModal.Enabled = false;
+            txtPasswordModal.CssClass = "form-control"; // Reset estilo
+            txtPasswordModal.Attributes["placeholder"] = "Se generará automáticamente";
+            btnRegenerarPassword.Visible = false; // Ocultar en modo crear
+            hfPasswordRegenerada.Value = string.Empty;
+            litPasswordHint.Text = "La contraseña se generará automáticamente y se enviará por correo.";
 
             chkActivo.Checked = true;
             chkActivo.Disabled = true;
@@ -248,7 +258,6 @@ namespace SoftPacWA
             chkSuperusuario.Disabled = false;
             cblPaises.ClearSelection();
 
-            // Limpiar mensajes de error
             LimpiarMensajesError();
         }
 
@@ -311,6 +320,16 @@ namespace SoftPacWA
                     lblErrorNombreUsuario.Visible = true;
                     esValido = false;
                 }
+                else
+                {
+                    // *** VALIDACIÓN DE DUPLICADO: Nombre de Usuario ***
+                    if (ExisteNombreUsuario(txtNombreUsuario.Text.Trim()))
+                    {
+                        lblErrorNombreUsuario.Text = "Este nombre de usuario ya existe. Elija otro.";
+                        lblErrorNombreUsuario.Visible = true;
+                        esValido = false;
+                    }
+                }
 
                 // Validar Correo
                 if (string.IsNullOrWhiteSpace(txtCorreo.Text))
@@ -319,20 +338,48 @@ namespace SoftPacWA
                     lblErrorCorreo.Visible = true;
                     esValido = false;
                 }
-
-                //// Validar Contraseña
-                //if (string.IsNullOrWhiteSpace(txtPasswordModal.Text))
-                //{
-                //    lblErrorPassword.Text = "La contraseña es obligatoria.";
-                //    lblErrorPassword.Visible = true;
-                //    esValido = false;
-                //}
-                //else if (!IsAlphanumeric(txtPasswordModal.Text.Trim()))
-                //{
-                //    lblErrorPassword.Text = "La contraseña debe ser alfanumérica.";
-                //    lblErrorPassword.Visible = true;
-                //    esValido = false;
-                //}
+                else if (!EsCorreoValido(txtCorreo.Text.Trim()))
+                {
+                    lblErrorCorreo.Text = "El formato del correo electrónico no es válido.";
+                    lblErrorCorreo.Visible = true;
+                    esValido = false;
+                }
+                else
+                {
+                    // *** VALIDACIÓN DE DUPLICADO: Correo Electrónico ***
+                    if (ExisteCorreoElectronico(txtCorreo.Text.Trim()))
+                    {
+                        lblErrorCorreo.Text = "Este correo electrónico ya está registrado. Use otro.";
+                        lblErrorCorreo.Visible = true;
+                        esValido = false;
+                    }
+                }
+            }
+            else // Modo modificación
+            {
+                // Validar Nombre de Usuario en modificación (puede estar cambiando el username)
+                if (string.IsNullOrWhiteSpace(txtNombreUsuario.Text))
+                {
+                    lblErrorNombreUsuario.Text = "El nombre de usuario es obligatorio.";
+                    lblErrorNombreUsuario.Visible = true;
+                    esValido = false;
+                }
+                else if (!IsAlphanumeric(txtNombreUsuario.Text.Trim()))
+                {
+                    lblErrorNombreUsuario.Text = "El nombre de usuario debe ser alfanumérico.";
+                    lblErrorNombreUsuario.Visible = true;
+                    esValido = false;
+                }
+                else
+                {
+                    // Validar que no exista otro usuario con ese nombre (excepto el actual)
+                    if (ExisteNombreUsuarioExcepto(txtNombreUsuario.Text.Trim(), usuarioId))
+                    {
+                        lblErrorNombreUsuario.Text = "Este nombre de usuario ya existe. Elija otro.";
+                        lblErrorNombreUsuario.Visible = true;
+                        esValido = false;
+                    }
+                }
             }
 
             // Validar que al menos un país esté seleccionado (PARA CREAR Y MODIFICAR)
@@ -353,8 +400,85 @@ namespace SoftPacWA
                 esValido = false;
             }
 
-
             return esValido;
+        }
+
+
+        private bool EsCorreoValido(string correo)
+        {
+            if (string.IsNullOrWhiteSpace(correo))
+                return false;
+
+            try
+            {
+                // Validación básica de formato de correo
+                var addr = new System.Net.Mail.MailAddress(correo);
+                return addr.Address == correo;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        private bool ExisteNombreUsuario(string nombreUsuario)
+        {
+            try
+            {
+                List<usuariosDTO> listaUsuarios = usuariosBO.ListarTodos().ToList();
+
+                // Buscar si existe algún usuario con ese nombre (sin importar mayúsculas/minúsculas)
+                return listaUsuarios.Any(u =>
+                    u.nombre_de_usuario != null &&
+                    u.nombre_de_usuario.Equals(nombreUsuario, StringComparison.OrdinalIgnoreCase)
+                );
+            }
+            catch (Exception ex)
+            {
+                // En caso de error, mejor prevenir la duplicación
+                System.Diagnostics.Debug.WriteLine($"Error al verificar nombre de usuario: {ex.Message}");
+                return false;
+            }
+        }
+
+        private bool ExisteCorreoElectronico(string correo)
+        {
+            try
+            {
+                List<usuariosDTO> listaUsuarios = usuariosBO.ListarTodos().ToList();
+
+                // Buscar si existe algún usuario con ese correo (sin importar mayúsculas/minúsculas)
+                return listaUsuarios.Any(u =>
+                    u.correo_electronico != null &&
+                    u.correo_electronico.Equals(correo, StringComparison.OrdinalIgnoreCase)
+                );
+            }
+            catch (Exception ex)
+            {
+                // En caso de error, mejor prevenir la duplicación
+                System.Diagnostics.Debug.WriteLine($"Error al verificar correo electrónico: {ex.Message}");
+                return false;
+            }
+        }
+
+        private bool ExisteNombreUsuarioExcepto(string nombreUsuario, int usuarioIdActual)
+        {
+            try
+            {
+                List<usuariosDTO> listaUsuarios = usuariosBO.ListarTodos().ToList();
+
+                // Buscar si existe otro usuario (que no sea el actual) con ese nombre
+                return listaUsuarios.Any(u =>
+                    u.usuario_id != usuarioIdActual &&
+                    u.nombre_de_usuario != null &&
+                    u.nombre_de_usuario.Equals(nombreUsuario, StringComparison.OrdinalIgnoreCase)
+                );
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error al verificar nombre de usuario: {ex.Message}");
+                return false;
+            }
         }
 
         protected void btnGuardar_Click(object sender, EventArgs e)
@@ -400,36 +524,48 @@ namespace SoftPacWA
                     };
                     resultado = usuariosBO.InsertarUsuario(nuevoUsuario, UsuarioLogueado);
                 }
-                else // Es una modificación
+                else // Es una MODIFICACIÓN
                 {
-                    // Para modificación, obtenemos el usuario completo y actualizamos sus accesos
                     usuariosDTO usuarioModificar = usuariosBO.ObtenerPorId(usuarioId);
 
                     if (usuarioModificar != null)
                     {
-                        // Actualizar campos básicos
                         usuarioModificar.nombre_de_usuario = txtNombreUsuario.Text.Trim();
                         usuarioModificar.activo = chkActivo.Checked;
-                        usuarioModificar.password_hash = null; // IMPLEMENTAR LÓGICA DE CAMBIO O DEJAR EN NULL PARA MANTENER CONTRASEÑA
 
-                        // Actualizar accesos de países
-                        // Primero limpiamos el array actual
+                        // Verificar si se regeneró la contraseña
+                        if (!string.IsNullOrEmpty(hfPasswordRegenerada.Value))
+                        {
+                            // SI se regeneró, enviar la nueva contraseña
+                            usuarioModificar.password_hash = hfPasswordRegenerada.Value;
+                        }
+                        else
+                        {
+                            // SI NO se regeneró, enviar string VACÍO (no null)
+                            usuarioModificar.password_hash = string.Empty; // ← CAMBIO AQUÍ
+                        }
+
                         var nuevosAccesos = new BindingList<usuarioPaisAccesoDTO>();
-
                         foreach (ListItem item in cblPaises.Items)
                         {
                             usuarioPaisAccesoDTO accesoPais = new usuarioPaisAccesoDTO();
                             accesoPais.pais = new paisesDTO { pais_id = Convert.ToInt32(item.Value) };
                             accesoPais.acceso = item.Selected;
                             accesoPais.accesoSpecified = true;
-
                             nuevosAccesos.Add(accesoPais);
                         }
-                        List<int> paisesAcceso = nuevosAccesos.Where(a => a.acceso == true).Select(a => a.pais.pais_id).ToList();
-                        //usuarioModificar.usuario_pais = nuevosAccesos.ToArray();
 
-                        // Llamar al método modificar acceso usuario
-                        resultado = usuariosBO.ModificarAccesoUsuario(usuarioModificar.usuario_id,usuarioModificar.nombre_de_usuario,usuarioModificar.activo,paisesAcceso,UsuarioLogueado,usuarioModificar.password_hash);
+                        List<int> paisesAcceso = nuevosAccesos.Where(a => a.acceso == true)
+                                                              .Select(a => a.pais.pais_id).ToList();
+
+                        resultado = usuariosBO.ModificarAccesoUsuario(
+                            usuarioModificar.usuario_id,
+                            usuarioModificar.nombre_de_usuario,
+                            usuarioModificar.activo,
+                            paisesAcceso,
+                            UsuarioLogueado,
+                            usuarioModificar.password_hash // Aquí irá "" o la nueva contraseña
+                        );
                     }
                     else
                     {
@@ -465,5 +601,25 @@ namespace SoftPacWA
                                    "<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>" +
                                    "</div>";
         }
+
+
+        protected void btnRegenerarPassword_Click(object sender, EventArgs e)
+        {
+            // Generar nueva contraseña
+            string nuevaPassword = GenerateRandomPassword(12);
+
+            // Guardarla en el HiddenField (NO en el TextBox visible)
+            hfPasswordRegenerada.Value = nuevaPassword;
+
+            // Mostrar confirmación visual
+            txtPasswordModal.Attributes["placeholder"] = "✓ Nueva contraseña generada";
+            txtPasswordModal.CssClass = "form-control border-success";
+            litPasswordHint.Text = "✓ Nueva contraseña generada. Se enviará por correo al guardar los cambios.";
+
+            MostrarMensaje("Contraseña regenerada exitosamente. Guarde para confirmar.", "success");
+        }
+
+
+
     }
 }

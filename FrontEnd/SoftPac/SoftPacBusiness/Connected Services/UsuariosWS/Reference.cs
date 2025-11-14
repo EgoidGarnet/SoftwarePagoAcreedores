@@ -28,16 +28,6 @@ namespace SoftPacBusiness.UsuariosWS {
         System.Threading.Tasks.Task<SoftPacBusiness.UsuariosWS.autenticarUsuarioPorNombreUsuarioResponse> autenticarUsuarioPorNombreUsuarioAsync(SoftPacBusiness.UsuariosWS.autenticarUsuarioPorNombreUsuarioRequest request);
         
         // CODEGEN: El parámetro 'return' requiere información adicional de esquema que no se puede capturar con el modo de parámetros. El atributo específico es 'System.Xml.Serialization.XmlElementAttribute'.
-        [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/UsuariosWS/autenticarUsuarioPorCorreoRequest", ReplyAction="http://softpacws.pucp.edu.pe/UsuariosWS/autenticarUsuarioPorCorreoResponse")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(eliminableDTOBase))]
-        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
-        SoftPacBusiness.UsuariosWS.autenticarUsuarioPorCorreoResponse autenticarUsuarioPorCorreo(SoftPacBusiness.UsuariosWS.autenticarUsuarioPorCorreoRequest request);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/UsuariosWS/autenticarUsuarioPorCorreoRequest", ReplyAction="http://softpacws.pucp.edu.pe/UsuariosWS/autenticarUsuarioPorCorreoResponse")]
-        System.Threading.Tasks.Task<SoftPacBusiness.UsuariosWS.autenticarUsuarioPorCorreoResponse> autenticarUsuarioPorCorreoAsync(SoftPacBusiness.UsuariosWS.autenticarUsuarioPorCorreoRequest request);
-        
-        // CODEGEN: El parámetro 'return' requiere información adicional de esquema que no se puede capturar con el modo de parámetros. El atributo específico es 'System.Xml.Serialization.XmlElementAttribute'.
         [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/UsuariosWS/eliminarUsuarioRequest", ReplyAction="http://softpacws.pucp.edu.pe/UsuariosWS/eliminarUsuarioResponse")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(eliminableDTOBase))]
@@ -46,6 +36,26 @@ namespace SoftPacBusiness.UsuariosWS {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/UsuariosWS/eliminarUsuarioRequest", ReplyAction="http://softpacws.pucp.edu.pe/UsuariosWS/eliminarUsuarioResponse")]
         System.Threading.Tasks.Task<SoftPacBusiness.UsuariosWS.eliminarUsuarioResponse> eliminarUsuarioAsync(SoftPacBusiness.UsuariosWS.eliminarUsuarioRequest request);
+        
+        // CODEGEN: El parámetro 'return' requiere información adicional de esquema que no se puede capturar con el modo de parámetros. El atributo específico es 'System.Xml.Serialization.XmlElementAttribute'.
+        [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/UsuariosWS/modificarUsuarioRequest", ReplyAction="http://softpacws.pucp.edu.pe/UsuariosWS/modificarUsuarioResponse")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(eliminableDTOBase))]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        SoftPacBusiness.UsuariosWS.modificarUsuarioResponse modificarUsuario(SoftPacBusiness.UsuariosWS.modificarUsuarioRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/UsuariosWS/modificarUsuarioRequest", ReplyAction="http://softpacws.pucp.edu.pe/UsuariosWS/modificarUsuarioResponse")]
+        System.Threading.Tasks.Task<SoftPacBusiness.UsuariosWS.modificarUsuarioResponse> modificarUsuarioAsync(SoftPacBusiness.UsuariosWS.modificarUsuarioRequest request);
+        
+        // CODEGEN: El parámetro 'return' requiere información adicional de esquema que no se puede capturar con el modo de parámetros. El atributo específico es 'System.Xml.Serialization.XmlElementAttribute'.
+        [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/UsuariosWS/modificarAccesoUsuarioRequest", ReplyAction="http://softpacws.pucp.edu.pe/UsuariosWS/modificarAccesoUsuarioResponse")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(eliminableDTOBase))]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        SoftPacBusiness.UsuariosWS.modificarAccesoUsuarioResponse modificarAccesoUsuario(SoftPacBusiness.UsuariosWS.modificarAccesoUsuarioRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/UsuariosWS/modificarAccesoUsuarioRequest", ReplyAction="http://softpacws.pucp.edu.pe/UsuariosWS/modificarAccesoUsuarioResponse")]
+        System.Threading.Tasks.Task<SoftPacBusiness.UsuariosWS.modificarAccesoUsuarioResponse> modificarAccesoUsuarioAsync(SoftPacBusiness.UsuariosWS.modificarAccesoUsuarioRequest request);
         
         // CODEGEN: El parámetro 'return' requiere información adicional de esquema que no se puede capturar con el modo de parámetros. El atributo específico es 'System.Xml.Serialization.XmlElementAttribute'.
         [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/UsuariosWS/obtenerUsuarioRequest", ReplyAction="http://softpacws.pucp.edu.pe/UsuariosWS/obtenerUsuarioResponse")]
@@ -68,16 +78,6 @@ namespace SoftPacBusiness.UsuariosWS {
         System.Threading.Tasks.Task<SoftPacBusiness.UsuariosWS.insertarUsuarioResponse> insertarUsuarioAsync(SoftPacBusiness.UsuariosWS.insertarUsuarioRequest request);
         
         // CODEGEN: El parámetro 'return' requiere información adicional de esquema que no se puede capturar con el modo de parámetros. El atributo específico es 'System.Xml.Serialization.XmlElementAttribute'.
-        [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/UsuariosWS/modificarUsuarioRequest", ReplyAction="http://softpacws.pucp.edu.pe/UsuariosWS/modificarUsuarioResponse")]
-        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(eliminableDTOBase))]
-        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
-        SoftPacBusiness.UsuariosWS.modificarUsuarioResponse modificarUsuario(SoftPacBusiness.UsuariosWS.modificarUsuarioRequest request);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/UsuariosWS/modificarUsuarioRequest", ReplyAction="http://softpacws.pucp.edu.pe/UsuariosWS/modificarUsuarioResponse")]
-        System.Threading.Tasks.Task<SoftPacBusiness.UsuariosWS.modificarUsuarioResponse> modificarUsuarioAsync(SoftPacBusiness.UsuariosWS.modificarUsuarioRequest request);
-        
-        // CODEGEN: El parámetro 'return' requiere información adicional de esquema que no se puede capturar con el modo de parámetros. El atributo específico es 'System.Xml.Serialization.XmlElementAttribute'.
         [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/UsuariosWS/listarUsuariosRequest", ReplyAction="http://softpacws.pucp.edu.pe/UsuariosWS/listarUsuariosResponse")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(eliminableDTOBase))]
@@ -88,18 +88,18 @@ namespace SoftPacBusiness.UsuariosWS {
         System.Threading.Tasks.Task<SoftPacBusiness.UsuariosWS.listarUsuariosResponse> listarUsuariosAsync(SoftPacBusiness.UsuariosWS.listarUsuariosRequest request);
         
         // CODEGEN: El parámetro 'return' requiere información adicional de esquema que no se puede capturar con el modo de parámetros. El atributo específico es 'System.Xml.Serialization.XmlElementAttribute'.
-        [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/UsuariosWS/modificarAccesoUsuarioRequest", ReplyAction="http://softpacws.pucp.edu.pe/UsuariosWS/modificarAccesoUsuarioResponse")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/UsuariosWS/autenticarUsuarioPorCorreoRequest", ReplyAction="http://softpacws.pucp.edu.pe/UsuariosWS/autenticarUsuarioPorCorreoResponse")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(eliminableDTOBase))]
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
-        SoftPacBusiness.UsuariosWS.modificarAccesoUsuarioResponse modificarAccesoUsuario(SoftPacBusiness.UsuariosWS.modificarAccesoUsuarioRequest request);
+        SoftPacBusiness.UsuariosWS.autenticarUsuarioPorCorreoResponse autenticarUsuarioPorCorreo(SoftPacBusiness.UsuariosWS.autenticarUsuarioPorCorreoRequest request);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/UsuariosWS/modificarAccesoUsuarioRequest", ReplyAction="http://softpacws.pucp.edu.pe/UsuariosWS/modificarAccesoUsuarioResponse")]
-        System.Threading.Tasks.Task<SoftPacBusiness.UsuariosWS.modificarAccesoUsuarioResponse> modificarAccesoUsuarioAsync(SoftPacBusiness.UsuariosWS.modificarAccesoUsuarioRequest request);
+        [System.ServiceModel.OperationContractAttribute(Action="http://softpacws.pucp.edu.pe/UsuariosWS/autenticarUsuarioPorCorreoRequest", ReplyAction="http://softpacws.pucp.edu.pe/UsuariosWS/autenticarUsuarioPorCorreoResponse")]
+        System.Threading.Tasks.Task<SoftPacBusiness.UsuariosWS.autenticarUsuarioPorCorreoResponse> autenticarUsuarioPorCorreoAsync(SoftPacBusiness.UsuariosWS.autenticarUsuarioPorCorreoRequest request);
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9037.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -276,7 +276,7 @@ namespace SoftPacBusiness.UsuariosWS {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9037.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -350,7 +350,7 @@ namespace SoftPacBusiness.UsuariosWS {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9037.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -439,7 +439,7 @@ namespace SoftPacBusiness.UsuariosWS {
     
     /// <remarks/>
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(usuariosDTO))]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9037.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -542,47 +542,6 @@ namespace SoftPacBusiness.UsuariosWS {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="autenticarUsuarioPorCorreo", WrapperNamespace="http://softpacws.pucp.edu.pe/", IsWrapped=true)]
-    public partial class autenticarUsuarioPorCorreoRequest {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://softpacws.pucp.edu.pe/", Order=0)]
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public string correo;
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://softpacws.pucp.edu.pe/", Order=1)]
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public string password;
-        
-        public autenticarUsuarioPorCorreoRequest() {
-        }
-        
-        public autenticarUsuarioPorCorreoRequest(string correo, string password) {
-            this.correo = correo;
-            this.password = password;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="autenticarUsuarioPorCorreoResponse", WrapperNamespace="http://softpacws.pucp.edu.pe/", IsWrapped=true)]
-    public partial class autenticarUsuarioPorCorreoResponse {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://softpacws.pucp.edu.pe/", Order=0)]
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public SoftPacBusiness.UsuariosWS.usuariosDTO @return;
-        
-        public autenticarUsuarioPorCorreoResponse() {
-        }
-        
-        public autenticarUsuarioPorCorreoResponse(SoftPacBusiness.UsuariosWS.usuariosDTO @return) {
-            this.@return = @return;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
     [System.ServiceModel.MessageContractAttribute(WrapperName="eliminarUsuario", WrapperNamespace="http://softpacws.pucp.edu.pe/", IsWrapped=true)]
     public partial class eliminarUsuarioRequest {
         
@@ -617,6 +576,103 @@ namespace SoftPacBusiness.UsuariosWS {
         }
         
         public eliminarUsuarioResponse(int @return) {
+            this.@return = @return;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="modificarUsuario", WrapperNamespace="http://softpacws.pucp.edu.pe/", IsWrapped=true)]
+    public partial class modificarUsuarioRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://softpacws.pucp.edu.pe/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public SoftPacBusiness.UsuariosWS.usuariosDTO usuario;
+        
+        public modificarUsuarioRequest() {
+        }
+        
+        public modificarUsuarioRequest(SoftPacBusiness.UsuariosWS.usuariosDTO usuario) {
+            this.usuario = usuario;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="modificarUsuarioResponse", WrapperNamespace="http://softpacws.pucp.edu.pe/", IsWrapped=true)]
+    public partial class modificarUsuarioResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://softpacws.pucp.edu.pe/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public int @return;
+        
+        public modificarUsuarioResponse() {
+        }
+        
+        public modificarUsuarioResponse(int @return) {
+            this.@return = @return;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="modificarAccesoUsuario", WrapperNamespace="http://softpacws.pucp.edu.pe/", IsWrapped=true)]
+    public partial class modificarAccesoUsuarioRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://softpacws.pucp.edu.pe/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public int usuarioId;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://softpacws.pucp.edu.pe/", Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string nuevoNombreUsuario;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://softpacws.pucp.edu.pe/", Order=2)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public bool activo;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://softpacws.pucp.edu.pe/", Order=3)]
+        [System.Xml.Serialization.XmlElementAttribute("paisesIds", Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public int[] paisesIds;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://softpacws.pucp.edu.pe/", Order=4)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public SoftPacBusiness.UsuariosWS.usuariosDTO usuarioActual;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://softpacws.pucp.edu.pe/", Order=5)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string nuevaContrasenha;
+        
+        public modificarAccesoUsuarioRequest() {
+        }
+        
+        public modificarAccesoUsuarioRequest(int usuarioId, string nuevoNombreUsuario, bool activo, int[] paisesIds, SoftPacBusiness.UsuariosWS.usuariosDTO usuarioActual, string nuevaContrasenha) {
+            this.usuarioId = usuarioId;
+            this.nuevoNombreUsuario = nuevoNombreUsuario;
+            this.activo = activo;
+            this.paisesIds = paisesIds;
+            this.usuarioActual = usuarioActual;
+            this.nuevaContrasenha = nuevaContrasenha;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="modificarAccesoUsuarioResponse", WrapperNamespace="http://softpacws.pucp.edu.pe/", IsWrapped=true)]
+    public partial class modificarAccesoUsuarioResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://softpacws.pucp.edu.pe/", Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public int @return;
+        
+        public modificarAccesoUsuarioResponse() {
+        }
+        
+        public modificarAccesoUsuarioResponse(int @return) {
             this.@return = @return;
         }
     }
@@ -701,42 +757,6 @@ namespace SoftPacBusiness.UsuariosWS {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="modificarUsuario", WrapperNamespace="http://softpacws.pucp.edu.pe/", IsWrapped=true)]
-    public partial class modificarUsuarioRequest {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://softpacws.pucp.edu.pe/", Order=0)]
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public SoftPacBusiness.UsuariosWS.usuariosDTO usuario;
-        
-        public modificarUsuarioRequest() {
-        }
-        
-        public modificarUsuarioRequest(SoftPacBusiness.UsuariosWS.usuariosDTO usuario) {
-            this.usuario = usuario;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="modificarUsuarioResponse", WrapperNamespace="http://softpacws.pucp.edu.pe/", IsWrapped=true)]
-    public partial class modificarUsuarioResponse {
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://softpacws.pucp.edu.pe/", Order=0)]
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public int @return;
-        
-        public modificarUsuarioResponse() {
-        }
-        
-        public modificarUsuarioResponse(int @return) {
-            this.@return = @return;
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
     [System.ServiceModel.MessageContractAttribute(WrapperName="listarUsuarios", WrapperNamespace="http://softpacws.pucp.edu.pe/", IsWrapped=true)]
     public partial class listarUsuariosRequest {
         
@@ -765,60 +785,40 @@ namespace SoftPacBusiness.UsuariosWS {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="modificarAccesoUsuario", WrapperNamespace="http://softpacws.pucp.edu.pe/", IsWrapped=true)]
-    public partial class modificarAccesoUsuarioRequest {
+    [System.ServiceModel.MessageContractAttribute(WrapperName="autenticarUsuarioPorCorreo", WrapperNamespace="http://softpacws.pucp.edu.pe/", IsWrapped=true)]
+    public partial class autenticarUsuarioPorCorreoRequest {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://softpacws.pucp.edu.pe/", Order=0)]
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public int usuarioId;
+        public string correo;
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://softpacws.pucp.edu.pe/", Order=1)]
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public string nuevoNombreUsuario;
+        public string password;
         
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://softpacws.pucp.edu.pe/", Order=2)]
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public bool activo;
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://softpacws.pucp.edu.pe/", Order=3)]
-        [System.Xml.Serialization.XmlElementAttribute("paisesIds", Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public int[] paisesIds;
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://softpacws.pucp.edu.pe/", Order=4)]
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public SoftPacBusiness.UsuariosWS.usuariosDTO usuarioActual;
-        
-        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://softpacws.pucp.edu.pe/", Order=5)]
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public string nuevaContrasenha;
-        
-        public modificarAccesoUsuarioRequest() {
+        public autenticarUsuarioPorCorreoRequest() {
         }
         
-        public modificarAccesoUsuarioRequest(int usuarioId, string nuevoNombreUsuario, bool activo, int[] paisesIds, SoftPacBusiness.UsuariosWS.usuariosDTO usuarioActual, string nuevaContrasenha) {
-            this.usuarioId = usuarioId;
-            this.nuevoNombreUsuario = nuevoNombreUsuario;
-            this.activo = activo;
-            this.paisesIds = paisesIds;
-            this.usuarioActual = usuarioActual;
-            this.nuevaContrasenha = nuevaContrasenha;
+        public autenticarUsuarioPorCorreoRequest(string correo, string password) {
+            this.correo = correo;
+            this.password = password;
         }
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.ServiceModel.MessageContractAttribute(WrapperName="modificarAccesoUsuarioResponse", WrapperNamespace="http://softpacws.pucp.edu.pe/", IsWrapped=true)]
-    public partial class modificarAccesoUsuarioResponse {
+    [System.ServiceModel.MessageContractAttribute(WrapperName="autenticarUsuarioPorCorreoResponse", WrapperNamespace="http://softpacws.pucp.edu.pe/", IsWrapped=true)]
+    public partial class autenticarUsuarioPorCorreoResponse {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://softpacws.pucp.edu.pe/", Order=0)]
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public int @return;
+        public SoftPacBusiness.UsuariosWS.usuariosDTO @return;
         
-        public modificarAccesoUsuarioResponse() {
+        public autenticarUsuarioPorCorreoResponse() {
         }
         
-        public modificarAccesoUsuarioResponse(int @return) {
+        public autenticarUsuarioPorCorreoResponse(SoftPacBusiness.UsuariosWS.usuariosDTO @return) {
             this.@return = @return;
         }
     }
@@ -876,31 +876,6 @@ namespace SoftPacBusiness.UsuariosWS {
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        SoftPacBusiness.UsuariosWS.autenticarUsuarioPorCorreoResponse SoftPacBusiness.UsuariosWS.UsuariosWS.autenticarUsuarioPorCorreo(SoftPacBusiness.UsuariosWS.autenticarUsuarioPorCorreoRequest request) {
-            return base.Channel.autenticarUsuarioPorCorreo(request);
-        }
-        
-        public SoftPacBusiness.UsuariosWS.usuariosDTO autenticarUsuarioPorCorreo(string correo, string password) {
-            SoftPacBusiness.UsuariosWS.autenticarUsuarioPorCorreoRequest inValue = new SoftPacBusiness.UsuariosWS.autenticarUsuarioPorCorreoRequest();
-            inValue.correo = correo;
-            inValue.password = password;
-            SoftPacBusiness.UsuariosWS.autenticarUsuarioPorCorreoResponse retVal = ((SoftPacBusiness.UsuariosWS.UsuariosWS)(this)).autenticarUsuarioPorCorreo(inValue);
-            return retVal.@return;
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<SoftPacBusiness.UsuariosWS.autenticarUsuarioPorCorreoResponse> SoftPacBusiness.UsuariosWS.UsuariosWS.autenticarUsuarioPorCorreoAsync(SoftPacBusiness.UsuariosWS.autenticarUsuarioPorCorreoRequest request) {
-            return base.Channel.autenticarUsuarioPorCorreoAsync(request);
-        }
-        
-        public System.Threading.Tasks.Task<SoftPacBusiness.UsuariosWS.autenticarUsuarioPorCorreoResponse> autenticarUsuarioPorCorreoAsync(string correo, string password) {
-            SoftPacBusiness.UsuariosWS.autenticarUsuarioPorCorreoRequest inValue = new SoftPacBusiness.UsuariosWS.autenticarUsuarioPorCorreoRequest();
-            inValue.correo = correo;
-            inValue.password = password;
-            return ((SoftPacBusiness.UsuariosWS.UsuariosWS)(this)).autenticarUsuarioPorCorreoAsync(inValue);
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
         SoftPacBusiness.UsuariosWS.eliminarUsuarioResponse SoftPacBusiness.UsuariosWS.UsuariosWS.eliminarUsuario(SoftPacBusiness.UsuariosWS.eliminarUsuarioRequest request) {
             return base.Channel.eliminarUsuario(request);
         }
@@ -923,6 +898,62 @@ namespace SoftPacBusiness.UsuariosWS {
             inValue.usuario = usuario;
             inValue.usuarioActual = usuarioActual;
             return ((SoftPacBusiness.UsuariosWS.UsuariosWS)(this)).eliminarUsuarioAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        SoftPacBusiness.UsuariosWS.modificarUsuarioResponse SoftPacBusiness.UsuariosWS.UsuariosWS.modificarUsuario(SoftPacBusiness.UsuariosWS.modificarUsuarioRequest request) {
+            return base.Channel.modificarUsuario(request);
+        }
+        
+        public int modificarUsuario(SoftPacBusiness.UsuariosWS.usuariosDTO usuario) {
+            SoftPacBusiness.UsuariosWS.modificarUsuarioRequest inValue = new SoftPacBusiness.UsuariosWS.modificarUsuarioRequest();
+            inValue.usuario = usuario;
+            SoftPacBusiness.UsuariosWS.modificarUsuarioResponse retVal = ((SoftPacBusiness.UsuariosWS.UsuariosWS)(this)).modificarUsuario(inValue);
+            return retVal.@return;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<SoftPacBusiness.UsuariosWS.modificarUsuarioResponse> SoftPacBusiness.UsuariosWS.UsuariosWS.modificarUsuarioAsync(SoftPacBusiness.UsuariosWS.modificarUsuarioRequest request) {
+            return base.Channel.modificarUsuarioAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<SoftPacBusiness.UsuariosWS.modificarUsuarioResponse> modificarUsuarioAsync(SoftPacBusiness.UsuariosWS.usuariosDTO usuario) {
+            SoftPacBusiness.UsuariosWS.modificarUsuarioRequest inValue = new SoftPacBusiness.UsuariosWS.modificarUsuarioRequest();
+            inValue.usuario = usuario;
+            return ((SoftPacBusiness.UsuariosWS.UsuariosWS)(this)).modificarUsuarioAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        SoftPacBusiness.UsuariosWS.modificarAccesoUsuarioResponse SoftPacBusiness.UsuariosWS.UsuariosWS.modificarAccesoUsuario(SoftPacBusiness.UsuariosWS.modificarAccesoUsuarioRequest request) {
+            return base.Channel.modificarAccesoUsuario(request);
+        }
+        
+        public int modificarAccesoUsuario(int usuarioId, string nuevoNombreUsuario, bool activo, int[] paisesIds, SoftPacBusiness.UsuariosWS.usuariosDTO usuarioActual, string nuevaContrasenha) {
+            SoftPacBusiness.UsuariosWS.modificarAccesoUsuarioRequest inValue = new SoftPacBusiness.UsuariosWS.modificarAccesoUsuarioRequest();
+            inValue.usuarioId = usuarioId;
+            inValue.nuevoNombreUsuario = nuevoNombreUsuario;
+            inValue.activo = activo;
+            inValue.paisesIds = paisesIds;
+            inValue.usuarioActual = usuarioActual;
+            inValue.nuevaContrasenha = nuevaContrasenha;
+            SoftPacBusiness.UsuariosWS.modificarAccesoUsuarioResponse retVal = ((SoftPacBusiness.UsuariosWS.UsuariosWS)(this)).modificarAccesoUsuario(inValue);
+            return retVal.@return;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<SoftPacBusiness.UsuariosWS.modificarAccesoUsuarioResponse> SoftPacBusiness.UsuariosWS.UsuariosWS.modificarAccesoUsuarioAsync(SoftPacBusiness.UsuariosWS.modificarAccesoUsuarioRequest request) {
+            return base.Channel.modificarAccesoUsuarioAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<SoftPacBusiness.UsuariosWS.modificarAccesoUsuarioResponse> modificarAccesoUsuarioAsync(int usuarioId, string nuevoNombreUsuario, bool activo, int[] paisesIds, SoftPacBusiness.UsuariosWS.usuariosDTO usuarioActual, string nuevaContrasenha) {
+            SoftPacBusiness.UsuariosWS.modificarAccesoUsuarioRequest inValue = new SoftPacBusiness.UsuariosWS.modificarAccesoUsuarioRequest();
+            inValue.usuarioId = usuarioId;
+            inValue.nuevoNombreUsuario = nuevoNombreUsuario;
+            inValue.activo = activo;
+            inValue.paisesIds = paisesIds;
+            inValue.usuarioActual = usuarioActual;
+            inValue.nuevaContrasenha = nuevaContrasenha;
+            return ((SoftPacBusiness.UsuariosWS.UsuariosWS)(this)).modificarAccesoUsuarioAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -974,29 +1005,6 @@ namespace SoftPacBusiness.UsuariosWS {
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        SoftPacBusiness.UsuariosWS.modificarUsuarioResponse SoftPacBusiness.UsuariosWS.UsuariosWS.modificarUsuario(SoftPacBusiness.UsuariosWS.modificarUsuarioRequest request) {
-            return base.Channel.modificarUsuario(request);
-        }
-        
-        public int modificarUsuario(SoftPacBusiness.UsuariosWS.usuariosDTO usuario) {
-            SoftPacBusiness.UsuariosWS.modificarUsuarioRequest inValue = new SoftPacBusiness.UsuariosWS.modificarUsuarioRequest();
-            inValue.usuario = usuario;
-            SoftPacBusiness.UsuariosWS.modificarUsuarioResponse retVal = ((SoftPacBusiness.UsuariosWS.UsuariosWS)(this)).modificarUsuario(inValue);
-            return retVal.@return;
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<SoftPacBusiness.UsuariosWS.modificarUsuarioResponse> SoftPacBusiness.UsuariosWS.UsuariosWS.modificarUsuarioAsync(SoftPacBusiness.UsuariosWS.modificarUsuarioRequest request) {
-            return base.Channel.modificarUsuarioAsync(request);
-        }
-        
-        public System.Threading.Tasks.Task<SoftPacBusiness.UsuariosWS.modificarUsuarioResponse> modificarUsuarioAsync(SoftPacBusiness.UsuariosWS.usuariosDTO usuario) {
-            SoftPacBusiness.UsuariosWS.modificarUsuarioRequest inValue = new SoftPacBusiness.UsuariosWS.modificarUsuarioRequest();
-            inValue.usuario = usuario;
-            return ((SoftPacBusiness.UsuariosWS.UsuariosWS)(this)).modificarUsuarioAsync(inValue);
-        }
-        
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
         SoftPacBusiness.UsuariosWS.listarUsuariosResponse SoftPacBusiness.UsuariosWS.UsuariosWS.listarUsuarios(SoftPacBusiness.UsuariosWS.listarUsuariosRequest request) {
             return base.Channel.listarUsuarios(request);
         }
@@ -1018,36 +1026,28 @@ namespace SoftPacBusiness.UsuariosWS {
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        SoftPacBusiness.UsuariosWS.modificarAccesoUsuarioResponse SoftPacBusiness.UsuariosWS.UsuariosWS.modificarAccesoUsuario(SoftPacBusiness.UsuariosWS.modificarAccesoUsuarioRequest request) {
-            return base.Channel.modificarAccesoUsuario(request);
+        SoftPacBusiness.UsuariosWS.autenticarUsuarioPorCorreoResponse SoftPacBusiness.UsuariosWS.UsuariosWS.autenticarUsuarioPorCorreo(SoftPacBusiness.UsuariosWS.autenticarUsuarioPorCorreoRequest request) {
+            return base.Channel.autenticarUsuarioPorCorreo(request);
         }
         
-        public int modificarAccesoUsuario(int usuarioId, string nuevoNombreUsuario, bool activo, int[] paisesIds, SoftPacBusiness.UsuariosWS.usuariosDTO usuarioActual, string nuevaContrasenha) {
-            SoftPacBusiness.UsuariosWS.modificarAccesoUsuarioRequest inValue = new SoftPacBusiness.UsuariosWS.modificarAccesoUsuarioRequest();
-            inValue.usuarioId = usuarioId;
-            inValue.nuevoNombreUsuario = nuevoNombreUsuario;
-            inValue.activo = activo;
-            inValue.paisesIds = paisesIds;
-            inValue.usuarioActual = usuarioActual;
-            inValue.nuevaContrasenha = nuevaContrasenha;
-            SoftPacBusiness.UsuariosWS.modificarAccesoUsuarioResponse retVal = ((SoftPacBusiness.UsuariosWS.UsuariosWS)(this)).modificarAccesoUsuario(inValue);
+        public SoftPacBusiness.UsuariosWS.usuariosDTO autenticarUsuarioPorCorreo(string correo, string password) {
+            SoftPacBusiness.UsuariosWS.autenticarUsuarioPorCorreoRequest inValue = new SoftPacBusiness.UsuariosWS.autenticarUsuarioPorCorreoRequest();
+            inValue.correo = correo;
+            inValue.password = password;
+            SoftPacBusiness.UsuariosWS.autenticarUsuarioPorCorreoResponse retVal = ((SoftPacBusiness.UsuariosWS.UsuariosWS)(this)).autenticarUsuarioPorCorreo(inValue);
             return retVal.@return;
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<SoftPacBusiness.UsuariosWS.modificarAccesoUsuarioResponse> SoftPacBusiness.UsuariosWS.UsuariosWS.modificarAccesoUsuarioAsync(SoftPacBusiness.UsuariosWS.modificarAccesoUsuarioRequest request) {
-            return base.Channel.modificarAccesoUsuarioAsync(request);
+        System.Threading.Tasks.Task<SoftPacBusiness.UsuariosWS.autenticarUsuarioPorCorreoResponse> SoftPacBusiness.UsuariosWS.UsuariosWS.autenticarUsuarioPorCorreoAsync(SoftPacBusiness.UsuariosWS.autenticarUsuarioPorCorreoRequest request) {
+            return base.Channel.autenticarUsuarioPorCorreoAsync(request);
         }
         
-        public System.Threading.Tasks.Task<SoftPacBusiness.UsuariosWS.modificarAccesoUsuarioResponse> modificarAccesoUsuarioAsync(int usuarioId, string nuevoNombreUsuario, bool activo, int[] paisesIds, SoftPacBusiness.UsuariosWS.usuariosDTO usuarioActual, string nuevaContrasenha) {
-            SoftPacBusiness.UsuariosWS.modificarAccesoUsuarioRequest inValue = new SoftPacBusiness.UsuariosWS.modificarAccesoUsuarioRequest();
-            inValue.usuarioId = usuarioId;
-            inValue.nuevoNombreUsuario = nuevoNombreUsuario;
-            inValue.activo = activo;
-            inValue.paisesIds = paisesIds;
-            inValue.usuarioActual = usuarioActual;
-            inValue.nuevaContrasenha = nuevaContrasenha;
-            return ((SoftPacBusiness.UsuariosWS.UsuariosWS)(this)).modificarAccesoUsuarioAsync(inValue);
+        public System.Threading.Tasks.Task<SoftPacBusiness.UsuariosWS.autenticarUsuarioPorCorreoResponse> autenticarUsuarioPorCorreoAsync(string correo, string password) {
+            SoftPacBusiness.UsuariosWS.autenticarUsuarioPorCorreoRequest inValue = new SoftPacBusiness.UsuariosWS.autenticarUsuarioPorCorreoRequest();
+            inValue.correo = correo;
+            inValue.password = password;
+            return ((SoftPacBusiness.UsuariosWS.UsuariosWS)(this)).autenticarUsuarioPorCorreoAsync(inValue);
         }
     }
 }

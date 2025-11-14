@@ -199,8 +199,14 @@
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">Contraseña</label>
-                                    <asp:TextBox ID="txtPasswordModal" runat="server" CssClass="form-control" TextMode="Password" Enabled="false" placeholder="************"></asp:TextBox>
-                                    <small class="form-text text-muted">La contraseña se generará automáticamente y se enviará por correo.</small>
+                                    <div class="input-group">
+                                        <asp:TextBox ID="txtPasswordModal" runat="server" CssClass="form-control" TextMode="Password" Enabled="false" placeholder="Se generará automáticamente"></asp:TextBox>
+                                        <asp:Button ID="btnRegenerarPassword" runat="server" Text="🔄 Regenerar" CssClass="btn btn-warning" OnClick="btnRegenerarPassword_Click" Visible="false" />
+                                    </div>
+                                    <small class="form-text text-muted">
+                                        <asp:Literal ID="litPasswordHint" runat="server" Text="La contraseña se generará automáticamente y se enviará por correo."></asp:Literal>
+                                    </small>
+                                    <asp:HiddenField ID="hfPasswordRegenerada" runat="server" Value="" />
                                     <asp:Label ID="lblErrorPassword" runat="server" CssClass="error-message" Visible="false"></asp:Label>
                                 </div>
                             </div>

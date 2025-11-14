@@ -38,9 +38,9 @@ namespace SoftPacWA
 
                 if (usuario != null && usuario.usuario_id != 0)
                 {
+                    // Usuario autenticado correctamente
                     Session["UsuarioLogueado"] = usuario;
 
-                    // --- LÓGICA DE REDIRECCIÓN MODIFICADA ---
                     if (usuario.superusuario)
                     {
                         Response.Redirect("~/GestionUsuarios.aspx");
@@ -52,14 +52,24 @@ namespace SoftPacWA
                 }
                 else
                 {
-                    MostrarError("Usuario o contraseña no válidos.");
+                    // Autenticación falló - Verificar si es por usuario inactivo
+                    usuariosDTO usuarioInactivo = usuariosBO.VerificarUsuarioExiste(nombreUsuario);
+
+                    if (usuarioInactivo != null && usuarioInactivo.usuario_id != 0)
+                    {
+                        // El usuario existe pero está inactivo
+                        MostrarError("Su cuenta ha sido desactivada. Contacte al administrador.");
+                    }
+                    else
+                    {
+                        // Usuario no existe o contraseña incorrecta
+                        MostrarError("Usuario o contraseña no válidos.");
+                    }
                 }
             }
             catch (Exception ex)
             {
-                // Manejo de cualquier otro error
                 MostrarError("Ocurrió un error inesperado. Por favor, intente más tarde.");
-
             }
         }
 

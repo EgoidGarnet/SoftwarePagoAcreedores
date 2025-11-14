@@ -16,15 +16,10 @@
   <xs:element name="modificarUsuarioResponse" type="tns:modificarUsuarioResponse" />
   <xs:element name="obtenerUsuario" type="tns:obtenerUsuario" />
   <xs:element name="obtenerUsuarioResponse" type="tns:obtenerUsuarioResponse" />
-  <xs:complexType name="autenticarUsuarioPorCorreo">
+  <xs:complexType name="eliminarUsuario">
     <xs:sequence>
-      <xs:element minOccurs="0" name="correo" type="xs:string" />
-      <xs:element minOccurs="0" name="password" type="xs:string" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="autenticarUsuarioPorCorreoResponse">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="return" type="tns:usuariosDTO" />
+      <xs:element minOccurs="0" name="usuario" type="tns:usuariosDTO" />
+      <xs:element minOccurs="0" name="usuarioActual" type="tns:usuariosDTO" />
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="usuariosDTO">
@@ -65,15 +60,20 @@
       <xs:element minOccurs="0" name="pais_id" type="xs:int" />
     </xs:sequence>
   </xs:complexType>
-  <xs:complexType name="eliminarUsuario">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="usuario" type="tns:usuariosDTO" />
-      <xs:element minOccurs="0" name="usuarioActual" type="tns:usuariosDTO" />
-    </xs:sequence>
-  </xs:complexType>
   <xs:complexType name="eliminarUsuarioResponse">
     <xs:sequence>
       <xs:element minOccurs="0" name="return" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="autenticarUsuarioPorCorreo">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="correo" type="xs:string" />
+      <xs:element minOccurs="0" name="password" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="autenticarUsuarioPorCorreoResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:usuariosDTO" />
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="autenticarUsuarioPorNombreUsuario">
