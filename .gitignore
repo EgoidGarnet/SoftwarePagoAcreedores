@@ -76,3 +76,7 @@ iisexpress/
 /BackEnd/SoftPacModel/target/
 /BackEnd/SoftPacPersistance/target/
 /BackEnd/SoftPacPersistance/nbproject/
+/Servidor_Email/SoftPacEmailDTO/target/
+/Servidor_Email/SoftPacEmail/target/
+/Backend_Java/SoftPacWS/target/
+/Servidor_Email/SoftPacEmailWS/target/
