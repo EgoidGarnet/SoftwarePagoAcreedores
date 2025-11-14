@@ -203,18 +203,18 @@ namespace SoftPacWA
 
                 LinkButton btnEditar = (LinkButton)e.Row.FindControl("btnEditar");
                 LinkButton btnEliminar = (LinkButton)e.Row.FindControl("btnEliminar");
-                if (btnEditar != null && (factura.monto_restante != factura.monto_total || factura.estado == "Eliminado"
-                    || factura.estado == "Pagada"))
+                if (btnEditar != null && (factura.monto_restante != factura.monto_total || factura.estado != "Pendiente"))
                 {
                     btnEditar.Enabled = false;
-                    btnEditar.CssClass += " disabled";
+                    btnEditar.Visible = false;
+                    //btnEditar.CssClass += " disabled";
                     btnEditar.ToolTip = "No se puede editar una factura con pagos registrados.";
                 }
-                if (btnEliminar != null && (factura.monto_restante != factura.monto_total || factura.estado == "Eliminado"
-                    || factura.estado == "Pagada"))
+                if (btnEliminar != null && (factura.monto_restante != factura.monto_total || factura.estado != "Pendiente"))
                 {
                     btnEliminar.Enabled = false;
-                    btnEliminar.CssClass += " disabled";
+                    btnEliminar.Visible = false;
+                    //btnEliminar.CssClass += " disabled";
                     btnEliminar.ToolTip = "No se puede eliminar una factura con pagos registrados.";
                 }
             }

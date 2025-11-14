@@ -13,6 +13,9 @@
         .badge-inactivo{background:#dc3545;color:#fff}
         .action-buttons{display:flex;gap:.5rem}
         .btn-icon{padding:.25rem .5rem;font-size:.9rem}
+        /* para el iframe del modal */
+        .modal-iframe-container{width:100%;height:70vh}
+        .modal-iframe-container iframe{width:100%;height:100%;border:none}
     </style>
 </asp:Content>
 
@@ -20,7 +23,21 @@
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h3 class="pb-1"><i class="fa-solid fa-id-card"></i> Detalle del acreedor</h3>
         <div class="d-flex gap-2">
-            <asp:HyperLink ID="lnkNuevaCuenta" runat="server" CssClass="btn btn-primary btn-sm">
+            <!-- BOTÓN EDITAR ACREEDOR -->
+            <asp:LinkButton ID="btnEditar" runat="server" CssClass="btn btn-warning btn-sm" 
+                OnClick="btnEditar_Click" Text="Editar acreedor">
+                <i class="fa fa-edit"></i> Editar acreedor
+            </asp:LinkButton>
+            
+            <!-- BOTÓN ELIMINAR ACREEDOR -->
+            <asp:LinkButton ID="btnEliminar" runat="server" CssClass="btn btn-danger btn-sm" 
+                OnClientClick="return false;" Text="Eliminar acreedor"
+                data-bs-toggle="modal" data-bs-target="#modalConfirmarEliminar">
+                <i class="fa fa-trash"></i> Eliminar acreedor
+            </asp:LinkButton>
+            
+            <!-- MARCAMOS PARA ABRIR EN MODAL -->
+            <asp:HyperLink ID="lnkNuevaCuenta" runat="server" CssClass="btn btn-primary btn-sm" data-modal-cuenta="true">
                 <i class="fa fa-plus"></i> Nueva cuenta
             </asp:HyperLink>
             <asp:HyperLink ID="lnkVolver" runat="server" CssClass="btn btn-secondary btn-sm" NavigateUrl="Acreedores.aspx">
@@ -93,11 +110,13 @@
                             <asp:TemplateField HeaderText="Acciones">
                                 <ItemTemplate>
                                     <div class="action-buttons">
+                                        <!-- MARCAMOS EDITAR PARA MODAL -->
                                         <asp:HyperLink ID="btnEditarCuenta" runat="server" CssClass="btn btn-sm btn-warning btn-icon"
-                                            NavigateUrl='<%# "GestionDetalleAcreedor.aspx?acreedorId=" + Eval("AcreedorId") + "&cuentaId=" + Eval("CuentaBancariaId") %>'
-                                            ToolTip="Editar">
+                                            NavigateUrl='<%# "GestionDetalleAcreedor.aspx?acreedorId=" + Eval("AcreedorId") + "&cuentaId=" + Eval("CuentaBancariaId") + "&popup=1" %>'
+                                            ToolTip="Editar" data-modal-cuenta="true">
                                             <i class="fas fa-edit"></i>
                                         </asp:HyperLink>
+
                                         <asp:LinkButton ID="btnToggleCuenta" runat="server" CssClass="btn btn-sm btn-danger btn-icon"
                                             CommandName="Toggle" CommandArgument='<%# Eval("CuentaBancariaId") %>' ToolTip="Inactivar/Activar">
                                             <i class="fas fa-trash"></i>
@@ -112,4 +131,69 @@
             </asp:UpdatePanel>
         </div>
     </div>
+
+    <!-- MODAL PARA CONFIRMAR ELIMINACIÓN -->
+    <div class="modal fade" id="modalConfirmarEliminar" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title">
+                        <i class="fas fa-exclamation-triangle me-2"></i>Confirmar eliminación
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="mb-0">¿Está seguro que desea eliminar permanentemente este acreedor?</p>
+                    <p class="text-muted mb-0 mt-2"><small>Esta acción no se puede deshacer.</small></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <asp:Button ID="btnConfirmarEliminar" runat="server" CssClass="btn btn-danger" 
+                        OnClick="btnEliminar_Click" Text="Eliminar definitivamente" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL PARA GESTION DE CUENTAS DE ACREEDOR -->
+    <div class="modal fade" id="modalCuentaAcreedor" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header text-white" style="background-color: var(--color-primary);">
+                    <h5 class="modal-title">Gestión de cuenta de acreedor</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-iframe-container">
+                        <iframe id="iframeCuentaAcreedor"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        function abrirModalCuenta(url) {
+            var iframe = document.getElementById('iframeCuentaAcreedor');
+            iframe.src = url;
+            var modal = new bootstrap.Modal(document.getElementById('modalCuentaAcreedor'));
+            modal.show();
+        }
+
+        // Interceptar clics en enlaces marcados con data-modal-cuenta="true"
+        document.addEventListener('click', function (e) {
+            var link = e.target.closest('a[data-modal-cuenta="true"]');
+            if (link) {
+                e.preventDefault();
+                abrirModalCuenta(link.href);
+            }
+        });
+
+        // Función para mostrar mensajes (toast o alert)
+        function mostrarMensaje(mensaje, tipo) {
+            // Si tienes un sistema de toasts, úsalo aquí
+            // Por ejemplo con Bootstrap Toast o SweetAlert
+            alert(mensaje);
+        }
+    </script>
 </asp:Content>

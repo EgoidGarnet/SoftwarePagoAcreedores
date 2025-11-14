@@ -55,6 +55,7 @@
                                 <asp:TemplateField HeaderText="País">
                                     <ItemTemplate><%# Eval("PaisNombre") %></ItemTemplate>
                                 </asp:TemplateField>
+                                <asp:BoundField DataField="ruc" HeaderText="RUC" />
                                 <asp:TemplateField HeaderText="Estado">
                                     <ItemTemplate>
                                         <span class='badge-estado <%# GetEstadoClass(Eval("Estado")) %>'><%# Eval("Estado") %></span>
@@ -74,7 +75,7 @@
                                             </asp:LinkButton>
                                             <asp:LinkButton ID="btnToggle" runat="server" CssClass="btn btn-sm btn-danger btn-icon"
                                                 CommandName="Eliminar" CommandArgument='<%# Eval("acreedor_id") %>' OnClick="btnAccion_Click" ToolTip="Inactivar/Activar">
-                                                <i class="fas fa-trash"></i>
+                                                <i class="fas fa-x"></i>
                                             </asp:LinkButton>
                                         </div>
                                     </ItemTemplate>

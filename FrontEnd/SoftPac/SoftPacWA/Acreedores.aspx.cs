@@ -106,6 +106,7 @@ namespace SoftPacWA
                 {
                     a.acreedor_id,
                     a.razon_social,
+                    a.ruc,
                     PaisNombre = GetPaisNombreSeguro(a.pais),
                     Estado = a.activo ? "Activo" : "Inactivo"
                 })
@@ -152,7 +153,7 @@ namespace SoftPacWA
                     btnToggle.CssClass = "btn btn-sm btn-danger btn-icon";
                     btnToggle.ToolTip = "Inactivar";
                     btnToggle.CommandName = "Eliminar";
-                    btnToggle.Text = "<i class='fas fa-trash'></i>";
+                    btnToggle.Text = "<i class='fas fa-ban'></i>";
                 }
                 else
                 {
@@ -189,9 +190,13 @@ namespace SoftPacWA
 
                     case "Eliminar":
                         {
-                            SoftPacBusiness.AcreedoresWS.usuariosDTO usuarioLog = new SoftPacBusiness.AcreedoresWS.usuariosDTO();
-                            usuarioLog.usuario_id = UsuarioLogueado.usuario_id;
-                            int result = acreedoresBO.Eliminar(acreedorId, usuarioLog);
+                            //SoftPacBusiness.AcreedoresWS.usuariosDTO usuarioLog = new SoftPacBusiness.AcreedoresWS.usuariosDTO();
+                            //usuarioLog.usuario_id = UsuarioLogueado.usuario_id;
+                            //int result = acreedoresBO.Eliminar(acreedorId, usuarioLog);
+                            acreedoresDTO acreedor = acreedoresBO.obtenerPorId(acreedorId);
+                            acreedor.activo = !acreedor.activo;
+                            int result = acreedoresBO.modificar(acreedor.acreedor_id, acreedor.razon_social, acreedor.ruc,
+                                acreedor.direccion_fiscal, acreedor.condicion, acreedor.plazo_de_pago, acreedor.activo?"S":"N", acreedor.pais.pais_id);
                             if (result == 1)
                             {
                                 MostrarMensaje("Estado actualizado", "success");

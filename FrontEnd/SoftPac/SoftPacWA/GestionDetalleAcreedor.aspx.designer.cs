@@ -57,7 +57,16 @@ namespace SoftPacWA
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtEntidad;
+        protected global::System.Web.UI.WebControls.DropDownList txtEntidad;
+
+        /// <summary>
+        /// Control lblEntidadError.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblEntidadError;
 
         /// <summary>
         /// Control txtNumero.
@@ -69,6 +78,15 @@ namespace SoftPacWA
         protected global::System.Web.UI.WebControls.TextBox txtNumero;
 
         /// <summary>
+        /// Control lblNumeroError.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblNumeroError;
+
+        /// <summary>
         /// Control txtCCI.
         /// </summary>
         /// <remarks>
@@ -76,6 +94,15 @@ namespace SoftPacWA
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtCCI;
+
+        /// <summary>
+        /// Control lblCCIError.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblCCIError;
 
         /// <summary>
         /// Control txtTipo.
@@ -87,13 +114,31 @@ namespace SoftPacWA
         protected global::System.Web.UI.WebControls.TextBox txtTipo;
 
         /// <summary>
+        /// Control lblTipoError.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblTipoError;
+
+        /// <summary>
         /// Control txtDivisa.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtDivisa;
+        protected global::System.Web.UI.WebControls.DropDownList txtDivisa;
+
+        /// <summary>
+        /// Control lblDivisaError.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblDivisaError;
 
         /// <summary>
         /// Control btnGuardar.

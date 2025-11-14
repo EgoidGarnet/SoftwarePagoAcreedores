@@ -1,4 +1,5 @@
-﻿<%@ Page Title="Gestión de Cuenta de Acreedor" Language="C#" MasterPageFile="~/SoftPac.Master" AutoEventWireup="true" CodeBehind="GestionDetalleAcreedor.aspx.cs" Inherits="SoftPacWA.GestionDetalleAcreedor" %>
+﻿<%@ Page Title="Gestión de Cuenta de Acreedor" Language="C#" MasterPageFile="~/SoftPac.Master" AutoEventWireup="true" CodeBehind ="GestionDetalleAcreedor.aspx.cs" Inherits="SoftPacWA.GestionDetalleAcreedor" %>
+
 
 <asp:Content ID="Head1" ContentPlaceHolderID="head" runat="server">
     <style>.box{background:#fff;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.08)}</style>
@@ -17,23 +18,28 @@
         <div class="row g-3">
             <div class="col-md-6">
                 <label class="form-label">Entidad bancaria</label>
-                <asp:TextBox ID="txtEntidad" runat="server" CssClass="form-control" />
+                <asp:DropDownList ID="txtEntidad" runat="server" CssClass="form-select" />
+                <asp:Label ID="lblEntidadError" runat="server" CssClass="text-danger"></asp:Label>
             </div>
             <div class="col-md-6">
                 <label class="form-label">Número de cuenta</label>
                 <asp:TextBox ID="txtNumero" runat="server" CssClass="form-control" />
+                <asp:Label ID="lblNumeroError" runat="server" CssClass="text-danger"></asp:Label>
             </div>
             <div class="col-md-6">
                 <label class="form-label">CCI / IBAN</label>
                 <asp:TextBox ID="txtCCI" runat="server" CssClass="form-control" />
+                <asp:Label ID="lblCCIError" runat="server" CssClass="text-danger"></asp:Label>
             </div>
             <div class="col-md-3">
                 <label class="form-label">Tipo</label>
                 <asp:TextBox ID="txtTipo" runat="server" CssClass="form-control" />
+                <asp:Label ID="lblTipoError" runat="server" CssClass="text-danger"></asp:Label>
             </div>
             <div class="col-md-3">
                 <label class="form-label">Divisa</label>
-                <asp:TextBox ID="txtDivisa" runat="server" CssClass="form-control" />
+                <asp:DropDownList ID="txtDivisa" runat="server" CssClass="form-select" />
+                <asp:Label ID="lblDivisaError" runat="server" CssClass="text-danger"></asp:Label>
             </div>
         </div>
         <div class="mt-3 d-flex gap-2">

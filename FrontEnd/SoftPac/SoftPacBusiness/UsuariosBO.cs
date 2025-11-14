@@ -1,5 +1,4 @@
-﻿
-using SoftPacBusiness.UsuariosWS;
+﻿using SoftPacBusiness.UsuariosWS;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,31 +37,26 @@ namespace SoftPac.Business
             return usuariosBO.obtenerUsuario(usuarioId);
         }
 
-        public int InsertarUsuario(usuariosDTO nuevoUsuario)
+        public int InsertarUsuario(usuariosDTO nuevoUsuario, usuariosDTO usuarioActual)
         {
             SetearSpecifiedTrue(nuevoUsuario);
-            return usuariosBO.insertarUsuario(nuevoUsuario);
+            SetearSpecifiedTrue(usuarioActual);
+            return usuariosBO.insertarUsuario(nuevoUsuario, usuarioActual);
         }
 
-        public int ModificarAccesoUsuario(int usuarioId, string nuevoNombreUsuario, bool activo, List<int> paisesIds)
+        public int ModificarAccesoUsuario(int usuarioId, string nuevoNombreUsuario, bool activo, List<int> paisesIds, usuariosDTO usuarioActual,
+            string nuevaContrasenha)
         {
-
-            return usuariosBO.modificarAccesoUsuario(usuarioId, nuevoNombreUsuario, activo, paisesIds.ToArray());
+            SetearSpecifiedTrue(usuarioActual);
+            return usuariosBO.modificarAccesoUsuario(usuarioId, nuevoNombreUsuario, activo, paisesIds.ToArray(), usuarioActual, nuevaContrasenha);
         }
-
-        public int ModificarUsuario(usuariosDTO usuario)
-        {
-            SetearSpecifiedTrue(usuario);
-            return usuariosBO.modificarUsuario(usuario);
-        }
-
 
         public int EliminarUsuario(int usuarioId, int usuarioEliminacionId)
         {
-            usuariosDTO usuario = new usuariosDTO();
-            usuario.usuario_id = usuarioId;
-            usuariosDTO usuarioEliminacion = new usuariosDTO();
-            usuarioEliminacion.usuario_id = usuarioEliminacionId;
+            usuariosDTO usuario = usuariosBO.obtenerUsuario(usuarioId);
+            //usuario.usuario_id = usuarioId;
+            usuariosDTO usuarioEliminacion = usuariosBO.obtenerUsuario(usuarioEliminacionId);
+
             SetearSpecifiedTrue(usuario);
             SetearSpecifiedTrue(usuarioEliminacion);
             return usuariosBO.eliminarUsuario(usuario, usuarioEliminacion);

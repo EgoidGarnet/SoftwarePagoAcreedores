@@ -35,7 +35,7 @@ namespace SoftPacWA
             }
 
             hfAcreedorId.Value = id.ToString();
-            lnkNuevaCuenta.NavigateUrl = "GestionDetalleAcreedor.aspx?acreedorId=" + id;
+            lnkNuevaCuenta.NavigateUrl = "GestionDetalleAcreedor.aspx?acreedorId=" + id + "&popup=1";
 
             acreedoresDTO a = acreedoresBO.obtenerPorId(id);
             if (a == null)
@@ -48,7 +48,7 @@ namespace SoftPacWA
             lblRuc.Text = a.ruc ?? string.Empty;
             lblPais.Text = a.pais != null ? a.pais.nombre : string.Empty;
             lblDir.Text = a.direccion_fiscal ?? string.Empty;
-            lblPlazo.Text = (a.plazo_de_pagoSpecified ? a.plazo_de_pago:0).ToString();
+            lblPlazo.Text = (a.plazo_de_pagoSpecified ? a.plazo_de_pago : 0).ToString();
             litEstado.Text = a.activo
                 ? "<span class='badge-estado badge-activo'>Activo</span>"
                 : "<span class='badge-estado badge-inactivo'>Inactivo</span>";
@@ -124,6 +124,47 @@ namespace SoftPacWA
             if (string.Equals(e, "Activa", StringComparison.OrdinalIgnoreCase)) return "badge-activo";
             if (string.Equals(e, "Inactiva", StringComparison.OrdinalIgnoreCase)) return "badge-inactivo";
             return "badge-inactivo";
+        }
+
+        protected void btnEditar_Click(object sender, EventArgs e)
+        {
+            int acreedorId = int.Parse(hfAcreedorId.Value);
+            Response.Redirect("GestionAcreedor.aspx?accion=editar&id=" + acreedorId);
+        }
+
+        protected void btnEliminar_Click(object sender, EventArgs e)
+        {
+            int acreedorId = int.Parse(hfAcreedorId.Value);
+
+            SoftPacBusiness.AcreedoresWS.usuariosDTO usuarioLog = new SoftPacBusiness.AcreedoresWS.usuariosDTO();
+            usuarioLog.usuario_id = UsuarioLogueado.usuario_id;
+
+            int result = acreedoresBO.Eliminar(acreedorId, usuarioLog);
+
+            if (result == 1)
+            {
+                Session["MensajeExito"] = "El acreedor se eliminó correctamente";
+                Response.Redirect("Acreedores.aspx");
+            }
+            else
+            {
+                MostrarMensaje("No se pudo eliminar al acreedor", "danger");
+            }
+        }
+
+        private void MostrarMensaje(string mensaje, string tipo)
+        {
+            string mensajeEscapado = mensaje.Replace("'", "\\'").Replace("\"", "\\\"");
+            string script = $@"
+                $(document).ready(function() {{
+                    var alertHtml = '<div class=""alert alert-{tipo} alert-dismissible fade show"" role=""alert"">' +
+                                    '{mensajeEscapado}' +
+                                    '<button type=""button"" class=""btn-close"" data-bs-dismiss=""alert""></button>' +
+                                    '</div>';
+                    $('.content-area').prepend(alertHtml);
+                    setTimeout(function() {{ $('.alert').fadeOut(); }}, 5000);
+                }});";
+            ScriptManager.RegisterStartupScript(this, GetType(), "MostrarMensaje", script, true);
         }
     }
 }

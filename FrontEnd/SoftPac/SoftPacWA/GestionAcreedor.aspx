@@ -18,26 +18,34 @@
             <div class="col-md-6">
                 <label class="form-label">Razón social</label>
                 <asp:TextBox ID="txtRazon" runat="server" CssClass="form-control" />
+                <asp:Label ID="lblRazonError" runat="server" CssClass="text-danger"></asp:Label>
             </div>
             <div class="col-md-3">
                 <label class="form-label">RUC</label>
                 <asp:TextBox ID="txtRuc" runat="server" CssClass="form-control" />
+                <asp:Label ID="lblRucError" runat="server" CssClass="text-danger"></asp:Label>
             </div>
             <div class="col-md-3">
                 <label class="form-label">País</label>
-                <asp:DropDownList ID="ddlPais" runat="server" CssClass="form-select" />
+                <asp:DropDownList ID="ddlPais" runat="server" CssClass="form-select">
+                    <asp:ListItem Text="Seleccione un país" Value=""></asp:ListItem>
+                </asp:DropDownList>
+                <asp:Label ID="lblPaisError" runat="server" CssClass="text-danger"></asp:Label>
             </div>
             <div class="col-md-6">
                 <label class="form-label">Dirección fiscal</label>
                 <asp:TextBox ID="txtDir" runat="server" CssClass="form-control" />
+                <asp:Label ID="lblDirError" runat="server" CssClass="text-danger"></asp:Label>
             </div>
             <div class="col-md-3">
                 <label class="form-label">Condición</label>
                 <asp:TextBox ID="txtCondicion" runat="server" CssClass="form-control" />
+                <asp:Label ID="lblCondicionError" runat="server" CssClass="text-danger"></asp:Label>
             </div>
             <div class="col-md-3">
                 <label class="form-label">Plazo pago (días)</label>
                 <asp:TextBox ID="txtPlazo" runat="server" CssClass="form-control" TextMode="Number" />
+                <asp:Label ID="lblPlazoError" runat="server" CssClass="text-danger"></asp:Label>
             </div>
             <div class="col-md-3">
                 <label class="form-label">Activo</label>
@@ -45,6 +53,7 @@
                     <asp:ListItem Text="Sí" Value="S"></asp:ListItem>
                     <asp:ListItem Text="No" Value="N"></asp:ListItem>
                 </asp:DropDownList>
+                <asp:Label ID="lblActivoError" runat="server" CssClass="text-danger"></asp:Label>
             </div>
         </div>
         <div class="mt-3 d-flex gap-2">

@@ -1,10 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web.UI;
-using SoftPac.Business;
+﻿using SoftPac.Business;
 using SoftPacBusiness.AcreedoresWS;
 using SoftPacBusiness.UsuariosWS;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions; // <-- agregado
+using System.Web.UI;
+using System.Web.UI.WebControls;
 using paisesDTO = SoftPacBusiness.UsuariosWS.paisesDTO;
 using usuariosDTO = SoftPacBusiness.UsuariosWS.usuariosDTO;
 
@@ -52,11 +54,17 @@ namespace SoftPacWA
 
         private void CargarPaises()
         {
+            ddlPais.Items.Clear();
+
+            // Opción vacía al inicio
+            ddlPais.Items.Add(new ListItem("Seleccione un país", ""));
+
             ddlPais.DataSource = paisesUsuario;
             ddlPais.DataTextField = "nombre";
             ddlPais.DataValueField = "pais_id";
             ddlPais.DataBind();
         }
+
 
         private void CargarAcreedor(int id)
         {
@@ -76,8 +84,106 @@ namespace SoftPacWA
             ddlActivo.SelectedValue = a.activo ? "S" : "N";
         }
 
+        // ------------------- VALIDACIÓN -------------------
+        private bool ValidarCampos()
+        {
+            bool esValido = true;
+
+            // Limpiar mensajes previos
+            lblRazonError.Text = string.Empty;
+            lblRucError.Text = string.Empty;
+            lblPaisError.Text = string.Empty;
+            lblDirError.Text = string.Empty;
+            lblCondicionError.Text = string.Empty;
+            lblPlazoError.Text = string.Empty;
+            lblActivoError.Text = string.Empty;
+
+            string razon = (txtRazon.Text ?? string.Empty).Trim();
+            string ruc = (txtRuc.Text ?? string.Empty).Trim();
+            string dir = (txtDir.Text ?? string.Empty).Trim();
+            string cond = (txtCondicion.Text ?? string.Empty).Trim();
+            string plazoTexto = (txtPlazo.Text ?? string.Empty).Trim();
+            string paisValor = ddlPais.SelectedValue;
+            string activoValor = ddlActivo.SelectedValue;
+
+            // 1) Todos los campos con algún dato
+            if (string.IsNullOrEmpty(razon))
+            {
+                lblRazonError.Text = "Ingrese la razón social.";
+                esValido = false;
+            }
+
+            if (string.IsNullOrEmpty(ruc))
+            {
+                lblRucError.Text = "Ingrese el RUC.";
+                esValido = false;
+            }
+            else
+            {
+                // 2) RUC exactamente 11 dígitos numéricos
+                if (!Regex.IsMatch(ruc, @"^\d{11}$"))
+                {
+                    lblRucError.Text = "Debe tener exactamente 11 dígitos numéricos.";
+                    esValido = false;
+                }
+            }
+
+            if (string.IsNullOrEmpty(paisValor))
+            {
+                lblPaisError.Text = "Seleccione un país.";
+                ddlPais.ClearSelection();
+                ddlPais.SelectedValue = "";
+                esValido = false;
+            }
+
+
+            if (string.IsNullOrEmpty(dir))
+            {
+                lblDirError.Text = "Ingrese la dirección fiscal.";
+                esValido = false;
+            }
+
+            if (string.IsNullOrEmpty(cond))
+            {
+                lblCondicionError.Text = "Ingrese la condición.";
+                esValido = false;
+            }
+
+            int plazo = 0;
+            if (string.IsNullOrEmpty(plazoTexto))
+            {
+                lblPlazoError.Text = "Ingrese el plazo de pago en días.";
+                esValido = false;
+            }
+            else if (!int.TryParse(plazoTexto, out plazo))
+            {
+                lblPlazoError.Text = "El plazo de pago debe ser un número entero.";
+                esValido = false;
+            }
+            else
+            {
+                // 3) Plazo debe estar entre 15 y 60 días (interpretación de tu regla)
+                if (plazo < 15 || plazo > 60)
+                {
+                    lblPlazoError.Text = "El plazo de pago debe estar entre 15 y 60 días.";
+                    esValido = false;
+                }
+            }
+
+            if (string.IsNullOrEmpty(activoValor))
+            {
+                lblActivoError.Text = "Seleccione si el acreedor está activo o no.";
+                esValido = false;
+            }
+
+            return esValido;
+        }
+
         protected void btnGuardar_Click(object sender, EventArgs e)
         {
+            // Si hay errores, no se guarda ni se redirige
+            if (!ValidarCampos()) return;
+
             string razon = (txtRazon.Text ?? "").Trim();
             string ruc = (txtRuc.Text ?? "").Trim();
             string dir = (txtDir.Text ?? "").Trim();

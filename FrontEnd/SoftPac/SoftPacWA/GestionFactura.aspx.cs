@@ -96,6 +96,8 @@ namespace SoftPacWA
             ddlEstado.SelectedValue = "Pendiente";
             ddlEstado.Enabled = false;
             txtMontoTotal.Attributes.Add("onkeyup", $"document.getElementById('{txtMontoRestante.ClientID}').value = this.value;");
+            gvDetallesFactura.DataSource = null;
+            gvDetallesFactura.DataBind();
         }
 
         private void ConfigurarModoEditar()
@@ -111,11 +113,10 @@ namespace SoftPacWA
             ddlPais.Enabled = false;
             ddlAcreedor.Enabled = false;
             btnEliminarFactura.Visible = true;
-            if (factura != null && (factura.monto_restante != factura.monto_total || factura.estado == "Eliminado"
-                    || factura.estado == "Pagada"))
+            if (factura != null && (factura.monto_restante != factura.monto_total || factura.estado != "Pendiente"))
             {
                 btnEliminarFactura.Enabled = false;
-                btnEliminarFactura.ToolTip = "No se puede eliminar una factura con pagos registrados.";
+                btnEliminarFactura.ToolTip = "No se puede eliminar una factura no Pendiente de pago.";
             }
 
             CargarDatosFactura();
@@ -130,11 +131,10 @@ namespace SoftPacWA
             btnEditar.Visible = true;
             btnNuevoDetalle.Visible = false;
             btnEliminarFactura.Visible = true;
-            if (factura != null && (factura.monto_restante != factura.monto_total || factura.estado == "Eliminado"
-                    || factura.estado == "Pagada"))
+            if (factura != null && (factura.monto_restante != factura.monto_total || factura.estado != "Pendiente"))
             {
                 btnEditar.Enabled = false;
-                btnEditar.ToolTip = "No se puede editar una factura con pagos registrados.";
+                btnEditar.ToolTip = "No se puede editar una factura no Pendiente de pago.";
                 btnEliminarFactura.Enabled = false;
                 btnEliminarFactura.ToolTip = "No se puede eliminar una factura con pagos registrados.";
             }
@@ -247,8 +247,12 @@ namespace SoftPacWA
                         }
                         gvDetallesFactura.DataBind();
                     }
+                    else {
+                        gvDetallesFactura.DataSource = null;
+                        gvDetallesFactura.DataBind();
+                    }
 
-                    ActualizarCamposPorPais();
+                        ActualizarCamposPorPais();
                 }
             }
             else
@@ -334,6 +338,18 @@ namespace SoftPacWA
             factura.fecha_emision = Convert.ToDateTime(txtFechaEmision.Text);
             factura.fecha_recepcion = Convert.ToDateTime(txtFechaRecepcion.Text);
             factura.fecha_limite_pago = Convert.ToDateTime(txtFechaLimitePago.Text);
+            int anhoactual = DateTime.Now.Year;
+            if(factura.fecha_emision.Year<anhoactual-3 || factura.fecha_emision.Year>anhoactual+10 ||
+                factura.fecha_recepcion.Year<anhoactual-3 || factura.fecha_recepcion.Year>anhoactual+10 ||
+                factura.fecha_limite_pago.Year > anhoactual + 10)
+            {
+                MostrarMensaje("Las fechas deben ser coherentes", "warning");
+            }
+            if (factura.fecha_limite_pago.CompareTo(DateTime.Now) < 0)
+            {
+                MostrarMensaje("La fecha límite de pago no puede ser anterior a hoy", "warning");
+                return;
+            }
             SoftPacBusiness.FacturasWS.monedasDTO monedaFactura = new SoftPacBusiness.FacturasWS.monedasDTO();
             monedasDTO mon = monedasBO.ObtenerPorId(Convert.ToInt32(ddlMoneda.SelectedValue));
             monedaFactura.moneda_id = mon.moneda_id;

@@ -76,19 +76,6 @@
       <xs:element minOccurs="0" name="return" type="xs:int" />
     </xs:sequence>
   </xs:complexType>
-  <xs:complexType name="modificarAccesoUsuario">
-    <xs:sequence>
-      <xs:element name="usuarioId" type="xs:int" />
-      <xs:element minOccurs="0" name="nuevoNombreUsuario" type="xs:string" />
-      <xs:element minOccurs="0" name="activo" type="xs:boolean" />
-      <xs:element minOccurs="0" maxOccurs="unbounded" name="paisesIds" type="xs:int" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="modificarAccesoUsuarioResponse">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="return" type="xs:int" />
-    </xs:sequence>
-  </xs:complexType>
   <xs:complexType name="autenticarUsuarioPorNombreUsuario">
     <xs:sequence>
       <xs:element minOccurs="0" name="nombre_Usuario" type="xs:string" />
@@ -100,22 +87,27 @@
       <xs:element minOccurs="0" name="return" type="tns:usuariosDTO" />
     </xs:sequence>
   </xs:complexType>
+  <xs:complexType name="modificarAccesoUsuario">
+    <xs:sequence>
+      <xs:element name="usuarioId" type="xs:int" />
+      <xs:element minOccurs="0" name="nuevoNombreUsuario" type="xs:string" />
+      <xs:element minOccurs="0" name="activo" type="xs:boolean" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="paisesIds" type="xs:int" />
+      <xs:element minOccurs="0" name="usuarioActual" type="tns:usuariosDTO" />
+      <xs:element minOccurs="0" name="nuevaContrasenha" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="modificarAccesoUsuarioResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
   <xs:complexType name="listarUsuarios">
     <xs:sequence />
   </xs:complexType>
   <xs:complexType name="listarUsuariosResponse">
     <xs:sequence>
       <xs:element minOccurs="0" maxOccurs="unbounded" name="return" type="tns:usuariosDTO" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="insertarUsuario">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="nuevoUsuario" type="tns:usuariosDTO" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="insertarUsuarioResponse">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="return" type="xs:int" />
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="obtenerUsuario">
@@ -126,6 +118,17 @@
   <xs:complexType name="obtenerUsuarioResponse">
     <xs:sequence>
       <xs:element minOccurs="0" name="return" type="tns:usuariosDTO" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="insertarUsuario">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="nuevoUsuario" type="tns:usuariosDTO" />
+      <xs:element minOccurs="0" name="usuarioActual" type="tns:usuariosDTO" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="insertarUsuarioResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:int" />
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="modificarUsuario">

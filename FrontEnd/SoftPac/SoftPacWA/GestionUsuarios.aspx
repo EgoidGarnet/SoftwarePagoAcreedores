@@ -200,7 +200,7 @@
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">Contraseña</label>
                                     <asp:TextBox ID="txtPasswordModal" runat="server" CssClass="form-control" TextMode="Password"></asp:TextBox>
-                                    <small class="form-text text-muted">Dejar en blanco para no cambiarla al modificar.</small>
+                                    <small class="form-text text-muted"><%--Dejar en blanco para no cambiarla al modificar.--%></small>
                                     <asp:Label ID="lblErrorPassword" runat="server" CssClass="error-message" Visible="false"></asp:Label>
                                 </div>
                             </div>

@@ -15,6 +15,7 @@ namespace SoftPacWA
         private UsuariosBO usuariosBO = new UsuariosBO();
         private PaisesBO paisesBO = new PaisesBO();
 
+        private usuariosDTO UsuarioLogueado { get { return (usuariosDTO)Session["UsuarioLogueado"]; } }
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -377,7 +378,7 @@ namespace SoftPacWA
                         superusuario = chkSuperusuario.Checked,
                         usuario_pais = paisesSeleccionados.ToArray()
                     };
-                    resultado = usuariosBO.InsertarUsuario(nuevoUsuario);
+                    resultado = usuariosBO.InsertarUsuario(nuevoUsuario,UsuarioLogueado);
                 }
                 else // Es una modificación
                 {
@@ -389,6 +390,7 @@ namespace SoftPacWA
                         // Actualizar campos básicos
                         usuarioModificar.nombre_de_usuario = txtNombreUsuario.Text.Trim();
                         usuarioModificar.activo = chkActivo.Checked;
+                        usuarioModificar.password_hash = null; // IMPLEMENTAR LÓGICA DE CAMBIO O DEJAR EN NULL PARA MANTENER CONTRASEÑA
 
                         // Actualizar accesos de países
                         // Primero limpiamos el array actual
@@ -403,11 +405,11 @@ namespace SoftPacWA
 
                             nuevosAccesos.Add(accesoPais);
                         }
+                        List<int> paisesAcceso = nuevosAccesos.Where(a => a.acceso == true).Select(a => a.pais.pais_id).ToList();
+                        //usuarioModificar.usuario_pais = nuevosAccesos.ToArray();
 
-                        usuarioModificar.usuario_pais = nuevosAccesos.ToArray();
-
-                        // Llamar al método modificar normal
-                        resultado = usuariosBO.ModificarUsuario(usuarioModificar);
+                        // Llamar al método modificar acceso usuario
+                        resultado = usuariosBO.ModificarAccesoUsuario(usuarioModificar.usuario_id,usuarioModificar.nombre_de_usuario,usuarioModificar.activo,paisesAcceso,UsuarioLogueado,usuarioModificar.password_hash);
                     }
                     else
                     {
