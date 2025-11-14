@@ -66,6 +66,20 @@ namespace SoftPacWA
             return true;
         }
 
+        public static string GenerateRandomPassword(int length = 12)
+        {
+            const string validChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*_-";
+            var sb = new System.Text.StringBuilder();
+            var rnd = new System.Random();
+
+            for (int i = 0; i < length; i++)
+            {
+                int idx = rnd.Next(validChars.Length);
+                sb.Append(validChars[idx]);
+            }
+
+            return sb.ToString();
+        }
 
         #region Carga de Datos
         private void CargarUsuarios()
@@ -169,7 +183,7 @@ namespace SoftPacWA
 
         private void CargarDatosEnModal(usuariosDTO usuario)
         {
-            litModalTitulo.Text = "Modificar Usuario";
+            litModalTitulo.Text = "Modificar Usuario";  // ASEGÚRATE QUE ESTA LÍNEA ESTÉ PRESENTE
 
             // Limpiar mensajes de error PRIMERO
             LimpiarMensajesError();
@@ -223,7 +237,11 @@ namespace SoftPacWA
             txtNombreUsuario.Enabled = true;
             txtCorreo.Text = string.Empty;
             txtCorreo.Enabled = true;
+
+            // IMPORTANTE: Limpiar y mantener readonly el campo de contraseña
             txtPasswordModal.Text = string.Empty;
+            txtPasswordModal.Enabled = false;  // Mantenerlo deshabilitado para nuevo usuario
+
             chkActivo.Checked = true;
             chkActivo.Disabled = true;
             chkSuperusuario.Checked = false;
@@ -302,19 +320,19 @@ namespace SoftPacWA
                     esValido = false;
                 }
 
-                // Validar Contraseña
-                if (string.IsNullOrWhiteSpace(txtPasswordModal.Text))
-                {
-                    lblErrorPassword.Text = "La contraseña es obligatoria.";
-                    lblErrorPassword.Visible = true;
-                    esValido = false;
-                }
-                else if (!IsAlphanumeric(txtPasswordModal.Text.Trim()))
-                {
-                    lblErrorPassword.Text = "La contraseña debe ser alfanumérica.";
-                    lblErrorPassword.Visible = true;
-                    esValido = false;
-                }
+                //// Validar Contraseña
+                //if (string.IsNullOrWhiteSpace(txtPasswordModal.Text))
+                //{
+                //    lblErrorPassword.Text = "La contraseña es obligatoria.";
+                //    lblErrorPassword.Visible = true;
+                //    esValido = false;
+                //}
+                //else if (!IsAlphanumeric(txtPasswordModal.Text.Trim()))
+                //{
+                //    lblErrorPassword.Text = "La contraseña debe ser alfanumérica.";
+                //    lblErrorPassword.Visible = true;
+                //    esValido = false;
+                //}
             }
 
             // Validar que al menos un país esté seleccionado (PARA CREAR Y MODIFICAR)
@@ -362,10 +380,12 @@ namespace SoftPacWA
                         usuarioPaisAccesoDTO accesoPais = new usuarioPaisAccesoDTO();
                         accesoPais.pais = new paisesDTO { pais_id = Convert.ToInt32(item.Value) };
                         accesoPais.acceso = item.Selected;
-                        accesoPais.accesoSpecified = true; // Crítico para la serialización
-
+                        accesoPais.accesoSpecified = true;
                         paisesSeleccionados.Add(accesoPais);
                     }
+
+                    // GENERAR CONTRASEÑA AUTOMÁTICAMENTE
+                    string contraseniaGenerada = GenerateRandomPassword(12);
 
                     usuariosDTO nuevoUsuario = new usuariosDTO
                     {
@@ -373,12 +393,12 @@ namespace SoftPacWA
                         apellidos = txtApellidos.Text.Trim(),
                         nombre_de_usuario = txtNombreUsuario.Text.Trim(),
                         correo_electronico = txtCorreo.Text.Trim(),
-                        password_hash = txtPasswordModal.Text.Trim(),
+                        password_hash = contraseniaGenerada, // Contraseña generada automáticamente
                         activo = chkActivo.Checked,
                         superusuario = chkSuperusuario.Checked,
                         usuario_pais = paisesSeleccionados.ToArray()
                     };
-                    resultado = usuariosBO.InsertarUsuario(nuevoUsuario,UsuarioLogueado);
+                    resultado = usuariosBO.InsertarUsuario(nuevoUsuario, UsuarioLogueado);
                 }
                 else // Es una modificación
                 {

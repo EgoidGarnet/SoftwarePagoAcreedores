@@ -879,35 +879,20 @@ namespace SoftPacWA
                 .Where(d => d.fecha_eliminacionSpecified == false)
                 .ToArray();
 
-            // Formato de texto con ancho fijo
-            sb.AppendLine("=".PadRight(120, '='));
-            sb.AppendLine($"PROPUESTA DE PAGO #{propuesta.propuesta_id}".PadLeft(70));
-            sb.AppendLine("=".PadRight(120, '='));
-            sb.AppendLine($"Estado: {propuesta.estado}");
-            sb.AppendLine($"Fecha: {propuesta.fecha_hora_creacion:yyyy-MM-dd HH:mm}");
-            sb.AppendLine($"Banco: {propuesta.entidad_bancaria?.nombre}");
-            sb.AppendLine($"Total de pagos: {detallesActivos.Length}");
-            sb.AppendLine("=".PadRight(120, '='));
-            sb.AppendLine();
-
-            // Encabezados con formato fijo
-            sb.AppendLine($"{"Factura".PadRight(15)} {"Proveedor".PadRight(30)} {"Mon".PadRight(4)} {"Monto".PadLeft(12)} {"Cta.Origen".PadRight(20)} {"Cta.Destino".PadRight(20)}");
-            sb.AppendLine("-".PadRight(120, '-'));
-
-            // Datos
+            // Formato simplificado sin encabezados ni separadores
+            int contador = 1;
             foreach (var detalle in detallesActivos)
             {
-                string factura = (detalle.factura?.numero_factura ?? "").PadRight(15);
-                string proveedor = TruncarTexto(detalle.factura?.acreedor?.razon_social ?? "", 30).PadRight(30);
-                string moneda = (detalle.factura?.moneda?.codigo_iso ?? "").PadRight(4);
-                string monto = detalle.monto_pago.ToString("N2").PadLeft(12);
-                string cuentaOrigen = (detalle.cuenta_propia?.numero_cuenta ?? "").PadRight(20);
-                string cuentaDestino = (detalle.cuenta_acreedor?.numero_cuenta ?? "").PadRight(20);
+                string numeroFactura = detalle.factura?.numero_factura ?? "";
+                string moneda = detalle.factura?.moneda?.codigo_iso ?? "";
+                string monto = detalle.monto_pago.ToString("N2", System.Globalization.CultureInfo.InvariantCulture);
+                string cuentaOrigen = detalle.cuenta_propia?.numero_cuenta ?? "";
+                string cuentaDestino = detalle.cuenta_acreedor?.numero_cuenta ?? "";
 
-                sb.AppendLine($"{factura} {proveedor} {moneda} {monto} {cuentaOrigen} {cuentaDestino}");
+                // Formato: Factura 1: F001-00001234 | PEN | 11,800.00 | Origen: 1919900001111 | Destino: 19100123456789
+                sb.AppendLine($"Factura {contador}: {numeroFactura} | {moneda} | {monto,10} | Origen: {cuentaOrigen} | Destino: {cuentaDestino}");
+                contador++;
             }
-
-            sb.AppendLine("=".PadRight(120, '='));
 
             DescargarArchivo(sb.ToString(), $"PropuestaPago_{propuesta.propuesta_id}.txt", "text/plain");
         }

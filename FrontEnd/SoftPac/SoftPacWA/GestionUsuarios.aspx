@@ -199,8 +199,8 @@
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">Contraseña</label>
-                                    <asp:TextBox ID="txtPasswordModal" runat="server" CssClass="form-control" TextMode="Password"></asp:TextBox>
-                                    <small class="form-text text-muted"><%--Dejar en blanco para no cambiarla al modificar.--%></small>
+                                    <asp:TextBox ID="txtPasswordModal" runat="server" CssClass="form-control" TextMode="Password" Enabled="false" placeholder="************"></asp:TextBox>
+                                    <small class="form-text text-muted">La contraseña se generará automáticamente y se enviará por correo.</small>
                                     <asp:Label ID="lblErrorPassword" runat="server" CssClass="error-message" Visible="false"></asp:Label>
                                 </div>
                             </div>
@@ -237,7 +237,8 @@
         </div>
     </div>
 
-    <!-- jQuery UI para autocomplete "este es otro nugget que no se ha instalado, se podría instalar para omitir esto"--> -
+    <!-- jQuery UI para autocomplete "este es otro nugget que no se ha instalado, se podría instalar para omitir esto"-->
+    -
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
     <script type="text/javascript">
@@ -248,29 +249,29 @@
 
         $(document).ready(function () {
             var usuariosJson = $('#<%= hfUsuariosJson.ClientID %>').val();
-        var usuarios = usuariosJson ? JSON.parse(usuariosJson) : [];
-        $('#<%= txtBuscar.ClientID %>').autocomplete({
-            source: function (request, response) {
-                var term = request.term.toLowerCase();
-                var matches = $.grep(usuarios, function (usuario) {          
-                    return usuario.nombre_de_usuario.toLowerCase().startsWith(term) ||
-                        usuario.nombre.toLowerCase().startsWith(term) ||
-                        usuario.apellidos.toLowerCase().startsWith(term);
-                });
+            var usuarios = usuariosJson ? JSON.parse(usuariosJson) : [];
+            $('#<%= txtBuscar.ClientID %>').autocomplete({
+                source: function (request, response) {
+                    var term = request.term.toLowerCase();
+                    var matches = $.grep(usuarios, function (usuario) {
+                        return usuario.nombre_de_usuario.toLowerCase().startsWith(term) ||
+                            usuario.nombre.toLowerCase().startsWith(term) ||
+                            usuario.apellidos.toLowerCase().startsWith(term);
+                    });
 
-                response(matches.slice(0, 10).map(function (usuario) {
-                    return {
-                        label: usuario.nombre_de_usuario + ' (' + usuario.nombre + ' ' + usuario.apellidos + ')',
-                        value: usuario.nombre_de_usuario
-                    };
-                }));
-            },
-            minLength: 1,
-            select: function (event, ui) {
-                $(this).val(ui.item.value);
-                return false;
-            }
+                    response(matches.slice(0, 10).map(function (usuario) {
+                        return {
+                            label: usuario.nombre_de_usuario + ' (' + usuario.nombre + ' ' + usuario.apellidos + ')',
+                            value: usuario.nombre_de_usuario
+                        };
+                    }));
+                },
+                minLength: 1,
+                select: function (event, ui) {
+                    $(this).val(ui.item.value);
+                    return false;
+                }
+            });
         });
-    });
-</script>
+    </script>
 </asp:Content>
