@@ -74,6 +74,8 @@ namespace SoftPacWA
         {
             gvCuentasPropias.DataSource = ListaFiltradaCuentas;
             gvCuentasPropias.DataBind();
+            lblRegistros.Text = $"Mostrando {ListaFiltradaCuentas.Count} cuenta(s)";
+
         }
 
         private void CargarFiltros()

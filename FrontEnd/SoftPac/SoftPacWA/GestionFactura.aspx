@@ -62,9 +62,11 @@
                             <asp:Button ID="btnGuardar" runat="server" Text="Guardar Cambios" CssClass="btn btn-primary" OnClick="btnGuardar_Click" />
                             <asp:Button ID="btnCancelar" runat="server" Text="Cancelar" CssClass="btn btn-secondary" Visible="false" OnClick="btnCancelar_Click" />
                             <asp:Button ID="btnEliminarFactura" runat="server" Text="Eliminar" 
-                            CssClass="btn btn-danger" OnClick="btnEliminarFactura_Click" 
-                            Visible="false" ToolTip="Eliminar esta factura permanentemente"
-                            OnClientClick="return confirm('¿Está completamente seguro de que desea eliminar esta factura? Esta acción no se puede deshacer.');" />
+                                CssClass="btn btn-danger" 
+                                Visible="false" 
+                                ToolTip="Eliminar esta factura permanentemente"
+                                OnClientClick="return mostrarModalEliminarFactura();" />
+                            <asp:Button ID="btnRegresar" runat="server" Text="Regresar" CssClass="btn btn-secondary" OnClick="btnRegresar_Click" />
                         </div>
                     </div>
 
@@ -130,7 +132,7 @@
                             </div>
                             <div>
                                 <label class="form-label">Monto Restante</label>
-                                <asp:TextBox ID="txtMontoRestante" runat="server" CssClass="form-control" TextMode="Number" step="0.01" ReadOnly="true"></asp:TextBox>
+                                <asp:TextBox ID="txtMontoRestante" runat="server" CssClass="form-control" TextMode="Number" step="0.01"></asp:TextBox>
                             </div>
                         </div>
                     </div>
@@ -178,8 +180,7 @@
                                         </asp:LinkButton>
                                         <asp:LinkButton ID="btnEliminar" runat="server" CssClass="btn btn-sm btn-danger btn-icon" 
                                             CommandName="Eliminar" CommandArgument='<%# Eval("detalle_factura_id") %>' 
-                                            OnClick="btnAccion_Click" ToolTip="Eliminar"
-                                            OnClientClick="return confirm('¿Está seguro de eliminar este detalle de factura?');">
+                                            OnClick="btnAccion_Click" ToolTip="Eliminar">
                                             <i class="fas fa-trash"></i>
                                         </asp:LinkButton>
                                     </div>
@@ -193,11 +194,73 @@
                         </EmptyDataTemplate>
                     </asp:GridView>
                 </div>
-                
-                <div class="footer-buttons">
-                    <asp:Button ID="btnRegresar" runat="server" Text="Regresar" CssClass="btn btn-secondary" OnClick="btnRegresar_Click" />
-                </div>
             </ContentTemplate>
         </asp:UpdatePanel>
     </div>
+
+    <!-- Modal de Confirmación de Eliminación de Factura -->
+    <div class="modal fade" id="modalEliminarFactura" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        Eliminar Factura
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p><strong>¿Está completamente seguro de eliminar esta factura?</strong></p>
+                    <p class="text-danger mb-0">Esta acción no se puede deshacer.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <asp:Button ID="btnConfirmarEliminarFactura" runat="server" 
+                        Text="Eliminar Factura" 
+                        CssClass="btn btn-danger"
+                        OnClick="btnEliminarFactura_Click" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Confirmación de Eliminación de Detalle -->
+    <div class="modal fade" id="modalEliminarDetalle" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        Eliminar Detalle
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>¿Está seguro de eliminar este detalle de factura?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <asp:Button ID="btnConfirmarEliminarDetalle" runat="server" 
+                        Text="Eliminar" 
+                        CssClass="btn btn-danger"
+                        OnClick="btnConfirmarEliminarDetalle_Click" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <asp:HiddenField ID="hfDetalleIdEliminar" runat="server" />
+
+    <script type="text/javascript">
+        function mostrarModalEliminarFactura() {
+            $('#modalEliminarFactura').modal('show');
+            return false;
+        }
+
+        function mostrarModalEliminarDetalle(detalleId) {
+            document.getElementById('<%= hfDetalleIdEliminar.ClientID %>').value = detalleId;
+            $('#modalEliminarDetalle').modal('show');
+            return false;
+        }
+    </script>
 </asp:Content>

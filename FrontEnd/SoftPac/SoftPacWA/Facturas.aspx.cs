@@ -245,18 +245,10 @@ namespace SoftPacWA
                         Response.Redirect($"GestionFactura.aspx?accion=editar");
                         break;
                     case "Eliminar":
-                        SoftPacBusiness.FacturasWS.usuariosDTO usuarioEliminacion = new SoftPacBusiness.FacturasWS.usuariosDTO();
-                        usuarioEliminacion.usuario_id = UsuarioLogueado.usuario_id;
-                        var resultado = facturasBO.Eliminar(facturaId, usuarioEliminacion);
-                        if (resultado == 1)
-                        {
-                            MostrarMensaje("Factura eliminada correctamente", "success");
-                            CargarFacturas();
-                        }
-                        else
-                        {
-                            MostrarMensaje("Error al eliminar la factura", "danger");
-                        }
+                        // Solo guardar el ID y mostrar modal
+                        hfFacturaIdEliminar.Value = facturaId.ToString();
+                        ScriptManager.RegisterStartupScript(this, GetType(), "mostrarModal",
+                            "mostrarModalEliminar(" + facturaId + ");", true);
                         break;
                 }
             }
@@ -265,7 +257,32 @@ namespace SoftPacWA
                 MostrarMensaje("Error: " + ex.Message, "danger");
             }
         }
+        protected void btnConfirmarEliminar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                int facturaId = int.Parse(hfFacturaIdEliminar.Value);
 
+                SoftPacBusiness.FacturasWS.usuariosDTO usuarioEliminacion = new SoftPacBusiness.FacturasWS.usuariosDTO();
+                usuarioEliminacion.usuario_id = UsuarioLogueado.usuario_id;
+
+                var resultado = facturasBO.Eliminar(facturaId, usuarioEliminacion);
+
+                if (resultado == 1)
+                {
+                    MostrarMensaje("Factura eliminada correctamente", "success");
+                    CargarFacturas();
+                }
+                else
+                {
+                    MostrarMensaje("Error al eliminar la factura", "danger");
+                }
+            }
+            catch (Exception ex)
+            {
+                MostrarMensaje("Error: " + ex.Message, "danger");
+            }
+        }
         protected string GetEstadoClass(string estado)
         {
             switch (estado?.ToLower())

@@ -79,7 +79,16 @@ namespace SoftPacWA
                 DateTime fechaLimite = Convert.ToDateTime(Session["PropuestaPago_FechaLimiteVencimiento"]);
 
                 // Llamar al BO para obtener facturas pendientes filtradas
-                var facturas = facturasBO.ListarPendientesPorCriterios(paisId, fechaLimite)
+                var facturas = facturasBO.ListarPendientesPorCriterios(paisId, fechaLimite);
+                if (facturas == null)
+                {
+                    MostrarMensaje("No hay facturas pendientes que cumplan con los criterios seleccionados", "info");
+                    gvFacturas.DataSource = null;
+                    gvFacturas.DataBind();
+                    lblTotalRegistros.Text = "0 facturas disponibles";
+                    return;
+                }
+                facturas = facturas
                     .OrderBy(f => f.fecha_limite_pago)
                     .ToList();
 
@@ -89,11 +98,14 @@ namespace SoftPacWA
                 lblTotalRegistros.Text = $"{facturas.Count} factura(s) disponible(s)";
 
                 // Guardar lista en Session para uso posterior
-                FacturasDisponibles = facturas;
+                FacturasDisponibles = facturas.ToList();
 
                 if (facturas.Count == 0)
                 {
                     MostrarMensaje("No hay facturas pendientes que cumplan con los criterios seleccionados", "info");
+                    gvFacturas.DataSource = null;
+                    gvFacturas.DataBind();
+                    lblTotalRegistros.Text = "0 facturas disponibles";
                 }
             }
             catch (Exception ex)

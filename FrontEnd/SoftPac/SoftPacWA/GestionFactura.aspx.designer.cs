@@ -69,6 +69,15 @@ namespace SoftPacWA
         protected global::System.Web.UI.WebControls.Button btnEliminarFactura;
 
         /// <summary>
+        /// Control btnRegresar.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnRegresar;
+
+        /// <summary>
         /// Control txtNumeroFactura.
         /// </summary>
         /// <remarks>
@@ -267,12 +276,30 @@ namespace SoftPacWA
         protected global::System.Web.UI.WebControls.GridView gvDetallesFactura;
 
         /// <summary>
-        /// Control btnRegresar.
+        /// Control btnConfirmarEliminarFactura.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnRegresar;
+        protected global::System.Web.UI.WebControls.Button btnConfirmarEliminarFactura;
+
+        /// <summary>
+        /// Control btnConfirmarEliminarDetalle.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnConfirmarEliminarDetalle;
+
+        /// <summary>
+        /// Control hfDetalleIdEliminar.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hfDetalleIdEliminar;
     }
 }

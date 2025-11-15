@@ -37,8 +37,8 @@ namespace SoftPacWA
                 int acreedorId;
                 if (!int.TryParse(Request.QueryString["acreedorId"], out acreedorId)) { Response.Redirect("Acreedores.aspx"); return; }
                 hfAcreedorId.Value = acreedorId.ToString();
-                lnkVolver.NavigateUrl = "DetalleAcreedor.aspx?id=" + hfAcreedorId.Value;
-                btnCancelar.NavigateUrl = lnkVolver.NavigateUrl;
+                //lnkVolver.NavigateUrl = "DetalleAcreedor.aspx?id=" + hfAcreedorId.Value;
+                //btnCancelar.NavigateUrl = lnkVolver.NavigateUrl;
 
                 // CARGAR COMBOS SIEMPRE ANTES DE CARGAR CUENTA
                 CargarCatalogos();
@@ -79,7 +79,7 @@ namespace SoftPacWA
         private void CargarCuenta(int cuentaId)
         {
             cuentasAcreedorDTO c = cuentasBO.ObtenerPorId(cuentaId);
-            if (c == null) { Response.Redirect(lnkVolver.NavigateUrl); return; }
+            //if (c == null) { Response.Redirect(lnkVolver.NavigateUrl); return; }
 
             // ENTIDAD: seleccionamos por nombre
             if (c.entidad_bancaria != null && !string.IsNullOrWhiteSpace(c.entidad_bancaria.nombre))

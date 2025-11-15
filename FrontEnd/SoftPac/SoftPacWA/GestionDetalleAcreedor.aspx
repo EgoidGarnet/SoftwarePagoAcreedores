@@ -8,7 +8,7 @@
 <asp:Content ID="Body1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h3 class="pb-1"><i class="fa-solid fa-building-columns"></i> <asp:Label ID="lblTitulo" runat="server" Text="Nueva cuenta" /></h3>
-        <asp:HyperLink ID="lnkVolver" runat="server" CssClass="btn btn-secondary btn-sm" NavigateUrl="#">Volver</asp:HyperLink>
+        <%--<asp:HyperLink ID="lnkVolver" runat="server" CssClass="btn btn-secondary btn-sm" NavigateUrl="#">Volver</asp:HyperLink>--%>
     </div>
 
     <asp:HiddenField ID="hfAcreedorId" runat="server" />
@@ -44,7 +44,7 @@
         </div>
         <div class="mt-3 d-flex gap-2">
             <asp:Button ID="btnGuardar" runat="server" CssClass="btn btn-primary" Text="Guardar" OnClick="btnGuardar_Click" />
-            <asp:HyperLink ID="btnCancelar" runat="server" CssClass="btn btn-secondary" NavigateUrl="#">Cancelar</asp:HyperLink>
+            <%--<asp:HyperLink ID="btnCancelar" runat="server" CssClass="btn btn-secondary" NavigateUrl="#">Cancelar</asp:HyperLink>--%>
         </div>
     </div>
 </asp:Content>

@@ -149,7 +149,7 @@ namespace SoftPacWA
                 gvEntidades.DataBind();
 
                 // Actualizar contador de registros
-                lblRegistros.Text = $"Mostrando {ListaEntidades.Count} registro(s)";
+                lblRegistros.Text = $"Mostrando {ListaEntidades.Count} banco(s)";
             }
             catch (Exception ex)
             {

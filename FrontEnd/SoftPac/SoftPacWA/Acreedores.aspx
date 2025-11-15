@@ -22,20 +22,54 @@
             gap: 1rem;
         }
 
-        .page-title h2 {
-            color: var(--color-primary);
-            font-size: 1.8rem;
-            font-weight: 600;
-            margin: 0;
+            .page-title h2 {
+                color: var(--color-primary);
+                font-size: 1.8rem;
+                font-weight: 600;
+                margin: 0;
+            }
+
+        .filter-section {
+            background: #fff;
+            padding: .9rem 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,.08)
         }
 
-        .filter-section{background:#fff;padding:.9rem 1rem;border-radius:8px;margin-bottom:1rem;box-shadow:0 2px 8px rgba(0,0,0,.08)}
-        .filter-section .form-label{height:36px;display:flex;align-items:center;margin-bottom:0}
-        .badge-estado{padding:.35rem .7rem;border-radius:4px;font-size:.85rem;font-weight:600}
-        .badge-pagado{background:#28a745;color:#fff}   /* Activo */
-        .badge-vencido{background:#dc3545;color:#fff}  /* Inactivo */
-        .action-buttons{display:flex;gap:.5rem}
-        .btn-icon{padding:.25rem .5rem;font-size:.9rem}
+            .filter-section .form-label {
+                height: 36px;
+                display: flex;
+                align-items: center;
+                margin-bottom: 0
+            }
+
+        .badge-estado {
+            padding: .35rem .7rem;
+            border-radius: 4px;
+            font-size: .85rem;
+            font-weight: 600
+        }
+
+        .badge-pagado {
+            background: #28a745;
+            color: #fff
+        }
+        /* Activo */
+        .badge-vencido {
+            background: #dc3545;
+            color: #fff
+        }
+        /* Inactivo */
+        .action-buttons {
+            display: flex;
+            gap: .5rem
+        }
+
+        .btn-icon {
+            padding: .25rem .5rem;
+            font-size: .9rem
+        }
 
         .lista-card {
             background: white;
@@ -125,7 +159,7 @@
             <div class="lista-body">
                 <asp:UpdatePanel ID="upAcreedores" runat="server" UpdateMode="Conditional">
                     <ContentTemplate>
-                        <div class="table-responsive" style="overflow-x:auto; white-space:nowrap;">
+                        <div class="table-responsive" style="overflow-x: auto; white-space: nowrap;">
                             <asp:GridView ID="gvAcreedores" runat="server" CssClass="table table-hover"
                                 AutoGenerateColumns="False" AllowPaging="True" PageSize="20"
                                 OnPageIndexChanging="gvAcreedores_PageIndexChanging"
@@ -163,16 +197,17 @@
                                     </asp:TemplateField>
                                 </Columns>
                                 <PagerStyle CssClass="pagination-aw" HorizontalAlign="Center" />
-                                <PagerSettings Mode="NumericFirstLast" FirstPageText="Primera" LastPageText="Última" PageButtonCount="10" />
+                                <PagerSettings Mode="NumericFirstLast" FirstPageText="Primera" LastPageText="Última"
+                                    PageButtonCount="10" />
                             </asp:GridView>
                         </div>
                     </ContentTemplate>
                 </asp:UpdatePanel>
             </div>
 
-            <div class="lista-footer">
-                <asp:Label ID="lblRegistros" runat="server" CssClass="total-registros"></asp:Label>
-            </div>
+        </div>
+        <div class="lista-footer">
+            <asp:Label ID="lblRegistros" runat="server" CssClass="total-registros"></asp:Label>
         </div>
     </div>
 </asp:Content>

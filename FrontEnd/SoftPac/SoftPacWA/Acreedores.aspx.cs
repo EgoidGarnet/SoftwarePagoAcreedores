@@ -115,6 +115,8 @@ namespace SoftPacWA
 
                 gvAcreedores.DataSource = data;
                 gvAcreedores.DataBind();
+                lblRegistros.Text = $"Mostrando {data.Count} acreedor(es)";
+
             }
             catch (Exception ex)
             {

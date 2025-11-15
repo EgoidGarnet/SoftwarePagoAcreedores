@@ -2,33 +2,6 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <style>
-        .page-container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .page-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-            padding-bottom: 1rem;
-            border-bottom: 3px solid var(--color-light-1);
-        }
-
-        .page-title {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .page-title h2 {
-            color: var(--color-primary);
-            font-size: 1.8rem;
-            font-weight: 600;
-            margin: 0;
-        }
-
         .filter-section {
             background-color: white;
             padding: 1.5rem;
@@ -143,16 +116,13 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <div class="page-container">
-        <!-- Page Header -->
-        <div class="page-header">
-            <div class="page-title">
-                <i class="fas fa-file-invoice" style="font-size: 2rem"></i>
-                <h2>Facturas</h2>
-            </div>
-        </div>
+    <div class="page-title">
+        <h3 class="pb-1">
+            <i class="fas fa-file-invoice"></i> Facturas
+        </h3>
+    </div>
 
-        <!-- Filtros -->
+    <!-- Filtros -->
     <div class="filter-section">
         <div class="row gx-3 gy-4">
             <div class="col-12 col-md-3">
@@ -270,8 +240,7 @@
                                             </asp:LinkButton>
                                             <asp:LinkButton ID="btnEliminar" runat="server" CssClass="btn btn-sm btn-danger btn-icon" 
                                                 CommandName="Eliminar" CommandArgument='<%# Eval("factura_id") %>' 
-                                                OnClick="btnAccion_Click" ToolTip="Eliminar"
-                                                OnClientClick="return confirm('¿Está seguro de eliminar esta factura?');">
+                                                OnClick="btnAccion_Click" ToolTip="Eliminar">
                                                 <i class="fas fa-trash"></i>
                                             </asp:LinkButton>
                                         </div>
@@ -291,6 +260,34 @@
             <asp:Label ID="lblRegistros" runat="server" CssClass="total-registros"></asp:Label>
         </div>
     </div>
+
+        <!-- Modal de Confirmación de Eliminación -->
+    <div class="modal fade" id="modalEliminarFactura" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        Eliminar Factura
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>¿Está seguro de que desea eliminar esta factura?</p>
+                    <p class="text-muted mb-0">Esta acción no se puede deshacer.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <asp:Button ID="btnConfirmarEliminar" runat="server" 
+                        Text="Eliminar" 
+                        CssClass="btn btn-danger"
+                        OnClick="btnConfirmarEliminar_Click" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <asp:HiddenField ID="hfFacturaIdEliminar" runat="server" />
 
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
@@ -324,6 +321,12 @@
             });
         });
     </script>
-    </div>
 
+    <script type="text/javascript">
+        function mostrarModalEliminar(facturaId) {
+            document.getElementById('<%= hfFacturaIdEliminar.ClientID %>').value = facturaId;
+            $('#modalEliminarFactura').modal('show');
+            return false;
+        }
+    </script>
 </asp:Content>

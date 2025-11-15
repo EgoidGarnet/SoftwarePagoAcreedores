@@ -52,8 +52,12 @@ namespace SoftPacWA
                 if (UsuarioLogueado == null) Response.Redirect("~/Login.aspx");
                 CargarControlesIniciales();
                 ConfigurarPaginaPorAccion();
+                if (Session["MensajeExito"] != null)
+                {
+                    MostrarMensaje((string)Session["MensajeExito"], "success");
+                    Session.Remove("MensajeExito");
+                }
             }
-            txtMontoRestante.Text = txtMontoTotal.Text;
         }
 
         private void CargarControlesIniciales()
@@ -95,6 +99,7 @@ namespace SoftPacWA
             HabilitarControles(true);
             ddlEstado.SelectedValue = "Pendiente";
             ddlEstado.Enabled = false;
+            txtMontoRestante.ReadOnly = true;
             txtMontoTotal.Attributes.Add("onkeyup", $"document.getElementById('{txtMontoRestante.ClientID}').value = this.value;");
             gvDetallesFactura.DataSource = null;
             gvDetallesFactura.DataBind();
@@ -110,6 +115,7 @@ namespace SoftPacWA
             btnNuevoDetalle.Visible = true;
             HabilitarControles(true);
             txtNumeroFactura.ReadOnly = true;
+            txtMontoRestante.ReadOnly = true;
             ddlPais.Enabled = false;
             ddlAcreedor.Enabled = false;
             btnEliminarFactura.Visible = true;
@@ -312,6 +318,10 @@ namespace SoftPacWA
             {
                 factura = facturasBO.ObtenerPorId(FacturaId.Value);
             }
+            else if (Accion == "editar" && !FacturaId.HasValue)
+            {
+                MostrarMensaje("Error: La factura no existe", "danger");
+            }
             if (!ValidarCamposObligatorios()) return;
             if (Accion == "insertar")
             {
@@ -355,6 +365,7 @@ namespace SoftPacWA
             monedaFactura.moneda_id = mon.moneda_id;
             factura.moneda = monedaFactura;
             factura.monto_total = Convert.ToDecimal(txtMontoTotal.Text);
+            factura.monto_restante = factura.monto_total;
             factura.monto_igv = Convert.ToDecimal(txtMontoIgv.Text);
             factura.regimen_fiscal = txtRegimenFiscal.Text;
             factura.tasa_iva = string.IsNullOrEmpty(txtTasaIva.Text) ? 0 : Convert.ToDecimal(txtTasaIva.Text);
@@ -362,7 +373,6 @@ namespace SoftPacWA
 
             if (Accion == "insertar")
             {
-                factura.monto_restante = factura.monto_total;
                 int resultadoId = facturasBO.Insertar(factura);
                 Session["MensajeExito"] = "Factura creada correctamente. Ahora puedes agregar detalles.";
                 if (resultadoId == 0)
@@ -375,8 +385,9 @@ namespace SoftPacWA
             }
             else
             {
-                facturasBO.Modificar(factura);
-                MostrarMensaje("Factura guardada correctamente", "success");
+                int resultado = facturasBO.Modificar(factura);
+                Session["MensajeExito"] = "Factura Modificada correctamente.";
+                Response.Redirect($"GestionFactura.aspx?accion=verdetalle");
             }
         }
 
@@ -407,18 +418,10 @@ namespace SoftPacWA
                     Response.Redirect("GestionDetalleFactura.aspx?accion=editar");
                     break;
                 case "eliminar":
-                    SoftPacBusiness.FacturasWS.usuariosDTO user = new SoftPacBusiness.FacturasWS.usuariosDTO();
-                    user.usuario_id = UsuarioLogueado.usuario_id;
-                    var resultado = facturasBO.EliminarDetalle(detalleFactura, user);
-                    if (resultado == 1)
-                    {
-                        MostrarMensaje("Detalle eliminado correctamente", "success");
-                        CargarDatosFactura();
-                    }
-                    else
-                    {
-                        MostrarMensaje("Error al eliminar el detalle", "danger");
-                    }
+                    // Guardar ID y mostrar modal
+                    hfDetalleIdEliminar.Value = detalleId.ToString();
+                    ScriptManager.RegisterStartupScript(this, GetType(), "mostrarModal",
+                        "mostrarModalEliminarDetalle(" + detalleId + ");", true);
                     break;
             }
         }
@@ -468,6 +471,37 @@ namespace SoftPacWA
             }
         }
 
+        protected void btnConfirmarEliminarDetalle_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                int detalleId = int.Parse(hfDetalleIdEliminar.Value);
+                detallesFacturaDTO detalleFactura = factura.detalles_Factura.FirstOrDefault(n => n.detalle_factura_id == detalleId);
+
+                if (detalleFactura != null)
+                {
+                    SoftPacBusiness.FacturasWS.usuariosDTO user = new SoftPacBusiness.FacturasWS.usuariosDTO();
+                    user.usuario_id = UsuarioLogueado.usuario_id;
+
+                    var resultado = facturasBO.EliminarDetalle(detalleFactura, user);
+
+                    if (resultado == 1)
+                    {
+                        MostrarMensaje("Detalle eliminado correctamente", "success");
+                        CargarDatosFactura();
+                    }
+                    else
+                    {
+                        MostrarMensaje("Error al eliminar el detalle", "danger");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MostrarMensaje("Error: " + ex.Message, "danger");
+            }
+        }
+
         #endregion
         protected void ddlPais_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -492,9 +526,7 @@ namespace SoftPacWA
             txtRegimenFiscal.ReadOnly = !habilitar;
             txtTasaIva.ReadOnly = !habilitar;
             txtOtrosTributos.ReadOnly = !habilitar;
-
-            // Los campos calculados o que no edita el usuario siempre son de solo lectura
-            txtMontoRestante.ReadOnly = true;
+            txtMontoRestante.ReadOnly = !habilitar;
         }
 
         private void ActualizarCamposPorPais()
