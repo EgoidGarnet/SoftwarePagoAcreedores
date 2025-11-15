@@ -2,6 +2,33 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <style>
+        .page-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 3px solid var(--color-light-1);
+        }
+
+        .page-title {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .page-title h2 {
+            color: var(--color-primary);
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
         .filter-section {
             background-color: white;
             padding: 1.5rem;
@@ -56,13 +83,16 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <div class="page-title">
-        <h3 class="pb-1">
-            <i class="fas fa-university"></i> Entidades Bancarias
-        </h3>
-    </div>
+    <div class="page-container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="page-title">
+                <i class="fas fa-university" style="font-size: 2rem"></i>
+                <h2>Entidades Bancarias</h2>
+            </div>
+        </div>
 
-    <!-- Filtros -->
+        <!-- Filtros -->
     <div class="filter-section">
         <asp:UpdatePanel ID="upFiltros" runat="server" UpdateMode="Conditional">
             <ContentTemplate>
@@ -120,7 +150,6 @@
                                 PageButtonCount="10" />
                         </asp:GridView>
                     </div>
-                    <asp:Label ID="Label1" runat="server" CssClass="total-registros"></asp:Label>
                 </ContentTemplate>
                 <Triggers>
                     <asp:AsyncPostBackTrigger ControlID="btnFiltrar" EventName="Click" />
@@ -128,10 +157,10 @@
                 </Triggers>
             </asp:UpdatePanel>
         </div>
-    </div>
-        
+
         <div class="lista-footer">
             <asp:Label ID="lblRegistros" runat="server" CssClass="total-registros"></asp:Label>
         </div>
+    </div>
     </div>
 </asp:Content>
