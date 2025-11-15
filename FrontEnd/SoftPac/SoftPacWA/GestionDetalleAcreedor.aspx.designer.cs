@@ -42,13 +42,13 @@ namespace SoftPacWA
         protected global::System.Web.UI.WebControls.HiddenField hfCuentaId;
 
         /// <summary>
-        /// Control txtEntidad.
+        /// Control ddlEntidad.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList txtEntidad;
+        protected global::System.Web.UI.WebControls.DropDownList ddlEntidad;
 
         /// <summary>
         /// Control lblEntidadError.
@@ -96,13 +96,13 @@ namespace SoftPacWA
         protected global::System.Web.UI.WebControls.Label lblCCIError;
 
         /// <summary>
-        /// Control txtTipo.
+        /// Control ddlTipo.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtTipo;
+        protected global::System.Web.UI.WebControls.DropDownList ddlTipo;
 
         /// <summary>
         /// Control lblTipoError.
@@ -114,13 +114,13 @@ namespace SoftPacWA
         protected global::System.Web.UI.WebControls.Label lblTipoError;
 
         /// <summary>
-        /// Control txtDivisa.
+        /// Control ddlDivisa.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList txtDivisa;
+        protected global::System.Web.UI.WebControls.DropDownList ddlDivisa;
 
         /// <summary>
         /// Control lblDivisaError.
