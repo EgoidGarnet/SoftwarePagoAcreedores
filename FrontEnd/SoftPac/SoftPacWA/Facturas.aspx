@@ -2,6 +2,33 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <style>
+        .page-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 3px solid var(--color-light-1);
+        }
+
+        .page-title {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .page-title h2 {
+            color: var(--color-primary);
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
         .filter-section {
             background-color: white;
             padding: 1.5rem;
@@ -116,13 +143,16 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <div class="page-title">
-        <h3 class="pb-1">
-            <i class="fas fa-file-invoice"></i> Facturas
-        </h3>
-    </div>
+    <div class="page-container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="page-title">
+                <i class="fas fa-file-invoice" style="font-size: 2rem"></i>
+                <h2>Facturas</h2>
+            </div>
+        </div>
 
-    <!-- Filtros -->
+        <!-- Filtros -->
     <div class="filter-section">
         <div class="row gx-3 gy-4">
             <div class="col-12 col-md-3">
@@ -294,6 +324,6 @@
             });
         });
     </script>
-
+    </div>
 
 </asp:Content>
