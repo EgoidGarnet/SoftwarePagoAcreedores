@@ -44,6 +44,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BouncyCastle.Cryptography, Version=2.0.0.0, Culture=neutral, PublicKeyToken=072edcf4a5328938, processorArchitecture=MSIL">
+      <HintPath>..\packages\BouncyCastle.Cryptography.2.4.0\lib\net461\BouncyCastle.Cryptography.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp, Version=5.5.13.4, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\iTextSharp.5.5.13.4\lib\net461\itextsharp.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Web.DynamicData" />
@@ -122,6 +128,7 @@
     <Content Include="Login.aspx" />
     <Content Include="Perfil.aspx" />
     <Content Include="PropuestasPago.aspx" />
+    <Content Include="ReporteDashboard.aspx" />
     <Content Include="ReporteFacturas.aspx" />
     <Content Include="ReportePropuestas.aspx" />
     <Content Include="ResumenPropuesta.aspx" />
@@ -299,6 +306,13 @@
     </Compile>
     <Compile Include="PropuestasPago.aspx.designer.cs">
       <DependentUpon>PropuestasPago.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ReporteDashboard.aspx.cs">
+      <DependentUpon>ReporteDashboard.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ReporteDashboard.aspx.designer.cs">
+      <DependentUpon>ReporteDashboard.aspx</DependentUpon>
     </Compile>
     <Compile Include="ReporteFacturas.aspx.cs">
       <DependentUpon>ReporteFacturas.aspx</DependentUpon>

@@ -155,22 +155,81 @@ namespace SoftPacWA
                     ScriptManager.RegisterStartupScript(this, GetType(), "abrirModal", "abrirModal();", true);
                 }
             }
-            else if (e.CommandName == "Eliminar")
+            else if (e.CommandName == "Activar")
             {
-                divMensaje.Visible = false; // Limpiar mensaje previo antes de eliminar
-                usuariosDTO usuarioActual = (usuariosDTO)Session["UsuarioLogueado"];
-                int resultado = usuariosBO.EliminarUsuario(usuarioId, usuarioActual.usuario_id);
-                if (resultado > 0)
+                usuariosDTO usuarioModificar = usuariosBO.ObtenerPorId(usuarioId);
+                int resultado = usuariosBO.ModificarAccesoUsuario(usuarioId, usuarioModificar.nombre_de_usuario, true,
+                    usuarioModificar.usuario_pais.Where(a => a.acceso == true)
+                                                              .Select(a => a.pais.pais_id).ToList(), UsuarioLogueado, "");
+                if (resultado == 0)
                 {
-                    MostrarMensaje("Usuario eliminado correctamente.", "success");
-                    CargarUsuarios();
+                    MostrarMensaje("Error al activar el usuario.", "danger");
                 }
                 else
                 {
-                    MostrarMensaje("Error al eliminar el usuario.", "danger");
+                    MostrarMensaje("Usuario activado correctamente", "success");
+                    CargarUsuarios();
                 }
             }
+            else if (e.CommandName == "MostrarModalDesactivar")
+            {
+                // Guardar ID del usuario
+                ViewState["UsuarioDesactivar"] = usuarioId;
+
+                // Abrir modal
+                ScriptManager.RegisterStartupScript(
+                    this, this.GetType(),
+                    "abrirModalDesactivar",
+                    "var m = new bootstrap.Modal(document.getElementById('modalDesactivar')); m.show();",
+                    true
+                );
+
+            }
+            //else if (e.CommandName == "Eliminar")
+            //{
+            //    divMensaje.Visible = false; // Limpiar mensaje previo antes de eliminar
+            //    usuariosDTO usuarioActual = (usuariosDTO)Session["UsuarioLogueado"];
+            //    int resultado = usuariosBO.EliminarUsuario(usuarioId, usuarioActual.usuario_id);
+            //    if (resultado > 0)
+            //    {
+            //        MostrarMensaje("Usuario desactivado correctamente.", "success");
+            //        CargarUsuarios();
+            //    }
+            //    else
+            //    {
+            //        MostrarMensaje("Error al desactivar el usuario.", "danger");
+            //    }
+            //}
         }
+        protected void btnConfirmarDesactivar_Click(object sender, EventArgs e)
+        {
+            int usuarioId = (int)ViewState["UsuarioDesactivar"];
+            divMensaje.Visible = false; // Limpiar mensaje previo antes de eliminar
+            usuariosDTO usuarioModificar = usuariosBO.ObtenerPorId(usuarioId);
+            int resultado = usuariosBO.ModificarAccesoUsuario(usuarioId, usuarioModificar.nombre_de_usuario, false,
+                usuarioModificar.usuario_pais.Where(a => a.acceso == true)
+                                                          .Select(a => a.pais.pais_id).ToList(), UsuarioLogueado, "");
+            //usuariosDTO usuarioActual = (usuariosDTO)Session["UsuarioLogueado"];
+            //int resultado = usuariosBO.EliminarUsuario(usuarioId, usuarioActual.usuario_id);
+            if (resultado > 0)
+            {
+                MostrarMensaje("Usuario desactivado correctamente.", "success");
+                CargarUsuarios();
+            }
+            else
+            {
+                MostrarMensaje("Error al desactivar el usuario.", "danger");
+            }
+        }
+        protected void btnAceptar_Click(object sender, EventArgs e)
+        {
+            int id = int.Parse(Request.Form["usuarioIdSeleccionado"] ?? "0");
+            bool activar = bool.Parse(Request.Form["activarUsuario"] ?? "false");
+
+
+            CargarUsuarios(); // recargar grid
+        }
+
         #endregion
 
         #region Lógica del Modal (Crear/Editar)

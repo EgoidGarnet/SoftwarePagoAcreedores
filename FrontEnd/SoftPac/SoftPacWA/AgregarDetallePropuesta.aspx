@@ -341,7 +341,7 @@
                             <asp:ListItem Value="15" Selected="True">Próximos 15 días</asp:ListItem>
                             <asp:ListItem Value="30">Próximos 30 días</asp:ListItem>
                             <asp:ListItem Value="60">Próximos 60 días</asp:ListItem>
-                            <asp:ListItem Value="90">Próximos 60 días</asp:ListItem>
+                            <asp:ListItem Value="90">Próximos 90 días</asp:ListItem>
                         </asp:DropDownList>
                     </div>
                     <div>

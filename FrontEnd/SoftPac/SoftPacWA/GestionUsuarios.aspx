@@ -145,10 +145,25 @@
                                         <i class="fas fa-edit"></i> Modificar
                                     </asp:LinkButton>
 
-                                    <asp:LinkButton ID="btnEliminar" runat="server" CssClass="btn btn-sm btn-outline-danger"
+                                    <%--<asp:LinkButton ID="btnEliminar" runat="server" CssClass="btn btn-sm btn-outline-danger"
                                         CommandName="Eliminar" CommandArgument='<%# Eval("usuario_id") %>'
-                                        OnClientClick="return confirm('¿Está seguro de que desea eliminar a este usuario?');">
-                                        <i class="fas fa-trash"></i> Eliminar
+                                        OnClientClick="return confirm('¿Está seguro de que desea desactivar a este usuario?');">
+                                        <i class="fas fa-ban"></i> Desactivar
+                                    </asp:LinkButton>--%>
+                                    
+                                    <asp:LinkButton ID="btnDesactivar" runat="server"
+                                        CssClass="btn btn-sm btn-outline-danger"
+                                        CommandName="MostrarModalDesactivar"
+                                        CommandArgument='<%# Eval("usuario_id") %>'
+                                        Visible='<%# (bool)Eval("activo") == true %>'>
+                                        <i class="fas fa-ban"></i> Desactivar
+                                    </asp:LinkButton>
+                                    <asp:LinkButton ID="btnActivar" runat="server"
+                                        CssClass="btn btn-sm btn-success"
+                                        CommandName="Activar"
+                                        CommandArgument='<%# Eval("usuario_id") %>'
+                                        Visible='<%# (bool)Eval("activo") == false %>'>
+                                        <i class="fas fa-rotate-left"></i> Activar
                                     </asp:LinkButton>
                                 </ItemTemplate>
                             </asp:TemplateField>
@@ -242,6 +257,32 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="modalDesactivar" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+
+          <div class="modal-header bg-danger text-white">
+            <h5 class="modal-title">Desactivar Usuario</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+
+          <div class="modal-body">
+            ¿Está seguro de que desea desactivar a este usuario?
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+
+            <asp:Button ID="btnConfirmarDesactivar" runat="server"
+                CssClass="btn btn-danger"
+                Text="Desactivar"
+                OnClick="btnConfirmarDesactivar_Click" />
+          </div>
+
+        </div>
+      </div>
+    </div>
+
 
     <!-- jQuery UI para autocomplete "este es otro nugget que no se ha instalado, se podría instalar para omitir esto"-->
     -

@@ -344,7 +344,7 @@
                                     <ItemStyle HorizontalAlign="Right" />
                                 </asp:TemplateField>
                                 
-                                <asp:TemplateField HeaderText="Saldo Usado">
+                                <asp:TemplateField HeaderText="Saldo Requerido">
                                     <ItemTemplate>
                                         <%# string.Format("{0:N2}", Eval("SaldoUsado")) %>
                                     </ItemTemplate>
