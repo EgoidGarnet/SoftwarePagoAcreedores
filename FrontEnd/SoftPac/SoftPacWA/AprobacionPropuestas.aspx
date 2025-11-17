@@ -42,7 +42,7 @@
         }
     </style>
 
-    <asp:UpdatePanel ID="upPropuestas" runat="server">
+    <asp:UpdatePanel ID="upPropuestas" runat="server" UpdateMode="Conditional">
         <ContentTemplate>
             <div class="page-title">
                 <h3><i class="fas fa-clipboard-check me-2"></i>Propuestas pendientes de aprobación</h3>
@@ -55,14 +55,40 @@
 
             <div class="card shadow-sm">
                 <div class="card-body">
-                    <asp:GridView ID="gvPropuestasPendientes" runat="server" AutoGenerateColumns="False" CssClass="table table-hover align-middle" GridLines="None" EmptyDataText="No se encontraron propuestas pendientes de aprobación.">
+                    <asp:GridView ID="gvPropuestasPendientes" runat="server" AutoGenerateColumns="False" CssClass="table table-hover align-middle" GridLines="None" EmptyDataText="No se encontraron propuestas pendientes">
                         <Columns>
-                            <asp:BoundField DataField="PropuestaId" HeaderText="ID" />
-                            <asp:BoundField DataField="FechaCreacion" HeaderText="Fecha Creación" DataFormatString="{0:dd/MM/yyyy HH:mm}" HtmlEncode="False" />
-                            <asp:BoundField DataField="Usuario" HeaderText="Usuario" />
-                            <asp:BoundField DataField="Pais" HeaderText="País" />
-                            <asp:BoundField DataField="Banco" HeaderText="Banco" />
-                            <asp:BoundField DataField="NumeroPagos" HeaderText="Nº Pagos" />
+                            <asp:BoundField DataField="propuesta_id" HeaderText="ID" />
+                            
+                            <asp:TemplateField HeaderText="Fecha Creación">
+                                <ItemTemplate>
+                                    <%# Eval("fecha_hora_creacion") != null ? Convert.ToDateTime(Eval("fecha_hora_creacion")).ToString("dd/MM/yyyy HH:mm") : "-" %>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            
+                            <asp:TemplateField HeaderText="Usuario">
+                                <ItemTemplate>
+                                    <%# Eval("usuario_creacion.nombre") + " " + Eval("usuario_creacion.apellidos") %>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            
+                            <asp:TemplateField HeaderText="País">
+                                <ItemTemplate>
+                                    <%# Eval("entidad_bancaria.pais.nombre") ?? "Sin país" %>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            
+                            <asp:TemplateField HeaderText="Banco">
+                                <ItemTemplate>
+                                    <%# Eval("entidad_bancaria.nombre") ?? "Sin banco" %>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            
+                            <asp:TemplateField HeaderText="Nº Pagos">
+                                <ItemTemplate>
+                                    <%# ((SoftPacBusiness.PropuestaPagoWS.propuestasPagoDTO)Container.DataItem).detalles_propuesta.Length %>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            
                             <asp:TemplateField HeaderText="Acciones">
                                 <ItemTemplate>
                                     <div class="d-flex flex-wrap gap-2">

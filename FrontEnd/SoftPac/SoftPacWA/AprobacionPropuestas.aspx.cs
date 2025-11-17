@@ -1,6 +1,5 @@
 ﻿using SoftPac.Business;
 using SoftPacBusiness.PropuestaPagoWS;
-using SoftPacBusiness.UsuariosWS;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +8,7 @@ namespace SoftPacWA
 {
     public partial class AprobacionPropuestas : System.Web.UI.Page
     {
-        private readonly PropuestasPagoBO propuestasPagoBO = new PropuestasPagoBO();
+        private PropuestasPagoBO propuestasPagoBO = new PropuestasPagoBO();
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -25,27 +24,38 @@ namespace SoftPacWA
             {
                 pnlError.Visible = false;
 
-                var propuestas = propuestasPagoBO.ListarConFiltros(null, null, "pendiente")
-                    ?? new List<propuestasPagoDTO>();
-
-                var modelo = propuestas
+                var propuestas = propuestasPagoBO.ListarConFiltros(null, null, "En revisión")
                     .Where(p => p != null)
-                    .Select(p => new PropuestaPendienteViewModel
-                    {
-                        PropuestaId = p.propuesta_id,
-                        FechaCreacion = p.fecha_hora_creacion,
-                        Usuario = FormatearNombreUsuario(p.usuario_creacion),
-                        Pais = p.entidad_bancaria?.pais?.nombre ?? "Sin país",
-                        Banco = p.entidad_bancaria?.nombre ?? "Sin banco",
-                        NumeroPagos = p.detalles_propuesta?.Length ?? 0
-                    })
-                    .OrderByDescending(p => p.FechaCreacion)
+                    .OrderByDescending(p => p.fecha_hora_creacion)
                     .ToList();
 
-                gvPropuestasPendientes.DataSource = modelo;
-                gvPropuestasPendientes.DataBind();
+                // Asegurarse de que detalles_propuesta no sea null
+                propuestas.ForEach(p =>
+                {
+                    if (p.detalles_propuesta == null)
+                    {
+                        p.detalles_propuesta = Array.Empty<detallesPropuestaDTO>();
+                    }
+                });
 
-                lblTotalPendientes.Text = $"Propuestas pendientes: {modelo.Count}";
+                if (propuestas.Count > 0)
+                {
+                    gvPropuestasPendientes.DataSource = propuestas;
+                    gvPropuestasPendientes.DataBind();
+                    gvPropuestasPendientes.Visible = true;
+                    //pnlEmptyState.Visible = false;
+                    //lblTotalRegistros.Text = $"Mostrando {propuestas.Count} propuesta(s)";
+                }
+                else
+                {
+                    gvPropuestasPendientes.Visible = false;
+                    //pnlEmptyState.Visible = true;
+                    //lblTotalRegistros.Text = "0 propuestas";
+                }
+                upPropuestas.Update();
+
+
+                lblTotalPendientes.Text = $"Propuestas pendientes: {propuestas.Count}";
             }
             catch (Exception ex)
             {
@@ -56,35 +66,6 @@ namespace SoftPacWA
                 pnlError.Visible = true;
                 lblError.Text = $"Error al cargar las propuestas: {ex.Message}";
             }
-        }
-
-        private string FormatearNombreUsuario(usuariosDTO usuario)
-        {
-            if (usuario == null)
-            {
-                return "Sin usuario";
-            }
-
-            string nombre = usuario.nombre ?? string.Empty;
-            string apellidos = usuario.apellidos ?? string.Empty;
-            string nombreCompleto = $"{nombre} {apellidos}".Trim();
-
-            if (string.IsNullOrWhiteSpace(nombreCompleto))
-            {
-                return usuario.nombre_de_usuario ?? "Sin usuario";
-            }
-
-            return nombreCompleto;
-        }
-
-        private class PropuestaPendienteViewModel
-        {
-            public int PropuestaId { get; set; }
-            public DateTime FechaCreacion { get; set; }
-            public string Usuario { get; set; }
-            public string Pais { get; set; }
-            public string Banco { get; set; }
-            public int NumeroPagos { get; set; }
         }
     }
 }
