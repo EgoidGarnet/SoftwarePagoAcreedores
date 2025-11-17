@@ -72,6 +72,7 @@
   <ItemGroup>
     <Content Include="Acreedores.aspx" />
     <Content Include="AgregarDetallePropuesta.aspx" />
+    <Content Include="AprobacionPropuestas.aspx" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-grid.rtl.css" />
@@ -175,6 +176,13 @@
     </Compile>
     <Compile Include="AgregarDetallePropuesta.aspx.designer.cs">
       <DependentUpon>AgregarDetallePropuesta.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AprobacionPropuestas.aspx.cs">
+      <DependentUpon>AprobacionPropuestas.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AprobacionPropuestas.aspx.designer.cs">
+      <DependentUpon>AprobacionPropuestas.aspx</DependentUpon>
     </Compile>
     <Compile Include="CrearPropuestaPaso1.aspx.cs">
       <DependentUpon>CrearPropuestaPaso1.aspx</DependentUpon>

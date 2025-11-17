@@ -100,7 +100,10 @@
             <div id="divMensaje" runat="server" visible="false"></div>
 
             <div class="page-title">
-                <h3 class="pb-1"><i class="fas fa-users-cog"></i>Administración de Usuarios</h3>
+                <h3 class="pb-1">
+                    <i class="fas fa-users-cog me-2"></i>
+                    Administración de Usuarios
+                </h3>
             </div>
 
             <!-- Sección de filtros -->
@@ -196,7 +199,7 @@
             <div class="modal-content">
                 <asp:UpdatePanel ID="upModal" runat="server">
                     <ContentTemplate>
-                        <div class="modal-header">
+                        <div class="modal-header" style="background-color: var(--color-primary); color: white;">
                             <h5 class="modal-title" id="modalLabel">
                                 <asp:Literal ID="litModalTitulo" runat="server">Nuevo Usuario</asp:Literal>
                             </h5>

@@ -41,10 +41,10 @@
             color: white;
         }
 
-        .sidebar-header h4 {
-            font-size: 1.2rem;
-            font-weight: 600;
-        }
+            .sidebar-header h4 {
+                font-size: 1.2rem;
+                font-weight: 600;
+            }
 
         .sidebar-menu {
             list-style: none;
@@ -52,31 +52,31 @@
             padding: 0;
         }
 
-        .sidebar-menu li {
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
+            .sidebar-menu li {
+                border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            }
 
-        .sidebar-menu a {
-            display: flex;
-            align-items: center;
-            padding: 1rem 1.5rem;
-            color: var(--color-light-1);
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
+            .sidebar-menu a {
+                display: flex;
+                align-items: center;
+                padding: 1rem 1.5rem;
+                color: var(--color-light-1);
+                text-decoration: none;
+                transition: all 0.3s ease;
+            }
 
-        .sidebar-menu a:hover,
-        .sidebar-menu a.active {
-            background-color: var(--color-secondary);
-            color: white;
-            padding-left: 2rem;
-        }
+                .sidebar-menu a:hover,
+                .sidebar-menu a.active {
+                    background-color: var(--color-secondary);
+                    color: white;
+                    padding-left: 2rem;
+                }
 
-        .sidebar-menu i {
-            margin-right: 12px;
-            width: 20px;
-            text-align: center;
-        }
+            .sidebar-menu i {
+                margin-right: 12px;
+                width: 20px;
+                text-align: center;
+            }
 
         /* Top Navbar */
         .top-navbar {
@@ -86,14 +86,14 @@
             padding: 0.8rem 1.5rem;
         }
 
-        .top-navbar .navbar-brand {
-            color: white;
-            font-weight: 600;
-        }
+            .top-navbar .navbar-brand {
+                color: white;
+                font-weight: 600;
+            }
 
-        .top-navbar .navbar-brand:hover {
-            color: var(--color-light-2);
-        }
+                .top-navbar .navbar-brand:hover {
+                    color: var(--color-light-2);
+                }
 
         .dropdown-menu {
             font-size: 0.95rem;
@@ -131,7 +131,11 @@
                 </div>
 
                 <ul class="sidebar-menu">
-                    <li><a href="~/GestionUsuarios.aspx" runat="server"><i class="fas fa-users-cog"></i> Gestión de Usuarios</a></li>
+                    <li><a href="~/GestionUsuarios.aspx" runat="server"><i class="fas fa-users-cog"></i>Gestión de Usuarios</a></li>
+                </ul>
+
+                <ul class="sidebar-menu">
+                    <li><a href="~/AprobacionPropuestas.aspx" runat="server"><i class="fas fa-clipboard-check"></i>Gestión de Propuestas </a></li>
                 </ul>
             </aside>
 
@@ -146,8 +150,10 @@
                                 <a href="#" class="nav-link dropdown-toggle d-flex align-items-center gap-2" id="navbarDropdownAdmin" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     <i class="fas fa-user-circle fs-4 text-white"></i>
                                     <div class="text-white">
-                                        <strong class="d-block"><asp:Label ID="lblUsuario" runat="server" Text="Admin"></asp:Label></strong>
-                                        <small class="text-light"><asp:Label ID="lblRol" runat="server" Text="Superusuario"></asp:Label></small>
+                                        <strong class="d-block">
+                                            <asp:Label ID="lblUsuario" runat="server" Text="Admin"></asp:Label></strong>
+                                        <small class="text-light">
+                                            <asp:Label ID="lblRol" runat="server" Text="Superusuario"></asp:Label></small>
                                     </div>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownAdmin">
