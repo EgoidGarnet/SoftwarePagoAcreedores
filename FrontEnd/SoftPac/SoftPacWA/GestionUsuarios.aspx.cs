@@ -14,6 +14,7 @@ namespace SoftPacWA
     {
         private UsuariosBO usuariosBO = new UsuariosBO();
         private PaisesBO paisesBO = new PaisesBO();
+        private CuentasPropiasBO cuentasPropiasBO = new CuentasPropiasBO();
 
         private usuariosDTO UsuarioLogueado { get { return (usuariosDTO)Session["UsuarioLogueado"]; } }
         protected void Page_Load(object sender, EventArgs e)
@@ -184,6 +185,16 @@ namespace SoftPacWA
                     true
                 );
 
+            }
+            else if (e.CommandName == "VerActividad")
+            {
+                CargarActividadUsuario(usuarioId);
+                ScriptManager.RegisterStartupScript(
+                    this, this.GetType(),
+                    "abrirModalActividad",
+                    "var m = new bootstrap.Modal(document.getElementById('modalActividad')); m.show();",
+                    true
+                );
             }
             //else if (e.CommandName == "Eliminar")
             //{
@@ -648,6 +659,100 @@ namespace SoftPacWA
             catch (Exception ex)
             {
                 MostrarMensaje($"Error: {ex.Message}", "danger");
+            }
+        }
+        #endregion
+
+        #region Actividad de Usuario
+        private void CargarActividadUsuario(int usuarioId)
+        {
+            try
+            {
+                ViewState["UsuarioActividadId"] = usuarioId;
+                // Obtener datos del usuario
+                usuariosDTO usuario = usuariosBO.ObtenerPorId(usuarioId);
+                if (usuario != null)
+                {
+                    lblActividadUsuario.Text = usuario.nombre_de_usuario;
+                    lblActividadNombre.Text = $"{usuario.nombre} {usuario.apellidos}";
+                    lblActividadCorreo.Text = usuario.correo_electronico;
+                }
+
+                // Obtener kardex del usuario
+                var kardexList = cuentasPropiasBO.ObtenerKardexCuentaPropiaPorUsuario(usuarioId);
+
+                if (kardexList != null && kardexList.Count > 0)
+                {
+                    // Ordenar por fecha descendente (más recientes primero)
+                    var listaOrdenada = kardexList.OrderByDescending(k => k.fecha_modificacion).ToList();
+
+                    gvActividad.DataSource = listaOrdenada;
+                    gvActividad.DataBind();
+                    gvActividad.Visible = true;
+                    pnlSinActividad.Visible = false;
+
+                    lblTotalActividad.Text = $"Total de movimientos: {kardexList.Count}";
+                }
+                else
+                {
+                    gvActividad.DataSource = null;
+                    gvActividad.DataBind();
+                    gvActividad.Visible = false;
+                    pnlSinActividad.Visible = true;
+
+                    lblTotalActividad.Text = "Total de movimientos: 0";
+                }
+
+                upActividad.Update();
+            }
+            catch (Exception ex)
+            {
+                MostrarMensaje($"Error al cargar la actividad: {ex.Message}", "danger");
+            }
+        }
+
+        protected void gvActividad_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                var kardex = (SoftPacBusiness.CuentasPropiasWS.kardexCuentasPropiasDTO)e.Row.DataItem;
+
+                if (kardex != null && kardex.cuenta_propia != null)
+                {
+                    // Formatear monto modificado
+                    Label lblMontoModificado = (Label)e.Row.FindControl("lblMontoModificado");
+                    if (lblMontoModificado != null)
+                    {
+                        decimal monto = kardex.saldo_modificacion;
+                        string codigoISO = kardex.cuenta_propia.moneda?.codigo_iso ?? "";
+                        string cssClass = monto < 0 ? "monto-negativo" : "monto-positivo";
+
+                        lblMontoModificado.Text = $"{codigoISO} {monto:N2}";
+                        lblMontoModificado.CssClass = cssClass;
+                    }
+
+                    // Formatear saldo resultante
+                    Label lblSaldoResultante = (Label)e.Row.FindControl("lblSaldoResultante");
+                    if (lblSaldoResultante != null)
+                    {
+                        decimal saldoResultante = kardex.saldo_resultante;
+                        string codigoISO = kardex.cuenta_propia.moneda?.codigo_iso ?? "";
+
+                        lblSaldoResultante.Text = $"{codigoISO} {saldoResultante:N2}";
+                    }
+                }
+            }
+        }
+
+        protected void gvActividad_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            gvActividad.PageIndex = e.NewPageIndex;
+
+            // Necesitamos recargar los datos del usuario guardado en ViewState
+            if (ViewState["UsuarioActividadId"] != null)
+            {
+                int usuarioId = (int)ViewState["UsuarioActividadId"];
+                CargarActividadUsuario(usuarioId);
             }
         }
         #endregion

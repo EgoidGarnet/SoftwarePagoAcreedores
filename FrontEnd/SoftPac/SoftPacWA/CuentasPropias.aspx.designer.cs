@@ -159,6 +159,15 @@ namespace SoftPacWA
         protected global::System.Web.UI.WebControls.DropDownList ddlEntidadBancaria;
 
         /// <summary>
+        /// Control lblEntidadError.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblEntidadError;
+
+        /// <summary>
         /// Control ddlMoneda.
         /// </summary>
         /// <remarks>
@@ -168,13 +177,31 @@ namespace SoftPacWA
         protected global::System.Web.UI.WebControls.DropDownList ddlMoneda;
 
         /// <summary>
-        /// Control txtTipoCuenta.
+        /// Control lblMonedaError.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtTipoCuenta;
+        protected global::System.Web.UI.WebControls.Label lblMonedaError;
+
+        /// <summary>
+        /// Control ddlTipoCuenta.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlTipoCuenta;
+
+        /// <summary>
+        /// Control lblTipoCuentaError.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblTipoCuentaError;
 
         /// <summary>
         /// Control txtNumeroCuenta.
@@ -186,6 +213,15 @@ namespace SoftPacWA
         protected global::System.Web.UI.WebControls.TextBox txtNumeroCuenta;
 
         /// <summary>
+        /// Control lblNumeroCuentaError.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblNumeroCuentaError;
+
+        /// <summary>
         /// Control txtCci.
         /// </summary>
         /// <remarks>
@@ -195,6 +231,15 @@ namespace SoftPacWA
         protected global::System.Web.UI.WebControls.TextBox txtCci;
 
         /// <summary>
+        /// Control lblCciError.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblCciError;
+
+        /// <summary>
         /// Control txtSaldoDisponible.
         /// </summary>
         /// <remarks>
@@ -202,6 +247,15 @@ namespace SoftPacWA
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtSaldoDisponible;
+
+        /// <summary>
+        /// Control lblSaldoError.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblSaldoError;
 
         /// <summary>
         /// Control chkActiva.
@@ -222,12 +276,12 @@ namespace SoftPacWA
         protected global::System.Web.UI.WebControls.Button btnGuardar;
 
         /// <summary>
-        /// Control Label1.
+        /// Control btnConfirmarEliminar.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label1;
+        protected global::System.Web.UI.WebControls.Button btnConfirmarEliminar;
     }
 }

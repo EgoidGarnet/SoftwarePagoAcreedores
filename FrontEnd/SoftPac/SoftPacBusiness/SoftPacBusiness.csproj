@@ -255,6 +255,9 @@
     <None Include="Connected Services\CuentasPropiasWS\SoftPacBusiness.CuentasPropiasWS.insertarCuentaPropiaResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
+    <None Include="Connected Services\CuentasPropiasWS\SoftPacBusiness.CuentasPropiasWS.kardexCuentasPropiasDTO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
     <None Include="Connected Services\CuentasPropiasWS\SoftPacBusiness.CuentasPropiasWS.listarCuentasActivasResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
@@ -271,6 +274,12 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Connected Services\CuentasPropiasWS\SoftPacBusiness.CuentasPropiasWS.obtenerCuentaPropiaPorIdResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\CuentasPropiasWS\SoftPacBusiness.CuentasPropiasWS.obtenerKardexCuentaPropiaPorCuentaResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\CuentasPropiasWS\SoftPacBusiness.CuentasPropiasWS.obtenerKardexCuentaPropiaPorUsuarioResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Connected Services\CuentasPropiasWS\SoftPacBusiness.CuentasPropiasWS.tieneSaldoSuficienteResponse.datasource">
@@ -510,18 +519,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Connected Services\CuentasPropiasWS\configuration91.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Connected Services\CuentasPropiasWS\configuration.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Connected Services\CuentasPropiasWS\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Connected Services\CuentasAcreedorWS\configuration91.svcinfo" />
   </ItemGroup>
   <ItemGroup>
@@ -601,6 +598,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Connected Services\UsuariosWS\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\CuentasPropiasWS\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\CuentasPropiasWS\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\CuentasPropiasWS\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>

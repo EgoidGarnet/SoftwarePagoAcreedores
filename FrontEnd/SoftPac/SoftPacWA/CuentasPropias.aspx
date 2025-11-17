@@ -79,6 +79,17 @@
             font-size: 0.9rem;
             margin: 0;
         }
+
+        /* Estilos para validación */
+        .error-message {
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+            display: block;
+        }
+
+        .form-control.is-invalid, .form-select.is-invalid {
+            border-color: #dc3545;
+        }
     </style>
 </asp:Content>
 
@@ -164,15 +175,20 @@
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="Acciones">
                                     <ItemTemplate>
+                                        <asp:LinkButton ID="btnVerDetalle" runat="server" CssClass="btn btn-sm btn-info btn-icon"
+                                            CommandName="VerDetalle" CommandArgument='<%# Eval("cuenta_bancaria_id") %>' ToolTip="Ver detalle">
+                                            <i class="fas fa-eye"></i>
+                                        </asp:LinkButton>
+
                                         <asp:LinkButton ID="btnModificar" runat="server" CssClass="btn btn-sm btn-warning btn-icon"
                                             CommandName="Modificar" CommandArgument='<%# Eval("cuenta_bancaria_id") %>' ToolTip="Modificar">
-                <i class="fas fa-edit"></i>
+                                            <i class="fas fa-edit"></i>
                                         </asp:LinkButton>
 
                                         <asp:LinkButton ID="btnEliminar" runat="server" CssClass="btn btn-sm btn-danger btn-icon"
-                                            CommandName="Eliminar" CommandArgument='<%# Eval("cuenta_bancaria_id") %>'
-                                            ToolTip="Eliminar" OnClientClick="return confirm('¿Está seguro de eliminar esta cuenta?');">
-                <i class="fas fa-trash"></i>
+                                            CommandName="MostrarModalEliminar" CommandArgument='<%# Eval("cuenta_bancaria_id") %>'
+                                            ToolTip="Eliminar">
+                                            <i class="fas fa-trash"></i>
                                         </asp:LinkButton>
                                     </ItemTemplate>
                                 </asp:TemplateField>
@@ -198,52 +214,59 @@
                         <ContentTemplate>
                             <div class="modal-header text-white" style="background-color: var(--color-primary);">
                                 <h5 class="modal-title">
-                                    <asp:Literal ID="litModalTitulo" runat="server"></asp:Literal></h5>
+                                    <asp:Literal ID="litModalTitulo" runat="server"></asp:Literal>
+                                </h5>
                                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
                                 <asp:HiddenField ID="hfCuentaId" runat="server" Value="0" />
-                                <div class="row">
-                                    <div class="col-md-6 mb-3">
-                                        <label class="form-label">Entidad Bancaria</label>
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label">Entidad Bancaria <span class="text-danger">*</span></label>
                                         <asp:DropDownList ID="ddlEntidadBancaria" runat="server" CssClass="form-select"></asp:DropDownList>
+                                        <asp:Label ID="lblEntidadError" runat="server" CssClass="text-danger error-message"></asp:Label>
                                     </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label class="form-label">Moneda</label>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Moneda <span class="text-danger">*</span></label>
                                         <asp:DropDownList ID="ddlMoneda" runat="server" CssClass="form-select"></asp:DropDownList>
+                                        <asp:Label ID="lblMonedaError" runat="server" CssClass="text-danger error-message"></asp:Label>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6 mb-3">
-                                        <label class="form-label">Tipo de Cuenta (Ej. Ahorros, Corriente)</label>
-                                        <asp:TextBox ID="txtTipoCuenta" runat="server" CssClass="form-control"></asp:TextBox>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Tipo de Cuenta <span class="text-danger">*</span></label>
+                                        <asp:DropDownList ID="ddlTipoCuenta" runat="server" CssClass="form-select">
+                                            <asp:ListItem Value="">--Seleccione--</asp:ListItem>
+                                            <asp:ListItem Value="Ahorro">Ahorro</asp:ListItem>
+                                            <asp:ListItem Value="Corriente">Corriente</asp:ListItem>
+                                            <asp:ListItem Value="Cuenta Maestra">Cuenta Maestra</asp:ListItem>
+                                            <asp:ListItem Value="Interbancaria">Interbancaria</asp:ListItem>
+                                            <asp:ListItem Value="Detracción">Detracción</asp:ListItem>
+                                        </asp:DropDownList>
+                                        <asp:Label ID="lblTipoCuentaError" runat="server" CssClass="text-danger error-message"></asp:Label>
                                     </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label class="form-label">Número de Cuenta</label>
-                                        <asp:TextBox ID="txtNumeroCuenta" runat="server" CssClass="form-control"></asp:TextBox>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Número de Cuenta <span class="text-danger">*</span></label>
+                                        <asp:TextBox ID="txtNumeroCuenta" runat="server" CssClass="form-control" MaxLength="20" placeholder="Ej: 00123456789012345678"></asp:TextBox>
+                                        <asp:Label ID="lblNumeroCuentaError" runat="server" CssClass="text-danger error-message"></asp:Label>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6 mb-3">
-                                        <label class="form-label">CCI (Código de Cuenta Interbancario)</label>
-                                        <asp:TextBox ID="txtCci" runat="server" CssClass="form-control"></asp:TextBox>
+                                    <div class="col-md-6">
+                                        <label class="form-label">CCI (Código de Cuenta Interbancario) <span class="text-danger">*</span></label>
+                                        <asp:TextBox ID="txtCci" runat="server" CssClass="form-control" MaxLength="20" placeholder="Ej: 00123456789012345678"></asp:TextBox>
+                                        <asp:Label ID="lblCciError" runat="server" CssClass="text-danger error-message"></asp:Label>
                                     </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label class="form-label">Saldo Disponible</label>
-                                        <asp:TextBox ID="txtSaldoDisponible" runat="server" CssClass="form-control" TextMode="Number" step="0.01"></asp:TextBox>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Saldo Disponible <span class="text-danger">*</span></label>
+                                        <asp:TextBox ID="txtSaldoDisponible" runat="server" CssClass="form-control" TextMode="Number" step="0.01" placeholder="0.00"></asp:TextBox>
+                                        <asp:Label ID="lblSaldoError" runat="server" CssClass="text-danger error-message"></asp:Label>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6 mb-3">
+                                    <div class="col-md-6">
                                         <div class="form-check form-switch mt-4">
-                                            <div class="col-md-4 mb-3">
-                                                <div class="form-check form-switch mt-4">
-                                                    <input id="chkActiva" runat="server" type="checkbox" class="form-check-input" checked="checked" />
-                                                    <label for="chkActiva" class="form-check-label">Cuenta Activa</label>
-                                                </div>
-                                            </div>
+                                            <input id="chkActiva" runat="server" type="checkbox" class="form-check-input" checked="checked" />
+                                            <label for="chkActiva" class="form-check-label">Cuenta Activa</label>
                                         </div>
                                     </div>
+                                </div>
+                                <div class="mt-3">
+                                    <small class="text-muted"><span class="text-danger">*</span> Campos obligatorios</small>
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -254,10 +277,28 @@
                     </asp:UpdatePanel>
                 </div>
             </div>
-            <div class="lista-footer">
-                <asp:Label ID="Label1" runat="server" CssClass="total-registros"></asp:Label>
+        </div>
+        <!-- Modal de Confirmación de Eliminación -->
+        <div class="modal fade" id="modalConfirmarEliminar" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header bg-danger text-white">
+                        <h5 class="modal-title">
+                            <i class="fas fa-exclamation-triangle me-2"></i>Confirmar Eliminación
+                        </h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p class="mb-0">¿Está seguro que desea eliminar esta cuenta propia?</p>
+                        <p class="text-muted mb-0 mt-2"><small>Esta acción no se puede deshacer.</small></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <asp:Button ID="btnConfirmarEliminar" runat="server" CssClass="btn btn-danger" 
+                            OnClick="btnConfirmarEliminar_Click" Text="Eliminar definitivamente" />
+                    </div>
+                </div>
             </div>
-
         </div>
 
         <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">

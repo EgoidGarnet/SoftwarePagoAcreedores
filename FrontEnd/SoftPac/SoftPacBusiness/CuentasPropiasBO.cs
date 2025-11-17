@@ -43,12 +43,12 @@ namespace SoftPac.Business
             }
         }
 
-        public int Modificar(cuentasPropiasDTO cuenta)
+        public int Modificar(cuentasPropiasDTO cuenta,int usuarioId)
         {
             try
             {
                 ActivarSpecified(cuenta);
-                return this.cuentasPropiasClienteSOAP.modificarCuentaPropia(cuenta);
+                return this.cuentasPropiasClienteSOAP.modificarCuentaPropia(cuenta,usuarioId);
             }
             catch (Exception ex)
             {
@@ -81,6 +81,36 @@ namespace SoftPac.Business
                 throw new ApplicationException("Error al obtener cuenta propia por ID.", ex);
             }
         }
+
+        // ========== MÉTODOS DE KARDEX =========
+
+        public BindingList<kardexCuentasPropiasDTO> ObtenerKardexCuentaPropiaPorCuenta(int cuentaPropiaId)
+        {
+            try
+            {
+                kardexCuentasPropiasDTO[] kardex = this.cuentasPropiasClienteSOAP.obtenerKardexCuentaPropiaPorCuenta(cuentaPropiaId);
+                if(kardex==null || kardex.Length == 0)
+                {
+                    return new BindingList<kardexCuentasPropiasDTO>();
+                }
+                return new BindingList<kardexCuentasPropiasDTO>(kardex);
+            }
+            catch(Exception ex)
+            {
+                throw new ApplicationException("Error al obtener kardex de cuenta propia por Id de cuenta", ex);
+            }
+        }
+
+        public BindingList<kardexCuentasPropiasDTO> ObtenerKardexCuentaPropiaPorUsuario(int usuarioId)
+        {
+            kardexCuentasPropiasDTO[] kardex = this.cuentasPropiasClienteSOAP.obtenerKardexCuentaPropiaPorUsuario(usuarioId);
+            if (kardex == null || kardex.Length == 0)
+            {
+                return new BindingList<kardexCuentasPropiasDTO>();
+            }
+            return new BindingList<kardexCuentasPropiasDTO>(kardex);
+        }
+
 
         // ========== MÉTODOS DE LISTADO ==========
 

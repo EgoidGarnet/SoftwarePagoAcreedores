@@ -166,5 +166,40 @@ namespace SoftPacWA
                 }});";
             ScriptManager.RegisterStartupScript(this, GetType(), "MostrarMensaje", script, true);
         }
+
+
+        private void ConfigurarBotonesSegunEstado(bool acreedorActivo)
+        {
+            if (!acreedorActivo)
+            {
+                // Deshabilitar botón de editar acreedor
+                btnEditar.Enabled = false;
+                btnEditar.CssClass = "btn btn-warning btn-sm disabled";
+                btnEditar.ToolTip = "No se puede editar un acreedor inactivo";
+
+                // Deshabilitar botón de nueva cuenta
+                lnkNuevaCuenta.Enabled = false;
+                lnkNuevaCuenta.CssClass = "btn btn-primary btn-sm disabled";
+                lnkNuevaCuenta.ToolTip = "No se puede agregar cuentas a un acreedor inactivo";
+
+                // Remover atributo data-modal-cuenta para que no se abra
+                lnkNuevaCuenta.Attributes.Remove("data-modal-cuenta");
+
+                // Solo dejar habilitado el botón de eliminar
+                btnEliminar.Enabled = true;
+            }
+            else
+            {
+                // Habilitar todos los botones
+                btnEditar.Enabled = true;
+                btnEditar.CssClass = "btn btn-warning btn-sm";
+
+                lnkNuevaCuenta.Enabled = true;
+                lnkNuevaCuenta.CssClass = "btn btn-primary btn-sm";
+                lnkNuevaCuenta.Attributes["data-modal-cuenta"] = "true";
+
+                btnEliminar.Enabled = true;
+            }
+        }
     }
 }

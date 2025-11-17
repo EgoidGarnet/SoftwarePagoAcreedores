@@ -80,9 +80,11 @@
             cursor: pointer;
         }
 
-            .ui-menu-item:hover {
-                background-color: var(--color-light-1);
-            }
+        .ui-menu-item:hover {
+            background-color: var(--color-light-1);
+        }
+        .monto-positivo { color: #28a745; font-weight: 600; }
+        .monto-negativo { color: #dc3545; font-weight: 600; }
     </style>
 
     <asp:UpdatePanel ID="upMain" runat="server">
@@ -140,6 +142,12 @@
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Acciones">
                                 <ItemTemplate>
+                                    <asp:LinkButton ID="btnVerActividad" runat="server"
+                                        CssClass="btn btn-sm btn-outline-info me-2"
+                                        CommandName="VerActividad"
+                                        CommandArgument='<%# Eval("usuario_id") %>'>
+                                        <i class="fas fa-history"></i> Actividad
+                                    </asp:LinkButton>
                                     <asp:LinkButton ID="btnModificar" runat="server" CssClass="btn btn-sm btn-outline-primary me-2"
                                         CommandName="Modificar" CommandArgument='<%# Eval("usuario_id") %>'>
                                         <i class="fas fa-edit"></i> Modificar
@@ -165,6 +173,7 @@
                                         Visible='<%# (bool)Eval("activo") == false %>'>
                                         <i class="fas fa-rotate-left"></i> Activar
                                     </asp:LinkButton>
+
                                 </ItemTemplate>
                             </asp:TemplateField>
                         </Columns>
@@ -281,6 +290,90 @@
 
         </div>
       </div>
+    </div>
+
+    <div class="modal fade" id="modalActividad" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color: var(--color-primary); color: white;">
+                    <h5 class="modal-title">
+                        <i class="fas fa-history me-2"></i>Actividad del Usuario
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <asp:UpdatePanel ID="upActividad" runat="server" UpdateMode="Conditional">
+                        <ContentTemplate>
+                            <!-- Información del usuario -->
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <strong>Usuario:</strong> <asp:Label ID="lblActividadUsuario" runat="server" />
+                                        </div>
+                                        <div class="col-md-4">
+                                            <strong>Nombre:</strong> <asp:Label ID="lblActividadNombre" runat="server" />
+                                        </div>
+                                        <div class="col-md-4">
+                                            <strong>Correo:</strong> <asp:Label ID="lblActividadCorreo" runat="server" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Tabla de actividad -->
+                            <h6 class="mb-3"><i class="fas fa-exchange-alt me-2"></i>Movimientos en Cuentas Propias</h6>
+                        
+                            <asp:GridView ID="gvActividad" runat="server" 
+                                CssClass="table table-sm table-striped" 
+                                AutoGenerateColumns="False" 
+                                GridLines="None"
+                                EmptyDataText="No hay movimientos registrados para este usuario"
+                                AllowPaging="True" 
+                                PageSize="15" 
+                                OnPageIndexChanging="gvActividad_PageIndexChanging"
+                                OnRowDataBound="gvActividad_RowDataBound">
+                                <Columns>
+                                    <asp:TemplateField HeaderText="Fecha">
+                                        <ItemTemplate><%# Eval("fecha_modificacion", "{0:dd/MM/yyyy HH:mm}") %></ItemTemplate>
+                                    </asp:TemplateField>
+                                    <asp:TemplateField HeaderText="Entidad Bancaria">
+                                        <ItemTemplate><%# Eval("cuenta_propia.entidad_bancaria.nombre") %></ItemTemplate>
+                                    </asp:TemplateField>
+                                    <asp:TemplateField HeaderText="N° Cuenta">
+                                        <ItemTemplate><%# Eval("cuenta_propia.numero_cuenta") %></ItemTemplate>
+                                    </asp:TemplateField>
+                                    <asp:TemplateField HeaderText="Monto Modificado">
+                                        <ItemTemplate>
+                                            <asp:Label ID="lblMontoModificado" runat="server" />
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                    <asp:TemplateField HeaderText="Saldo Resultante">
+                                        <ItemTemplate>
+                                            <asp:Label ID="lblSaldoResultante" runat="server" />
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                </Columns>
+                                <PagerStyle CssClass="pagination-ger" HorizontalAlign="Center" />
+                                <PagerSettings Mode="NumericFirstLast" FirstPageText="Primera" LastPageText="Última" 
+                                    PageButtonCount="5" Position="Bottom" />
+                            </asp:GridView>
+                        
+                            <asp:Panel ID="pnlSinActividad" runat="server" Visible="false" CssClass="text-center py-4">
+                                <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
+                                <p class="text-muted h6">No hay movimientos registrados</p>
+                                <p class="text-muted">Este usuario aún no ha realizado cambios en cuentas propias.</p>
+                            </asp:Panel>
+                        
+                            <asp:Label ID="lblTotalActividad" runat="server" CssClass="text-muted mt-2 d-block"></asp:Label>
+                        </ContentTemplate>
+                    </asp:UpdatePanel>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
     </div>
 
 

@@ -364,7 +364,7 @@ namespace SoftPacWA
                             {
                                 cuenta.saldo_disponible = nuevoSaldo;
 
-                                if (cuentasPropiasBO.Modificar(cuenta) == 1)
+                                if (cuentasPropiasBO.Modificar(cuenta,UsuarioLogueado.usuario_id) == 1)
                                 {
                                     MostrarMensaje("Saldo actualizado correctamente", "success");
                                     CargarDetalle();
@@ -626,7 +626,7 @@ namespace SoftPacWA
                     if (cuenta != null)
                     {
                         cuenta.saldo_disponible += detalle.monto_pago;
-                        cuentasPropiasBO.Modificar(cuenta);
+                        cuentasPropiasBO.Modificar(cuenta,UsuarioLogueado.usuario_id);
                     }
                 }
 
@@ -676,7 +676,7 @@ namespace SoftPacWA
             }
             else if (estado == "Pagado")
             {
-                return $"<a href='#' onclick='mostrarModalRechazar({detalleId}); return false;' class='text-decoration-none'> < i class='fas fa-check-circle icon-cuadrado bg-success-hover text-success' title='Rechazar pago'></i></a>";
+                return $"<a href='#' onclick='mostrarModalRechazar({detalleId}); return false;' class='text-decoration-none'> <i class='fas fa-check-circle icon-cuadrado bg-success-hover text-success' title='Rechazar pago'></i></a>";
             }
 
             return "-";
