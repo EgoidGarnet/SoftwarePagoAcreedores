@@ -258,7 +258,7 @@ public class PropuestaPagoBO {
             BigDecimal total;
         }
         PropuestasPagoDTO propuesta = propuestasDAO.obtenerPorId(propuestaId);
-        if(!"pendiente".equals(propuesta.getEstado().toLowerCase())){
+        if(!"por aprobar".equals(propuesta.getEstado().toLowerCase())){
             return 0;
         }
         propuesta.setUsuario_modificacion(usuario);

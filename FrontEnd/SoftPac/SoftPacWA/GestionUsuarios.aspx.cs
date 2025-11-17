@@ -15,6 +15,8 @@ namespace SoftPacWA
         private UsuariosBO usuariosBO = new UsuariosBO();
         private PaisesBO paisesBO = new PaisesBO();
         private CuentasPropiasBO cuentasPropiasBO = new CuentasPropiasBO();
+        private PropuestasPagoBO propuestasBO = new PropuestasPagoBO();
+
 
         private usuariosDTO UsuarioLogueado { get { return (usuariosDTO)Session["UsuarioLogueado"]; } }
         protected void Page_Load(object sender, EventArgs e)
@@ -702,8 +704,79 @@ namespace SoftPacWA
 
                     lblTotalActividad.Text = "Total de movimientos: 0";
                 }
+                var propuestasDelUsuario = propuestasBO.ListarActividadPorUsuario(usuarioId);
+
+                var logDeAcciones = new List<AccionUsuario>();
+
+                foreach (var propuesta in propuestasDelUsuario)
+                {
+                    // Acción de Creación
+                    if (propuesta.usuario_creacion?.usuario_id == usuarioId && propuesta.fecha_hora_creacionSpecified)
+                    {
+                        logDeAcciones.Add(new AccionUsuario
+                        {
+                            PropuestaId = propuesta.propuesta_id,
+                            FechaAccion = propuesta.fecha_hora_creacion,
+                            TipoAccion = "Creación",
+                            Estado = propuesta.estado,
+                            NumFacturas = propuesta.detalles_propuesta == null ? 0 : propuesta.detalles_propuesta.Length
+                        });
+                    }
+
+                    // Acción de Modificación
+                    if (propuesta.usuario_modificacion?.usuario_id == usuarioId && propuesta.fecha_hora_modificacionSpecified)
+                    {
+                        logDeAcciones.Add(new AccionUsuario
+                        {
+                            PropuestaId = propuesta.propuesta_id,
+                            FechaAccion = propuesta.fecha_hora_modificacion,
+                            TipoAccion = "Modificación",
+                            Estado = propuesta.estado,
+                            NumFacturas = propuesta.detalles_propuesta == null ? 0 : propuesta.detalles_propuesta.Length
+                        });
+                    }
+
+                    // Acción de Eliminación
+                    if (propuesta.usuario_eliminacion?.usuario_id == usuarioId && propuesta.fecha_eliminacionSpecified)
+                    {
+                        logDeAcciones.Add(new AccionUsuario
+                        {
+                            PropuestaId = propuesta.propuesta_id,
+                            FechaAccion = propuesta.fecha_eliminacion,
+                            TipoAccion = "Eliminación",
+                            Estado = "Eliminada",
+                            NumFacturas = propuesta.detalles_propuesta == null ? 0 : propuesta.detalles_propuesta.Length
+                        });
+                    }
+                }
+
+                if (logDeAcciones.Count > 0)
+                {
+                    gvUltimasAcciones.Visible = true;
+                    pnlSinAcciones.Visible = false;
+
+                    gvUltimasAcciones.DataSource =
+                        logDeAcciones.OrderByDescending(a => a.FechaAccion)
+                                     .Take(10)
+                                     .ToList();
+
+                    gvUltimasAcciones.DataBind();
+                }
+                else
+                {
+                    gvUltimasAcciones.Visible = false;
+                    pnlSinAcciones.Visible = true;
+
+                    gvUltimasAcciones.DataSource = null;
+                    gvUltimasAcciones.DataBind();
+                }
+
+
 
                 upActividad.Update();
+
+
+
             }
             catch (Exception ex)
             {

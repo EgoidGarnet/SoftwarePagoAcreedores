@@ -80,11 +80,19 @@
             cursor: pointer;
         }
 
-        .ui-menu-item:hover {
-            background-color: var(--color-light-1);
+            .ui-menu-item:hover {
+                background-color: var(--color-light-1);
+            }
+
+        .monto-positivo {
+            color: #28a745;
+            font-weight: 600;
         }
-        .monto-positivo { color: #28a745; font-weight: 600; }
-        .monto-negativo { color: #dc3545; font-weight: 600; }
+
+        .monto-negativo {
+            color: #dc3545;
+            font-weight: 600;
+        }
     </style>
 
     <asp:UpdatePanel ID="upMain" runat="server">
@@ -158,7 +166,7 @@
                                         OnClientClick="return confirm('¿Está seguro de que desea desactivar a este usuario?');">
                                         <i class="fas fa-ban"></i> Desactivar
                                     </asp:LinkButton>--%>
-                                    
+
                                     <asp:LinkButton ID="btnDesactivar" runat="server"
                                         CssClass="btn btn-sm btn-outline-danger"
                                         CommandName="MostrarModalDesactivar"
@@ -267,29 +275,29 @@
         </div>
     </div>
     <div class="modal fade" id="modalDesactivar" tabindex="-1" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
+        <div class="modal-dialog">
+            <div class="modal-content">
 
-          <div class="modal-header bg-danger text-white">
-            <h5 class="modal-title">Desactivar Usuario</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-          </div>
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title">Desactivar Usuario</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
 
-          <div class="modal-body">
-            ¿Está seguro de que desea desactivar a este usuario?
-          </div>
+                <div class="modal-body">
+                    ¿Está seguro de que desea desactivar a este usuario?
+                </div>
 
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
 
-            <asp:Button ID="btnConfirmarDesactivar" runat="server"
-                CssClass="btn btn-danger"
-                Text="Desactivar"
-                OnClick="btnConfirmarDesactivar_Click" />
-          </div>
+                    <asp:Button ID="btnConfirmarDesactivar" runat="server"
+                        CssClass="btn btn-danger"
+                        Text="Desactivar"
+                        OnClick="btnConfirmarDesactivar_Click" />
+                </div>
 
+            </div>
         </div>
-      </div>
     </div>
 
     <div class="modal fade" id="modalActividad" tabindex="-1" aria-hidden="true">
@@ -309,13 +317,16 @@
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-md-4">
-                                            <strong>Usuario:</strong> <asp:Label ID="lblActividadUsuario" runat="server" />
+                                            <strong>Usuario:</strong>
+                                            <asp:Label ID="lblActividadUsuario" runat="server" />
                                         </div>
                                         <div class="col-md-4">
-                                            <strong>Nombre:</strong> <asp:Label ID="lblActividadNombre" runat="server" />
+                                            <strong>Nombre:</strong>
+                                            <asp:Label ID="lblActividadNombre" runat="server" />
                                         </div>
                                         <div class="col-md-4">
-                                            <strong>Correo:</strong> <asp:Label ID="lblActividadCorreo" runat="server" />
+                                            <strong>Correo:</strong>
+                                            <asp:Label ID="lblActividadCorreo" runat="server" />
                                         </div>
                                     </div>
                                 </div>
@@ -323,14 +334,14 @@
 
                             <!-- Tabla de actividad -->
                             <h6 class="mb-3"><i class="fas fa-exchange-alt me-2"></i>Movimientos en Cuentas Propias</h6>
-                        
-                            <asp:GridView ID="gvActividad" runat="server" 
-                                CssClass="table table-sm table-striped" 
-                                AutoGenerateColumns="False" 
+
+                            <asp:GridView ID="gvActividad" runat="server"
+                                CssClass="table table-sm table-striped"
+                                AutoGenerateColumns="False"
                                 GridLines="None"
                                 EmptyDataText="No hay movimientos registrados para este usuario"
-                                AllowPaging="True" 
-                                PageSize="15" 
+                                AllowPaging="True"
+                                PageSize="15"
                                 OnPageIndexChanging="gvActividad_PageIndexChanging"
                                 OnRowDataBound="gvActividad_RowDataBound">
                                 <Columns>
@@ -355,17 +366,42 @@
                                     </asp:TemplateField>
                                 </Columns>
                                 <PagerStyle CssClass="pagination-ger" HorizontalAlign="Center" />
-                                <PagerSettings Mode="NumericFirstLast" FirstPageText="Primera" LastPageText="Última" 
+                                <PagerSettings Mode="NumericFirstLast" FirstPageText="Primera" LastPageText="Última"
                                     PageButtonCount="5" Position="Bottom" />
                             </asp:GridView>
-                        
+
                             <asp:Panel ID="pnlSinActividad" runat="server" Visible="false" CssClass="text-center py-4">
                                 <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
                                 <p class="text-muted h6">No hay movimientos registrados</p>
                                 <p class="text-muted">Este usuario aún no ha realizado cambios en cuentas propias.</p>
                             </asp:Panel>
-                        
+
                             <asp:Label ID="lblTotalActividad" runat="server" CssClass="text-muted mt-2 d-block"></asp:Label>
+
+                            <!-- Pegar ESTE BLOQUE justo debajo de la grilla del kardex de cuentas propias dentro del modal de actividad -->
+                            <div class="mt-4">
+                                <h6 class="mb-3"><i class="fas fa-history me-2"></i>Últimas acciones</h6>
+
+                                <div class="table-responsive">
+                                    <asp:GridView ID="gvUltimasAcciones" runat="server"
+                                        CssClass="table table-sm table-striped"
+                                        AutoGenerateColumns="False"
+                                        GridLines="None">
+                                        <Columns>
+                                            <asp:BoundField DataField="PropuestaId" HeaderText="Propuesta ID" />
+                                            <asp:BoundField DataField="FechaAccion" HeaderText="Fecha" DataFormatString="{0:yyyy-MM-dd HH:mm}" />
+                                            <asp:BoundField DataField="TipoAccion" HeaderText="Tipo" />
+                                            <asp:BoundField DataField="Estado" HeaderText="Estado" />
+                                            <asp:BoundField DataField="NumFacturas" HeaderText="# Facturas" />
+                                        </Columns>
+                                    </asp:GridView>
+                                </div>
+                            </div>
+                            <asp:Panel ID="pnlSinAcciones" runat="server" Visible="false" CssClass="text-center py-4">
+                                <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
+                                <p class="text-muted h6">No ha realizado acciones recientemente</p>
+                                <p class="text-muted">Este usuario aún no ha realizado acciones en las propuestas de pago.</p>
+                            </asp:Panel>
                         </ContentTemplate>
                     </asp:UpdatePanel>
                 </div>
