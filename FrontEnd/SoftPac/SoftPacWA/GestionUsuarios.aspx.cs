@@ -10,11 +10,22 @@ using System.Web.Script.Serialization;
 
 namespace SoftPacWA
 {
+    // Clase auxiliar para las últimas acciones del usuario
+    public class AccionUsuario
+    {
+        public int PropuestaId { get; set; }
+        public DateTime FechaAccion { get; set; }
+        public string TipoAccion { get; set; }
+        public string Estado { get; set; }
+        public int NumFacturas { get; set; }
+    }
+
     public partial class GestionUsuarios : System.Web.UI.Page
     {
         private UsuariosBO usuariosBO = new UsuariosBO();
         private PaisesBO paisesBO = new PaisesBO();
         private CuentasPropiasBO cuentasPropiasBO = new CuentasPropiasBO();
+        private PropuestasPagoBO propuestasBO = new PropuestasPagoBO();
 
         private usuariosDTO UsuarioLogueado { get { return (usuariosDTO)Session["UsuarioLogueado"]; } }
         protected void Page_Load(object sender, EventArgs e)
@@ -703,11 +714,75 @@ namespace SoftPacWA
                     lblTotalActividad.Text = "Total de movimientos: 0";
                 }
 
+                // Cargar últimas acciones del usuario
+                CargarUltimasAcciones(usuarioId);
+
                 upActividad.Update();
             }
             catch (Exception ex)
             {
                 MostrarMensaje($"Error al cargar la actividad: {ex.Message}", "danger");
+            }
+        }
+
+        private void CargarUltimasAcciones(int usuarioId)
+        {
+            try
+            {
+                // Obtenemos todas las propuestas donde el usuario participó
+                var propuestasDelUsuario = propuestasBO.ListarActividadPorUsuario(usuarioId);
+
+                // Generar la lista de acciones
+                var logDeAcciones = new List<AccionUsuario>();
+
+                foreach (var propuesta in propuestasDelUsuario)
+                {
+                    // Acción de Creación
+                    if (propuesta.usuario_creacion?.usuario_id == usuarioId && propuesta.fecha_hora_creacionSpecified)
+                    {
+                        logDeAcciones.Add(new AccionUsuario
+                        {
+                            PropuestaId = propuesta.propuesta_id,
+                            FechaAccion = propuesta.fecha_hora_creacion,
+                            TipoAccion = "Creación",
+                            Estado = propuesta.estado,
+                            NumFacturas = propuesta.detalles_propuesta == null ? 0 : propuesta.detalles_propuesta.Length
+                        });
+                    }
+                    // Acción de Modificación
+                    if (propuesta.usuario_modificacion?.usuario_id == usuarioId && propuesta.fecha_hora_modificacionSpecified)
+                    {
+                        logDeAcciones.Add(new AccionUsuario
+                        {
+                            PropuestaId = propuesta.propuesta_id,
+                            FechaAccion = propuesta.fecha_hora_modificacion,
+                            TipoAccion = "Modificación",
+                            Estado = propuesta.estado,
+                            NumFacturas = propuesta.detalles_propuesta == null ? 0 : propuesta.detalles_propuesta.Length
+                        });
+                    }
+                    // Acción de Eliminación
+                    if (propuesta.usuario_eliminacion?.usuario_id == usuarioId && propuesta.fecha_eliminacionSpecified)
+                    {
+                        logDeAcciones.Add(new AccionUsuario
+                        {
+                            PropuestaId = propuesta.propuesta_id,
+                            FechaAccion = propuesta.fecha_eliminacion,
+                            TipoAccion = "Eliminación",
+                            Estado = "Eliminada",
+                            NumFacturas = propuesta.detalles_propuesta == null ? 0 : propuesta.detalles_propuesta.Length
+                        });
+                    }
+                }
+
+                // Ordenar por la fecha más reciente y mostrar en la tabla
+                gvUltimasAcciones.DataSource = logDeAcciones.OrderByDescending(a => a.FechaAccion).Take(10).ToList();
+                gvUltimasAcciones.DataBind();
+            }
+            catch (Exception ex)
+            {
+                // Manejar error silenciosamente para no afectar el resto del modal
+                System.Diagnostics.Debug.WriteLine($"Error al cargar últimas acciones: {ex.Message}");
             }
         }
 
@@ -783,6 +858,28 @@ namespace SoftPacWA
             MostrarMensaje("Contraseña regenerada exitosamente. Guarde para confirmar.", "success");
         }
 
+        // Helpers para los badges de colores de las últimas acciones
+        protected string GetActionClass(string accion)
+        {
+            switch (accion?.ToUpper())
+            {
+                case "CREACIÓN": return "bg-success";
+                case "MODIFICACIÓN": return "bg-info text-dark";
+                case "ELIMINACIÓN": return "bg-danger";
+                default: return "bg-secondary";
+            }
+        }
+
+        protected string GetEstadoClass(string estado)
+        {
+            switch (estado?.ToUpper())
+            {
+                case "PENDIENTE": return "bg-warning text-dark";
+                case "ENVIADA": return "bg-success";
+                case "ANULADA": return "bg-danger";
+                default: return "bg-light text-dark";
+            }
+        }
 
 
     }
