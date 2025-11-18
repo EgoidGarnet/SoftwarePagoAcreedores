@@ -42,7 +42,7 @@
         }
     </style>
 
-    <asp:UpdatePanel ID="upPropuestas" runat="server" UpdateMode="Conditional">
+    <asp:UpdatePanel ID="upPropuestas" runat="server">
         <ContentTemplate>
             <div class="page-title">
                 <h3><i class="fas fa-clipboard-check me-2"></i>Propuestas pendientes de aprobación</h3>
@@ -51,11 +51,17 @@
 
             <asp:Panel ID="pnlError" runat="server" Visible="false" CssClass="alert alert-danger" role="alert">
                 <asp:Label ID="lblError" runat="server"></asp:Label>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </asp:Panel>
 
             <div class="card shadow-sm">
                 <div class="card-body">
-                    <asp:GridView ID="gvPropuestasPendientes" runat="server" AutoGenerateColumns="False" CssClass="table table-hover align-middle" GridLines="None" EmptyDataText="No se encontraron propuestas pendientes">
+                    <asp:GridView ID="gvPropuestasPendientes" runat="server" 
+                        AutoGenerateColumns="False" 
+                        CssClass="table table-hover align-middle" 
+                        GridLines="None" 
+                        EmptyDataText="No se encontraron propuestas pendientes"
+                        OnRowCommand="gvPropuestasPendientes_RowCommand">
                         <Columns>
                             <asp:BoundField DataField="propuesta_id" HeaderText="ID" />
                             
@@ -98,7 +104,10 @@
                                         <asp:LinkButton ID="btnAprobar" runat="server" CssClass="btn btn-sm btn-success btn-action">
                                             <i class="fas fa-check me-1"></i> Aprobar
                                         </asp:LinkButton>
-                                        <asp:LinkButton ID="btnRechazar" runat="server" CssClass="btn btn-sm btn-outline-danger btn-action">
+                                        <asp:LinkButton ID="btnRechazar" runat="server" 
+                                            CssClass="btn btn-sm btn-outline-danger btn-action"
+                                            CommandName="MostrarModalRechazar"
+                                            CommandArgument='<%# Eval("propuesta_id") %>'>
                                             <i class="fas fa-times me-1"></i> Rechazar
                                         </asp:LinkButton>
                                     </div>
@@ -110,4 +119,30 @@
             </div>
         </ContentTemplate>
     </asp:UpdatePanel>
+
+    <!-- Modal de confirmación para rechazar -->
+    <div class="modal fade" id="modalRechazar" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title">
+                        </i>Rechazar Propuesta
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    <p class="mb-0">¿Está seguro de que desea rechazar esta propuesta?</p>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <asp:Button ID="btnConfirmarRechazar" runat="server"
+                        CssClass="btn btn-danger"
+                        Text="Rechazar"
+                        OnClick="btnConfirmarRechazar_Click" />
+                </div>
+            </div>
+        </div>
+    </div>
 </asp:Content>
