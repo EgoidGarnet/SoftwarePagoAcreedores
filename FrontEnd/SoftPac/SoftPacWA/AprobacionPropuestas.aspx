@@ -98,17 +98,11 @@
                             <asp:TemplateField HeaderText="Acciones">
                                 <ItemTemplate>
                                     <div class="d-flex flex-wrap gap-2">
-                                        <asp:LinkButton ID="btnVisualizar" runat="server" CssClass="btn btn-sm btn-outline-info btn-action">
-                                            <i class="fas fa-eye me-1"></i> Visualizar
-                                        </asp:LinkButton>
-                                        <asp:LinkButton ID="btnAprobar" runat="server" CssClass="btn btn-sm btn-success btn-action">
-                                            <i class="fas fa-check me-1"></i> Aprobar
-                                        </asp:LinkButton>
-                                        <asp:LinkButton ID="btnRechazar" runat="server" 
-                                            CssClass="btn btn-sm btn-outline-danger btn-action"
-                                            CommandName="MostrarModalRechazar"
+                                        <asp:LinkButton ID="btnVisualizar" runat="server" 
+                                            CssClass="btn btn-sm btn-outline-info btn-action"
+                                            CommandName="Visualizar"
                                             CommandArgument='<%# Eval("propuesta_id") %>'>
-                                            <i class="fas fa-times me-1"></i> Rechazar
+                                            <i class="fas fa-eye me-1"></i> Visualizar
                                         </asp:LinkButton>
                                     </div>
                                 </ItemTemplate>
@@ -119,30 +113,4 @@
             </div>
         </ContentTemplate>
     </asp:UpdatePanel>
-
-    <!-- Modal de confirmación para rechazar -->
-    <div class="modal fade" id="modalRechazar" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header bg-danger text-white">
-                    <h5 class="modal-title">
-                        </i>Rechazar Propuesta
-                    </h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-
-                <div class="modal-body">
-                    <p class="mb-0">¿Está seguro de que desea rechazar esta propuesta?</p>
-                </div>
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <asp:Button ID="btnConfirmarRechazar" runat="server"
-                        CssClass="btn btn-danger"
-                        Text="Rechazar"
-                        OnClick="btnConfirmarRechazar_Click" />
-                </div>
-            </div>
-        </div>
-    </div>
 </asp:Content>

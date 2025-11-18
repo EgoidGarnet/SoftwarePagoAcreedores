@@ -81,66 +81,76 @@ namespace SoftPacWA
 
         protected void gvPropuestasPendientes_RowCommand(object sender, GridViewCommandEventArgs e)
         {
-            if (e.CommandName == "MostrarModalRechazar")
+            if (e.CommandName == "Visualizar")
             {
-                // Guardar ID de la propuesta en ViewState
-                ViewState["PropuestaRechazar"] = Convert.ToInt32(e.CommandArgument);
-
-                // Abrir modal de confirmación
-                ScriptManager.RegisterStartupScript(
-                    this, this.GetType(),
-                    "abrirModalRechazar",
-                    "var m = new bootstrap.Modal(document.getElementById('modalRechazar')); m.show();",
-                    true
-                );
+                int propuestaId = Convert.ToInt32(e.CommandArgument);
+                Response.Redirect($"~/DetallePropuestaAdmin.aspx?id={propuestaId}");
             }
         }
 
-        protected void btnConfirmarRechazar_Click(object sender, EventArgs e)
-        {
-            if (ViewState["PropuestaRechazar"] != null)
-            {
-                int propuestaId = (int)ViewState["PropuestaRechazar"];
-                RechazarPropuesta(propuestaId);
-            }
-        }
 
-        private void RechazarPropuesta(int propuestaId)
-        {
-            try
-            {
-                // Obtener la propuesta actual
-                var propuesta = propuestasPagoBO.ObtenerPorId(propuestaId);
+        //protected void gvPropuestasPendientes_RowCommand(object sender, GridViewCommandEventArgs e)
+        //{
+        //    if (e.CommandName == "MostrarModalRechazar")
+        //    {
+        //        // Guardar ID de la propuesta en ViewState
+        //        ViewState["PropuestaRechazar"] = Convert.ToInt32(e.CommandArgument);
 
-                if (propuesta == null)
-                {
-                    MostrarMensaje("No se encontró la propuesta especificada.", "danger");
-                    return;
-                }
+        //        // Abrir modal de confirmación
+        //        ScriptManager.RegisterStartupScript(
+        //            this, this.GetType(),
+        //            "abrirModalRechazar",
+        //            "var m = new bootstrap.Modal(document.getElementById('modalRechazar')); m.show();",
+        //            true
+        //        );
+        //    }
+        //}
 
-                // Cambiar el estado a "Pendiente"
-                propuesta.estado = "Pendiente";
-                propuesta.usuario_modificacion = DTOConverter.Convertir<SoftPacBusiness.UsuariosWS.usuariosDTO, SoftPacBusiness.PropuestaPagoWS.usuariosDTO>(UsuarioLogueado); ;
-                propuesta.fecha_hora_modificacion = DateTime.Now;
+        //protected void btnConfirmarRechazar_Click(object sender, EventArgs e)
+        //{
+        //    if (ViewState["PropuestaRechazar"] != null)
+        //    {
+        //        int propuestaId = (int)ViewState["PropuestaRechazar"];
+        //        RechazarPropuesta(propuestaId);
+        //    }
+        //}
 
-                // Modificar la propuesta
-                int resultado = propuestasPagoBO.Modificar(propuesta);
+        //private void RechazarPropuesta(int propuestaId)
+        //{
+        //    try
+        //    {
+        //        // Obtener la propuesta actual
+        //        var propuesta = propuestasPagoBO.ObtenerPorId(propuestaId);
 
-                if (resultado > 0)
-                {
-                    MostrarMensaje("La propuesta ha sido rechazada exitosamente.", "success");
-                    CargarPropuestasPendientes();
-                }
-                else
-                {
-                    MostrarMensaje("No se pudo rechazar la propuesta.", "danger");
-                }
-            }
-            catch (Exception ex)
-            {
-                MostrarMensaje($"Error al rechazar la propuesta: {ex.Message}", "danger");
-            }
-        }
+        //        if (propuesta == null)
+        //        {
+        //            MostrarMensaje("No se encontró la propuesta especificada.", "danger");
+        //            return;
+        //        }
+
+        //        // Cambiar el estado a "Pendiente"
+        //        propuesta.estado = "Pendiente";
+        //        propuesta.usuario_modificacion = DTOConverter.Convertir<SoftPacBusiness.UsuariosWS.usuariosDTO, SoftPacBusiness.PropuestaPagoWS.usuariosDTO>(UsuarioLogueado); ;
+        //        propuesta.fecha_hora_modificacion = DateTime.Now;
+
+        //        // Modificar la propuesta
+        //        int resultado = propuestasPagoBO.Modificar(propuesta);
+
+        //        if (resultado > 0)
+        //        {
+        //            MostrarMensaje("La propuesta ha sido rechazada exitosamente.", "success");
+        //            CargarPropuestasPendientes();
+        //        }
+        //        else
+        //        {
+        //            MostrarMensaje("No se pudo rechazar la propuesta.", "danger");
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MostrarMensaje($"Error al rechazar la propuesta: {ex.Message}", "danger");
+        //    }
+        //}
 
         private void MostrarMensaje(string mensaje, string tipo)
         {
