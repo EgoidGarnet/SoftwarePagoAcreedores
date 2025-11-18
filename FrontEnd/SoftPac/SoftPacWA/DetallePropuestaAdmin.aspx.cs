@@ -188,10 +188,10 @@ namespace SoftPacWA
             btnRechazar.Visible = esEnRevision;
             btnConfirmarEnvio.Visible = esEnRevision;
 
-            if (esEnRevision)
-            {
-                btnRechazar.OnClientClick = "return false;";
-            }
+            //if (esEnRevision)
+            //{
+            //    btnRechazar.OnClientClick = "return false;";
+            //}
         }
 
         private void CargarCuentasPropias(propuestasPagoDTO propuesta)
