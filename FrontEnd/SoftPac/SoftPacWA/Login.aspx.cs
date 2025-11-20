@@ -45,6 +45,7 @@ namespace SoftPacWA
                     {
                         // El usuario existe pero está inactivo
                         MostrarError("Su cuenta ha sido desactivada. Contacte al administrador.");
+                        return;
                     }
 
                     if (usuario.superusuario)
@@ -60,7 +61,6 @@ namespace SoftPacWA
                 {
                     // Usuario no existe o contraseña incorrecta
                     MostrarError("Usuario o contraseña no válidos.");
-                    
                 }
             }
             catch (Exception ex)

@@ -160,12 +160,18 @@
                 <asp:Button ID="btnLimpiar" runat="server" Text="Limpiar" CssClass="btn btn-secondary" OnClick="LimpiarFiltros" />
             </div>
         </div>
-     </div>
+    </div>
 
-    <!-- Botón Nueva Factura -->
-    <div class="mb-3">
-        <asp:Button ID="btnNuevaFactura" runat="server" Text="Nueva factura" CssClass="btn btn-primary" 
-            OnClick="btnNuevaFactura_Click" />
+    <!-- Botones de Acción -->
+    <div class="mb-3 d-flex gap-2">
+        <asp:Button ID="btnNuevaFactura" runat="server" Text="Nueva factura" 
+            CssClass="btn btn-primary" OnClick="btnNuevaFactura_Click" />
+        <asp:LinkButton ID="btnCargaMasiva" runat="server" 
+            CssClass="btn btn-success" 
+            OnClick="btnCargaMasiva_Click"
+            ToolTip="Ir a carga masiva de facturas">
+            <i class="fas fa-file-upload me-2"></i> Carga Facturas
+        </asp:LinkButton>
     </div>
 
     <!-- Tabla de Facturas -->
@@ -261,7 +267,7 @@
         </div>
     </div>
 
-        <!-- Modal de Confirmación de Eliminación -->
+    <!-- Modal de Confirmación de Eliminación -->
     <div class="modal fade" id="modalEliminarFactura" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">

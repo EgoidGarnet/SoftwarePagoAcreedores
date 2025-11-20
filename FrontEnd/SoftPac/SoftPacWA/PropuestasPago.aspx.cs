@@ -15,7 +15,7 @@ namespace SoftPacWA
         private EntidadesBancariasBO bancosBO = new EntidadesBancariasBO();
         private UsuariosBO usuariosBO = new UsuariosBO();
 
-        private SoftPacBusiness.UsuariosWS.usuariosDTO UsuarioLogueado
+        public SoftPacBusiness.UsuariosWS.usuariosDTO UsuarioLogueado
         {
             get
             {
@@ -73,6 +73,7 @@ namespace SoftPacWA
             }
         }
 
+
         private void CargarPropuestas()
         {
             try
@@ -80,11 +81,14 @@ namespace SoftPacWA
                 int? paisId = string.IsNullOrEmpty(ddlFiltroPais.SelectedValue) ? (int?)null : int.Parse(ddlFiltroPais.SelectedValue);
                 int? bancoId = string.IsNullOrEmpty(ddlFiltroBanco.SelectedValue) ? (int?)null : int.Parse(ddlFiltroBanco.SelectedValue);
                 string estado = string.IsNullOrEmpty(ddlFiltroEstado.SelectedValue) ? null : ddlFiltroEstado.SelectedValue;
+                bool misPropuestas = hfMisPropuestas.Value == "true";
 
                 var propuestas = propuestasBO.ListarConFiltros(paisId, bancoId, estado)
-                    .Where(p => p != null)
+                    .Where(p => p != null && (!misPropuestas || p.usuario_creacion.usuario_id == UsuarioLogueado.usuario_id))
                     .OrderByDescending(p => p.fecha_hora_creacion)
                     .ToList();
+
+
 
                 propuestas.ForEach(p =>
                 {
@@ -217,6 +221,7 @@ namespace SoftPacWA
                 case "PENDIENTE": return "bg-warning text-dark";
                 case "ENVIADA": return "bg-success";
                 case "ANULADA": return "bg-danger";
+                case "EN REVISIÓN": return "bg-primary";
                 default: return "bg-light text-dark";
             }
         }

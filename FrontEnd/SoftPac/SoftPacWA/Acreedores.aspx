@@ -127,7 +127,7 @@
         </div>
 
         <div class="filter-section">
-            <div class="row gx-3 gy-3">
+            <div class="row gx-3 gy-3 pb-2">
                 <div class="col-12 col-md-5">
                     <label class="form-label">Buscar</label>
                     <asp:TextBox ID="txtBuscar" runat="server" CssClass="form-control" placeholder="Razón social o RUC"></asp:TextBox>

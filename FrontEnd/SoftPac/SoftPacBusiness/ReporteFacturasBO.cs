@@ -327,7 +327,7 @@ namespace SoftPac.Business
                             .Column(totalColumn =>
                             {
                                 totalColumn.Item().AlignCenter()
-                                    .Text("TOTALES GENERALES")
+                                    .Text("Totales generales")
                                     .FontSize(14)
                                     .Bold()
                                     .FontColor(Colors.White);
@@ -338,7 +338,7 @@ namespace SoftPac.Business
                                 {
                                     totalColumn.Item().AlignRight()
                                         .Text($"{totalMoneda.Key}: {totalMoneda.Value:N2}")
-                                        .FontSize(12)
+                                        .FontSize(13)
                                         .Bold()
                                         .FontColor(Colors.White);
                                 }

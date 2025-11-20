@@ -42,6 +42,15 @@ namespace SoftPacWA
         protected global::System.Web.UI.WebControls.Label lblPropuestaId;
 
         /// <summary>
+        /// Control LbVolver.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton LbVolver;
+
+        /// <summary>
         /// Control lblBanco.
         /// </summary>
         /// <remarks>
@@ -112,6 +121,15 @@ namespace SoftPacWA
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblFacturaGenerada;
+
+        /// <summary>
+        /// Control lblAcreedorFactura.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblAcreedorFactura;
 
         /// <summary>
         /// Control lblMonedaGenerada.

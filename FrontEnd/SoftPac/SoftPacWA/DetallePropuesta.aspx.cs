@@ -36,6 +36,7 @@ namespace SoftPacWA
             public decimal SaldoDisponible { get; set; }
             public decimal SaldoUsado { get; set; }
             public bool SaldoInsuficiente { get; set; }
+            public string Moneda { get; set; }
         }
 
         // Clase auxiliar para el GridView
@@ -43,6 +44,7 @@ namespace SoftPacWA
         public class DetalleViewModel
         {
             public string NumeroFactura { get; set; }
+            public string FechaVencimiento { get; set; }
             public string RazonSocialAcreedor { get; set; }
             public string CodigoMoneda { get; set; }
             public decimal Monto { get; set; }
@@ -126,7 +128,7 @@ namespace SoftPacWA
                 // Cargar información general
                 lblPropuestaId.Text = propuesta.propuesta_id.ToString() ?? "-";
                 lblEstado.Text = propuesta.estado ?? "-";
-                lblEstado.CssClass = $"badge-estado estado-{propuesta.estado?.ToLower()}";
+                lblEstado.CssClass = $"badge-estado estado-{QuitarTildes(propuesta.estado?.ToLower().Replace(" ", "-") ?? "desconocido")}";
                 lblFechaCreacion.Text = propuesta.fecha_hora_creacion.ToString("dd/MM/yyyy HH:mm") ?? "-";
                 lblUsuarioCreador.Text = propuesta.usuario_creacion != null
                     ? $"{propuesta.usuario_creacion.nombre} {propuesta.usuario_creacion.apellidos}"
@@ -136,10 +138,29 @@ namespace SoftPacWA
                 lblTotalPagos.Text = propuesta.detalles_propuesta?.Length.ToString() ?? "0";
 
                 // Controlar visibilidad de botones según estado
-                ConfigurarBotonesPorEstado(propuesta.estado);
+                ConfigurarBotonesPorEstado(propuesta);
+
+                if (propuesta.usuario_modificacion != null && propuesta.usuario_modificacion.superusuario==true 
+                    && (propuesta.estado == "Enviada" || propuesta.estado == "Pendiente"))
+                {
+                    pnlAprobacion.Visible = true;
+                    if (propuesta.estado == "Pendiente")
+                    {
+                        lblTituloAprobacion.Text = "Rechazada por";
+                    }
+                    else
+                    {
+                        lblTituloAprobacion.Text = "Aprobada por";
+                    }
+                    LblAdmin.Text = propuesta.usuario_modificacion.nombre + " " + propuesta.usuario_modificacion.apellidos;
+                } else
+                {
+                    pnlAprobacion.Visible = false;
+                }
+
 
                 // Cargar cuentas propiasif
-                if (propuesta.estado?.ToLower() == "pendiente" && propuesta.detalles_propuesta != null && propuesta.detalles_propuesta.Length!=0)
+                if (propuesta.estado?.ToLower() == "pendiente" && propuesta.detalles_propuesta != null && propuesta.detalles_propuesta.Length != 0)
                 {
                     CargarCuentasPropias(propuesta);
                 }
@@ -175,13 +196,15 @@ namespace SoftPacWA
             }
         }
 
-        private void ConfigurarBotonesPorEstado(string estado)
+        private void ConfigurarBotonesPorEstado(propuestasPagoDTO propuesta)
         {
             // Solo se puede editar y anular propuestas en estado "Pendiente"
-            bool esPendiente = estado == "Pendiente";
-            btnEditar.Visible = esPendiente;
-            btnAnular.Visible = esPendiente;
-            btnEnviar.Visible = esPendiente;
+            bool esPendiente = propuesta.estado == "Pendiente";
+            bool esMiPropuesta = propuesta.usuario_creacion.usuario_id == UsuarioLogueado.usuario_id;
+            btnEditar.Visible = esPendiente && esMiPropuesta;
+            btnAnular.Visible = esPendiente && esMiPropuesta;
+            btnEnviar.Visible = esPendiente && esMiPropuesta;
+            btnExportar.Visible = propuesta.estado == "Enviada";
             if (esPendiente)
             {
                 btnAnular.OnClientClick = "return mostrarModalAnular();";
@@ -199,11 +222,12 @@ namespace SoftPacWA
 
             // Agrupar por cuenta propia
             var cuentasVM = propuesta.detalles_propuesta
-                .Where(d => d.cuenta_propia != null && d.fecha_eliminacionSpecified == false)
+                .Where(d => d.cuenta_propia != null)
                 .GroupBy(d => d.cuenta_propia.cuenta_bancaria_id)
                 .Select(g => {
                     var cuenta = g.First().cuenta_propia;
                     decimal saldoUsado = g.Sum(d => d.monto_pago);
+                    var moneda = g.First().factura.moneda.codigo_iso;
                     return new CuentaPropiaViewModel
                     {
                         CuentaId = cuenta.cuenta_bancaria_id,
@@ -211,7 +235,8 @@ namespace SoftPacWA
                         NumeroCuenta = cuenta.numero_cuenta ?? "-",
                         SaldoDisponible = cuenta.saldo_disponible,
                         SaldoUsado = saldoUsado,
-                        SaldoInsuficiente = cuenta.saldo_disponible < saldoUsado
+                        SaldoInsuficiente = cuenta.saldo_disponible < saldoUsado,
+                        Moneda = moneda
                     };
                 })
                 .ToList();
@@ -262,6 +287,7 @@ namespace SoftPacWA
                 {
                     DetalleId = d.detalle_propuesta_id, // AGREGAR ESTO
                     NumeroFactura = d.factura?.numero_factura ?? "-",
+                    FechaVencimiento = d.factura?.fecha_limite_pago.Date.ToString("yyyy-MM-dd") ?? "-",
                     RazonSocialAcreedor = d.factura?.acreedor?.razon_social ?? "-",
                     CodigoMoneda = d.factura?.moneda?.codigo_iso ?? "-",
                     Monto = d.monto_pago,
@@ -320,6 +346,8 @@ namespace SoftPacWA
                          Math.Abs(d.factura.monto_restante - d.monto_pago) > 0.01m);
 
             pnlAlertaMontosDistintos.Visible = hayMontosDistintos;
+
+            btnEnviar.Visible = !hayFacturasPagadas;
         }
 
         private string MapearFormaPago(char? formaPago)
@@ -535,8 +563,6 @@ namespace SoftPacWA
                     MostrarMensaje("No se encontró la propuesta", "danger");
                     return;
                 }
-
-                // Validar saldos de cuentas propias
                 var cuentasConProblemas = propuesta.detalles_propuesta
                     .Where(d => d.cuenta_propia != null && d.fecha_eliminacionSpecified == false)
                     .GroupBy(d => d.cuenta_propia.cuenta_bancaria_id)
@@ -547,31 +573,81 @@ namespace SoftPacWA
                     })
                     .Where(c => c.Cuenta.saldo_disponible < c.SaldoUsado)
                     .ToList();
+               
+                propuesta.estado = "En revisión";
 
-                if (cuentasConProblemas.Any())
+                if (propuestasBO.Modificar(propuesta)!=0)
                 {
-                    MostrarMensaje("No se puede enviar la propuesta. Hay cuentas con saldo insuficiente (marcadas en rojo).", "danger");
-                    return;
-                }
-
-                // Intentar confirmar envío
-                if (propuestasBO.confirmarEnvioPropuesta(PropuestaId,
-                    DTOConverter.Convertir<SoftPacBusiness.UsuariosWS.usuariosDTO,
-                    SoftPacBusiness.PropuestaPagoWS.usuariosDTO>(UsuarioLogueado)) == 1)
-                {
-                    MostrarMensaje("Se envió la propuesta correctamente.", "success");
+                    if (cuentasConProblemas.Any())
+                    {
+                        MostrarMensaje("Se remitió la propuesta a revisión. El saldo de las cuentas es insuficiente, por lo que es posible que sea rechazada.", "warning");
+                    }
+                    else
+                    {
+                        MostrarMensaje("La propuesta fue remitida correctamente a revisión", "success");
+                    }
                     CargarDetalle();
+                    pnlAlertaFacturasPagadas.Visible = false;
+                    pnlAlertaMontosDistintos.Visible = false;
                 }
                 else
                 {
-                    MostrarMensaje("La propuesta no pudo enviarse correctamente, revise el saldo disponible en las cuentas propias.", "danger");
+                    MostrarMensaje($"La propuesta no fue remitida correctamente.", "danger");
                 }
             }
             catch (Exception ex)
             {
-                MostrarMensaje($"Error al enviar la propuesta: {ex.Message}", "danger");
+                MostrarMensaje($"Error al remitir la propuesta: {ex.Message}", "danger");
             }
-        }
+        } 
+        //protected void btnEnviar_Click(object sender, EventArgs e)
+        //{
+        //    try
+        //    {
+        //        var propuesta = propuestasBO.ObtenerPorId(PropuestaId);
+
+        //        if (propuesta == null || propuesta.detalles_propuesta == null)
+        //        {
+        //            MostrarMensaje("No se encontró la propuesta", "danger");
+        //            return;
+        //        }
+
+        //        // Validar saldos de cuentas propias
+        //        var cuentasConProblemas = propuesta.detalles_propuesta
+        //            .Where(d => d.cuenta_propia != null && d.fecha_eliminacionSpecified == false)
+        //            .GroupBy(d => d.cuenta_propia.cuenta_bancaria_id)
+        //            .Select(g => new
+        //            {
+        //                Cuenta = g.First().cuenta_propia,
+        //                SaldoUsado = g.Sum(d => d.monto_pago)
+        //            })
+        //            .Where(c => c.Cuenta.saldo_disponible < c.SaldoUsado)
+        //            .ToList();
+
+        //        if (cuentasConProblemas.Any())
+        //        {
+        //            MostrarMensaje("No se puede enviar la propuesta. Hay cuentas con saldo insuficiente (marcadas en rojo).", "danger");
+        //            return;
+        //        }
+
+        //        // Intentar confirmar envío
+        //        if (propuestasBO.confirmarEnvioPropuesta(PropuestaId,
+        //            DTOConverter.Convertir<SoftPacBusiness.UsuariosWS.usuariosDTO,
+        //            SoftPacBusiness.PropuestaPagoWS.usuariosDTO>(UsuarioLogueado)) == 1)
+        //        {
+        //            MostrarMensaje("Se envió la propuesta correctamente.", "success");
+        //            CargarDetalle();
+        //        }
+        //        else
+        //        {
+        //            MostrarMensaje("La propuesta no pudo enviarse correctamente, revise el saldo disponible en las cuentas propias.", "danger");
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MostrarMensaje($"Error al enviar la propuesta: {ex.Message}", "danger");
+        //    }
+        //}
         protected void btnConfirmarRechazo_Click(object sender, EventArgs e)
         {
             try
@@ -715,6 +791,8 @@ namespace SoftPacWA
 
                     MostrarMensaje("Propuesta anulada exitosamente", "success");
                     CargarDetalle();
+                    pnlAlertaFacturasPagadas.Visible = false;
+                    pnlAlertaMontosDistintos.Visible = false;
                 }
                 else
                 {
@@ -950,6 +1028,18 @@ namespace SoftPacWA
             Response.Write(contenido);
             Response.End();
         }
+        public static string QuitarTildes(string texto)
+        {
+            if (string.IsNullOrEmpty(texto))
+                return texto;
 
+            return texto
+                .Replace("á", "a").Replace("Á", "A")
+                .Replace("é", "e").Replace("É", "E")
+                .Replace("í", "i").Replace("Í", "I")
+                .Replace("ó", "o").Replace("Ó", "O")
+                .Replace("ú", "u").Replace("Ú", "U")
+                .Replace("ñ", "n").Replace("Ñ", "N");
+        }
     }
 }

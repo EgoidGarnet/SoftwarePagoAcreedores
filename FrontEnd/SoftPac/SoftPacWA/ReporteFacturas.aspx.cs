@@ -115,12 +115,12 @@ namespace SoftPacWA
         {
             try
             {
-                int? acreedorId = string.IsNullOrEmpty(ddlAcreedor.SelectedValue) ?
-                    (int?)null : int.Parse(ddlAcreedor.SelectedValue);
-                int? paisId = string.IsNullOrEmpty(ddlPais.SelectedValue) ?
-                    (int?)null : int.Parse(ddlPais.SelectedValue);
-                int? monedaId = string.IsNullOrEmpty(ddlMoneda.SelectedValue) ?
-                    (int?)null : int.Parse(ddlMoneda.SelectedValue);
+                int acreedorId = string.IsNullOrEmpty(ddlAcreedor.SelectedValue) ?
+                    0 : int.Parse(ddlAcreedor.SelectedValue);
+                int paisId = string.IsNullOrEmpty(ddlPais.SelectedValue) ?
+                    0 : int.Parse(ddlPais.SelectedValue);
+                int monedaId = string.IsNullOrEmpty(ddlMoneda.SelectedValue) ?
+                    0 : int.Parse(ddlMoneda.SelectedValue);
                 string rango = ddlRango.SelectedValue;
 
                 var datos = reporteBO.GenerarReportePorVencimiento(acreedorId, paisId, monedaId, rango);
@@ -135,18 +135,38 @@ namespace SoftPacWA
 
                     // Calcular total general
                     var totalesGenerales = datos
-                        .SelectMany(r => r.Facturas)
-                        .GroupBy(f => f.Moneda)
-                        .Select(g => $"{g.Key}: {g.Sum(x => x.Monto):N2}")
-                        .ToList();
-                    lblTotalGeneral.Text = string.Join("\n", totalesGenerales);
+                   .SelectMany(r => r.Facturas)
+                   .GroupBy(f => f.Moneda)
+                   .Select(g => new {
+                       Moneda = g.Key,
+                       Total = g.Sum(x => x.Monto),
+                   })
+                   .ToList();
+
+                    var html = new System.Text.StringBuilder();
+                    foreach (var total in totalesGenerales)
+                    {
+                        html.Append($@"
+                        <div class='total-card'>
+                            <div class='total-moneda'>{total.Moneda}</div>
+                            <div class='total-monto'>{total.Total:N2}</div>
+                        </div>
+                    ");
+                    }
+                    litTotalesGenerales.Text = html.ToString();
+
+                    // HABILITAR botón de exportar PDF
+                    btnExportarPDF.Enabled = true;
                 }
                 else
                 {
                     rptRangos.DataSource = null;
                     rptRangos.DataBind();
                     pnlSinDatos.Visible = true;
-                    lblTotalGeneral.Text = "0.00";
+                    litTotalesGenerales.Text = "";
+
+                    // DESHABILITAR botón de exportar PDF
+                    btnExportarPDF.Enabled = false;
                 }
             }
             catch (Exception ex)
@@ -154,6 +174,9 @@ namespace SoftPacWA
                 pnlSinDatos.Visible = true;
                 rptRangos.DataSource = null;
                 rptRangos.DataBind();
+
+                // DESHABILITAR botón de exportar PDF en caso de error
+                btnExportarPDF.Enabled = false;
             }
         }
 
@@ -213,12 +236,12 @@ namespace SoftPacWA
         {
             try
             {
-                int? acreedorId = string.IsNullOrEmpty(ddlAcreedor.SelectedValue) ?
-                    (int?)null : int.Parse(ddlAcreedor.SelectedValue);
-                int? paisId = string.IsNullOrEmpty(ddlPais.SelectedValue) ?
-                    (int?)null : int.Parse(ddlPais.SelectedValue);
-                int? monedaId = string.IsNullOrEmpty(ddlMoneda.SelectedValue) ?
-                    (int?)null : int.Parse(ddlMoneda.SelectedValue);
+                int acreedorId = string.IsNullOrEmpty(ddlAcreedor.SelectedValue) ?
+                    0 : int.Parse(ddlAcreedor.SelectedValue);
+                int paisId = string.IsNullOrEmpty(ddlPais.SelectedValue) ?
+                    0 : int.Parse(ddlPais.SelectedValue);
+                int monedaId = string.IsNullOrEmpty(ddlMoneda.SelectedValue) ?
+                    0 : int.Parse(ddlMoneda.SelectedValue);
                 string rango = ddlRango.SelectedValue;
 
                 var datos = reporteBO.GenerarReportePorVencimiento(acreedorId, paisId, monedaId, rango);

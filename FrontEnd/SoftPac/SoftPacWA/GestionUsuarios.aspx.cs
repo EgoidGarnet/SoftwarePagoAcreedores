@@ -783,7 +783,19 @@ namespace SoftPacWA
                 MostrarMensaje($"Error al cargar la actividad: {ex.Message}", "danger");
             }
         }
+        protected void gvUsuarios_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                bool esSuperusuario = (bool)DataBinder.Eval(e.Row.DataItem, "superusuario");
+                LinkButton btnVerActividad = (LinkButton)e.Row.FindControl("btnVerActividad");
 
+                if (esSuperusuario)
+                {
+                    btnVerActividad.Style["visibility"] = "hidden";
+                }
+            }
+        }
         protected void gvActividad_RowDataBound(object sender, GridViewRowEventArgs e)
         {
             if (e.Row.RowType == DataControlRowType.DataRow)

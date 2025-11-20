@@ -95,10 +95,6 @@
             align-items: center;
         }
 
-        .total-general-multi {
-            white-space: pre-line; /* Respeta los saltos de línea \n */
-        }
-
         .grupo-total {
             background-color: #f8f9fa;
             padding: 0.75rem 1.5rem;
@@ -107,17 +103,6 @@
             margin-top: 0.5rem;
             text-align: right;
             color: var(--color-primary);
-        }
-
-        .total-general {
-            background: var(--color-primary);
-            color: white;
-            padding: 1rem 1.5rem;
-            border-radius: 6px;
-            font-size: 1.2rem;
-            font-weight: 700;
-            text-align: right;
-            margin-top: 2rem;
         }
 
         .botones-accion {
@@ -134,6 +119,12 @@
             border-radius: 8px;
             margin-bottom: 2rem;
             border: 1px solid var(--color-light-1);
+        }
+
+        /* Estilo para botón deshabilitado */
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
 
         @media (max-width: 768px) {
@@ -169,6 +160,55 @@
             .reporte-container {
                 box-shadow: none;
             }
+        }
+        .totales-generales-container {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: var(--color-primary);
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .totales-title {
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            opacity: 0.95;
+        }
+
+        .totales-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .total-card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 1.25rem;
+            border-radius: 8px;
+            text-align: center;
+            transition: transform 0.2s, box-shadow 0.2s;
+            border-left: 4px solid var(--color-primary);
+        }
+
+        .total-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .total-moneda {
+            font-size: 0.9rem;
+            color: #666;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            letter-spacing: 0.5px;
+        }
+
+        .total-monto {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--color-primary);
         }
     </style>
 </asp:Content>
@@ -324,9 +364,11 @@
                     </ItemTemplate>
                 </asp:Repeater>
 
-                <div class="total-general total-general-multi">
-                    Total General:
-                    <asp:Label ID="lblTotalGeneral" runat="server"></asp:Label>
+                <div class="totales-generales-container">
+                    <div class="totales-title">Total General:</div>
+                    <div class="totales-grid">
+                        <asp:Literal ID="litTotalesGenerales" runat="server"></asp:Literal>
+                    </div>
                 </div>
 
                 <asp:Panel ID="pnlSinDatos" runat="server" Visible="false" CssClass="text-center py-5">

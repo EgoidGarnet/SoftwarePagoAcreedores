@@ -75,24 +75,24 @@ namespace SoftPac.Business
             }
         }
 
-        // Nuevo método para verificar si un usuario existe (sin autenticar)
-        public usuariosDTO VerificarUsuarioExiste(string nombreUsuario)
-        {
-            try
-            {
-                // Obtener todos los usuarios y buscar por nombre de usuario
-                var usuarios = ListarTodos();
-                var usuario = usuarios.FirstOrDefault(u =>
-                    u.nombre_de_usuario != null &&
-                    u.nombre_de_usuario.Equals(nombreUsuario, StringComparison.OrdinalIgnoreCase));
+        //// Nuevo método para verificar si un usuario existe (sin autenticar)
+        //public usuariosDTO VerificarUsuarioExiste(string nombreUsuario)
+        //{
+        //    try
+        //    {
+        //        // Obtener todos los usuarios y buscar por nombre de usuario
+        //        var usuarios = ListarTodos();
+        //        var usuario = usuarios.FirstOrDefault(u =>
+        //            u.nombre_de_usuario != null &&
+        //            u.nombre_de_usuario.Equals(nombreUsuario, StringComparison.OrdinalIgnoreCase));
 
-                return usuario ?? new usuariosDTO();
-            }
-            catch
-            {
-                return new usuariosDTO();
-            }
-        }
+        //        return usuario ?? new usuariosDTO();
+        //    }
+        //    catch
+        //    {
+        //        return new usuariosDTO();
+        //    }
+        //}
 
     }
 }

@@ -109,7 +109,7 @@
                                 <ItemTemplate><%# Eval("fecha_modificacion", "{0:dd/MM/yyyy HH:mm}") %></ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Usuario">
-                                <ItemTemplate><%# "ID: " + Eval("usuario_modificacion.usuario_id") + " - " + Eval("usuario_modificacion.nombre") + " " + Eval("usuario_modificacion.apellidos") %></ItemTemplate>
+                                <ItemTemplate><%# Eval("usuario_modificacion.nombre") + " " + Eval("usuario_modificacion.apellidos") + " (" + Eval("usuario_modificacion.correo_electronico") + ")" %></ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Monto Modificado">
                                 <ItemTemplate>

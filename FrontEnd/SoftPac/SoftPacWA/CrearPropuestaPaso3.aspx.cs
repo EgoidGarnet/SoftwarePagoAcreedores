@@ -154,10 +154,10 @@ namespace SoftPacWA
 
                 var cuentasPorMoneda = todasCuentas
                     .Where(c => monedasIdsRequeridas.Contains(c.moneda.moneda_id))
-                    .GroupBy(c => c.moneda)
+                    .GroupBy(c => c.moneda.moneda_id)
                     .Select(g => new CuentasPorMoneda
                     {
-                        Moneda = g.Key,
+                        Moneda = g.First().moneda,
                         CantidadCuentas = g.Count(),
                         Cuentas = g.OrderByDescending(c => c.saldo_disponible).ToList()
                     })

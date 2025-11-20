@@ -22,6 +22,14 @@ namespace SoftPacWA
             if (currentPage.ToLower() != "login.aspx" && Session["UsuarioLogueado"] == null)
             {
                 Response.Redirect("~/Login.aspx");
+            } else
+            {
+                usuariosDTO usuario = (usuariosDTO)Session["UsuarioLogueado"];
+                if (usuario.superusuario)
+                {
+                    // Si no es usuario, lo mandamos a la página por defecto de superusuarios
+                    Response.Redirect("~/GestionUsuarios.aspx");
+                }
             }
 
             if (!IsPostBack)

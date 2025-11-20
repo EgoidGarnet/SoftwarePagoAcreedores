@@ -283,6 +283,11 @@ namespace SoftPacWA
                 MostrarMensaje("Error: " + ex.Message, "danger");
             }
         }
+
+        protected void btnCargaMasiva_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("CargaFacturas.aspx");
+        }
         protected string GetEstadoClass(string estado)
         {
             switch (estado?.ToLower())
@@ -293,7 +298,7 @@ namespace SoftPacWA
                     return "badge-pagado";
                 case "vencida":
                     return "badge-vencido";
-                case "eliminado":
+                case "eliminada":
                     return "badge-elimin";
                 default:
                     return "badge-pendiente";

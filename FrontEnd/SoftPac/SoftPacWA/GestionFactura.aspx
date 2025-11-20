@@ -129,6 +129,11 @@
                             <div>
                                 <asp:Label ID="lblMontoIgv" runat="server" Text="IVA/IGV" CssClass="form-label"></asp:Label>
                                 <asp:TextBox ID="txtMontoIgv" runat="server" CssClass="form-control" TextMode="Number" step="0.01"></asp:TextBox>
+                                <asp:Button ID="btnCalcularImpuesto" runat="server" 
+                                    Text="Calcular automáticamente" 
+                                    CssClass="btn btn-sm btn-outline-secondary mt-2" 
+                                    OnClick="btnCalcularImpuesto_Click"
+                                    Visible="false" />
                             </div>
                             <div>
                                 <label class="form-label">Monto Restante</label>

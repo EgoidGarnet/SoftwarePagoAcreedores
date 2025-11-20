@@ -138,7 +138,8 @@
                 <div class="card-body">
                     <asp:GridView ID="gvUsuarios" runat="server" AutoGenerateColumns="False"
                         CssClass="table table-hover" GridLines="None"
-                        DataKeyNames="usuario_id" OnRowCommand="gvUsuarios_RowCommand">
+                        DataKeyNames="usuario_id" OnRowCommand="gvUsuarios_RowCommand"
+                        OnRowDataBound="gvUsuarios_RowDataBound">
                         <Columns>
                             <asp:BoundField DataField="usuario_id" HeaderText="ID" />
                             <asp:BoundField DataField="nombre" HeaderText="Nombre Completo" />
@@ -188,6 +189,13 @@
                                 </ItemTemplate>
                             </asp:TemplateField>
                         </Columns>
+                        <EmptyDataTemplate>
+                            <div class="text-center py-4" role="alert">
+                                <i class="fas fa-search fa-2x mb-3"></i>
+                                <h5>No se encontraron usuarios</h5>
+                                <p class="mb-0">No hay usuarios que coincidan con los filtros aplicados.</p>
+                            </div>
+                        </EmptyDataTemplate>
                     </asp:GridView>
                 </div>
             </div>

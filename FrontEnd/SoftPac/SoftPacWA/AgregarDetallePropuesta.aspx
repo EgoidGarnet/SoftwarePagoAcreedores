@@ -300,8 +300,15 @@
                 <i class="fas fa-plus-circle"></i>
                 Agregar Detalle a Propuesta #<asp:Label ID="lblPropuestaId" runat="server" />
             </h2>
+            
+            <div class="actions-buttons">
+                <asp:LinkButton ID="LbVolver" runat="server" 
+                    CssClass="btn btn-secondary"
+                    OnClick="btnVolver_Click">
+                    <i class="fas fa-arrow-left"></i> Volver
+                </asp:LinkButton>
+            </div>
         </div>
-
         <!-- Información de la Propuesta -->
         <div class="section-card">
             <div class="section-title">
@@ -391,6 +398,12 @@
                             <span class="info-label" style="font-size: 1.05rem;">Número de Factura</span>
                             <span class="info-value" style="font-size: 1.05rem;">
                                 <asp:Label ID="lblFacturaGenerada" runat="server" />
+                            </span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label" style="font-size: 1.05rem;">Acreedor</span>
+                            <span class="info-value" style="font-size: 1.05rem;">
+                                <asp:Label ID="lblAcreedorFactura" runat="server" />
                             </span>
                         </div>
                         <div class="info-item">

@@ -383,9 +383,9 @@ namespace SoftPacWA
                 txtCci.CssClass = "form-control is-invalid";
                 esValido = false;
             }
-            else if (!System.Text.RegularExpressions.Regex.IsMatch(cci, @"^[a-zA-Z0-9]+$"))
+            else if (!System.Text.RegularExpressions.Regex.IsMatch(cci, @"^[0-9-]+$"))
             {
-                lblCciError.Text = "El CCI debe contener solo letras y números.";
+                lblCciError.Text = "El CCI debe contener solo números y guiones.";
                 txtCci.CssClass = "form-control is-invalid";
                 esValido = false;
             }

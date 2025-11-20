@@ -96,11 +96,14 @@ namespace SoftPacWA
             btnCancelar.Visible = false;
             btnEditar.Visible = false;
             btnNuevoDetalle.Visible = true;
+            btnCalcularImpuesto.Visible = true;
             HabilitarControles(true);
             ddlEstado.SelectedValue = "Pendiente";
             ddlEstado.Enabled = false;
             txtMontoRestante.ReadOnly = true;
             txtMontoTotal.Attributes.Add("onkeyup", $"document.getElementById('{txtMontoRestante.ClientID}').value = this.value;");
+            // Ocultar la sección de detalles en modo insertar
+            btnNuevoDetalle.Visible = false;
             gvDetallesFactura.DataSource = null;
             gvDetallesFactura.DataBind();
         }
@@ -113,11 +116,13 @@ namespace SoftPacWA
             btnCancelar.Visible = true;
             btnEditar.Visible = false;
             btnNuevoDetalle.Visible = true;
+            btnCalcularImpuesto.Visible = true;
             HabilitarControles(true);
             txtNumeroFactura.ReadOnly = true;
             txtMontoRestante.ReadOnly = true;
             ddlPais.Enabled = false;
             ddlAcreedor.Enabled = false;
+            ddlMoneda.Enabled = false;
             btnEliminarFactura.Visible = true;
             if (factura != null && (factura.monto_restante != factura.monto_total || factura.estado != "Pendiente"))
             {
@@ -377,7 +382,7 @@ namespace SoftPacWA
                 Session["MensajeExito"] = "Factura creada correctamente. Ahora puedes agregar detalles.";
                 if (resultadoId == 0)
                 {
-                    MostrarMensaje("Error al crear la factura", "danger");
+                    MostrarMensaje("Error al crear la factura. El número de factura ya existe", "danger");
                     return;
                 }
                 FacturaId = resultadoId;
@@ -588,6 +593,69 @@ namespace SoftPacWA
                 }});
             ";
             ScriptManager.RegisterStartupScript(this, GetType(), "MostrarMensaje", script, true);
+        }
+
+        protected void btnCalcularImpuesto_Click(object sender, EventArgs e)
+        {
+            // Validar que hay un país seleccionado
+            if (ddlPais.SelectedValue == "0")
+            {
+                MostrarMensaje("Debe seleccionar un país primero", "warning");
+                return;
+            }
+
+            // Validar que hay un monto total
+            if (string.IsNullOrWhiteSpace(txtMontoTotal.Text))
+            {
+                MostrarMensaje("Debe ingresar el monto total primero", "warning");
+                return;
+            }
+
+            decimal montoTotal;
+            if (!decimal.TryParse(txtMontoTotal.Text, out montoTotal) || montoTotal <= 0)
+            {
+                MostrarMensaje("El monto total debe ser un valor válido mayor a 0", "warning");
+                return;
+            }
+
+            // Obtener la tasa de impuesto según el país
+            decimal tasaImpuesto = 0;
+            string paisSeleccionado = ddlPais.SelectedItem.Text;
+
+            switch (paisSeleccionado)
+            {
+                case "Perú":
+                    tasaImpuesto = 0.18m; // 18% IGV
+                    break;
+                case "México":
+                    tasaImpuesto = 0.16m; // 16% IVA
+                    break;
+                case "Colombia":
+                    tasaImpuesto = 0.19m; // 19% IVA
+                    break;
+                default:
+                    MostrarMensaje("No se ha configurado la tasa de impuesto para este país", "warning");
+                    return;
+            }
+
+            // Calcular el impuesto
+            // Fórmula: Si el monto total YA incluye el impuesto
+            // Base = MontoTotal / (1 + Tasa)
+            // Impuesto = MontoTotal - Base
+            decimal montoBase = montoTotal / (1 + tasaImpuesto);
+            decimal montoImpuesto = montoTotal - montoBase;
+
+            montoImpuesto = Math.Round(montoImpuesto, 2);
+
+            // Asignar el valor calculado
+            txtMontoIgv.Text = montoImpuesto.ToString("F2");
+
+            if (Accion.ToLower() == "insertar")
+            {
+                txtMontoRestante.Text = txtMontoTotal.Text;
+            }
+
+            MostrarMensaje($"Impuesto calculado: {tasaImpuesto * 100}% de {montoTotal:C2}", "success");
         }
     }
 }

@@ -141,6 +141,33 @@ namespace SoftPacWA
         protected global::System.Web.UI.WebControls.Label lblTotalPagos;
 
         /// <summary>
+        /// Control pnlAprobacion.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlAprobacion;
+
+        /// <summary>
+        /// Control lblTituloAprobacion.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblTituloAprobacion;
+
+        /// <summary>
+        /// Control LblAdmin.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label LblAdmin;
+
+        /// <summary>
         /// Control pnlTotalesMoneda.
         /// </summary>
         /// <remarks>

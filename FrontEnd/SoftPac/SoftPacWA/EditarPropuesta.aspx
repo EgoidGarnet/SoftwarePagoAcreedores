@@ -193,9 +193,14 @@
                 </h2>
             </div>
             <div class="actions-buttons">
+                <asp:LinkButton ID="lbVolver" runat="server" 
+                    CssClass="btn btn-secondary"
+                    OnClick="btnVolver_Click">
+                    <i class="fas fa-arrow-left"></i> Volver
+                </asp:LinkButton>
                 <asp:Button ID="btnCancelar" runat="server" 
                     Text="Cancelar" 
-                    CssClass="btn btn-secondary"
+                    CssClass="btn btn-primary"
                     OnClick="btnCancelar_Click"
                     CausesValidation="false" />
                 

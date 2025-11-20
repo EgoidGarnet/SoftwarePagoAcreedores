@@ -101,5 +101,11 @@ namespace SoftPac.Business
         {
             return propuestaPagoClienteSOAP.confirmarEnvioPropuesta(propuestaId, usuario);
         }
+
+        public int rechazarPropuesta(int propuestaId, usuariosDTO usuario)
+        {
+            return propuestaPagoClienteSOAP.rechazarPropuesta(propuestaId, usuario);
+        }
+
     }
 }

@@ -1,6 +1,6 @@
 ﻿<%@ Page Title="Gestión de Propuestas" Language="C#" MasterPageFile="~/Admin.Master" AutoEventWireup="true" CodeBehind="AprobacionPropuestas.aspx.cs" Inherits="SoftPacWA.AprobacionPropuestas" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+<asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <style>
         .page-title {
             display: flex;
@@ -60,7 +60,6 @@
                         AutoGenerateColumns="False" 
                         CssClass="table table-hover align-middle" 
                         GridLines="None" 
-                        EmptyDataText="No se encontraron propuestas pendientes"
                         OnRowCommand="gvPropuestasPendientes_RowCommand">
                         <Columns>
                             <asp:BoundField DataField="propuesta_id" HeaderText="ID" />
@@ -108,6 +107,12 @@
                                 </ItemTemplate>
                             </asp:TemplateField>
                         </Columns>
+                        <EmptyDataTemplate>
+                            <div class="text-center text-muted py-4">
+                                <i class="fas fa-clipboard-check fa-2x mb-3"></i>
+                                <p class="mb-0">No se encontraron propuestas pendientes</p>
+                            </div>
+                        </EmptyDataTemplate>
                     </asp:GridView>
                 </div>
             </div>

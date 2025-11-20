@@ -47,75 +47,75 @@ namespace SoftPacWA
             rptPaisesAcceso.DataSource = paisesConAcceso;
             rptPaisesAcceso.DataBind();
 
-            //CargarActividadReciente();
+            CargarActividadReciente();
         }
 
-        //private void CargarActividadReciente()
-        //{
-        //    // Obtenemos todas las propuestas donde el usuario participó (creó, modificó o eliminó)
-        //    var propuestasDelUsuario = propuestasBO.ListarActividadPorUsuario(usuarioLogueado.usuario_id);
+        private void CargarActividadReciente()
+        {
+            // Obtenemos todas las propuestas donde el usuario participó (creó, modificó o eliminó)
+            var propuestasDelUsuario = propuestasBO.ListarActividadPorUsuario(usuarioLogueado.usuario_id);
 
-        //    // 1. Calcular estadísticas (lógica sin cambios)
-        //    int propuestasEsteMes = propuestasDelUsuario.Count(p => p.fecha_hora_creacionSpecified && p.fecha_hora_creacion.Month == DateTime.Now.Month && p.fecha_hora_creacion.Year == DateTime.Now.Year);
-        //    litPropuestasMes.Text = propuestasEsteMes.ToString();
+            // 1. Calcular estadísticas (lógica sin cambios)
+            int propuestasEsteMes = propuestasDelUsuario.Count(p => p.fecha_hora_creacionSpecified && p.fecha_hora_creacion.Month == DateTime.Now.Month && p.fecha_hora_creacion.Year == DateTime.Now.Year);
+            litPropuestasMes.Text = propuestasEsteMes.ToString();
 
-        //    var ultimaPropuesta = propuestasDelUsuario.OrderByDescending(p => p.fecha_hora_creacion).FirstOrDefault();
-        //    if (ultimaPropuesta != null && ultimaPropuesta.entidad_bancaria!=null && ultimaPropuesta.entidad_bancaria.pais!=null)
-        //    {
-        //        litUltimoPais.Text = ultimaPropuesta.entidad_bancaria.pais.nombre;
-        //    }
-        //    else
-        //    {
-        //        litUltimoPais.Text = "-";
-        //    }
+            var ultimaPropuesta = propuestasDelUsuario.OrderByDescending(p => p.fecha_hora_creacion).FirstOrDefault();
+            if (ultimaPropuesta != null && ultimaPropuesta.entidad_bancaria!=null && ultimaPropuesta.entidad_bancaria.pais!=null)
+            {
+                litUltimoPais.Text = ultimaPropuesta.entidad_bancaria.pais.nombre;
+            }
+            else
+            {
+                litUltimoPais.Text = "-";
+            }
 
-        //    // 2. Generar la lista de acciones para la nueva tabla
-        //    var logDeAcciones = new List<AccionUsuario>();
+            // 2. Generar la lista de acciones para la nueva tabla
+            var logDeAcciones = new List<AccionUsuario>();
 
-        //    foreach (var propuesta in propuestasDelUsuario)
-        //    {
-        //        // Acción de Creación
-        //        if (propuesta.usuario_creacion?.usuario_id == usuarioLogueado.usuario_id && propuesta.fecha_hora_creacionSpecified)
-        //        {
-        //            logDeAcciones.Add(new AccionUsuario
-        //            {
-        //                PropuestaId = propuesta.propuesta_id,
-        //                FechaAccion = propuesta.fecha_hora_creacion,
-        //                TipoAccion = "Creación",
-        //                Estado = propuesta.estado,
-        //                NumFacturas = propuesta.detalles_propuesta==null ? 0 : propuesta.detalles_propuesta.Length
-        //            });
-        //        }
-        //        // Acción de Modificación
-        //        if (propuesta.usuario_modificacion?.usuario_id == usuarioLogueado.usuario_id && propuesta.fecha_hora_modificacionSpecified)
-        //        {
-        //            logDeAcciones.Add(new AccionUsuario
-        //            {
-        //                PropuestaId = propuesta.propuesta_id,
-        //                FechaAccion = propuesta.fecha_hora_modificacion,
-        //                TipoAccion = "Modificación",
-        //                Estado = propuesta.estado,
-        //                NumFacturas = propuesta.detalles_propuesta == null ? 0 : propuesta.detalles_propuesta.Length
-        //            });
-        //        }
-        //        // Acción de Eliminación
-        //        if (propuesta.usuario_eliminacion?.usuario_id == usuarioLogueado.usuario_id && propuesta.fecha_eliminacionSpecified)
-        //        {
-        //            logDeAcciones.Add(new AccionUsuario
-        //            {
-        //                PropuestaId = propuesta.propuesta_id,
-        //                FechaAccion = propuesta.fecha_eliminacion,
-        //                TipoAccion = "Eliminación",
-        //                Estado = "Eliminada",
-        //                NumFacturas = propuesta.detalles_propuesta == null ? 0 : propuesta.detalles_propuesta.Length
-        //            });
-        //        }
-        //    }
+            foreach (var propuesta in propuestasDelUsuario)
+            {
+                // Acción de Creación
+                if (propuesta.usuario_creacion?.usuario_id == usuarioLogueado.usuario_id && propuesta.fecha_hora_creacionSpecified)
+                {
+                    logDeAcciones.Add(new AccionUsuario
+                    {
+                        PropuestaId = propuesta.propuesta_id,
+                        FechaAccion = propuesta.fecha_hora_creacion,
+                        TipoAccion = "Creación",
+                        Estado = propuesta.estado,
+                        NumFacturas = propuesta.detalles_propuesta==null ? 0 : propuesta.detalles_propuesta.Length
+                    });
+                }
+                // Acción de Modificación
+                if (propuesta.usuario_modificacion?.usuario_id == usuarioLogueado.usuario_id && propuesta.fecha_hora_modificacionSpecified)
+                {
+                    logDeAcciones.Add(new AccionUsuario
+                    {
+                        PropuestaId = propuesta.propuesta_id,
+                        FechaAccion = propuesta.fecha_hora_modificacion,
+                        TipoAccion = "Modificación",
+                        Estado = propuesta.estado,
+                        NumFacturas = propuesta.detalles_propuesta == null ? 0 : propuesta.detalles_propuesta.Length
+                    });
+                }
+                // Acción de Eliminación
+                if (propuesta.usuario_eliminacion?.usuario_id == usuarioLogueado.usuario_id && propuesta.fecha_eliminacionSpecified)
+                {
+                    logDeAcciones.Add(new AccionUsuario
+                    {
+                        PropuestaId = propuesta.propuesta_id,
+                        FechaAccion = propuesta.fecha_eliminacion,
+                        TipoAccion = "Eliminación",
+                        Estado = "Eliminada",
+                        NumFacturas = propuesta.detalles_propuesta == null ? 0 : propuesta.detalles_propuesta.Length
+                    });
+                }
+            }
 
-        //    // Ordenar por la fecha más reciente y mostrar en la tabla
-        //    gvUltimasAcciones.DataSource = logDeAcciones.OrderByDescending(a => a.FechaAccion).Take(10).ToList();
-        //    gvUltimasAcciones.DataBind();
-        //}
+            // Ordenar por la fecha más reciente y mostrar en la tabla
+            gvUltimasAcciones.DataSource = logDeAcciones.OrderByDescending(a => a.FechaAccion).Take(10).ToList();
+            gvUltimasAcciones.DataBind();
+        }
 
         // Helpers para los badges de colores
         protected string GetActionClass(string accion)
@@ -136,6 +136,7 @@ namespace SoftPacWA
                 case "PENDIENTE": return "bg-warning text-dark";
                 case "ENVIADA": return "bg-success";
                 case "ANULADA": return "bg-danger";
+                case "EN REVISIÓN": return "bg-primary";
                 default: return "bg-light text-dark";
             }
         }

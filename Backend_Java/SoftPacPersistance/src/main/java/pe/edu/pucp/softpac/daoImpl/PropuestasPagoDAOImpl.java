@@ -354,51 +354,59 @@ public class PropuestasPagoDAOImpl extends DAOImplBase implements PropuestasPago
     @Override
     protected String generarSQLParaListarTodos(){
         return """
-               SELECT 
-                   p.PROPUESTA_DE_PAGO_ID,
-                   p.FECHA_HORA_CREACION,
-                   p.FECHA_HORA_MODIFICACION,
-                   p.ESTADO,
-                   p.ENTIDAD_BANCARIA_ID,
-                   p.USUARIO_CREACION,
-                   p.USUARIO_MODIFICACION,
-                   -- Usuario de creación (columnas separadas)
-                   uc.NOMBRE AS USUARIO_CREACION_NOMBRE,
-                   uc.APELLIDOS AS USUARIO_CREACION_APELLIDOS,
-                   uc.NOMBRE_DE_USUARIO AS USUARIO_CREACION,
-                   -- Banco de la propuesta
-                   eb.NOMBRE AS BANCO_NOMBRE,
-                   -- País del banco de la propuesta
-                   pa.PAIS_ID,
-                   pa.NOMBRE AS PAIS_NOMBRE,
-                   -- Cantidad de detalles
-                   COUNT(dp.DETALLE_PROPUESTA_ID) AS CANTIDAD_DETALLES
-               FROM 
-                   softpacbd.PA_PROPUESTAS_DE_PAGO p
-                   INNER JOIN softpacbd.PA_USUARIOS uc 
-                       ON p.USUARIO_CREACION = uc.USUARIO_ID
-                   INNER JOIN softpacbd.PA_ENTIDADES_BANCARIAS eb 
-                       ON p.ENTIDAD_BANCARIA_ID = eb.ENTIDAD_BANCARIA_ID
-                   INNER JOIN softpacbd.PA_PAISES pa 
-                       ON eb.PAIS_ID = pa.PAIS_ID
-                   LEFT JOIN softpacbd.PA_DETALLES_PROPUESTA dp 
-                       ON p.PROPUESTA_DE_PAGO_ID = dp.PROPUESTA_DE_PAGO_ID
-                       AND dp.FECHA_ELIMINACION IS NULL
-               WHERE 
-                   p.FECHA_ELIMINACION IS NULL
-               GROUP BY 
-                   p.PROPUESTA_DE_PAGO_ID,
-                   p.FECHA_HORA_CREACION,
-                   p.ESTADO,
-                   p.FECHA_HORA_MODIFICACION,
-                   uc.NOMBRE,
-                   uc.APELLIDOS,
-                   uc.NOMBRE_DE_USUARIO,
-                   eb.NOMBRE,
-                   pa.NOMBRE
-               ORDER BY 
-                   p.PROPUESTA_DE_PAGO_ID DESC;
-               """;
+           SELECT 
+               p.PROPUESTA_DE_PAGO_ID,
+               p.FECHA_HORA_CREACION,
+               p.FECHA_HORA_MODIFICACION,
+               p.ESTADO,
+               p.ENTIDAD_BANCARIA_ID,
+               p.USUARIO_CREACION,
+               p.USUARIO_MODIFICACION,
+
+               uc.NOMBRE AS USUARIO_CREACION_NOMBRE,
+               uc.APELLIDOS AS USUARIO_CREACION_APELLIDOS,
+               uc.NOMBRE_DE_USUARIO AS USUARIO_CREACION,
+
+               eb.NOMBRE AS BANCO_NOMBRE,
+
+               pa.PAIS_ID,
+               pa.NOMBRE AS PAIS_NOMBRE,
+
+               COUNT(dp.DETALLE_PROPUESTA_ID) AS CANTIDAD_DETALLES
+
+           FROM 
+               PA_PROPUESTAS_DE_PAGO p
+               INNER JOIN PA_USUARIOS uc 
+                   ON p.USUARIO_CREACION = uc.USUARIO_ID
+               INNER JOIN PA_ENTIDADES_BANCARIAS eb 
+                   ON p.ENTIDAD_BANCARIA_ID = eb.ENTIDAD_BANCARIA_ID
+               INNER JOIN PA_PAISES pa 
+                   ON eb.PAIS_ID = pa.PAIS_ID
+               LEFT JOIN PA_DETALLES_PROPUESTA dp 
+                   ON p.PROPUESTA_DE_PAGO_ID = dp.PROPUESTA_DE_PAGO_ID
+                   AND dp.FECHA_ELIMINACION IS NULL
+
+           WHERE 
+               p.FECHA_ELIMINACION IS NULL
+
+           GROUP BY 
+               p.PROPUESTA_DE_PAGO_ID,
+               p.FECHA_HORA_CREACION,
+               p.FECHA_HORA_MODIFICACION,
+               p.ESTADO,
+               p.ENTIDAD_BANCARIA_ID,
+               p.USUARIO_CREACION,
+               p.USUARIO_MODIFICACION,
+               uc.NOMBRE,
+               uc.APELLIDOS,
+               uc.NOMBRE_DE_USUARIO,
+               eb.NOMBRE,
+               pa.PAIS_ID,
+               pa.NOMBRE
+
+           ORDER BY 
+               p.PROPUESTA_DE_PAGO_ID DESC;
+           """;
     }
     @Override
     protected void extraerResultSetParaListarTodos() throws SQLException{
@@ -441,15 +449,6 @@ public class PropuestasPagoDAOImpl extends DAOImplBase implements PropuestasPago
             propuestasPago.add(p);
         }
     }
-    
-//    @Override
-//    protected String generarSQLCustom1() {
-//        return "SELECT p.PROPUESTA_DE_PAGO_ID, p.FECHA_HORA_CREACION, p.ESTADO, p.ENTIDAD_BANCARIA_ID, e.PAIS_ID\n" +
-//                "FROM pa_propuestas_de_pago p join pa_entidades_bancarias e on e.ENTIDAD_BANCARIA_ID = p.ENTIDAD_BANCARIA_ID\n" +
-//                "WHERE p.ENTIDAD_BANCARIA_ID = 1;";
-//    }
-    
-
 
     @Override
     public Integer insertar(PropuestasPagoDTO propuestaPago) {
@@ -477,32 +476,6 @@ public class PropuestasPagoDAOImpl extends DAOImplBase implements PropuestasPago
         }
         return propuestasPago;
     }
-
-//    @Override
-//    public List<PropuestasPagoDTO> listarConPais() {
-//        super.queryCustom1();
-//        return propuestasPago;
-//    }
-
-//    @Override
-//    protected void extraerResultSetCustom1() throws SQLException {
-//        propuestasPago=new ArrayList<>();
-//        EntidadesBancariasDTO entidadBancaria=null;
-//        while(this.resultSet.next()){
-//            PropuestasPagoDTO p=new PropuestasPagoDTO();
-//            p.setPropuesta_id(this.resultSet.getInt(1));
-//            p.setFecha_hora_creacion(this.resultSet.getTimestamp(2).toLocalDateTime());
-//            p.setEstado(this.resultSet.getString(3));
-//            entidadBancaria=new EntidadesBancariasDTO();
-//            entidadBancaria.setEntidad_bancaria_id(this.resultSet.getInt(4));
-//            /*Añadido*/
-//            PaisesDTO pais = new PaisesDTO();
-//            pais.setPais_id(this.resultSet.getInt(5));
-//            entidadBancaria.setPais(pais);
-//            p.setEntidad_bancaria(entidadBancaria);
-//            propuestasPago.add(p);
-//        }
-//    }
     
     @Override
     public Integer modificar(PropuestasPagoDTO propuestaPago) {

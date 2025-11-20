@@ -72,13 +72,18 @@
         }
 
         .estado-enviada {
-            background-color: #cfe2ff;
-            color: #084298;
+            background-color: rgba(40, 167, 69, 0.15);
+            color: #04561d
         }
 
         .estado-anulada {
             background-color: #f8d7da;
             color: #842029;
+        }
+
+        .estado-en-revision {
+            background-color: #cfe2ff;
+            color: #084298;
         }
 
         .totales-section {
@@ -243,10 +248,10 @@
                 </asp:LinkButton>
                 
                 <asp:LinkButton ID="btnEnviar" runat="server" 
-                    CssClass="btn btn-info"
+                    CssClass="btn btn-success"
                     OnClick="btnEnviar_Click"
-                    ToolTip="Confirmar envío">
-                    <i class="fas fa-paper-plane"></i> Confirmar Envío
+                    ToolTip="Pasar a revisión">
+                    <i class="fas fa-file-circle-check"></i> Pasar a Revisión
                 </asp:LinkButton>
             </div>
         </asp:Panel>
@@ -289,6 +294,16 @@
                     <asp:Label ID="lblTotalPagos" runat="server"></asp:Label>
                 </div>
             </div>
+            <asp:Panel ID="pnlAprobacion" runat="server" Visible="false">
+                <div class="info-card">
+                    <div class="info-card-label">
+                        <asp:Label ID="lblTituloAprobacion" runat="server"></asp:Label>
+                    </div>
+                    <div class="info-card-value">
+                        <asp:Label ID="LblAdmin" runat="server"></asp:Label>
+                    </div>
+                </div>
+            </asp:Panel>
         </div>
 
         <!-- Totales por Moneda -->
@@ -337,8 +352,7 @@
                                 
                                 <asp:TemplateField HeaderText="Saldo Disponible">
                                     <ItemTemplate>
-                                        <asp:Label ID="lblSaldoDisponible" runat="server" 
-                                            Text='<%# string.Format("{0:N2}", Eval("SaldoDisponible")) %>'>
+                                        <asp:Label ID="lblSaldoDisponible" runat="server" Text='<%# (string)Eval("Moneda") + " " + string.Format("{0:N2}", Eval("SaldoDisponible")) %>'>
                                         </asp:Label>
                                     </ItemTemplate>
                                     <ItemStyle HorizontalAlign="Right" />
@@ -346,7 +360,7 @@
                                 
                                 <asp:TemplateField HeaderText="Saldo Requerido">
                                     <ItemTemplate>
-                                        <%# string.Format("{0:N2}", Eval("SaldoUsado")) %>
+                                        <%# (string)Eval("Moneda") + " " + string.Format("{0:N2}", Eval("SaldoUsado")) %>
                                     </ItemTemplate>
                                     <ItemStyle HorizontalAlign="Right" />
                                 </asp:TemplateField>
@@ -441,6 +455,8 @@
                             
                             <Columns>
                                 <asp:BoundField DataField="NumeroFactura" HeaderText="N° Factura" />
+
+                                <asp:BoundField DataField="FechaVencimiento" HeaderText="Fecha de Vencimiento" />
                                 
                                 <asp:TemplateField HeaderText="Acreedor">
                                     <ItemTemplate>

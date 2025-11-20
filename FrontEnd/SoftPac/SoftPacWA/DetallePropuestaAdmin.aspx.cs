@@ -36,6 +36,7 @@ namespace SoftPacWA
             public decimal SaldoDisponible { get; set; }
             public decimal SaldoUsado { get; set; }
             public bool SaldoInsuficiente { get; set; }
+            public string Moneda { get; set; }
         }
 
         // Clase auxiliar para el GridView
@@ -43,6 +44,7 @@ namespace SoftPacWA
         public class DetalleViewModel
         {
             public string NumeroFactura { get; set; }
+            public string FechaVencimiento { get; set; }
             public string RazonSocialAcreedor { get; set; }
             public string CodigoMoneda { get; set; }
             public decimal Monto { get; set; }
@@ -168,7 +170,8 @@ namespace SoftPacWA
                 {
                     pnlTotalesMoneda.Visible = true;
                 }
-
+                if (propuesta.estado.ToLower() == "en revisión")
+                    ValidarAlertas(propuesta);
                 // Cargar totales por moneda
                 CargarTotalesPorMoneda(propuesta);
 
@@ -179,6 +182,60 @@ namespace SoftPacWA
             {
                 MostrarMensaje($"Error al cargar el detalle de la propuesta: {ex.Message}", "danger");
             }
+        }
+
+        private void ValidarAlertas(propuestasPagoDTO propuesta)
+        {
+
+            if (propuesta.detalles_propuesta == null || propuesta.detalles_propuesta.Length == 0)
+            {
+                MostrarMensaje("La propuesta no tiene pagos. Considere rechazarla.", "danger");
+
+                btnConfirmarEnvio.Visible = false;
+                btnRechazar.Visible = true;
+                btnExportar.Visible = false;
+
+                return;
+            }
+
+            var detallesActivos = propuesta.detalles_propuesta
+                .Where(d => d.fecha_eliminacionSpecified == false)
+                .ToList();
+
+            // Verificar facturas pagadas o eliminadas
+            bool hayFacturasPagadas = detallesActivos
+                .Any(d => d.factura != null &&
+                         (d.factura.estado != "Pendiente" || d.factura.monto_restante == 0));
+
+            if (hayFacturasPagadas)
+            {
+                MostrarMensaje("La propuesta cuenta con facturas eliminadas o pagadas. Considere rechazarla.", "danger");
+
+                btnConfirmarEnvio.Visible = false;
+                btnRechazar.Visible = true;
+                btnExportar.Visible = false;
+
+                return;
+            }
+
+            // Verificar montos distintos (solo en facturas pendientes con monto restante > 0)
+            bool hayMontosDistintos = detallesActivos
+                .Any(d => d.factura != null &&
+                         d.factura.estado == "Pendiente" &&
+                         d.factura.monto_restante > 0 &&
+                         Math.Abs(d.factura.monto_restante - d.monto_pago) > 0.01m);
+
+            if (hayMontosDistintos)
+            {
+                MostrarMensaje("Algunos pagos tienen montos distintos al restante de las facturas.", "warning");
+
+                btnConfirmarEnvio.Visible = true;
+                btnRechazar.Visible = true;
+                btnExportar.Visible = true;
+
+                return;
+            }
+
         }
 
         private void ConfigurarBotonesPorEstado(string estado)
@@ -211,6 +268,7 @@ namespace SoftPacWA
                 {
                     var cuenta = g.First().cuenta_propia;
                     decimal saldoUsado = g.Sum(d => d.monto_pago);
+                    var moneda = g.First().factura.moneda.codigo_iso;
                     return new CuentaPropiaViewModel
                     {
                         CuentaId = cuenta.cuenta_bancaria_id,
@@ -218,7 +276,8 @@ namespace SoftPacWA
                         NumeroCuenta = cuenta.numero_cuenta ?? "-",
                         SaldoDisponible = cuenta.saldo_disponible,
                         SaldoUsado = saldoUsado,
-                        SaldoInsuficiente = cuenta.saldo_disponible < saldoUsado
+                        SaldoInsuficiente = cuenta.saldo_disponible < saldoUsado,
+                        Moneda = moneda
                     };
                 })
                 .ToList();
@@ -269,6 +328,7 @@ namespace SoftPacWA
                 {
                     DetalleId = d.detalle_propuesta_id,
                     NumeroFactura = d.factura?.numero_factura ?? "-",
+                    FechaVencimiento = d.factura?.fecha_limite_pago.Date.ToString("yyyy-MM-dd") ?? "-",
                     RazonSocialAcreedor = d.factura?.acreedor?.razon_social ?? "-",
                     CodigoMoneda = d.factura?.moneda?.codigo_iso ?? "-",
                     Monto = d.monto_pago,
@@ -287,7 +347,6 @@ namespace SoftPacWA
 
             ViewState["DetallesViewModel"] = detallesVM;
         }
-
         private string MapearFormaPago(char? formaPago)
         {
             if (!formaPago.HasValue)
@@ -413,29 +472,25 @@ namespace SoftPacWA
         {
             try
             {
-                // Obtener la propuesta actual
-                var propuesta = propuestasBO.ObtenerPorId(propuestaId);
+                var usuarioAdmin = DTOConverter.Convertir<SoftPacBusiness.UsuariosWS.usuariosDTO, SoftPacBusiness.PropuestaPagoWS.usuariosDTO>(UsuarioLogueado);
 
-                if (propuesta == null)
-                {
-                    MostrarMensaje("No se encontró la propuesta especificada.", "danger");
-                    return;
-                }
-
-                // Cambiar el estado a "Pendiente"
-                propuesta.estado = "Pendiente";
-                propuesta.usuario_modificacion = DTOConverter.Convertir<SoftPacBusiness.UsuariosWS.usuariosDTO, SoftPacBusiness.PropuestaPagoWS.usuariosDTO>(UsuarioLogueado);
-                propuesta.fecha_hora_modificacion = DateTime.Now;
-
-                // Modificar la propuesta
-                int resultado = propuestasBO.Modificar(propuesta);
+                // Llamar al nuevo método del web service que maneja el correo
+                int resultado = propuestasBO.rechazarPropuesta(propuestaId, usuarioAdmin);
 
                 if (resultado > 0)
                 {
-                    MostrarMensaje("La propuesta ha sido rechazada exitosamente.", "success");
-                    // Redirigir a la lista de propuestas
+                    // Cerrar modal
+                    ScriptManager.RegisterStartupScript(this, GetType(), "cerrarModal",
+                        "$('#modalRechazar').modal('hide');", true);
+
+                    MostrarMensaje("La propuesta ha sido rechazada exitosamente. Se ha enviado una notificación por correo al usuario.", "success");
+
+                    // Redirigir a la lista de propuestas después de 2 segundos
                     ScriptManager.RegisterStartupScript(this, GetType(), "redirect",
-                        "setTimeout(function() { window.location = 'AprobacionPropuestas.aspx'; }, 1500);", true);
+                        "setTimeout(function() { window.location = 'AprobacionPropuestas.aspx'; }, 2000);", true);
+                    btnConfirmarEnvio.Visible = false;
+                    btnExportar.Visible = false;
+                    btnRechazar.Visible = false;
                 }
                 else
                 {
@@ -484,6 +539,9 @@ namespace SoftPacWA
                     SoftPacBusiness.PropuestaPagoWS.usuariosDTO>(UsuarioLogueado)) == 1)
                 {
                     MostrarMensaje("Se envió la propuesta correctamente.", "success");
+                    btnConfirmarEnvio.Visible = false;
+                    btnExportar.Visible = false;
+                    btnRechazar.Visible = false;
                     CargarDetalle();
                 }
                 else

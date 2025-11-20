@@ -550,7 +550,7 @@
                     <div class="chart-card animate-card" style="animation-delay: 0.6s;">
                         <div class="chart-title">
                             <i class="fas fa-chart-line"></i>
-                            Tendencia de Facturas (Últimos 6 Meses)
+                            Facturas Registradas (Últimos 6 Meses)
                         </div>
                         <div id="chartTendencias"></div>
                     </div>
@@ -559,7 +559,7 @@
                     <div class="chart-card animate-card" style="animation-delay: 0.7s;">
                         <div class="chart-title">
                             <i class="fas fa-chart-bar"></i>
-                            Distribución por Banco
+                            Distribución de Propuestas de Pago por Banco
                         </div>
                         <div id="chartBancos"></div>
                     </div>
@@ -739,7 +739,7 @@
                     },
                     dataLabels: {
                         enabled: true,
-                        offsetX: 30,
+                        offsetX: -20,
                         style: {
                             fontSize: '11px',
                             colors: ['#fff']

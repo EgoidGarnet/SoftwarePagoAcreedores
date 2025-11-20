@@ -177,7 +177,6 @@
     <Compile Include="PropuestasPagoBO.cs" />
     <Compile Include="ReporteFacturasBO.cs" />
     <Compile Include="ReportePropuestasBO.cs" />
-    <Compile Include="TiposDeCambioBO.cs" />
     <Compile Include="UsuarioPaisAccesoBO.cs" />
     <Compile Include="UsuariosBO.cs" />
   </ItemGroup>
@@ -408,6 +407,9 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Connected Services\PropuestaPagoWS\SoftPacBusiness.PropuestaPagoWS.propuestasPagoDTO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\PropuestaPagoWS\SoftPacBusiness.PropuestaPagoWS.rechazarPropuestaResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Connected Services\ReporteFactPendWS\ReporteFactPendWS.wsdl" />

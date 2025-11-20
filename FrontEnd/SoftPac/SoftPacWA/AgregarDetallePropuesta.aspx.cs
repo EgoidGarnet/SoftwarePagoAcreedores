@@ -26,6 +26,28 @@ namespace SoftPacWA
             }
         }
 
+        private List<int> FacturasIds
+        {
+            get
+            {
+                return (List<int>)Session["FacturasIds"];
+            }
+        }
+
+        private List<detallesPropuestaDTO> DetallesNuevos
+        {
+            get
+            {
+                if (Session["DetallesNuevos"] == null)
+                    Session["DetallesNuevos"] = new List<detallesPropuestaDTO>();
+                return (List<detallesPropuestaDTO>)Session["DetallesNuevos"];
+            }
+            set
+            {
+                Session["DetallesNuevos"] = value;
+            }
+        }
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -66,6 +88,11 @@ namespace SoftPacWA
             }
         }
 
+        protected void btnVolver_Click(object sender, EventArgs e)
+        {
+            Response.Redirect($"~/EditarPropuesta.aspx?id={PropuestaId}");
+        }
+
         protected void btnBuscarFacturas_Click(object sender, EventArgs e)
         {
             try
@@ -93,11 +120,13 @@ namespace SoftPacWA
                 var facturas = facturasBO.ListarPendientesPorCriterios(paisId, fechaLimite) ?? new List<SoftPacBusiness.FacturasWS.facturasDTO>();
 
                 // Preparar datasource sin fecha_vencimiento como indicaste
-                var items = facturas.Select(f => new
-                {
-                    Id = f.factura_id,
-                    Text = $"{f.numero_factura} - {f.acreedor?.razon_social} - {f.moneda?.codigo_iso}"
-                }).ToList();
+                var items = facturas
+                    .Where(f=>!FacturasIds.Contains(f.factura_id))
+                    .Select(f => new
+                    {
+                        Id = f.factura_id,
+                        Text = $"{f.numero_factura} - {f.acreedor?.razon_social} - {f.moneda?.codigo_iso}"
+                    }).ToList();
 
                 ddlFacturas.DataSource = items;
                 ddlFacturas.DataTextField = "Text";
@@ -113,6 +142,7 @@ namespace SoftPacWA
 
                 if (!items.Any())
                 {
+                    ddlFacturas.Items.Insert(0, new ListItem("-- No hay facturas pendientes --",""));
                     MostrarMensaje("No se encontraron facturas pendientes en el intervalo seleccionado.", "info");
                 }
                 else
@@ -166,6 +196,7 @@ namespace SoftPacWA
 
                 // Mostrar previsualización
                 lblFacturaGenerada.Text = detalleGenerado.factura?.numero_factura ?? "-";
+                lblAcreedorFactura.Text = detalleGenerado.factura?.acreedor?.razon_social ?? "-";
                 lblMontoGenerado.Text = detalleGenerado.monto_pago.ToString("N2");
                 lblMonedaGenerada.Text = detalleGenerado.factura?.moneda?.codigo_iso ?? "-";
 
@@ -192,6 +223,13 @@ namespace SoftPacWA
                         cci = c.cci
                     }).ToList();
 
+                if (cuentasSource == null || cuentasSource.Count() == 0)
+                {
+                    rptCuentas.DataSource = null;
+                    rptCuentas.DataBind();
+                    MostrarMensaje("No existen cuentas disponibles para el pago de esta factura.", "warning");
+                    return;
+                }
                 rptCuentas.DataSource = cuentasSource;
                 rptCuentas.DataBind();
 
@@ -216,14 +254,14 @@ namespace SoftPacWA
                 }
 
                 // Obtener cuenta seleccionada del Repeater
-                string sel = Request.Form["cuentaSeleccionada"]; // devuelve el value del radio (id de cuenta)
+                string sel = Request.Form["cuentaSeleccionada"];
                 if (string.IsNullOrEmpty(sel) || !int.TryParse(sel, out int cuentaSeleccionadaId))
                 {
                     MostrarMensaje("Seleccione una cuenta propia.", "warning");
                     return;
                 }
 
-                if (cuentaSeleccionadaId==0)
+                if (cuentaSeleccionadaId == 0)
                 {
                     MostrarMensaje("Seleccione una cuenta propia.", "warning");
                     return;
@@ -236,44 +274,23 @@ namespace SoftPacWA
                     MostrarMensaje("No se encontró la cuenta seleccionada.", "danger");
                     return;
                 }
+
                 // Asignar cuenta y forma de pago al detalle generado
                 detalleGenerado.cuenta_propia = DTOConverter.Convertir<SoftPacBusiness.CuentasPropiasWS.cuentasPropiasDTO, SoftPacBusiness.PropuestaPagoWS.cuentasPropiasDTO>(cuentaDTO);
                 if (!string.IsNullOrWhiteSpace(ddlFormaPago.SelectedValue))
                     detalleGenerado.forma_pago = ddlFormaPago.SelectedValue[0];
 
-                // Guardar en la propuesta que tenemos en Session (o recargar si no existe)
-                var propuesta = Session["PropuestaToAdd"] as propuestasPagoDTO ?? propuestasBO.ObtenerPorId(PropuestaId);
-                if (propuesta == null)
-                {
-                    MostrarMensaje("No se encontró la propuesta para agregar el detalle.", "danger");
-                    return;
-                }
-
+                // Preparar el detalle como nuevo (sin ID)
                 detalleGenerado.detalle_propuesta_id = 0;
-                detalleGenerado.detalle_propuesta_idSpecified = false;
                 detalleGenerado.usuario_eliminacion = null;
-                
-                // Agregar el detalle al array de detalles de la propuesta
-                var lista = new List<detallesPropuestaDTO>();
-                lista.Add(detalleGenerado);
-                propuesta.detalles_propuesta = lista.ToArray();
-                
-                // Auditoría básica
-                propuesta.usuario_modificacion = DTOConverter.Convertir<SoftPacBusiness.UsuariosWS.usuariosDTO, SoftPacBusiness.PropuestaPagoWS.usuariosDTO>((SoftPacBusiness.UsuariosWS.usuariosDTO)Session["UsuarioLogueado"]);
-                propuesta.fecha_hora_modificacion = DateTime.Now;
 
-                // Guardar en persistencia
-                bool ok = propuestasBO.Modificar(propuesta) != 0;
-                if (ok)
-                {
-                    // Redirigir a EditarPropuesta con el id
-                    Response.Redirect($"~/EditarPropuesta.aspx?id={PropuestaId}");
-                    MostrarMensaje("El detalle se agregó correctamente", "success");
-                }
-                else
-                {
-                    MostrarMensaje("Error al guardar el detalle en la propuesta.", "danger");
-                }
+                // ⭐ CAMBIO: Guardar en lista de detalles nuevos en Session
+                var detallesNuevos = DetallesNuevos;
+                detallesNuevos.Add(detalleGenerado);
+                DetallesNuevos = detallesNuevos;
+
+                // Redirigir de vuelta a EditarPropuesta
+                Response.Redirect($"~/EditarPropuesta.aspx?id={PropuestaId}");
             }
             catch (Exception ex)
             {

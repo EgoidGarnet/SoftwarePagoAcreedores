@@ -304,6 +304,13 @@
                                     </ItemTemplate>
                                     <ItemStyle HorizontalAlign="Right" />
                                 </asp:TemplateField>
+
+                                <asp:TemplateField HeaderText="Monto Restante">
+                                    <ItemTemplate>
+                                        <%# String.Format("{0:N2}", Eval("monto_restante")) %>
+                                    </ItemTemplate>
+                                    <ItemStyle HorizontalAlign="Right" />
+                                </asp:TemplateField>
                             </Columns>
 
                             <PagerStyle CssClass="pagination justify-content-center mt-3" />

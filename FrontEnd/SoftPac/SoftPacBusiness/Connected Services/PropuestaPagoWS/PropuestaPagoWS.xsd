@@ -24,6 +24,8 @@
   <xs:element name="modificarPropuestaResponse" type="tns:modificarPropuestaResponse" />
   <xs:element name="obtenerPropuesta" type="tns:obtenerPropuesta" />
   <xs:element name="obtenerPropuestaResponse" type="tns:obtenerPropuestaResponse" />
+  <xs:element name="rechazarPropuesta" type="tns:rechazarPropuesta" />
+  <xs:element name="rechazarPropuestaResponse" type="tns:rechazarPropuestaResponse" />
   <xs:complexType name="generarDetallesParciales">
     <xs:sequence>
       <xs:element minOccurs="0" maxOccurs="unbounded" name="facturasSeleccionadas" type="xs:int" />
@@ -226,6 +228,59 @@
       <xs:element minOccurs="0" maxOccurs="unbounded" name="return" type="tns:propuestasPagoDTO" />
     </xs:sequence>
   </xs:complexType>
+  <xs:complexType name="listarConFiltros">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="paisId" type="xs:int" />
+      <xs:element minOccurs="0" name="bancoId" type="xs:int" />
+      <xs:element minOccurs="0" name="estado" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="listarConFiltrosResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="return" type="tns:propuestasPagoDTO" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="insertarDetallePropuesta">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="detalle" type="tns:detallesPropuestaDTO" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="insertarDetallePropuestaResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="modificarPropuesta">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="propuestaPago" type="tns:propuestasPagoDTO" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="modificarPropuestaResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="listarPropuestasPorUsuario">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="usuarioId" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="listarPropuestasPorUsuarioResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="return" type="tns:propuestasPagoDTO" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="rechazarPropuesta">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="propuestaId" type="xs:int" />
+      <xs:element minOccurs="0" name="usuarioAdmin" type="tns:usuariosDTO" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="rechazarPropuestaResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
   <xs:complexType name="obtenerPropuesta">
     <xs:sequence>
       <xs:element minOccurs="0" name="propuesta_id" type="xs:int" />
@@ -257,38 +312,6 @@
       <xs:element minOccurs="0" name="return" type="xs:int" />
     </xs:sequence>
   </xs:complexType>
-  <xs:complexType name="modificarPropuesta">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="propuestaPago" type="tns:propuestasPagoDTO" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="modificarPropuestaResponse">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="return" type="xs:int" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="insertarDetallePropuesta">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="detalle" type="tns:detallesPropuestaDTO" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="insertarDetallePropuestaResponse">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="return" type="xs:int" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="listarConFiltros">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="paisId" type="xs:int" />
-      <xs:element minOccurs="0" name="bancoId" type="xs:int" />
-      <xs:element minOccurs="0" name="estado" type="xs:string" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="listarConFiltrosResponse">
-    <xs:sequence>
-      <xs:element minOccurs="0" maxOccurs="unbounded" name="return" type="tns:propuestasPagoDTO" />
-    </xs:sequence>
-  </xs:complexType>
   <xs:complexType name="listarUltimasPropuestasPorUsuario">
     <xs:sequence>
       <xs:element minOccurs="0" name="usuarioId" type="xs:int" />
@@ -300,14 +323,14 @@
       <xs:element minOccurs="0" maxOccurs="unbounded" name="return" type="tns:propuestasPagoDTO" />
     </xs:sequence>
   </xs:complexType>
-  <xs:complexType name="listarPropuestasPorUsuario">
+  <xs:complexType name="modificarDetallePropuesta">
     <xs:sequence>
-      <xs:element minOccurs="0" name="usuarioId" type="xs:int" />
+      <xs:element minOccurs="0" name="detalle" type="tns:detallesPropuestaDTO" />
     </xs:sequence>
   </xs:complexType>
-  <xs:complexType name="listarPropuestasPorUsuarioResponse">
+  <xs:complexType name="modificarDetallePropuestaResponse">
     <xs:sequence>
-      <xs:element minOccurs="0" maxOccurs="unbounded" name="return" type="tns:propuestasPagoDTO" />
+      <xs:element minOccurs="0" name="return" type="xs:int" />
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="generarDetallesPropuesta">
@@ -319,16 +342,6 @@
   <xs:complexType name="generarDetallesPropuestaResponse">
     <xs:sequence>
       <xs:element minOccurs="0" name="return" type="tns:propuestasPagoDTO" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="modificarDetallePropuesta">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="detalle" type="tns:detallesPropuestaDTO" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="modificarDetallePropuestaResponse">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="return" type="xs:int" />
     </xs:sequence>
   </xs:complexType>
 </xs:schema>

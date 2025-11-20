@@ -278,7 +278,7 @@
                                 <asp:TemplateField HeaderText="Saldo Disponible">
                                     <ItemTemplate>
                                         <asp:Label ID="lblSaldoDisponible" runat="server" 
-                                            Text='<%# string.Format("{0:N2}", Eval("SaldoDisponible")) %>'>
+                                            Text='<%# (string)Eval("Moneda") + " " + string.Format("{0:N2}", Eval("SaldoDisponible")) %>'>
                                         </asp:Label>
                                     </ItemTemplate>
                                     <ItemStyle HorizontalAlign="Right" />
@@ -286,7 +286,7 @@
                                 
                                 <asp:TemplateField HeaderText="Saldo Requerido">
                                     <ItemTemplate>
-                                        <%# string.Format("{0:N2}", Eval("SaldoUsado")) %>
+                                        <%# (string)Eval("Moneda") + " " + string.Format("{0:N2}", Eval("SaldoUsado")) %>
                                     </ItemTemplate>
                                     <ItemStyle HorizontalAlign="Right" />
                                 </asp:TemplateField>
@@ -354,6 +354,8 @@
                             
                             <Columns>
                                 <asp:BoundField DataField="NumeroFactura" HeaderText="N° Factura" />
+
+                                <asp:BoundField DataField="FechaVencimiento" HeaderText="Fecha de Vencimiento" />
                                 
                                 <asp:TemplateField HeaderText="Acreedor">
                                     <ItemTemplate>

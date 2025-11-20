@@ -59,6 +59,20 @@ namespace SoftPacWA
             }
         }
 
+        private List<detallesPropuestaDTO> DetallesNuevos
+        {
+            get
+            {
+                if (Session["DetallesNuevos"] == null)
+                    Session["DetallesNuevos"] = new List<detallesPropuestaDTO>();
+                return (List<detallesPropuestaDTO>)Session["DetallesNuevos"];
+            }
+            set
+            {
+                Session["DetallesNuevos"] = value;
+            }
+        }
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -120,20 +134,31 @@ namespace SoftPacWA
             var propuesta = Session["PropuestaOriginal"] as propuestasPagoDTO;
             if (propuesta == null)
                 return;
+
             var detallesActivos = new List<detallesPropuestaDTO>();
+
             if (!(propuesta.detalles_propuesta == null || propuesta.detalles_propuesta.Length == 0))
             {
-
                 var detallesEliminados = DetallesEliminados;
 
                 detallesActivos = propuesta.detalles_propuesta
                     .Where(d => d.detalle_propuesta_idSpecified && !detallesEliminados.Contains(d.detalle_propuesta_id))
                     .ToList();
             }
+
+            // Agregar los detalles nuevos (ya filtrados si se eliminaron)
+            var detallesNuevos = DetallesNuevos;
+            if (detallesNuevos != null && detallesNuevos.Count > 0)
+            {
+                detallesActivos.AddRange(detallesNuevos);
+            }
+
             lblTotalPagos.Text = detallesActivos.Count.ToString();
 
             // Cargar totales por moneda
             CargarTotalesPorMoneda(detallesActivos);
+
+            Session["FacturasIds"] = detallesActivos.Select(d => d.factura.factura_id).ToList();
 
             // Cargar detalles
             CargarDetallesPagos(detallesActivos);
@@ -174,9 +199,10 @@ namespace SoftPacWA
             }
 
             var detallesVM = detalles
-                .Select(d => new DetalleViewModel
+                .Select((d, index) => new DetalleViewModel
                 {
-                    DetalleId = d.detalle_propuesta_idSpecified ? d.detalle_propuesta_id : 0,
+                    // ⭐ CAMBIO: Si no tiene ID, usar índice negativo para identificarlo
+                    DetalleId = d.detalle_propuesta_idSpecified ? d.detalle_propuesta_id : -(index + 1),
                     NumeroFactura = d.factura?.numero_factura ?? "-",
                     RazonSocialAcreedor = d.factura?.acreedor?.razon_social ?? "-",
                     CodigoMoneda = d.factura?.moneda?.codigo_iso ?? "-",
@@ -243,10 +269,26 @@ namespace SoftPacWA
             {
                 int detalleId = int.Parse(hdnDetalleIdEliminar.Value);
 
-                // Agregar a la lista de eliminados
-                var eliminados = DetallesEliminados;
-                eliminados.Add(detalleId);
-                DetallesEliminados = eliminados;
+                // ⭐ CAMBIO: Verificar si es un detalle nuevo (ID negativo) o existente
+                if (detalleId < 0)
+                {
+                    // Es un detalle nuevo, quitarlo de DetallesNuevos
+                    var detallesNuevos = DetallesNuevos;
+                    int indexReal = Math.Abs(detalleId) - 1; // Convertir ID negativo a índice
+
+                    if (indexReal >= 0 && indexReal < detallesNuevos.Count)
+                    {
+                        detallesNuevos.RemoveAt(indexReal);
+                        DetallesNuevos = detallesNuevos;
+                    }
+                }
+                else
+                {
+                    // Es un detalle existente, agregarlo a la lista de eliminados
+                    var eliminados = DetallesEliminados;
+                    eliminados.Add(detalleId);
+                    DetallesEliminados = eliminados;
+                }
 
                 // Actualizar vista
                 ActualizarVista();
@@ -255,7 +297,7 @@ namespace SoftPacWA
                 ScriptManager.RegisterStartupScript(this, GetType(), "cerrarModal",
                     "$('#modalEliminar').modal('hide');", true);
 
-                MostrarMensaje("Pago marcado para eliminación. Presione 'Guardar Cambios' para confirmar.", "info");
+                MostrarMensaje("Pago eliminado. Presione 'Guardar Cambios' para confirmar.", "info");
             }
             catch (Exception ex)
             {
@@ -277,6 +319,15 @@ namespace SoftPacWA
                 // Actualizar formas de pago desde el GridView
                 ActualizarFormasDePago(propuesta);
 
+                // ⭐ CAMBIO: Agregar los detalles nuevos al array de la propuesta
+                var detallesNuevos = DetallesNuevos;
+                if (detallesNuevos != null && detallesNuevos.Count > 0)
+                {
+                    var listaDetalles = propuesta.detalles_propuesta?.ToList() ?? new List<detallesPropuestaDTO>();
+                    listaDetalles.AddRange(detallesNuevos);
+                    propuesta.detalles_propuesta = listaDetalles.ToArray();
+                }
+
                 // Eliminar detalles marcados
                 var detallesEliminados = DetallesEliminados;
                 if (detallesEliminados.Count > 0)
@@ -291,15 +342,13 @@ namespace SoftPacWA
                     }
                 }
 
-                // Validar que quede al menos un detalle
-                if (propuesta.detalles_propuesta == null || propuesta.detalles_propuesta.Length == 0)
-                {
-                    MostrarMensaje("La propuesta debe tener al menos un pago", "warning");
-                    return;
-                }
+                // Validar que quede al menos un detalle activo
+                var detallesActivos = propuesta.detalles_propuesta
+                    .Where(d => d.detalle_propuesta_id==0 || !detallesEliminados.Contains(d.detalle_propuesta_id))
+                    .ToList();
+
 
                 // Configurar datos de auditoría
-
                 propuesta.usuario_modificacion = DTOConverter.Convertir<SoftPacBusiness.UsuariosWS.usuariosDTO, SoftPacBusiness.PropuestaPagoWS.usuariosDTO>(UsuarioLogueado);
                 propuesta.fecha_hora_modificacion = DateTime.Now;
 
@@ -308,6 +357,10 @@ namespace SoftPacWA
 
                 if (resultado)
                 {
+                    // ⭐ CAMBIO: Limpiar las sesiones de detalles nuevos y eliminados
+                    DetallesNuevos = new List<detallesPropuestaDTO>();
+                    DetallesEliminados = new HashSet<int>();
+
                     MostrarMensaje("Propuesta actualizada exitosamente", "success");
 
                     // Redirigir al detalle después de un breve momento
@@ -355,9 +408,18 @@ namespace SoftPacWA
             // Redirige a la nueva página para agregar un detalle, pasando el id de la propuesta
             Response.Redirect($"~/AgregarDetallePropuesta.aspx?id={PropuestaId}");
         }
-
+        protected void btnVolver_Click(object sender, EventArgs e)
+        {
+            Session.Remove("DetallesEliminados");
+            Session.Remove("DetallesNuevos");
+            Session.Remove("FacturasIds");
+            Response.Redirect($"~/PropuestasPago.aspx");
+        }
         protected void btnCancelar_Click(object sender, EventArgs e)
         {
+            Session.Remove("DetallesEliminados");
+            Session.Remove("DetallesNuevos");
+            Session.Remove("FacturasIds");
             Response.Redirect($"~/DetallePropuesta.aspx?id={PropuestaId}");
         }
 
