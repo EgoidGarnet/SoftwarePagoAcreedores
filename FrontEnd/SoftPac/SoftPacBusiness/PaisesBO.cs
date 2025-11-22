@@ -18,14 +18,11 @@ namespace SoftPac.Business
         }
         public BindingList<paisesDTO> ListarTodos()
         {
-            // Llamas al WS
             paisesDTO[] paises = this.paisesClienteSOAP.listarPaises();
 
-            // Si el WS devuelve null, evitas excepción
             if (paises == null)
                 paises = Array.Empty<paisesDTO>();
 
-            // Conviertes a BindingList
             return new BindingList<paisesDTO>(paises.ToList());
         }
 

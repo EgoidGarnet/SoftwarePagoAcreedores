@@ -18,7 +18,6 @@ namespace SoftPacWA
         private readonly AcreedoresBO acreedoresBO = new AcreedoresBO();
 
         private List<paisesDTO> paisesUsuario;
-        private List<acreedoresDTO> listaAcreedores;
 
         private usuariosDTO UsuarioLogueado
         {
@@ -47,7 +46,6 @@ namespace SoftPacWA
             }
         }
 
-        // ---------- Utilidades ----------
         private string PaisNombreById(int? paisId)
         {
             if (!paisId.HasValue) return string.Empty;
@@ -61,7 +59,6 @@ namespace SoftPacWA
             if (!string.IsNullOrWhiteSpace(pais.nombre)) return pais.nombre;
             return PaisNombreById(pais.pais_id);
         }
-        // --------------------------------
 
         private void CargarFiltros()
         {

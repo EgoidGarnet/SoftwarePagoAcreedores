@@ -15,8 +15,6 @@ namespace SoftPac.Business
             this.cuentasAcreedorClienteSOAP = new CuentasAcreedorWSClient();
         }
 
-        // ================= MÉTODOS =================
-
         public IList<cuentasAcreedorDTO> ObtenerPorAcreedor(int acreedor_id)
         {
             try
@@ -100,16 +98,5 @@ namespace SoftPac.Business
             }
         }
 
-        public int eliminarLogico(cuentasAcreedorDTO cuenta)
-        {
-            try
-            {
-                return this.cuentasAcreedorClienteSOAP.eliminarCuentaAcreedor(cuenta);
-            }
-            catch (Exception ex)
-            {
-                throw new ApplicationException("Error al eliminar cuenta de acreedor.", ex);
-            }
-        }
     }
 }

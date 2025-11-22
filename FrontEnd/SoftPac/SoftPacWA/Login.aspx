@@ -91,7 +91,7 @@
             <div class="col-md-5 col-lg-4">
                 <div class="card">
                     <div class="card-header">
-                        <h3><i class="fas fa-file-invoice-dollar me-2"></i>Empresa S.A.C</h3>
+                        <h3><i class="fas fa-file-invoice-dollar me-2"></i>SoftPac S.A.C</h3>
                     </div>
                     <div class="card-body p-4">
                         <p class="text-center text-muted mb-4">Ingrese sus credenciales para continuar</p>

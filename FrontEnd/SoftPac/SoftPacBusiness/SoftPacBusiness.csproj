@@ -166,7 +166,6 @@
     </Compile>
     <Compile Include="CuentasAcreedorBO.cs" />
     <Compile Include="CuentasPropiasBO.cs" />
-    <Compile Include="DetallesFacturaBO.cs" />
     <Compile Include="DetallesPropuestaBO.cs" />
     <Compile Include="EntidadesBancariasBO.cs" />
     <Compile Include="Extension.cs" />
@@ -177,7 +176,6 @@
     <Compile Include="PropuestasPagoBO.cs" />
     <Compile Include="ReporteFacturasBO.cs" />
     <Compile Include="ReportePropuestasBO.cs" />
-    <Compile Include="UsuarioPaisAccesoBO.cs" />
     <Compile Include="UsuariosBO.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -615,6 +613,9 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Util\ExportacionPropuestasUtil.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\QuestPDF.2024.3.7\build\net4\QuestPDF.targets" Condition="Exists('..\packages\QuestPDF.2024.3.7\build\net4\QuestPDF.targets')" />

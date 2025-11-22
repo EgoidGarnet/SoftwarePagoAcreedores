@@ -22,14 +22,11 @@ namespace SoftPac.Business
             return propuestaPagoClienteSOAP.listarUltimasPropuestasPorUsuario(usuarioId, cantidad);
 
         }
-
-        // --- MÉTODO NUEVO ---
         public IList<propuestasPagoDTO> ListarTodasPorUsuario(int usuarioId)
         {
             return propuestaPagoClienteSOAP.listarPropuestasPorUsuario(usuarioId);
         }
 
-        // --- MÉTODO NUEVO ---
         public IList<propuestasPagoDTO> ListarActividadPorUsuario(int usuarioId)
         {
             // Llama al nuevo método del DAO que no filtra por borrado lógico

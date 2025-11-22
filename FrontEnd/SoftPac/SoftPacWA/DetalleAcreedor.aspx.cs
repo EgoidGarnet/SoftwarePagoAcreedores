@@ -201,5 +201,19 @@ namespace SoftPacWA
                 btnEliminar.Enabled = true;
             }
         }
+        protected string ObtenerInicialTipoCuenta(object tipoCuenta)
+        {
+            if (tipoCuenta == null) return "";
+
+            string tipo = tipoCuenta.ToString().ToUpper();
+
+            if (tipo.Contains("AHORRO")) return "AHO";
+            if (tipo.Contains("CORRIENTE")) return "CTE";
+            if (tipo.Contains("VISTA")) return "VTA";
+            if (tipo.Contains("PLAZO")) return "PLZ";
+
+            // Si no coincide, tomar las primeras 3 letras
+            return tipo.Length >= 3 ? tipo.Substring(0, 3) : tipo;
+        }
     }
 }

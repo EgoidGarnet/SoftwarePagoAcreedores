@@ -107,7 +107,6 @@ namespace SoftPacWA
             catch (Exception ex)
             {
                 MostrarMensaje("Error al guardar el detalle: " + ex.Message, "danger");
-                // Aquí podrías agregar un log del error: AppLogger.RegistrarError(ex);
             }
         }
 

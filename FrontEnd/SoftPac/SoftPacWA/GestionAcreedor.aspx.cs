@@ -106,7 +106,6 @@ namespace SoftPacWA
             string paisValor = ddlPais.SelectedValue;
             string activoValor = ddlActivo.SelectedValue;
 
-            // 1) Todos los campos con algún dato
             if (string.IsNullOrEmpty(razon))
             {
                 lblRazonError.Text = "Ingrese la razón social.";
@@ -115,15 +114,44 @@ namespace SoftPacWA
 
             if (string.IsNullOrEmpty(ruc))
             {
-                lblRucError.Text = "Ingrese el RUC.";
+                lblRucError.Text = "Ingrese el RUC / NIT / RFC.";
                 esValido = false;
             }
             else
             {
-                // 2) RUC exactamente 11 dígitos numéricos
-                if (!Regex.IsMatch(ruc, @"^\d{11}$"))
+                int paisId = 0;
+                int.TryParse(paisValor, out paisId);
+
+                const int PAIS_PERU = 1;
+                const int PAIS_MEXICO = 2;
+                const int PAIS_COLOMBIA = 3;
+
+                ruc = ruc.Trim().ToUpperInvariant();
+                txtRuc.Text = ruc;
+
+                bool idFiscalValido = true;
+
+                if (paisId == PAIS_PERU)
                 {
-                    lblRucError.Text = "Debe tener exactamente 11 dígitos numéricos.";
+                    // RUC Perú: 11 dígitos
+                    if (!Regex.IsMatch(ruc, @"^\d{11}$"))
+                        idFiscalValido = false;
+                }
+                else if (paisId == PAIS_MEXICO)
+                {
+                    // RFC México empresa: 13 caracteres alfanuméricos
+                    if (!Regex.IsMatch(ruc, @"^[A-Z0-9]{13}$"))
+                        idFiscalValido = false;
+                }
+                else if (paisId == PAIS_COLOMBIA)
+                {
+                    // NIT Colombia: 10 dígitos
+                    if (!Regex.IsMatch(ruc, @"^\d{10}$"))
+                        idFiscalValido = false;
+                }
+                if (!idFiscalValido)
+                {
+                    lblRucError.Text = "Debe ser un RUC, NIT o RFC válido.";
                     esValido = false;
                 }
             }
@@ -162,7 +190,7 @@ namespace SoftPacWA
             }
             else
             {
-                // 3) Plazo debe estar entre 15 y 60 días (interpretación de tu regla)
+                // 3) Plazo debe estar entre 15 y 60 días
                 if (plazo < 15 || plazo > 60)
                 {
                     lblPlazoError.Text = "El plazo de pago debe estar entre 15 y 60 días.";
@@ -181,7 +209,6 @@ namespace SoftPacWA
 
         protected void btnGuardar_Click(object sender, EventArgs e)
         {
-            // Si hay errores, no se guarda ni se redirige
             if (!ValidarCampos()) return;
 
             string razon = (txtRazon.Text ?? "").Trim();

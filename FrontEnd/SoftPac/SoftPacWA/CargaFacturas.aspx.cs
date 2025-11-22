@@ -277,7 +277,7 @@ namespace SoftPacWA
                         resultado.MontoTotal = montoTotal;
 
                         // VALIDACIÓN: Verificar que el RUC coincida
-                        if (rucXml != acreedor.ruc)
+                        if ((rucXml+="  ") != acreedor.ruc)
                         {
                             resultado.Estado = "Fallida";
                             resultado.Mensaje = $"RUC no coincide. XML: {rucXml}, Esperado: {acreedor.ruc}";
@@ -366,8 +366,10 @@ namespace SoftPacWA
                         resultado.RazonSocial = acreedor.razon_social;
                         resultado.MontoTotal = montoTotal;
 
+                        if (rfcXml.Length == 12) rfcXml += " ";
+
                         // VALIDACIÓN: Verificar que el RFC coincida
-                        if (rfcXml != acreedor.ruc)
+                        if ((rfcXml) != acreedor.ruc)
                         {
                             resultado.Estado = "Fallida";
                             resultado.Mensaje = $"RFC no coincide. XML: {rfcXml}, Esperado: {acreedor.ruc}";
@@ -457,7 +459,7 @@ namespace SoftPacWA
                         resultado.MontoTotal = montoTotal;
 
                         // VALIDACIÓN: Verificar que el NIT coincida
-                        if (nitXml != acreedor.ruc)
+                        if ((nitXml+="  ") != acreedor.ruc)
                         {
                             resultado.Estado = "Fallida";
                             resultado.Mensaje = $"NIT no coincide. XML: {nitXml}, Esperado: {acreedor.ruc}";

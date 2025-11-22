@@ -17,8 +17,6 @@ namespace SoftPac.Business
             this.cuentasPropiasClienteSOAP = new CuentasPropiasWSClient();
         }
 
-        // ========== MÉTODOS CRUD PRINCIPALES ==========
-
         public void ActivarSpecified(cuentasPropiasDTO cuenta)
         {
             cuenta.activaSpecified = true;
@@ -82,8 +80,6 @@ namespace SoftPac.Business
             }
         }
 
-        // ========== MÉTODOS DE KARDEX =========
-
         public BindingList<kardexCuentasPropiasDTO> ObtenerKardexCuentaPropiaPorCuenta(int cuentaPropiaId)
         {
             try
@@ -111,8 +107,6 @@ namespace SoftPac.Business
             return new BindingList<kardexCuentasPropiasDTO>(kardex);
         }
 
-
-        // ========== MÉTODOS DE LISTADO ==========
 
         public BindingList<cuentasPropiasDTO> ListarTodos()
         {
@@ -158,8 +152,6 @@ namespace SoftPac.Business
                 throw new ApplicationException("Error al listar cuentas propias por entidad bancaria.", ex);
             }
         }
-
-        // ========== MÉTODO AUXILIAR ==========
 
         public bool TieneSaldoSuficiente(int cuentaId, decimal montoRequerido)
         {

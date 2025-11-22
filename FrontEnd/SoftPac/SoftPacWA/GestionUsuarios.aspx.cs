@@ -198,21 +198,6 @@ namespace SoftPacWA
                     true
                 );
             }
-            //else if (e.CommandName == "Eliminar")
-            //{
-            //    divMensaje.Visible = false; // Limpiar mensaje previo antes de eliminar
-            //    usuariosDTO usuarioActual = (usuariosDTO)Session["UsuarioLogueado"];
-            //    int resultado = usuariosBO.EliminarUsuario(usuarioId, usuarioActual.usuario_id);
-            //    if (resultado > 0)
-            //    {
-            //        MostrarMensaje("Usuario desactivado correctamente.", "success");
-            //        CargarUsuarios();
-            //    }
-            //    else
-            //    {
-            //        MostrarMensaje("Error al desactivar el usuario.", "danger");
-            //    }
-            //}
         }
         protected void btnConfirmarDesactivar_Click(object sender, EventArgs e)
         {
@@ -790,10 +775,10 @@ namespace SoftPacWA
                 bool esSuperusuario = (bool)DataBinder.Eval(e.Row.DataItem, "superusuario");
                 LinkButton btnVerActividad = (LinkButton)e.Row.FindControl("btnVerActividad");
 
-                if (esSuperusuario)
-                {
-                    btnVerActividad.Style["visibility"] = "hidden";
-                }
+                //if (esSuperusuario)
+                //{
+                //    btnVerActividad.Style["visibility"] = "hidden";
+                //}
             }
         }
         protected void gvActividad_RowDataBound(object sender, GridViewRowEventArgs e)

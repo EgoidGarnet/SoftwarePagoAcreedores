@@ -21,7 +21,7 @@
                 <asp:Label ID="lblRazonError" runat="server" CssClass="text-danger"></asp:Label>
             </div>
             <div class="col-md-3">
-                <label class="form-label">RUC</label>
+                <label class="form-label">RUC / NIT / RFC</label>
                 <asp:TextBox ID="txtRuc" runat="server" CssClass="form-control" />
                 <asp:Label ID="lblRucError" runat="server" CssClass="text-danger"></asp:Label>
             </div>

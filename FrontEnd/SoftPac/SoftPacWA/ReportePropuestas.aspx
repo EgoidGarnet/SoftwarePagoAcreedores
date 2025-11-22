@@ -11,7 +11,7 @@
         }
 
         .stat-value {
-            white-space: pre-line; /* respeta los saltos de línea \n */
+            white-space: pre-line;
             display: block;
             text-align: center;
             font-size: 1.5rem;
@@ -20,21 +20,21 @@
 
         .auditoria-item {
             display: flex;
-            align-items: center; /* centra verticalmente */
-            gap: 0.5rem; /* agrega separación horizontal */
+            align-items: center;
+            gap: 0.5rem;
             margin-bottom: 0.5rem;
         }
 
             .auditoria-item strong {
                 color: var(--color-primary);
-                min-width: 160px; /* ancho mínimo uniforme */
+                min-width: 160px;
                 font-weight: 600;
             }
 
             .auditoria-item span {
                 color: var(--color-secondary);
-                flex: 1; /* permite que se expanda bien */
-                white-space: nowrap; /* evita cortes raros */
+                flex: 1;
+                white-space: nowrap;
             }
 
         .reporte-header {

@@ -28,72 +28,102 @@
             color: var(--color-primary);
         }
 
-        /* Sidebar */
+        /* --- Estilos para el Sidebar (Offcanvas) --- */
+        .sidebar.offcanvas {
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+        }
+
         .sidebar {
             background-color: var(--color-primary);
-            min-height: 100vh;
-            width: 250px;
+        }
+
+        /* Mantiene el sidebar fijo en pantallas grandes (lg y superiores) */
+        @media (min-width: 992px) {
+            .main-content {
+                margin-left: 260px;
+            }
+
+            .sidebar {
+                position: fixed;
+                top: 0;
+                left: 0;
+                height: 100vh;
+                width: 260px;
+                transform: none !important;
+                visibility: visible !important;
+                background-color: var(--color-primary) !important;
+            }
         }
 
         .sidebar-header {
-            padding: 1.5rem;
+            padding: 1.5rem 1rem;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            color: white;
         }
 
-            .sidebar-header h4 {
-                font-size: 1.2rem;
-                font-weight: 600;
-            }
+        .sidebar-header h4 {
+            color: white;
+            margin: 0;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .sidebar-header small {
+            color: var(--color-light-1);
+            font-size: 0.85rem;
+        }
 
         .sidebar-menu {
             list-style: none;
-            margin: 0;
             padding: 0;
+            margin: 0;
         }
 
-            .sidebar-menu li {
-                border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            }
+        .sidebar-menu li {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
 
-            .sidebar-menu a {
-                display: flex;
-                align-items: center;
-                padding: 1rem 1.5rem;
-                color: var(--color-light-1);
-                text-decoration: none;
-                transition: all 0.3s ease;
-            }
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            color: var(--color-light-1);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
 
-                .sidebar-menu a:hover,
-                .sidebar-menu a.active {
-                    background-color: var(--color-secondary);
-                    color: white;
-                    padding-left: 2rem;
-                }
+        .sidebar-menu a:hover,
+        .sidebar-menu a.active {
+            background-color: var(--color-secondary);
+            color: white;
+            padding-left: 2rem;
+        }
 
-            .sidebar-menu i {
-                margin-right: 12px;
-                width: 20px;
-                text-align: center;
-            }
+        .sidebar-menu i {
+            width: 20px;
+            margin-right: 12px;
+            font-size: 1.1rem;
+        }
 
         /* Top Navbar */
         .top-navbar {
-            background-color: var(--color-primary);
-            color: white;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            padding: 0.8rem 1.5rem;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+            border-bottom: 3px solid var(--color-light-1);
         }
 
-            .top-navbar .navbar-brand {
-                color: white;
-                font-weight: 600;
-            }
+        .top-navbar .navbar-brand {
+            color: var(--color-primary);
+            font-weight: 600;
+        }
 
-                .top-navbar .navbar-brand:hover {
-                    color: var(--color-light-2);
-                }
+        .top-navbar .navbar-brand:hover {
+            color: var(--color-secondary);
+        }
+
+        .user-info i {
+            font-size: 1.5rem;
+            color: var(--color-secondary);
+        }
 
         .dropdown-menu {
             font-size: 0.95rem;
@@ -106,10 +136,16 @@
         /* Content */
         .content-area {
             padding: 2rem;
-            background-color: #fff;
-            border-radius: 10px;
-            margin: 1.5rem;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .btn-primary {
+            background-color: var(--color-secondary);
+            border-color: var(--color-secondary);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--color-primary);
+            border-color: var(--color-primary);
         }
     </style>
 </head>
@@ -123,56 +159,71 @@
             </Scripts>
         </asp:ScriptManager>
 
-        <div class="d-flex">
-            <!-- Sidebar -->
-            <aside class="sidebar">
+        <aside class="sidebar offcanvas-lg offcanvas-start" tabindex="-1" id="sidebar">
+            <div class="offcanvas-header d-lg-none">
+                <h5 class="offcanvas-title text-white">Menú Administrador</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body d-flex flex-column p-0">
                 <div class="sidebar-header">
                     <h4><i class="fas fa-user-shield me-2"></i>Panel Administrador</h4>
                 </div>
 
                 <ul class="sidebar-menu">
-                    <li><a href="~/GestionUsuarios.aspx" runat="server"><i class="fas fa-users-cog"></i>Gestión de Usuarios</a></li>
+                    <li><a href="~/GestionUsuarios.aspx" runat="server"><i class="fas fa-users-cog"></i><span>Gestión de Usuarios</span></a></li>
+                    <li><a href="~/AprobacionPropuestas.aspx" runat="server"><i class="fas fa-clipboard-check"></i><span>Gestión de Propuestas</span></a></li>
                 </ul>
+            </div>
+        </aside>
 
-                <ul class="sidebar-menu">
-                    <li><a href="~/AprobacionPropuestas.aspx" runat="server"><i class="fas fa-clipboard-check"></i>Gestión de Propuestas </a></li>
-                </ul>
-            </aside>
+        <!-- Main Content -->
+        <main class="main-content">
+            <nav class="top-navbar navbar navbar-expand-lg navbar-light px-4">
+                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <a class="navbar-brand" href="#">Administración</a>
 
-            <!-- Main Content -->
-            <main class="flex-fill">
-                <nav class="top-navbar navbar navbar-expand-lg navbar-dark">
-                    <div class="container-fluid">
-                        <a class="navbar-brand" href="#">Administración</a>
-
-                        <div class="ms-auto navbar-nav">
-                            <div class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle d-flex align-items-center gap-2" id="navbarDropdownAdmin" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="fas fa-user-circle fs-4 text-white"></i>
-                                    <div class="text-white">
-                                        <strong class="d-block">
-                                            <asp:Label ID="lblUsuario" runat="server" Text="Admin"></asp:Label></strong>
-                                        <small class="text-light">
-                                            <asp:Label ID="lblRol" runat="server" Text="Superusuario"></asp:Label></small>
-                                    </div>
-                                </a>
-                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownAdmin">
-                                    <li>
-                                        <asp:LinkButton ID="lnkCerrarSesion" runat="server" OnClick="lnkCerrarSesion_Click" CssClass="dropdown-item">
-                                            <i class="fas fa-sign-out-alt me-2"></i>Cerrar Sesión
-                                        </asp:LinkButton>
-                                    </li>
-                                </ul>
+                <div class="ms-auto navbar-nav">
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle d-flex align-items-center gap-2" id="navbarDropdownAdmin" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-user-circle fs-4"></i>
+                            <div>
+                                <strong class="d-block">
+                                    <asp:Label ID="lblUsuario" runat="server" Text="Admin"></asp:Label></strong>
+                                <small class="text-muted" style="margin-top: -5px; display: block;">
+                                    <asp:Label ID="lblRol" runat="server" Text="Superusuario"></asp:Label></small>
                             </div>
-                        </div>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownAdmin">
+                            <li>
+                                <asp:LinkButton ID="lnkCerrarSesion" runat="server" OnClick="lnkCerrarSesion_Click" CssClass="dropdown-item">
+                                    <i class="fas fa-sign-out-alt me-2"></i>Cerrar Sesión
+                                </asp:LinkButton>
+                            </li>
+                        </ul>
                     </div>
-                </nav>
-
-                <div class="content-area">
-                    <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server"></asp:ContentPlaceHolder>
                 </div>
-            </main>
-        </div>
+            </nav>
+
+            <div class="content-area">
+                <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server"></asp:ContentPlaceHolder>
+            </div>
+        </main>
     </form>
+
+    <script>
+        // Highlight active menu item
+        $(document).ready(function () {
+            var path = window.location.pathname.split('/').pop();
+            if (path === '') { path = 'GestionUsuarios.aspx'; } // Default to GestionUsuarios if path is empty
+            $('.sidebar-menu a').each(function () {
+                var href = $(this).attr('href');
+                if (href && href.indexOf(path) !== -1) {
+                    $(this).addClass('active');
+                }
+            });
+        });
+    </script>
 </body>
 </html>

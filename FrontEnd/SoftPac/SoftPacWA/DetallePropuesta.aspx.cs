@@ -140,7 +140,7 @@ namespace SoftPacWA
                 // Controlar visibilidad de botones según estado
                 ConfigurarBotonesPorEstado(propuesta);
 
-                if (propuesta.usuario_modificacion != null && propuesta.usuario_modificacion.superusuario==true 
+                if (propuesta.usuario_modificacion != null && propuesta.usuario_modificacion.superusuario == true
                     && (propuesta.estado == "Enviada" || propuesta.estado == "Pendiente"))
                 {
                     pnlAprobacion.Visible = true;
@@ -153,7 +153,8 @@ namespace SoftPacWA
                         lblTituloAprobacion.Text = "Aprobada por";
                     }
                     LblAdmin.Text = propuesta.usuario_modificacion.nombre + " " + propuesta.usuario_modificacion.apellidos;
-                } else
+                }
+                else
                 {
                     pnlAprobacion.Visible = false;
                 }
@@ -176,6 +177,7 @@ namespace SoftPacWA
                 if (propuesta.detalles_propuesta == null || propuesta.detalles_propuesta.Length == 0)
                 {
                     pnlTotalesMoneda.Visible = false;
+                    btnExportar.Enabled = false;
                 }
                 else pnlTotalesMoneda.Visible = true;
 
@@ -196,6 +198,19 @@ namespace SoftPacWA
             }
         }
 
+        public static string QuitarTildes(string texto)
+        {
+            if (string.IsNullOrEmpty(texto))
+                return texto;
+
+            return texto
+                .Replace("á", "a").Replace("Á", "A")
+                .Replace("é", "e").Replace("É", "E")
+                .Replace("í", "i").Replace("Í", "I")
+                .Replace("ó", "o").Replace("Ó", "O")
+                .Replace("ú", "u").Replace("Ú", "U")
+                .Replace("ñ", "n").Replace("Ñ", "N");
+        }
         private void ConfigurarBotonesPorEstado(propuestasPagoDTO propuesta)
         {
             // Solo se puede editar y anular propuestas en estado "Pendiente"
@@ -392,7 +407,7 @@ namespace SoftPacWA
                             {
                                 cuenta.saldo_disponible = nuevoSaldo;
 
-                                if (cuentasPropiasBO.Modificar(cuenta,UsuarioLogueado.usuario_id) == 1)
+                                if (cuentasPropiasBO.Modificar(cuenta, UsuarioLogueado.usuario_id) == 1)
                                 {
                                     MostrarMensaje("Saldo actualizado correctamente", "success");
                                     CargarDetalle();
@@ -573,10 +588,10 @@ namespace SoftPacWA
                     })
                     .Where(c => c.Cuenta.saldo_disponible < c.SaldoUsado)
                     .ToList();
-               
+
                 propuesta.estado = "En revisión";
 
-                if (propuestasBO.Modificar(propuesta)!=0)
+                if (propuestasBO.Modificar(propuesta) != 0)
                 {
                     if (cuentasConProblemas.Any())
                     {
@@ -599,55 +614,7 @@ namespace SoftPacWA
             {
                 MostrarMensaje($"Error al remitir la propuesta: {ex.Message}", "danger");
             }
-        } 
-        //protected void btnEnviar_Click(object sender, EventArgs e)
-        //{
-        //    try
-        //    {
-        //        var propuesta = propuestasBO.ObtenerPorId(PropuestaId);
-
-        //        if (propuesta == null || propuesta.detalles_propuesta == null)
-        //        {
-        //            MostrarMensaje("No se encontró la propuesta", "danger");
-        //            return;
-        //        }
-
-        //        // Validar saldos de cuentas propias
-        //        var cuentasConProblemas = propuesta.detalles_propuesta
-        //            .Where(d => d.cuenta_propia != null && d.fecha_eliminacionSpecified == false)
-        //            .GroupBy(d => d.cuenta_propia.cuenta_bancaria_id)
-        //            .Select(g => new
-        //            {
-        //                Cuenta = g.First().cuenta_propia,
-        //                SaldoUsado = g.Sum(d => d.monto_pago)
-        //            })
-        //            .Where(c => c.Cuenta.saldo_disponible < c.SaldoUsado)
-        //            .ToList();
-
-        //        if (cuentasConProblemas.Any())
-        //        {
-        //            MostrarMensaje("No se puede enviar la propuesta. Hay cuentas con saldo insuficiente (marcadas en rojo).", "danger");
-        //            return;
-        //        }
-
-        //        // Intentar confirmar envío
-        //        if (propuestasBO.confirmarEnvioPropuesta(PropuestaId,
-        //            DTOConverter.Convertir<SoftPacBusiness.UsuariosWS.usuariosDTO,
-        //            SoftPacBusiness.PropuestaPagoWS.usuariosDTO>(UsuarioLogueado)) == 1)
-        //        {
-        //            MostrarMensaje("Se envió la propuesta correctamente.", "success");
-        //            CargarDetalle();
-        //        }
-        //        else
-        //        {
-        //            MostrarMensaje("La propuesta no pudo enviarse correctamente, revise el saldo disponible en las cuentas propias.", "danger");
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MostrarMensaje($"Error al enviar la propuesta: {ex.Message}", "danger");
-        //    }
-        //}
+        }
         protected void btnConfirmarRechazo_Click(object sender, EventArgs e)
         {
             try
@@ -702,7 +669,7 @@ namespace SoftPacWA
                     if (cuenta != null)
                     {
                         cuenta.saldo_disponible += detalle.monto_pago;
-                        cuentasPropiasBO.Modificar(cuenta,UsuarioLogueado.usuario_id);
+                        cuentasPropiasBO.Modificar(cuenta, UsuarioLogueado.usuario_id);
                     }
                 }
 
@@ -833,26 +800,25 @@ namespace SoftPacWA
                 string formatoAceptado = propuesta.entidad_bancaria.formato_aceptado?.ToUpper() ?? "CSV";
 
                 // Exportar según el formato de la entidad bancaria
+                ExportacionPropuestasUtil exportador = new ExportacionPropuestasUtil(DescargarArchivo);
+
                 switch (formatoAceptado)
                 {
                     case "CSV":
-                        ExportarCSV(propuesta);
+                        exportador.ExportarCSV(propuesta);
                         break;
                     case "XML":
-                        ExportarXML(propuesta);
+                        exportador.ExportarXML(propuesta);
                         break;
                     case "TXT":
-                        ExportarTXT(propuesta);
+                        exportador.ExportarTXT(propuesta);
                         break;
                     case "MT101":
-                        ExportarMT101(propuesta);
-                        break;
-                    case "PDF":
-                        MostrarMensaje("La exportación a PDF aún no está implementada", "warning");
+                        exportador.ExportarMT101(propuesta);
                         break;
                     default:
                         // Por defecto exportar como CSV
-                        ExportarCSV(propuesta);
+                        exportador.ExportarCSV(propuesta);
                         break;
                 }
             }
@@ -860,163 +826,6 @@ namespace SoftPacWA
             {
                 MostrarMensaje($"Error al exportar la propuesta: {ex.Message}", "danger");
             }
-        }
-
-        private void ExportarCSV(propuestasPagoDTO propuesta)
-        {
-            var sb = new StringBuilder();
-
-
-            var detallesActivos = propuesta.detalles_propuesta
-                .Where(d => d.fecha_eliminacionSpecified == false);
-
-            foreach (var detalle in detallesActivos)
-            {
-                string numeroFactura = (detalle.factura?.numero_factura ?? "").Replace("-", "");
-
-                string proveedor = RemoverTildes(detalle.factura?.acreedor?.razon_social ?? "");
-                string moneda = detalle.factura?.moneda?.codigo_iso ?? "";
-
-                string monto = detalle.monto_pago.ToString("F2", System.Globalization.CultureInfo.InvariantCulture);
-
-                string cuentaOrigen = detalle.cuenta_propia?.numero_cuenta ?? "";
-                string bancoOrigen = RemoverTildes(detalle.cuenta_propia?.entidad_bancaria?.nombre ?? "");
-                string cuentaDestino = detalle.cuenta_acreedor?.numero_cuenta ?? "";
-                string bancoDestino = RemoverTildes(detalle.cuenta_acreedor?.entidad_bancaria?.nombre ?? "");
-                string formaPago = RemoverTildes(MapearFormaPago((char?)detalle.forma_pago));
-
-                string fecha = DateTime.Now.ToString("yyyyMMdd");
-
-                sb.AppendLine($"{numeroFactura},{proveedor},{moneda},{monto},{cuentaOrigen},{bancoOrigen},{cuentaDestino},{bancoDestino},{formaPago},{fecha}");
-            }
-
-            DescargarArchivo(sb.ToString(), $"PropuestaPago_{propuesta.propuesta_id}.csv", "text/csv");
-        }
-
-        private string RemoverTildes(string texto)
-        {
-            if (string.IsNullOrEmpty(texto))
-                return texto;
-
-            string normalized = texto.Normalize(System.Text.NormalizationForm.FormD);
-            var sb = new StringBuilder();
-
-            foreach (char c in normalized)
-            {
-                if (System.Globalization.CharUnicodeInfo.GetUnicodeCategory(c) != System.Globalization.UnicodeCategory.NonSpacingMark)
-                {
-                    sb.Append(c);
-                }
-            }
-
-            return sb.ToString().Normalize(System.Text.NormalizationForm.FormC);
-        }
-
-        private void ExportarXML(propuestasPagoDTO propuesta)
-        {
-            var detallesActivos = propuesta.detalles_propuesta
-                .Where(d => d.fecha_eliminacionSpecified == false)
-                .ToList();
-
-            var propuestaXML = new PropuestaExportXML
-            {
-                PropuestaId = propuesta.propuesta_idSpecified ? propuesta.propuesta_id : 0,
-                Estado = propuesta.estado ?? "",
-                FechaCreacion = propuesta.fecha_hora_creacion.ToString("yyyy-MM-dd HH:mm:ss") ?? "",
-                EntidadBancaria = propuesta.entidad_bancaria?.nombre ?? "",
-                Detalles = detallesActivos.Select(d => new DetalleExportXML
-                {
-                    NumeroFactura = d.factura?.numero_factura ?? "",
-                    Proveedor = d.factura?.acreedor?.razon_social ?? "",
-                    Monto = d.monto_pago,
-                    Moneda = d.factura?.moneda?.codigo_iso ?? "",
-                    CuentaOrigen = d.cuenta_propia?.numero_cuenta ?? "",
-                    BancoOrigen = d.cuenta_propia?.entidad_bancaria?.nombre ?? "",
-                    CuentaDestino = d.cuenta_acreedor?.numero_cuenta ?? "",
-                    BancoDestino = d.cuenta_acreedor?.entidad_bancaria?.nombre ?? "",
-                    FormaPago = MapearFormaPago((char?)d.forma_pago),
-                    Fecha = DateTime.Now.ToString("yyyy-MM-dd")
-                }).ToList()
-            };
-
-            var serializer = new XmlSerializer(typeof(PropuestaExportXML));
-            using (var stringWriter = new StringWriter())
-            {
-                using (var xmlWriter = XmlWriter.Create(stringWriter, new XmlWriterSettings { Indent = true }))
-                {
-                    serializer.Serialize(xmlWriter, propuestaXML);
-                    DescargarArchivo(stringWriter.ToString(), $"PropuestaPago_{propuesta.propuesta_id}.xml", "application/xml");
-                }
-            }
-        }
-
-        private void ExportarTXT(propuestasPagoDTO propuesta)
-        {
-            var sb = new StringBuilder();
-            var detallesActivos = propuesta.detalles_propuesta
-                .Where(d => d.fecha_eliminacionSpecified == false)
-                .ToArray();
-
-            // Formato simplificado sin encabezados ni separadores
-            int contador = 1;
-            foreach (var detalle in detallesActivos)
-            {
-                string numeroFactura = detalle.factura?.numero_factura ?? "";
-                string moneda = detalle.factura?.moneda?.codigo_iso ?? "";
-                string monto = detalle.monto_pago.ToString("N2", System.Globalization.CultureInfo.InvariantCulture);
-                string cuentaOrigen = detalle.cuenta_propia?.numero_cuenta ?? "";
-                string cuentaDestino = detalle.cuenta_acreedor?.numero_cuenta ?? "";
-
-                // Formato: Factura 1: F001-00001234 | PEN | 11,800.00 | Origen: 1919900001111 | Destino: 19100123456789
-                sb.AppendLine($"Factura {contador}: {numeroFactura} | {moneda} | {monto,10} | Origen: {cuentaOrigen} | Destino: {cuentaDestino}");
-                contador++;
-            }
-
-            DescargarArchivo(sb.ToString(), $"PropuestaPago_{propuesta.propuesta_id}.txt", "text/plain");
-        }
-
-        private void ExportarMT101(propuestasPagoDTO propuesta)
-        {
-            var detallesActivos = propuesta.detalles_propuesta
-                .Where(d => d.fecha_eliminacionSpecified == false)
-                .ToArray();
-
-            // Formato MT101 (SWIFT) simplificado
-            var sb = new StringBuilder();
-
-            sb.AppendLine("{1:F01BANKXXXXAXXX0000000000}");
-            sb.AppendLine("{2:I101BANKXXXXAXXXN}");
-            sb.AppendLine("{4:");
-            sb.AppendLine($":20:PROP{propuesta.propuesta_id:D10}");
-            sb.AppendLine($":28D:1/{detallesActivos.Length}");
-            sb.AppendLine($":50H:/{propuesta.entidad_bancaria?.codigo_swift ?? ""}");
-            sb.AppendLine($"{propuesta.entidad_bancaria?.nombre ?? ""}");
-            sb.AppendLine($":30:{DateTime.Now:yyyyMMdd}");
-
-            int secuencia = 1;
-            foreach (var detalle in detallesActivos)
-            {
-                sb.AppendLine($":21:{secuencia:D10}");
-                sb.AppendLine($":32B:{detalle.factura?.moneda?.codigo_iso ?? "USD"}{detalle.monto_pago:F2}");
-                sb.AppendLine($":50K:/{detalle.cuenta_propia?.numero_cuenta ?? ""}");
-                sb.AppendLine($"{detalle.cuenta_propia?.entidad_bancaria?.nombre ?? ""}");
-                sb.AppendLine($":59:/{detalle.cuenta_acreedor?.numero_cuenta ?? ""}");
-                sb.AppendLine($"{detalle.factura?.acreedor?.razon_social ?? ""}");
-                sb.AppendLine($":70:{detalle.factura?.numero_factura ?? ""}");
-                secuencia++;
-            }
-
-            sb.AppendLine("-}");
-
-            DescargarArchivo(sb.ToString(), $"PropuestaPago_{propuesta.propuesta_id}.mt101", "text/plain");
-        }
-
-        private string TruncarTexto(string texto, int maxLength)
-        {
-            if (string.IsNullOrEmpty(texto))
-                return "";
-
-            return texto.Length <= maxLength ? texto : texto.Substring(0, maxLength - 3) + "...";
         }
 
         private void DescargarArchivo(string contenido, string nombreArchivo, string contentType)
@@ -1027,19 +836,6 @@ namespace SoftPacWA
             Response.ContentEncoding = Encoding.UTF8;
             Response.Write(contenido);
             Response.End();
-        }
-        public static string QuitarTildes(string texto)
-        {
-            if (string.IsNullOrEmpty(texto))
-                return texto;
-
-            return texto
-                .Replace("á", "a").Replace("Á", "A")
-                .Replace("é", "e").Replace("É", "E")
-                .Replace("í", "i").Replace("Í", "I")
-                .Replace("ó", "o").Replace("Ó", "O")
-                .Replace("ú", "u").Replace("Ú", "U")
-                .Replace("ñ", "n").Replace("Ñ", "N");
         }
     }
 }

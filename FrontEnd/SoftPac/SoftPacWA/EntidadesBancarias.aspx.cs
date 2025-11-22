@@ -89,10 +89,8 @@ namespace SoftPacWA
                 ddlFiltroEntidad.DataValueField = "entidad_bancaria_id";
                 ddlFiltroEntidad.DataBind();
 
-                // Agregar la opción por defecto DESPUÉS de hacer DataBind
                 ddlFiltroEntidad.Items.Insert(0, new ListItem("Todas las entidades", ""));
 
-                // IMPORTANTE: Asegurar que esté seleccionada la primera opción
                 ddlFiltroEntidad.SelectedIndex = 0;
             }
             catch (Exception ex)
@@ -165,17 +163,13 @@ namespace SoftPacWA
 
         protected void btnLimpiar_Click(object sender, EventArgs e)
         {
-            // Resetear ambos dropdowns al índice 0 (primera opción)
             ddlFiltroPais.SelectedIndex = 0;
-            ddlFiltroEntidad.Items.Clear(); // Limpiar el dropdown de entidades
+            ddlFiltroEntidad.Items.Clear();
 
-            // Recargar todas las entidades disponibles
             CargarFiltroEntidades();
 
-            // Asegurar que el dropdown de entidades esté en "Todas las entidades"
             ddlFiltroEntidad.SelectedIndex = 0;
 
-            // Resetear la paginación y recargar datos
             gvEntidades.PageIndex = 0;
             CargarEntidades();
         }

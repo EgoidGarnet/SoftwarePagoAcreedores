@@ -22,19 +22,26 @@
             gap: 1rem;
         }
 
-            .page-title h2 {
-                color: var(--color-primary);
-                font-size: 1.8rem;
-                font-weight: 600;
-                margin: 0;
-            }
+        .page-title h2 {
+            color: var(--color-primary);
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin: 0;
+        }
 
         .filter-section {
-            background-color: white;
-            padding: 1.5rem;
+            background: #fff;
+            padding: .9rem 1rem;
             border-radius: 8px;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,.08);
+        }
+
+        .filter-section .form-label {
+            height: 36px;
+            display: flex;
+            align-items: center;
+            margin-bottom: 0;
         }
 
         .lista-card {
@@ -90,6 +97,17 @@
         .form-control.is-invalid, .form-select.is-invalid {
             border-color: #dc3545;
         }
+
+        .btn-icon {
+            padding: .25rem .5rem;
+            font-size: .9rem;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: .5rem;
+            flex-wrap: wrap;
+        }
     </style>
 </asp:Content>
 
@@ -109,25 +127,25 @@
 
                 <!-- Sección de Filtros -->
                 <div class="filter-section">
-                    <div class="row g-3 align-items-end">
-                        <div class="col-md-3">
+                    <div class="row gx-3 gy-3">
+                        <div class="col-12 col-md-3">
                             <label class="form-label">Buscar por Número de Cuenta</label>
                             <asp:TextBox ID="txtBuscarCuenta" runat="server" CssClass="form-control"
                                 placeholder="Ingrese número de cuenta" autocomplete="off"></asp:TextBox>
                             <asp:HiddenField ID="hfCuentasJson" runat="server" />
                         </div>
 
-                        <div class="col-md-2">
+                        <div class="col-12 col-md-2">
                             <label class="form-label">Entidad Bancaria</label>
                             <asp:DropDownList ID="ddlFiltroEntidad" runat="server" CssClass="form-select"></asp:DropDownList>
                         </div>
 
-                        <div class="col-md-2">
+                        <div class="col-12 col-md-2">
                             <label class="form-label">Moneda</label>
                             <asp:DropDownList ID="ddlFiltroMoneda" runat="server" CssClass="form-select"></asp:DropDownList>
                         </div>
 
-                        <div class="col-md-2">
+                        <div class="col-12 col-md-2">
                             <label class="form-label">Saldo Disponible (≥)</label>
                             <asp:TextBox ID="txtFiltroSaldo" runat="server" CssClass="form-control"
                                 TextMode="Number" step="0.01"></asp:TextBox>
@@ -155,48 +173,53 @@
                     </div>
 
                     <div class="lista-body">
-                        <asp:GridView ID="gvCuentasPropias" runat="server" AutoGenerateColumns="False"
-                            CssClass="table table-hover" GridLines="None" DataKeyNames="cuenta_bancaria_id"
-                            AllowPaging="True" OnPageIndexChanging="gvCuentasPropias_PageIndexChanging" PageSize="10"
-                            OnRowCommand="gvCuentasPropias_RowCommand">
-                            <Columns>
-                                <asp:BoundField DataField="entidad_bancaria.nombre" HeaderText="Entidad Bancaria" />
-                                <asp:BoundField DataField="tipo_cuenta" HeaderText="Tipo de Cuenta" />
-                                <asp:BoundField DataField="numero_cuenta" HeaderText="Número de Cuenta" />
-                                <asp:BoundField DataField="cci" HeaderText="CCI" />
-                                <asp:BoundField DataField="moneda.codigo_iso" HeaderText="Moneda" />
-                                <asp:BoundField DataField="saldo_disponible" HeaderText="Saldo Disponible" DataFormatString="{0:N2}" />
-                                <asp:TemplateField HeaderText="Estado">
-                                    <ItemTemplate>
-                                        <span class='badge <%# (bool)Eval("activa") ? "bg-success" : "bg-danger" %>'>
-                                            <%# (bool)Eval("activa") ? "Activo" : "Inactivo" %>
-                                        </span>
-                                    </ItemTemplate>
-                                </asp:TemplateField>
-                                <asp:TemplateField HeaderText="Acciones">
-                                    <ItemTemplate>
-                                        <asp:LinkButton ID="btnVerDetalle" runat="server" CssClass="btn btn-sm btn-info btn-icon"
-                                            CommandName="VerDetalle" CommandArgument='<%# Eval("cuenta_bancaria_id") %>' ToolTip="Ver detalle">
-                                            <i class="fas fa-eye"></i>
-                                        </asp:LinkButton>
+                        <div class="table-responsive" style="overflow-x: auto; white-space: nowrap;">
+                            <asp:GridView ID="gvCuentasPropias" runat="server" AutoGenerateColumns="False"
+                                CssClass="table table-hover" GridLines="None" DataKeyNames="cuenta_bancaria_id"
+                                AllowPaging="True" OnPageIndexChanging="gvCuentasPropias_PageIndexChanging" PageSize="10"
+                                OnRowCommand="gvCuentasPropias_RowCommand"
+                                EmptyDataText="No se encontraron cuentas propias">
+                                <Columns>
+                                    <asp:BoundField DataField="entidad_bancaria.nombre" HeaderText="Entidad Bancaria" />
+                                    <asp:BoundField DataField="tipo_cuenta" HeaderText="Tipo de Cuenta" />
+                                    <asp:BoundField DataField="numero_cuenta" HeaderText="Número de Cuenta" />
+                                    <asp:BoundField DataField="cci" HeaderText="CCI" />
+                                    <asp:BoundField DataField="moneda.codigo_iso" HeaderText="Moneda" />
+                                    <asp:BoundField DataField="saldo_disponible" HeaderText="Saldo Disponible" DataFormatString="{0:N2}" />
+                                    <asp:TemplateField HeaderText="Estado">
+                                        <ItemTemplate>
+                                            <span class='badge <%# (bool)Eval("activa") ? "bg-success" : "bg-danger" %>'>
+                                                <%# (bool)Eval("activa") ? "Activo" : "Inactivo" %>
+                                            </span>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                    <asp:TemplateField HeaderText="Acciones">
+                                        <ItemTemplate>
+                                            <div class="action-buttons">
+                                                <asp:LinkButton ID="btnVerDetalle" runat="server" CssClass="btn btn-sm btn-info btn-icon"
+                                                    CommandName="VerDetalle" CommandArgument='<%# Eval("cuenta_bancaria_id") %>' ToolTip="Ver detalle">
+                                                    <i class="fas fa-eye"></i>
+                                                </asp:LinkButton>
 
-                                        <asp:LinkButton ID="btnModificar" runat="server" CssClass="btn btn-sm btn-warning btn-icon"
-                                            CommandName="Modificar" CommandArgument='<%# Eval("cuenta_bancaria_id") %>' ToolTip="Modificar">
-                                            <i class="fas fa-edit"></i>
-                                        </asp:LinkButton>
+                                                <asp:LinkButton ID="btnModificar" runat="server" CssClass="btn btn-sm btn-warning btn-icon"
+                                                    CommandName="Modificar" CommandArgument='<%# Eval("cuenta_bancaria_id") %>' ToolTip="Modificar">
+                                                    <i class="fas fa-edit"></i>
+                                                </asp:LinkButton>
 
-                                        <asp:LinkButton ID="btnEliminar" runat="server" CssClass="btn btn-sm btn-danger btn-icon"
-                                            CommandName="MostrarModalEliminar" CommandArgument='<%# Eval("cuenta_bancaria_id") %>'
-                                            ToolTip="Eliminar">
-                                            <i class="fas fa-trash"></i>
-                                        </asp:LinkButton>
-                                    </ItemTemplate>
-                                </asp:TemplateField>
-                            </Columns>
-                            <PagerStyle CssClass="pagination-aw" HorizontalAlign="Center" />
-                            <PagerSettings Mode="NumericFirstLast" FirstPageText="Primera" LastPageText="Última"
-                                PageButtonCount="10" />
-                        </asp:GridView>
+                                                <asp:LinkButton ID="btnEliminar" runat="server" CssClass="btn btn-sm btn-danger btn-icon"
+                                                    CommandName="MostrarModalEliminar" CommandArgument='<%# Eval("cuenta_bancaria_id") %>'
+                                                    ToolTip="Eliminar">
+                                                    <i class="fas fa-trash"></i>
+                                                </asp:LinkButton>
+                                            </div>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                </Columns>
+                                <PagerStyle CssClass="pagination-aw" HorizontalAlign="Center" />
+                                <PagerSettings Mode="NumericFirstLast" FirstPageText="Primera" LastPageText="Última"
+                                    PageButtonCount="10" />
+                            </asp:GridView>
+                        </div>
                     </div>
 
                     <div class="lista-footer">

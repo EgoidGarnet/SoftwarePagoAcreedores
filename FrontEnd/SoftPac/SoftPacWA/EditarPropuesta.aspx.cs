@@ -316,6 +316,11 @@ namespace SoftPacWA
                     return;
                 }
 
+                if (propuesta.detalles_propuesta == null)
+                {
+                    propuesta.detalles_propuesta = Array.Empty<detallesPropuestaDTO>();
+                }
+
                 // Actualizar formas de pago desde el GridView
                 ActualizarFormasDePago(propuesta);
 
@@ -343,9 +348,9 @@ namespace SoftPacWA
                 }
 
                 // Validar que quede al menos un detalle activo
-                var detallesActivos = propuesta.detalles_propuesta
+                var detallesActivos = propuesta.detalles_propuesta ?
                     .Where(d => d.detalle_propuesta_id==0 || !detallesEliminados.Contains(d.detalle_propuesta_id))
-                    .ToList();
+                    .ToList() ?? new List<detallesPropuestaDTO>();
 
 
                 // Configurar datos de auditoría

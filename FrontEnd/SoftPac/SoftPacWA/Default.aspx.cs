@@ -53,8 +53,6 @@ namespace SoftPacWA
                     .Select(up => up.pais.pais_id)
                     .ToList();
 
-                // ========== MÉTRICAS PRINCIPALES ==========
-
                 // Total de facturas (filtradas por países del usuario)
                 var todasFacturas = facturasBO.ListarTodos()
                     .Where(f => f.acreedor != null &&
@@ -81,8 +79,6 @@ namespace SoftPacWA
                 var todasPropuestas = propuestasBO.ListarUltimasPorUsuario(usuario.usuario_id, 100);
                 lblTotalPropuestas.Text = todasPropuestas != null ? todasPropuestas.Count.ToString() : "0";
 
-                // ========== RESUMEN RÁPIDO ==========
-
                 // Facturas pagadas
                 var facturasPagadas = todasFacturas
                     .Count(f => f.estado != null && f.estado.Equals("Pagada", StringComparison.OrdinalIgnoreCase));
@@ -102,8 +98,6 @@ namespace SoftPacWA
                                    p.fecha_hora_creacion.Year == DateTime.Now.Year);
                 }
                 lblPropuestasEsteMes.Text = propuestasEsteMes.ToString();
-
-                // ========== DATOS PARA GRÁFICOS ==========
 
                 // Facturas por mes (últimos 6 meses)
                 var fechaInicio = DateTime.Now.AddMonths(-6);
@@ -188,7 +182,6 @@ namespace SoftPacWA
                 hfPropuestasLabels.Value = serializer.Serialize(propuestasLabels);
                 hfPropuestasData.Value = serializer.Serialize(propuestasData);
 
-                // ========== CÁLCULO DE CAMBIOS ==========
 
                 // Calcular cambio porcentual de facturas (mes actual vs mes anterior)
                 var facturasMesActual = todasFacturas

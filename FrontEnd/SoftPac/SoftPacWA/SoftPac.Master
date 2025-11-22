@@ -148,7 +148,7 @@
             </div>
             <div class="offcanvas-body d-flex flex-column p-0">
                 <div class="sidebar-header">
-                    <h4><i class="fas fa-file-invoice-dollar"></i> Empresa S.A.C.</h4>
+                    <h4><i class="fas fa-file-invoice-dollar"></i> SoftPac S.A.C.</h4>
                     <small>Sistema de Pagos</small>
                 </div>
                 <ul class="sidebar-menu">

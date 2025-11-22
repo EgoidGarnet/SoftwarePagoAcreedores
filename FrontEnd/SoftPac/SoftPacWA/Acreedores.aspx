@@ -130,7 +130,7 @@
             <div class="row gx-3 gy-3 pb-2">
                 <div class="col-12 col-md-5">
                     <label class="form-label">Buscar</label>
-                    <asp:TextBox ID="txtBuscar" runat="server" CssClass="form-control" placeholder="Razón social o RUC"></asp:TextBox>
+                    <asp:TextBox ID="txtBuscar" runat="server" CssClass="form-control" placeholder="Razón social o RUC / NIT / RFC"></asp:TextBox>
                 </div>
                 <div class="col-12 col-md-3">
                     <label class="form-label">País</label>
@@ -170,7 +170,7 @@
                                     <asp:TemplateField HeaderText="País">
                                         <ItemTemplate><%# Eval("PaisNombre") %></ItemTemplate>
                                     </asp:TemplateField>
-                                    <asp:BoundField DataField="ruc" HeaderText="RUC" />
+                                    <asp:BoundField DataField="ruc" HeaderText="RUC / NIT / RFC" />
                                     <asp:TemplateField HeaderText="Estado">
                                         <ItemTemplate>
                                             <span class='badge-estado <%# GetEstadoClass(Eval("Estado")) %>'><%# Eval("Estado") %></span>

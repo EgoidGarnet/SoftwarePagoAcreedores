@@ -72,33 +72,25 @@ namespace SoftPacWA
                 PdfWriter writer = PdfWriter.GetInstance(document, memoryStream);
                 document.Open();
 
-                // ========== ENCABEZADO ==========
                 AgregarEncabezado(document, usuario);
 
-                // ========== RESUMEN EJECUTIVO ==========
                 AgregarResumenEjecutivo(document, todasFacturas, todasCuentas, todasPropuestas);
 
-                // ========== ANÁLISIS DE FACTURAS ==========
                 document.NewPage();
                 AgregarAnalisisFacturas(document, todasFacturas);
 
-                // ========== ANÁLISIS DE CUENTAS BANCARIAS ==========
                 AgregarAnalisisCuentas(document, todasCuentas);
 
-                // ========== ANÁLISIS DE PROPUESTAS ==========
                 document.NewPage();
                 AgregarAnalisisPropuestas(document, todasPropuestas);
 
-                // ========== TENDENCIAS Y CONCLUSIONES ==========
                 AgregarTendencias(document, todasFacturas);
 
-                // ========== PIE DE PÁGINA ==========
                 AgregarPiePagina(document);
 
                 document.Close();
                 writer.Close();
 
-                // Enviar PDF al navegador
                 byte[] bytes = memoryStream.ToArray();
                 memoryStream.Close();
 

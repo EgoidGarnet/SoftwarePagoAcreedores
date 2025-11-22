@@ -56,23 +56,7 @@
         </div>
         <div class="mt-3 d-flex gap-2">
             <asp:Button ID="btnGuardar" runat="server" CssClass="btn btn-primary" Text="Guardar" OnClick="btnGuardar_Click" />
-            <button type="button" class="btn btn-secondary" onclick="cerrarModal()">Cancelar</button>
         </div>
     </div>
 
-    <script type="text/javascript">
-        function cerrarModal() {
-            if (window.top !== window.self) {
-                var modal = window.top.document.getElementById('modalCuentaAcreedor');
-                if (modal) {
-                    var bsModal = bootstrap.Modal.getInstance(modal);
-                    if (bsModal) {
-                        bsModal.hide();
-                    }
-                }
-            } else {
-                window.history.back();
-            }
-        }
-    </script>
 </asp:Content>

@@ -18,7 +18,6 @@ namespace SoftPac.Business
 
         }
 
-        // --- MÉTODO NUEVO PARA AUTENTICAR ---
         public usuariosDTO AutenticarUsuario(string nombreUsuario, string password)
         {
 
@@ -26,7 +25,6 @@ namespace SoftPac.Business
 
         }
 
-        // Aquí puedes añadir el resto de los métodos que necesites (Insertar, Modificar, etc.)
         public IList<usuariosDTO> ListarTodos()
         {
             return this.usuariosBO.listarUsuarios();
@@ -74,25 +72,6 @@ namespace SoftPac.Business
                 }
             }
         }
-
-        //// Nuevo método para verificar si un usuario existe (sin autenticar)
-        //public usuariosDTO VerificarUsuarioExiste(string nombreUsuario)
-        //{
-        //    try
-        //    {
-        //        // Obtener todos los usuarios y buscar por nombre de usuario
-        //        var usuarios = ListarTodos();
-        //        var usuario = usuarios.FirstOrDefault(u =>
-        //            u.nombre_de_usuario != null &&
-        //            u.nombre_de_usuario.Equals(nombreUsuario, StringComparison.OrdinalIgnoreCase));
-
-        //        return usuario ?? new usuariosDTO();
-        //    }
-        //    catch
-        //    {
-        //        return new usuariosDTO();
-        //    }
-        //}
 
     }
 }
